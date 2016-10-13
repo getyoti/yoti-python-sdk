@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your header content -->
+    <script src="https://sdk.yoti.com/clients/browser.js"></script>
+    <meta charset="UTF-8">
+    <meta name="yoti-site-verification" content="{{ verification_key }}">
+    <title>Index</title>
+</head>
+
+<body>
+    <!-- Your website content -->
+
+    <!-- This span will create the Yoti button -->
+    <span
+        data-yoti-application-id="{{ app_id }}"
+        data-size="small"
+    >
+        Log in with Yoti
+    </span>
+
+    <!-- This script snippet will also be required in your HTML body during the early pilot period -->
+    <script>
+        _ybg.config.service = 'https://www.yoti.com/connect/';
+        _ybg.init();
+    </script>
+</body>
+</html>

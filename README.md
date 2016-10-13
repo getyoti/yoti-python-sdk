@@ -55,3 +55,18 @@ For Python 2.6 and 2.7 you *might* have to install them via `pyenv` with
     PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs2" pyenv install <python version>
 
 to avoid `cffi` errors related to unicode see: [cffi ucs2 vs ucs4](http://cffi.readthedocs.io/en/latest/installation.html#linux-and-os-x-ucs2-versus-ucs4)
+
+## Examples ##
+### Django ###
+Dependencies: `pip install -r examples/yoti_example_django/requirements.txt`
+
+Make sure your django application has access to the following environment variables:
+* `YOTI_APPLICATION_ID` - found on the Integrations settings page
+* `YOTI_CLIENT_SDK_ID` - found on the Integrations settings page
+* `YOTI_VERIFICATION_KEY` - found on the Integrations settings page -> Callback URL -> VERIFY
+* `YOTI_KEY_FILE_PATH` - the full path to your security key downloaded from the Keys settings page (e.g. /home/user/.ssh/access-security.pem)
+
+You should apply the migrations before the first start by running:<br>
+`python examples/yoti_example_django/manage.py migrate`
+
+Running: `python examples/yoti_example_django/manage.py runserver 0.0.0.0:5000`
