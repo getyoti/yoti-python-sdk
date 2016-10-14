@@ -1,5 +1,6 @@
-import base64
+# -*- coding: utf-8 -*-
 import pytest
+from past.builtins import basestring
 
 from yoti.protobuf.v1 import protobuf
 
@@ -16,13 +17,13 @@ def test_protobuf_value_based_on_content_type(proto):
         proto.value_based_on_content_type(value, proto.CT_UNDEFINED)
 
     result = proto.value_based_on_content_type(value, proto.CT_STRING)
-    assert isinstance(result, str)
+    assert isinstance(result, basestring)
 
     result = proto.value_based_on_content_type(value, proto.CT_JPEG)
     assert result == 'data:image/jpeg;base64,dGVzdCBzdHJpbmc='
 
     result = proto.value_based_on_content_type(value, proto.CT_DATE)
-    assert isinstance(result, str)
+    assert isinstance(result, basestring)
 
     result = proto.value_based_on_content_type(value, proto.CT_PNG)
     assert result == 'data:image/png;base64,dGVzdCBzdHJpbmc='

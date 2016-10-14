@@ -26,6 +26,10 @@ class Crypto:
 
     def decrypt_token(self, encrypted_token):
         try:
+            if not isinstance(encrypted_token, bytes):
+                # On Python 2 the token is str and to b64decode it we need bytes or unicode
+                encrypted_token = encrypted_token.encode('utf-8')
+
             data = base64.urlsafe_b64decode(encrypted_token)
             decrypted = self.private_key.decrypt(
                 ciphertext=data,

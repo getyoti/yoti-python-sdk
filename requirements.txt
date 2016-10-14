@@ -1,6 +1,8 @@
-# TODO: fix requirements
-pytest
-tox>=1.7.2
-virtualenv<14.0.0   # >=14.0.0 Breaks support for Python 3.0-3.2
 cryptography==1.5.2
+protobuf==3.1.0.post1
+pytest==3.0.3
 requests==2.11.1
+six==1.10.0
+tox>=1.7.2
+virtualenv==13.1.2
+future==0.15.2
