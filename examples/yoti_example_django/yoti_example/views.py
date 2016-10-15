@@ -14,11 +14,7 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
     def get(self, request, *args, **kwargs):
-        context = {
-            'app_id': YOTI_APPLICATION_ID,
-            'verification_key': YOTI_VERIFICATION_KEY,
-        }
-        return self.render_to_response(context)
+        return self.render_to_response({'app_id': YOTI_APPLICATION_ID})
 
 
 class AuthView(TemplateView):
@@ -28,4 +24,5 @@ class AuthView(TemplateView):
         client = Client(YOTI_CLIENT_SDK_ID, YOTI_FULL_KEY_FILE_PATH)
         activity_details = client.get_activity_details(request.GET['token'])
         context = activity_details.user_profile
+        context.update({'verification_key': YOTI_VERIFICATION_KEY})
         return self.render_to_response(context)
