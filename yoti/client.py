@@ -4,23 +4,49 @@ from __future__ import unicode_literals
 import time
 import uuid
 import json
-
 import requests
 
-from yoti import YOTI_API_ENDPOINT, YOTI_CLIENT_SDK_ID
+from os import environ
+from os.path import isfile
+
+from yoti import YOTI_API_ENDPOINT
 from yoti.crypto import Crypto
 from yoti.activity_details import ActivityDetails
 from yoti.protobuf.v1 import protobuf
 
 
-class Client(object):
-    def __init__(self, sdk_id, pem_file_path):
-        self.sdk_id = sdk_id
+NO_KEY_FILE_SPECIFIED_ERROR = 'Please specify the correct private key file ' \
+                              'in Client(pem_file_path=...)\nor by setting ' \
+                              'the "YOTI_KEY_FILE_PATH" environment variable'
 
-        with open(pem_file_path, 'rb') as pem_file:
-            pem = pem_file.read()
+
+class Client(object):
+    def __init__(self, sdk_id=None, pem_file_path=None):
+        self.sdk_id = sdk_id or environ.get('YOTI_CLIENT_SDK_ID')
+        pem_file_path_env = environ.get('YOTI_KEY_FILE_PATH')
+
+        if pem_file_path is not None:
+            error_source = 'argument specified in Client()'
+            pem = self.__read_pem_file(pem_file_path, error_source)
+        elif pem_file_path_env is not None:
+            error_source = 'specified by the YOTI_KEY_FILE_PATH env variable'
+            pem = self.__read_pem_file(pem_file_path_env, error_source)
+        else:
+            raise RuntimeError(NO_KEY_FILE_SPECIFIED_ERROR)
 
         self.__crypto = Crypto(pem)
+
+    @staticmethod
+    def __read_pem_file(key_file_path, error_source):
+        try:
+            if not isinstance(key_file_path, str) or not isfile(key_file_path):
+                raise FileNotFoundError(key_file_path)
+            with open(key_file_path, 'rb') as pem_file:
+                return pem_file.read().strip()
+        except (FileNotFoundError, PermissionError, TypeError, OSError) as exc:
+            error = 'Invalid private key file ' + error_source
+            exception = '{0}: {1}'.format(type(exc).__name__, exc)
+            raise RuntimeError('{0}: {1}'.format(error, exception))
 
     def get_activity_details(self, encrypted_request_token):
         response = self.__make_request(encrypted_request_token)
@@ -28,9 +54,7 @@ class Client(object):
 
         encrypted_data = protobuf.Protobuf().current_user(receipt)
 
-        unwrapped_key = self.__crypto.decrypt_token(
-            receipt['wrapped_receipt_key']
-        )
+        unwrapped_key = self.__crypto.decrypt_token(receipt['wrapped_receipt_key'])
         decrypted_data = self.__crypto.decipher(
             unwrapped_key,
             encrypted_data.iv,
@@ -46,8 +70,7 @@ class Client(object):
         response = requests.get(url=url, headers=headers)
 
         if not response.status_code == 200:
-            raise RuntimeError(
-                'Unsuccessful Yoti API call: {0}'.format(response.text))
+            raise RuntimeError('Unsuccessful Yoti API call: {0}'.format(response.text))
 
         return response
 
@@ -57,7 +80,7 @@ class Client(object):
         timestamp_in_ms = int(time.time() * 1000)
 
         return '/profile/{0}?nonce={1}&timestamp_in_ms={2}&appId={3}'.format(
-            token, nonce, timestamp_in_ms, YOTI_CLIENT_SDK_ID
+            token, nonce, timestamp_in_ms, self.sdk_id
         )
 
     def __get_request_headers(self, path):
