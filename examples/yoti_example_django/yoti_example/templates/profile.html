@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="yoti-site-verification" content="{{ verification_key }}">
+    <title>PROFILE</title>
+</head>
+<body>
+    <h3><a href="/">Home</a></h3>
+    <table>
+        {% if user_id %}
+            <tr>
+                <td>USER ID:</td>
+                <td>{{user_id}}</td>
+            </tr>
+        {% endif %}
+
+        {% if selfie %}
+            <tr>
+                <td>SELFIE:</td>
+                <td><img width="200" alt="photo" src="{{selfie}}" /></td>
+            </tr>
+        {% endif %}
+
+        {% if phone %}
+            <tr>
+                <td>PHONE:</td>
+                <td>{{phone}}</td>
+            </tr>
+        {% endif %}
+
+        {% if names %}
+            <tr>
+                <td>NAMES:</td>
+                <td>{{names}}</td>
+            </tr>
+        {% endif %}
+
+        {% if birthdate %}
+            <tr>
+                <td>DATE OF BIRTH</td>
+                <td>{{birthdate}}</td>
+            </tr>
+        {% endif %}
+
+        {% if nationality %}
+            <tr>
+                <td>NATIONALITY</td>
+                <td>{{nationality}}</td>
+            </tr>
+        {% endif %}
+
+        {% if gender %}
+            <tr>
+                <td>GENDER</td>
+                <td>{{gender}}</td>
+            </tr>
+        {% endif %}
+    </table>
+</body>
+</html>

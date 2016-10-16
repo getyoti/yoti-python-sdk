@@ -66,3 +66,17 @@ Make sure your flask application has access to the following environment variabl
 * `YOTI_KEY_FILE_PATH` - the full path to your security key downloaded from the Keys settings page (e.g. /home/user/.ssh/access-security.pem)
 
 Running: `python examples/yoti_example_flask/app.py`
+
+### Django ###
+Dependencies: `pip install -r examples/yoti_example_django/requirements.txt`
+
+Make sure your django application has access to the following environment variables:
+* `YOTI_APPLICATION_ID` - found on the Integrations settings page
+* `YOTI_CLIENT_SDK_ID` - found on the Integrations settings page
+* `YOTI_VERIFICATION_KEY` - found on the Integrations settings page -> Callback URL -> VERIFY
+* `YOTI_KEY_FILE_PATH` - the full path to your security key downloaded from the Keys settings page (e.g. /home/user/.ssh/access-security.pem)
+
+You should apply the migrations before the first start by running:<br>
+`python examples/yoti_example_django/manage.py migrate`
+
+Running: `python examples/yoti_example_django/manage.py runserver 0.0.0.0:5000`
