@@ -77,10 +77,10 @@ class Client(object):
     def __get_request_path(self, encrypted_request_token):
         token = self.__crypto.decrypt_token(encrypted_request_token).decode('utf-8')
         nonce = uuid.uuid4()
-        timestamp_in_ms = int(time.time() * 1000)
+        timestamp = int(time.time() * 1000)
 
-        return '/profile/{0}?nonce={1}&timestamp_in_ms={2}&appId={3}'.format(
-            token, nonce, timestamp_in_ms, self.sdk_id
+        return '/profile/{0}?nonce={1}&timestamp={2}&appId={3}'.format(
+            token, nonce, timestamp, self.sdk_id
         )
 
     def __get_request_headers(self, path):
