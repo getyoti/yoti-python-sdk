@@ -4,26 +4,46 @@ from __future__ import unicode_literals
 import pytest
 
 from os import environ
-from os.path import join, dirname
+from past.builtins import basestring
 
+try:
+    from unittest import mock
+except ImportError:
+    import mock
+
+from yoti import YOTI_API_ENDPOINT
 from yoti.client import Client, NO_KEY_FILE_SPECIFIED_ERROR
+from yoti.activity_details import ActivityDetails
+from yoti.tests.conftest import YOTI_CLIENT_SDK_ID, PEM_FILE_PATH
+from yoti.tests.mocks import (
+    mocked_requests_get,
+    mocked_timestamp,
+    mocked_uuid4
+)
 
-
-YOTI_CLIENT_SDK_ID = 'd13224e6-c8f4-4991-a703-b05fba4d4fdb'
-
-CURRENT_DIR = dirname(__file__)
-FIXTURES_PATH = join(CURRENT_DIR, 'fixtures')
-PEM_FILE_PATH = join(FIXTURES_PATH, 'sdk-test.pem')
-
-FORBIDDEN_KEY_FILE_PATH = 'yoti/tests/fixtures/forbidden-key.pem'
 INVALID_KEY_FILE_PATH = '/invalid/path/to/file.txt'
 INVALID_KEY_FILES = (INVALID_KEY_FILE_PATH, 'wrong_pa&*#@th',
                      -19, 1, False, True, {}, [])
 
 
 @pytest.fixture(scope='module')
-def client():
-    return Client(YOTI_CLIENT_SDK_ID, PEM_FILE_PATH)
+def expected_headers(x_yoti_auth_key, x_yoti_auth_digest):
+    return {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-Yoti-Auth-Key': x_yoti_auth_key,
+        'X-Yoti-Auth-Digest': x_yoti_auth_digest
+    }
+
+
+@pytest.fixture(scope='module')
+def expected_url(decrypted_request_token):
+    nonce = mocked_uuid4()
+    timestamp = int(mocked_timestamp() * 1000)
+    return '{0}/profile/{1}?nonce={2}&timestamp={3}&appId={4}'.format(
+        YOTI_API_ENDPOINT, decrypted_request_token,
+        nonce, timestamp, YOTI_CLIENT_SDK_ID
+    )
 
 
 def test_creating_client_instance_with_valid_key_file_env():
@@ -73,8 +93,16 @@ def test_creating_client_instance_with_valid_key_file_env_but_invalid_key_file_a
     assert str(INVALID_KEY_FILE_PATH) in str(exc)
 
 
-# TODO: will be fixed in the next PR
-# def test_requesting_activity_details_with_correct_token__should_yield_a_valid_encrypted_token(client, encrypted_request_token):
-#     activity_details = client.get_activity_details(encrypted_request_token)
-#     assert isinstance(activity_details, ActivityDetails)
-#     assert activity_details.user_profile.get('selfie') is not None
+@mock.patch('requests.get', side_effect=mocked_requests_get)
+@mock.patch('time.time', side_effect=mocked_timestamp)
+@mock.patch('uuid.uuid4', side_effect=mocked_uuid4)
+def test_requesting_activity_details_with_correct_data(
+        mock_uuid4, mock_time, mock_get, client, expected_url,
+        expected_headers, encrypted_request_token):
+    activity_details = client.get_activity_details(encrypted_request_token)
+
+    mock_get.assert_called_once_with(url=expected_url, headers=expected_headers)
+    assert isinstance(activity_details, ActivityDetails)
+    selfie = activity_details.user_profile.get('selfie')
+    assert isinstance(selfie, basestring)
+    assert selfie.startswith('data:image/jpeg;base64')

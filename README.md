@@ -3,6 +3,7 @@
 1. Install dependencies: `pip install -r requirements.txt`
 1. Install the SDK: `python setup.py develop`
 1. Execute in the main project dir: `py.test`
+1. To execute integration tests run: `py.test -c pytest_integration.ini`
 
 ### Testing on multiple Python versions ###
 
@@ -13,6 +14,7 @@ One tool to do just this is [pyenv](https://github.com/yyuu/pyenv).
 1. Install `pyenv`
 1. Install Python interpreters you want to test with, e.g. `pyenv install 2.6.9`
 1. Execute in the main project dir: `tox`
+1. In order to execute integration tests run: `tox -c pytest_integration.ini`
 
 You can choose a subset of interpreters to test with by running `tox -e <testenv_version>`.
 For a list of `<testenv_versions>` see `tox.ini`. Example: `tox -e py26` would run the 
@@ -68,6 +70,7 @@ Make sure your flask application has access to the following environment variabl
 Running: `python examples/yoti_example_flask/app.py`
 
 ### Django ###
+
 Dependencies: `pip install -r examples/yoti_example_django/requirements.txt`
 
 Make sure your django application has access to the following environment variables:
