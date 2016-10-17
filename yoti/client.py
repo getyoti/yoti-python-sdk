@@ -9,6 +9,8 @@ import requests
 from os import environ
 from os.path import isfile
 
+from past.builtins import basestring
+
 from yoti import YOTI_API_ENDPOINT
 from yoti.crypto import Crypto
 from yoti.activity_details import ActivityDetails
@@ -39,11 +41,11 @@ class Client(object):
     @staticmethod
     def __read_pem_file(key_file_path, error_source):
         try:
-            if not isinstance(key_file_path, str) or not isfile(key_file_path):
-                raise FileNotFoundError(key_file_path)
+            if not isinstance(key_file_path, basestring) or not isfile(key_file_path):
+                raise IOError('File not found: {0}'.format(key_file_path))
             with open(key_file_path, 'rb') as pem_file:
                 return pem_file.read().strip()
-        except (FileNotFoundError, PermissionError, TypeError, OSError) as exc:
+        except (IOError, TypeError, OSError) as exc:
             error = 'Invalid private key file ' + error_source
             exception = '{0}: {1}'.format(type(exc).__name__, exc)
             raise RuntimeError('{0}: {1}'.format(error, exception))
