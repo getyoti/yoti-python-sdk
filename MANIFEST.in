@@ -1,0 +1,2 @@
+include yoti/tests/fixtures/*
+recursive-include yoti/protobuf/v1/definitions *.proto
