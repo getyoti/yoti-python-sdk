@@ -50,15 +50,15 @@ The following env variables are additionally used to configure your backend:
 ## Examples ##
 
 Both example applications utilise the env variables described above, make sure they are accessible.
+* Installing dependencies: `pip install -e .[examples]`
+
 
 ### Flask ###
 
-1. Install `Flask`: `pip install Flask`
-1. Run `python examples/yoti_example_flask/app.py`
+* Run `python examples/yoti_example_flask/app.py`
 
 ### Django ###
 
-1. Install dependencies: `pip install -r examples/yoti_example_django/requirements.txt`
 1. Apply migrations before the first start by running:<br>
     `python examples/yoti_example_django/manage.py migrate`
 1. Run: `python examples/yoti_example_django/manage.py runserver 0.0.0.0:5000`
