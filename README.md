@@ -79,7 +79,7 @@ One tool to do just this is [pyenv](https://github.com/yyuu/pyenv)
 1. Install `pyenv`
 1. Install Python interpreters you want to test with, e.g. `pyenv install 2.6.9`
 1. Execute in the main project dir: `tox`
-1. In order to execute integration tests run: `tox -c pytest_integration.ini`
+1. In order to execute integration tests run: `tox pytest_integration.ini`
 
 You can choose a subset of interpreters to test with by running `tox -e <testenv_version>`.
 For a list of `<testenv_versions>` see `tox.ini`. Example: `tox -e py26` would run the 
