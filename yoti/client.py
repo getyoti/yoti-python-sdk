@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
 import time
 import uuid
-import json
-import requests
-
 from os import environ
 from os.path import isfile
 
+import requests
 from past.builtins import basestring
 
-from yoti import YOTI_API_ENDPOINT
-from yoti.crypto import Crypto
+import yoti
 from yoti.activity_details import ActivityDetails
+from yoti.crypto import Crypto
 from yoti.protobuf.v1 import protobuf
 
 
@@ -67,7 +66,7 @@ class Client(object):
 
     def __make_request(self, encrypted_request_token):
         path = self.__get_request_path(encrypted_request_token)
-        url = YOTI_API_ENDPOINT + path
+        url = yoti.YOTI_API_ENDPOINT + path
         headers = self.__get_request_headers(path)
         response = requests.get(url=url, headers=headers)
 

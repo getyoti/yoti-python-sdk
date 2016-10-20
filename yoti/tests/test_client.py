@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import pytest
-
 from os import environ
+
+import pytest
 from past.builtins import basestring
 
 try:
@@ -12,7 +12,8 @@ except ImportError:
     import mock
 
 from yoti import YOTI_API_ENDPOINT
-from yoti.client import Client, NO_KEY_FILE_SPECIFIED_ERROR
+from yoti import Client
+from yoti.client import NO_KEY_FILE_SPECIFIED_ERROR
 from yoti.activity_details import ActivityDetails
 from yoti.tests.conftest import YOTI_CLIENT_SDK_ID, PEM_FILE_PATH
 from yoti.tests.mocks import (

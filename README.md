@@ -5,7 +5,7 @@ securely verify users' identities.
 
 ## Example ##
 
-    from yoti.client import Client
+    from yoti import Client
 
     @app.route('/callback')
     def callback():

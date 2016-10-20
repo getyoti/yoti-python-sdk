@@ -3,7 +3,7 @@ from os.path import dirname, join, abspath
 
 import pytest
 
-from yoti.client import Client
+from yoti import Client
 from yoti.crypto import Crypto
 
 FIXTURES_DIR = join(dirname(abspath(__file__)), 'fixtures')
