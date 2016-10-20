@@ -30,14 +30,3 @@ def test_protobuf_value_based_on_content_type(proto):
 
     result = proto.value_based_on_content_type(value)
     assert result == value
-
-
-# def test_protobuf_current_user(proto):
-#     with pytest.raises(ValueError):
-#         proto.current_user({})
-#
-#     value = 'test text'
-#     encoded_value = base64.b64encode(value.encode('utf-8'))
-#     receipt = {'other_party_profile_content': encoded_value}
-#     current_user = proto.current_user(receipt)
-#     assert isinstance(current_user, compubapi.EncryptedData)
