@@ -78,6 +78,7 @@ One tool to do just this is [pyenv](https://github.com/yyuu/pyenv)
 
 1. Install `pyenv`
 1. Install Python interpreters you want to test with, e.g. `pyenv install 2.6.9`
+1. Install project dependencies: `pip install -r requirements.txt`
 1. Execute in the main project dir: `tox`
 1. In order to execute integration tests run: `tox pytest_integration.ini`
 
