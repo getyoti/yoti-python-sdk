@@ -64,7 +64,7 @@ def test_creating_client_instance_without_private_key_file():
 def test_creating_client_instance_with_invalid_key_file_arg(key_file):
     with pytest.raises(RuntimeError) as exc:
         Client(YOTI_CLIENT_SDK_ID, key_file)
-    expected_error = 'Invalid private key file argument specified in Client()'
+    expected_error = 'Could not read private key file'
     assert expected_error in str(exc)
     assert str(key_file) in str(exc)
 
@@ -74,9 +74,10 @@ def test_creating_client_instance_with_invalid_key_file_env(key_file):
     environ['YOTI_KEY_FILE_PATH'] = str(key_file)
     with pytest.raises(RuntimeError) as exc:
         Client(YOTI_CLIENT_SDK_ID)
-    expected_error = 'Invalid private key file specified by the ' \
-                     'YOTI_KEY_FILE_PATH env variable'
+    expected_error = 'Could not read private key file'
+    expected_error_source = 'specified by the YOTI_KEY_FILE_PATH env variable'
     assert expected_error in str(exc)
+    assert expected_error_source in str(exc)
     assert str(key_file) in str(exc)
 
 
@@ -89,7 +90,7 @@ def test_creating_client_instance_with_valid_key_file_env_but_invalid_key_file_a
     environ['YOTI_KEY_FILE_PATH'] = PEM_FILE_PATH
     with pytest.raises(RuntimeError) as exc:
         Client(YOTI_CLIENT_SDK_ID, INVALID_KEY_FILE_PATH)
-    expected_error = 'Invalid private key file argument specified in Client()'
+    expected_error = 'Could not read private key file'
     assert expected_error in str(exc)
     assert str(INVALID_KEY_FILE_PATH) in str(exc)
 
