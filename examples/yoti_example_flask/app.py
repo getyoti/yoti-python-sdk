@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 
-from yoti.client import Client
+from yoti import Client
 
 from settings import (
     YOTI_APPLICATION_ID,

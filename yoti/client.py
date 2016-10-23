@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
 import time
 import uuid
-import json
-import requests
-
 from os import environ
-from os.path import isfile
+from os.path import isfile, expanduser
 
+import requests
 from past.builtins import basestring
 
-from yoti import YOTI_API_ENDPOINT
-from yoti.crypto import Crypto
+import yoti
 from yoti.activity_details import ActivityDetails
+from yoti.crypto import Crypto
 from yoti.protobuf.v1 import protobuf
 
 
@@ -41,12 +40,14 @@ class Client(object):
     @staticmethod
     def __read_pem_file(key_file_path, error_source):
         try:
+            key_file_path = expanduser(key_file_path)
+
             if not isinstance(key_file_path, basestring) or not isfile(key_file_path):
                 raise IOError('File not found: {0}'.format(key_file_path))
             with open(key_file_path, 'rb') as pem_file:
                 return pem_file.read().strip()
-        except (IOError, TypeError, OSError) as exc:
-            error = 'Invalid private key file ' + error_source
+        except (AttributeError, IOError, TypeError, OSError) as exc:
+            error = 'Could not read private key file: "{0}", passed as: {1} '.format(key_file_path, error_source)
             exception = '{0}: {1}'.format(type(exc).__name__, exc)
             raise RuntimeError('{0}: {1}'.format(error, exception))
 
@@ -67,7 +68,7 @@ class Client(object):
 
     def __make_request(self, encrypted_request_token):
         path = self.__get_request_path(encrypted_request_token)
-        url = YOTI_API_ENDPOINT + path
+        url = yoti.YOTI_API_ENDPOINT + path
         headers = self.__get_request_headers(path)
         response = requests.get(url=url, headers=headers)
 

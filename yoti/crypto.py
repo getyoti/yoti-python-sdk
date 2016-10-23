@@ -59,4 +59,11 @@ class Crypto:
             mode=modes.CBC(iv),
             backend=default_backend()
         ).decryptor()
-        return decryptor.update(cipher_text) + decryptor.finalize()
+        plaintext = decryptor.update(cipher_text) + decryptor.finalize()
+
+        return Crypto.strip_pkcs5_padding(plaintext)
+
+    @staticmethod
+    def strip_pkcs5_padding(data):
+        number_of_padded_bytes = data[-1]
+        return data[:-number_of_padded_bytes]
