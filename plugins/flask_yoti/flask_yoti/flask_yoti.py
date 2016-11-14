@@ -8,13 +8,13 @@ from flask import (
     redirect,
     url_for,
 )
-from flask.sessions import SecureCookieSession
 from yoti import Client
 
 from .context_storage import activity_details_storage
 from .decorators import yoti_authenticated
 from .context_processors import yoti_context
 from .settings import get_config_value
+from .helpers import is_cookie_session
 
 
 flask_yoti_blueprint = Blueprint('flask_yoti', __name__,
@@ -34,7 +34,7 @@ def auth():
     client = Client(client_sdk_id, key_file_path)
     activity_details = client.get_activity_details(token)
     session['yoti_user_id'] = activity_details.user_id
-    if isinstance(session, SecureCookieSession):
+    if not is_cookie_session(session):
         session['activity_details'] = dict(activity_details)
     else:
         activity_details_storage.save(activity_details)

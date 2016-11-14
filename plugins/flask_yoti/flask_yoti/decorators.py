@@ -1,16 +1,16 @@
 from functools import wraps
 from flask import redirect, session, url_for
-from flask.sessions import SecureCookieSession
 
 from .context_storage import activity_details_storage
 from .settings import get_config_value
+from .helpers import is_cookie_session
 
 
 def yoti_authenticated(view_func):
     @wraps(view_func)
     def _decorated(*args, **kwargs):
         user_id = session.get('yoti_user_id')
-        if isinstance(session, SecureCookieSession):
+        if not is_cookie_session(session):
             activity_details = session.get('activity_details')
         else:
             activity_details = activity_details_storage.get(user_id)
