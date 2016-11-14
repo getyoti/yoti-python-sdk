@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your header content -->
+    <script src="https://sdk.yoti.com/clients/browser.js"></script>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+
+<body style="background-color:papayawhip;">
+    <!-- Your website content -->
+
+    <!-- This span will create the Yoti button -->
+    Button: {{ yoti_login_button('small', 'Custom label') }}
+
+    <!-- This script snippet will also be required in your HTML body during the early pilot period -->
+    <script>
+        _ybg.config.service = 'https://www.yoti.com/connect/';
+        _ybg.init();
+    </script>
+</body>
+</html>

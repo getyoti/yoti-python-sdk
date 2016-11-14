@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+recursive-include flask_yoti/templates *.html
+recursive-include example/templates *.html
