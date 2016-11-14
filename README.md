@@ -88,11 +88,11 @@ test suite on Python 2.6 (2.6.9 in our case, as installed with `pyenv`).
 
 To install all the Python versions this SDK has been tested against run:
 
-    $ for version in 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b1; do pyenv install $version; done
+    $ for version in 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b3; do pyenv install $version; done
 
 activate the installed interpreters (execute in this directory):
 
-    $ pyenv local 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b1
+    $ pyenv local 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b3
 
 run the tests:
 
