@@ -1,7 +1,5 @@
 # Flask Yoti #
 
-Description
-
 ## Plugin configuration ##
 ### General settings ###
 
@@ -58,8 +56,8 @@ Example: `b14886f972d0c717`
 ### Endpoints configuration ###
 
 `flask_yoti` plugin provides some default endpoints:
-- `yoti_auth` (`/yoti/auth`) - is used for receiving token via callback and 
-should'nt be changed
+- `yoti_auth` (`/yoti/auth`) - is a callback used for receiving an 
+authentication token (shouldn't be changed)
 - `yoti_login` (`/yoti/login`) - a view with just a login button. Can (and should) 
 be overridden by `'YOTI_LOGIN_VIEW'` setting
 - `yoti_profile` (`/yoti/profile`) - a view with user profile details. It's 
@@ -82,7 +80,7 @@ app.config.update({
 If *not* authenticated user is trying to access a view with 
 `@yoti_authenticated` decorator, he/she will be redirected to this view.
 Example: `login`<br>
-In case you have something like this in your Flask app:
+In this case you should have something like this in your Flask app:
 ```python
 @app.route('/login')
 def login():
@@ -93,7 +91,7 @@ Default value: `flask_yoti.login` (with `/yoti/login/` URL)
 * **`YOTI_REDIRECT_TO`**<br>
 View name to which user is redirected after successful authentication.<br>
 Example: `profile`<br>
-In case you have something like this in your Flask app::
+In this case you should have something like this in your Flask app::
 ```python
 @app.route('/profile')
 @yoti_authenticated
@@ -101,7 +99,7 @@ def login():
     user_profile = session.get('yoti_user_profile')
     render_template('profile.html', **user_profile)
 ```
-Default value: `flask_yoti.profile`  (with `/yoti/profile/` URL
+Default value: `flask_yoti.profile`  (with `/yoti/profile/` URL)
 
 <br>
 
@@ -109,10 +107,11 @@ Default value: `flask_yoti.profile`  (with `/yoti/profile/` URL
 ### Yoti application configuration ###
 
 Your Yoti application's callback URL should point to `your_site.com/yoti/auth`.<br>
-If you want to add a verification tag into any page (other than `/yoti/auth/`), 
-you can use a `{{ yoti_site_verification }}` tag inside 'head' tag of that page.
+If you want to add a verification tag into any template using Jinja2 or DTL as a 
+template language (other than `/yoti/auth/`, because it's already has one),
+you can use a `{{ yoti_site_verification }}` tag inside `<head>` of that template.
 
-## Using plugin ##
+## Plugin usage ##
 
 1. First you need to add a login button to some of your view's templates.
 - You can do it by using one of the predefined login buttons:
