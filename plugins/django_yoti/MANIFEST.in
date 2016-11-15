@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+recursive-include django_yoti/templates *.html
+recursive-include example/yoti_example/templates *.html

@@ -12,7 +12,7 @@ ENCRYPTED_TOKEN_FILE_PATH = join(FIXTURES_DIR, 'encrypted_yoti_token.txt')
 AUTH_KEY_FILE_PATH = join(FIXTURES_DIR, 'auth_key.txt')
 AUTH_DIGEST_FILE_PATH = join(FIXTURES_DIR, 'auth_digest.txt')
 
-YOTI_CLIENT_SDK_ID = 'd13224e6-c8f4-4991-a703-b05fba4d4fdb'
+YOTI_CLIENT_SDK_ID = '737204aa-d54e-49a4-8bde-26ddbe6d880c'
 
 
 @pytest.fixture(scope='module')
@@ -34,8 +34,8 @@ def encrypted_request_token():
 
 @pytest.fixture(scope='module')
 def decrypted_request_token():
-    return 'NpdmVVGC-8b1e5780-6073-47d6-8d54-66ddcb34041b-ec7d01d4-fb9f-' \
-           '4abb-97ad-5bd2ad5818f1'
+    return 'd1JtHdjH-2c161003-cbaf-4080-b2a8-5a6d86577334-3f9d9a9a-' \
+           '470c-48e5-8ceb-25cf86674ba4'
 
 
 @pytest.fixture(scope='module')

@@ -1,31 +1,26 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-VERSION = '0.1.1'
-long_description = 'This package contains the tools you need to quickly ' \
-                   'integrate your Python back-end with Yoti, so that your ' \
-                   'users can share their identity details with your ' \
-                   'application in a secure and trusted way.'
+VERSION = '0.1.0'
+long_description = 'Long description'
 
 setup(
-    name='yoti',
+    name='flask_yoti',
     version=VERSION,
     packages=find_packages(),
     license='MIT',
-    description='Yoti Python SDK for back-end integration.',
-    long_description=long_description,
-    url='https://github.com/lampkicking/yoti-sdk-server-python',
+    description='Yoti SDK Plugin for the Flask microframework.',
+    long_description='Yoti SDK Plugin for the Flask microframework.',
+    url='https://github.com/lampkicking/yoti-sdk-server-python/plugins/flask_yoti',
     author='',
     author_email='',
-    install_requires=['cryptography>=1.4', 'protobuf>=3.0.0',
-                      'requests>=2.0.0', 'future>=0.11.0'],
-    extras_require={
-        'examples': ['Django>=1.9', 'Flask>=0.10'],
-    },
+    install_requires=['flask>=0.10', 'yoti>=0.1.0'],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
+        'Environment :: Web Environment',
+        'Framework :: Flask',
         'Intended Audience :: Developers',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',

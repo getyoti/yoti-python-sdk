@@ -65,5 +65,12 @@ class Crypto:
 
     @staticmethod
     def strip_pkcs5_padding(data):
+        if isinstance(data, str):
+            data = bytearray(data)
+
         number_of_padded_bytes = data[-1]
-        return data[:-number_of_padded_bytes]
+        stripped = data[:-number_of_padded_bytes]
+
+        if isinstance(stripped, bytearray):
+            stripped = str(stripped)
+        return stripped
