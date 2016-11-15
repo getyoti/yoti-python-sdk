@@ -106,7 +106,7 @@ YOTI = {
 If *not* authenticated user is trying to access a view with 
 `@yoti_authenticated` decorator, he/she will be redirected to this view.
 Example: `login`<br>
-In case you have something like this in your project's `urls.py` file:
+In this case you should have something like this in your project's `urls.py` file:
 ```python
 urlpatterns = [
     ...
@@ -119,7 +119,7 @@ Default value: `yoti_login` (with `/yoti/login/` URL)
 * **`YOTI_REDIRECT_TO`**<br>
 View name to which user is redirected after successful authentication.<br>
 Example: `profile`<br>
-In case you have something like this in your project's `urls.py` file:
+In this case you should have something like this in your project's `urls.py` file:
 ```python
 urlpatterns = [
     ...
