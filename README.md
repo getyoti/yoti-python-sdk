@@ -63,6 +63,13 @@ Both example applications utilise the env variables described above, make sure t
     `python examples/yoti_example_django/manage.py migrate`
 1. Run: `python examples/yoti_example_django/manage.py runserver 0.0.0.0:5000`
 
+
+### Plugins ###
+
+Plugins for both Django and Flask are in the `plugins/` dir. Their purpose is to make it as easy as possible to use
+Yoti SDK with those frameworks. See their respective `README`'s for details.
+
+
 ## Executing tests ##
 
 1. Install dependencies: `pip install -r requirements.txt`
