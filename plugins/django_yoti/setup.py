@@ -8,6 +8,7 @@ setup(
     name='django_yoti',
     version=VERSION,
     packages=find_packages(),
+    include_package_data=True,
     license='MIT',
     description='Yoti Django plugin for back-end integration.',
     long_description=long_description,

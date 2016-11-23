@@ -20,12 +20,12 @@ class TestContextProcessors(TestCase):
         keys = ('yoti_application_id', 'yoti_site_verification',
                 'yoti_login_button', 'yoti_login_button_sm',
                 'yoti_login_button_md', 'yoti_login_button_lg')
-        assert set(self.context.keys()) == set(keys)
+        self.assertEqual(set(self.context.keys()), set(keys))
 
     def test_application_id(self):
         app_id = self.context.get('yoti_application_id')
         expected_app_id = self.defaults.get('YOTI_APPLICATION_ID')
-        assert app_id == expected_app_id
+        self.assertEqual(app_id, expected_app_id)
 
     def test_verification_key(self):
         context_tag = self.context.get('yoti_site_verification')
@@ -36,21 +36,21 @@ class TestContextProcessors(TestCase):
 
     def test_predefined_login_buttons(self):
         context = self.context
-        assert 'data-size="small"' in context.get('yoti_login_button_sm')
-        assert 'data-size="medium"' in context.get('yoti_login_button_md')
-        assert 'data-size="large"' in context.get('yoti_login_button_lg')
+        self.assertIn('data-size="small"', context.get('yoti_login_button_sm'))
+        self.assertIn('data-size="medium"', context.get('yoti_login_button_md'))
+        self.assertIn('data-size="large"', context.get('yoti_login_button_lg'))
 
     def test_login_button_func(self):
         app_id = self.defaults.get('YOTI_APPLICATION_ID')
         button_label = self.defaults.get('YOTI_LOGIN_BUTTON_LABEL')
         login_button_func = self.context.get('yoti_login_button')
-        assert hasattr(login_button_func, '__call__')
+        self.assertTrue(hasattr(login_button_func, '__call__'))
         button_html = login_button_func(text=button_label)
         expected = '<span data-yoti-application-id="{0}" >' \
                    '{1}</span>'.format(app_id, button_label)
-        assert button_html == expected
+        self.assertEqual(button_html, expected)
 
     def test_context_login_button_func_with_different_sizes(self):
         for size in ('small', 'medium', 'large'):
             button_html = get_login_button_html(size)
-            assert 'data-size="{0}"'.format(size) in button_html
+            self.assertIn('data-size="{0}"'.format(size), button_html)

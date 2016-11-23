@@ -17,8 +17,16 @@ INSTALLED_APPS = [
 ]
 ```
 
-* In order to use context tags inside your template (`{{ yoti_site_verification }}`, `{{ yoti_login_button_*}}`), 
-you should include `django_yoti`'s context processors into your templates configuration like this:
+* Django Yoti plugin provides the following template context vars:
+    - `yoti_site_verification`
+    - `yoti_application_id`
+    - `yoti_login_button_*`
+
+* If you're using django template backend that supports context processors
+like default DTL (Django Template Language) and want to use context tags 
+inside your template (e.g. `{{ yoti_login_button_*}}`), then you should 
+include `django_yoti`'s context processors into your templates 
+configuration like this:
 ```python
 # your_django_project/settings.py
  
@@ -35,6 +43,13 @@ TEMPLATES = [
         },
     },
 ]
+```
+* Otherwise you'll have to pass yoti context to your templates manually:
+```python
+from django_yoti import yoti_context
+ 
+def some_view(request):
+    return render(request, 'index.html', yoti_context)
 ```
 
 * And then use the following settings to configure the plugin:
@@ -104,7 +119,7 @@ YOTI = {
 ```
 * **`YOTI_LOGIN_VIEW`**<br>
 If *not* authenticated user is trying to access a view with 
-`@yoti_authenticated` decorator, he/she will be redirected to this view.
+`@yoti_authenticated` decorator, he/she will be redirected to this view.<br>
 Example: `login`<br>
 In this case you should have something like this in your project's `urls.py` file:
 ```python
@@ -160,11 +175,7 @@ you can use a `{{ yoti_site_verification }}` tag inside 'head' tag of that page.
 {{ yoti_login_button_md }}
 {{ yoti_login_button_lg }}
 ```
-- or with a default one `{{ yoti_login_button }}`, in case you're using DTL 
-as a template language)
-- or with `{{ yoti_login_button(size='small', text='Log In with Yoti')`, in 
-case you're using Jinja2 as your template language<br>
-Available button sizes: `small`, `medium`, `large`
+- or with a default one `{{ yoti_login_button }}`<br>
 
 By clicking this button, user will be redirected to the Yoti Authentication page.
 
@@ -184,6 +195,23 @@ def profile_view(request):
     user_id = request.yoti_user_id
     user_profile = request.yoti_user_profile
     return render(request, 'profile.html', user_profile)
+```
+<br>
+
+To make `yoti_authenticated` decorator work with django class based
+views as well as with classic method based views, you can use it while
+declaring your project's urls:
+```python
+# your_django_project/urls.py
+from django_yoti import yoti_authenticated
+
+urlpatterns = [
+    ...
+    url(r'^profile/', yoti_authenticated(views.profile_view), name='yoti_profile'),
+    # or
+    url(r'^profile/', yoti_authenticated(views.ProfileView.as_view()), name='yoti_profile'),
+    ...
+]
 ```
 
 4. All *not authenticated* users trying to access endpoint with this decorator, 

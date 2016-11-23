@@ -122,6 +122,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 YOTI = {
-    'YOTI_REDIRECT_TO': 'profile',
     'YOTI_LOGIN_VIEW': 'login',
 }
