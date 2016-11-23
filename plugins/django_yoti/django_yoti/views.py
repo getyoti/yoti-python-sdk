@@ -1,5 +1,6 @@
 from yoti import Client
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from .decorators import yoti_authenticated
 from .settings import (
@@ -21,7 +22,7 @@ def auth(request):
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
     activity_details = client.get_activity_details(token)
     request.session['activity_details'] = dict(activity_details)
-    return redirect(YOTI_REDIRECT_TO)
+    return redirect(reverse(YOTI_REDIRECT_TO))
 
 
 @yoti_authenticated

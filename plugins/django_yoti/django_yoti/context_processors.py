@@ -4,14 +4,14 @@ from .login_button import get_login_button_html
 from .settings import YOTI_VERIFICATION_KEY, YOTI_APPLICATION_ID
 
 
-def yoti_context(request):
-    context = login_button_context(request)
-    context.update(site_verification_context(request))
-    context.update(application_context(request))
+def yoti_context(request=None):
+    context = login_button_context()
+    context.update(site_verification_context())
+    context.update(application_context())
     return context
 
 
-def login_button_context(request):
+def login_button_context():
     return {
         'yoti_login_button': get_login_button_html,
         'yoti_login_button_sm': get_login_button_html('small'),
@@ -20,12 +20,12 @@ def login_button_context(request):
     }
 
 
-def site_verification_context(request):
+def site_verification_context():
     raw_text = '<meta name="yoti-site-verification" content="{0}">'.format(
         YOTI_VERIFICATION_KEY
     )
     return {'yoti_site_verification': format_html(raw_text)}
 
 
-def application_context(request):
+def application_context():
     return {'yoti_application_id': YOTI_APPLICATION_ID}

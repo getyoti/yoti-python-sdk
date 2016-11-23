@@ -1,5 +1,3 @@
-import re
-
 from django.test import TestCase, Client, RequestFactory
 from django.http.response import HttpResponse, HttpResponseRedirectBase
 from django.contrib.sessions.middleware import SessionMiddleware
@@ -17,21 +15,21 @@ class TestViews(TestCase):
 
     def test_auth_view(self):
         response = self.client.get('/auth/')
-        assert isinstance(response, HttpResponse)
-        assert response.status_code == 200
-        assert 'meta name="yoti-site-verification"' in str(response.content)
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('meta name="yoti-site-verification"', str(response.content))
 
     def test_login_view(self):
         response = self.client.get('/login/')
-        assert isinstance(response, HttpResponse)
-        assert response.status_code == 200
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, 200)
 
     def test_profile_not_logged_in(self):
         request = self.factory.get('/profile')
         self._update_session(request)
         response = profile(request)
-        assert isinstance(response, HttpResponseRedirectBase)
-        assert response.url == '/login/'
+        self.assertIsInstance(response, HttpResponseRedirectBase)
+        self.assertEqual(response.url, '/login/')
 
     def test_profile_outcome_is_failure(self):
         receipt = {'remember_me_id': 'some_id',
@@ -42,8 +40,8 @@ class TestViews(TestCase):
         self._update_session(request, activity_details=dict(activity_details))
         response = profile(request)
 
-        assert isinstance(response, HttpResponseRedirectBase)
-        assert response.url == '/login/'
+        self.assertIsInstance(response, HttpResponseRedirectBase)
+        self.assertEqual(response.url, '/login/')
 
     def test_profile_outcome_is_success(self):
         user_id = 'some_id'
@@ -57,10 +55,10 @@ class TestViews(TestCase):
         self._update_session(request, activity_details=dict(activity_details))
         response = profile(request)
 
-        assert isinstance(response, HttpResponse)
-        assert response.status_code == 200
-        assert getattr(request, 'yoti_user_id', None) == user_id
-        assert getattr(request, 'yoti_user_profile', None) == user_profile
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(getattr(request, 'yoti_user_id', None), user_id)
+        self.assertEqual(getattr(request, 'yoti_user_profile', None), user_profile)
 
     @staticmethod
     def _update_session(request, **params):

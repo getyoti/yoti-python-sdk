@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 long_description = 'Long description'
 
 setup(
     name='django_yoti',
     version=VERSION,
     packages=find_packages(),
+    include_package_data=True,
     license='MIT',
     description='Yoti Django plugin for back-end integration.',
     long_description=long_description,

@@ -20,6 +20,6 @@ from . import views
 urlpatterns = [
     url(r'^yoti/', include('django_yoti.urls')),
     url(r'^login/', views.login, name='login'),
-    url(r'^profile/', views.profile, name='profile'),
+    url(r'^profile/', views.profile, name='yoti_profile'),
     url(r'^admin/', admin.site.urls),
 ]
