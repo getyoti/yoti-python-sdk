@@ -10,10 +10,10 @@ from os.path import isfile, expanduser
 import requests
 from past.builtins import basestring
 
-import yoti
-from yoti.activity_details import ActivityDetails
-from yoti.crypto import Crypto
-from yoti.protobuf.v1 import protobuf
+import yoti_python_sdk
+from yoti_python_sdk.activity_details import ActivityDetails
+from yoti_python_sdk.crypto import Crypto
+from yoti_python_sdk.protobuf.v1 import protobuf
 
 
 NO_KEY_FILE_SPECIFIED_ERROR = 'Please specify the correct private key file ' \
@@ -68,7 +68,7 @@ class Client(object):
 
     def __make_request(self, encrypted_request_token):
         path = self.__get_request_path(encrypted_request_token)
-        url = yoti.YOTI_API_ENDPOINT + path
+        url = yoti_python_sdk.YOTI_API_ENDPOINT + path
         headers = self.__get_request_headers(path)
         response = requests.get(url=url, headers=headers)
 

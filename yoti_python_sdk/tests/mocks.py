@@ -7,7 +7,7 @@ def mocked_requests_get(*args, **kwargs):
             self.status_code = status_code
             self.text = text
 
-    with open('yoti/tests/fixtures/response.txt', 'r') as f:
+    with open('yoti_python_sdk/tests/fixtures/response.txt', 'r') as f:
         response = f.read()
     return MockResponse(status_code=200, text=response)
 

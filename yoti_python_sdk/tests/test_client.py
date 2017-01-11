@@ -11,12 +11,12 @@ try:
 except ImportError:
     import mock
 
-from yoti import YOTI_API_ENDPOINT
-from yoti import Client
-from yoti.client import NO_KEY_FILE_SPECIFIED_ERROR
-from yoti.activity_details import ActivityDetails
-from yoti.tests.conftest import YOTI_CLIENT_SDK_ID, PEM_FILE_PATH
-from yoti.tests.mocks import (
+from yoti_python_sdk import YOTI_API_ENDPOINT
+from yoti_python_sdk import Client
+from yoti_python_sdk.client import NO_KEY_FILE_SPECIFIED_ERROR
+from yoti_python_sdk.activity_details import ActivityDetails
+from yoti_python_sdk.tests.conftest import YOTI_CLIENT_SDK_ID, PEM_FILE_PATH
+from yoti_python_sdk.tests.mocks import (
     mocked_requests_get,
     mocked_timestamp,
     mocked_uuid4

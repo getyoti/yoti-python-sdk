@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 import pytest
 
-from yoti.crypto import Crypto
+from yoti_python_sdk.crypto import Crypto
 
 
 @pytest.mark.parametrize('invalid_token', [

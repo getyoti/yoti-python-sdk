@@ -13,7 +13,7 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-from yoti.protobuf.v1.attribute_public_api import attribute_pb2
+from yoti_python_sdk.protobuf.v1.attribute_public_api import attribute_pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(

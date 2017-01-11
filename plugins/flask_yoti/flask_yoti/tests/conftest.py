@@ -5,7 +5,7 @@ from flask import Flask
 from flask_yoti import flask_yoti_blueprint
 from flask_yoti.context_processors import yoti_context
 
-from yoti.activity_details import ActivityDetails
+from yoti_python_sdk.activity_details import ActivityDetails
 
 
 @pytest.fixture(scope='module')

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from os import environ
 
-from yoti.client import Client
+from yoti_python_sdk.client import Client
 
 DEFAULTS = {
     'YOTI_API_URL': 'https://api.yoti.com',

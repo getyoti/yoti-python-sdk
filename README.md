@@ -5,7 +5,7 @@ securely verify users' identities.
 
 ## Example ##
 
-    from yoti import Client
+    from yoti_python_sdk import Client
 
     @app.route('/callback')
     def callback():
@@ -14,7 +14,7 @@ securely verify users' identities.
         return activity_details.user_profile
 
 For more details and working [Flask](http://flask.pocoo.org/) and [Django](https://www.djangoproject.com/)
-applications see [examples/](https://github.com/lampkicking/yoti-sdk-server-python/tree/development/examples).
+applications see [examples/](https://github.com/getyoti/yoti-python-sdk/tree/master/examples).
 
 
 ## The Flow ##
@@ -28,7 +28,7 @@ For details see [Yoti Developers Docs](https://www.yoti.com/developers/).
 
 ## Installation ##
 
-    $ pip install yoti
+    $ pip install yoti-python-sdk
 
 This SDK works with Python 2.6+ and Python 3.3+ .
 

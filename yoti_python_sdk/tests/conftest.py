@@ -3,8 +3,8 @@ from os.path import dirname, join, abspath
 
 import pytest
 
-from yoti import Client
-from yoti.crypto import Crypto
+from yoti_python_sdk import Client
+from yoti_python_sdk.crypto import Crypto
 
 FIXTURES_DIR = join(dirname(abspath(__file__)), 'fixtures')
 PEM_FILE_PATH = join(FIXTURES_DIR, 'sdk-test.pem')

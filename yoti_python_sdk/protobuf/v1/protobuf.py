@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from cryptography.fernet import base64
 
-import yoti.protobuf.v1.attribute_public_api.list_pb2 as attrpubapi
-import yoti.protobuf.v1.common_public_api.encrypted_data_pb2 as compubapi
+import yoti_python_sdk.protobuf.v1.attribute_public_api.list_pb2 as attrpubapi
+import yoti_python_sdk.protobuf.v1.common_public_api.encrypted_data_pb2 as compubapi
 
 
 class Protobuf(object):

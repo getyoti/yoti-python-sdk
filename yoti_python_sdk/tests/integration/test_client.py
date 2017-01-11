@@ -1,6 +1,6 @@
 from past.builtins import basestring
 
-from yoti.activity_details import ActivityDetails
+from yoti_python_sdk.activity_details import ActivityDetails
 
 
 def live_test_requesting_activity_details_with_correct_data(

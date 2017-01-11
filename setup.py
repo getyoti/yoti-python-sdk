@@ -8,7 +8,7 @@ long_description = 'This package contains the tools you need to quickly ' \
                    'application in a secure and trusted way.'
 
 setup(
-    name='yoti',
+    name='yoti-python-sdk',
     version=VERSION,
     packages=find_packages(),
     license='OTHER',

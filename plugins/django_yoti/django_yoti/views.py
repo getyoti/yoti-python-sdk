@@ -1,4 +1,4 @@
-from yoti import Client
+from yoti_python_sdk import Client
 from django.shortcuts import render, redirect
 from django.urls import reverse
 

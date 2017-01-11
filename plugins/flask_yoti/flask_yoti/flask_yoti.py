@@ -8,7 +8,7 @@ from flask import (
     redirect,
     url_for,
 )
-from yoti import Client
+from yoti_python_sdk import Client
 
 from .context_storage import activity_details_storage
 from .decorators import yoti_authenticated

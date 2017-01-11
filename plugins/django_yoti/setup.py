@@ -15,7 +15,7 @@ setup(
     url='https://github.com/lampkicking/yoti-sdk-server-python/plugins/django_yoti',
     author='',
     author_email='',
-    install_requires=['django>=1.8', 'yoti>=0.1.0'],
+    install_requires=['django>=1.8', 'yoti-python-sdk>=0.1.0'],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
