@@ -3,11 +3,11 @@ from yoti_python_sdk.protobuf.v1.protobuf import Protobuf
 
 
 class ActivityDetails:
-    def __init__(self, receipt, decrypted_profile):
+    def __init__(self, receipt, decrypted_profile = None):
         self.decrypted_profile = decrypted_profile
         self.user_profile = {}
 
-        if hasattr(decrypted_profile, 'attributes'):
+        if decrypted_profile and hasattr(decrypted_profile, 'attributes'):
             for field in decrypted_profile.attributes:
                 value = Protobuf().value_based_on_content_type(
                     field.value,

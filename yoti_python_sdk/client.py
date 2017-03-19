@@ -57,6 +57,9 @@ class Client(object):
 
         encrypted_data = protobuf.Protobuf().current_user(receipt)
 
+        if not encrypted_data:
+            return ActivityDetails(receipt)
+
         unwrapped_key = self.__crypto.decrypt_token(receipt['wrapped_receipt_key'])
         decrypted_data = self.__crypto.decipher(
             unwrapped_key,
