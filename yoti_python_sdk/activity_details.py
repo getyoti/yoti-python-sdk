@@ -3,7 +3,7 @@ from yoti_python_sdk.protobuf.v1.protobuf import Protobuf
 
 
 class ActivityDetails:
-    def __init__(self, receipt, decrypted_profile = None):
+    def __init__(self, receipt, decrypted_profile=None):
         self.decrypted_profile = decrypted_profile
         self.user_profile = {}
 

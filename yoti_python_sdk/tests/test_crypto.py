@@ -32,4 +32,3 @@ def test_given_proper_encrypted_token__decrypting_should_yield_decrypted_token(
 ])
 def test_strip_pkcs5_padding(with_padding, stripped):
     assert Crypto.strip_pkcs5_padding(with_padding) == stripped
-
