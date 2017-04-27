@@ -15,8 +15,9 @@ class Protobuf(object):
     CT_PNG = 4  # standard .png image
 
     def current_user(self, receipt):
-        if receipt.get('other_party_profile_content') is None:
-            raise ValueError('The receipt has invalid data')
+        if receipt.get('other_party_profile_content') is None or receipt.get('other_party_profile_content') == '':
+            return None
+
         profile_content = receipt['other_party_profile_content']
         decoded_profile_content = base64.b64decode(profile_content)
 

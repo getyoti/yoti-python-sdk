@@ -18,6 +18,9 @@ from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.tests.conftest import YOTI_CLIENT_SDK_ID, PEM_FILE_PATH
 from yoti_python_sdk.tests.mocks import (
     mocked_requests_get,
+    mocked_requests_get_null_profile,
+    mocked_requests_get_empty_profile,
+    mocked_requests_get_missing_profile,
     mocked_timestamp,
     mocked_uuid4
 )
@@ -105,6 +108,46 @@ def test_requesting_activity_details_with_correct_data(
 
     mock_get.assert_called_once_with(url=expected_url, headers=expected_headers)
     assert isinstance(activity_details, ActivityDetails)
+    assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
     selfie = activity_details.user_profile.get('selfie')
     assert isinstance(selfie, basestring)
     assert selfie.startswith('data:image/jpeg;base64')
+
+
+@mock.patch('requests.get', side_effect=mocked_requests_get_null_profile)
+@mock.patch('time.time', side_effect=mocked_timestamp)
+@mock.patch('uuid.uuid4', side_effect=mocked_uuid4)
+def test_requesting_activity_details_with_null_profile(
+        mock_uuid4, mock_time, mock_get, client, expected_url,
+        expected_headers, encrypted_request_token):
+    activity_details = client.get_activity_details(encrypted_request_token)
+
+    mock_get.assert_called_once_with(url=expected_url, headers=expected_headers)
+    assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
+    assert isinstance(activity_details, ActivityDetails)
+
+
+@mock.patch('requests.get', side_effect=mocked_requests_get_empty_profile)
+@mock.patch('time.time', side_effect=mocked_timestamp)
+@mock.patch('uuid.uuid4', side_effect=mocked_uuid4)
+def test_requesting_activity_details_with_empty_profile(
+        mock_uuid4, mock_time, mock_get, client, expected_url,
+        expected_headers, encrypted_request_token):
+    activity_details = client.get_activity_details(encrypted_request_token)
+
+    mock_get.assert_called_once_with(url=expected_url, headers=expected_headers)
+    assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
+    assert isinstance(activity_details, ActivityDetails)
+
+
+@mock.patch('requests.get', side_effect=mocked_requests_get_missing_profile)
+@mock.patch('time.time', side_effect=mocked_timestamp)
+@mock.patch('uuid.uuid4', side_effect=mocked_uuid4)
+def test_requesting_activity_details_with_missing_profile(
+        mock_uuid4, mock_time, mock_get, client, expected_url,
+        expected_headers, encrypted_request_token):
+    activity_details = client.get_activity_details(encrypted_request_token)
+
+    mock_get.assert_called_once_with(url=expected_url, headers=expected_headers)
+    assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
+    assert isinstance(activity_details, ActivityDetails)

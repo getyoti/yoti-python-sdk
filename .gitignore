@@ -92,3 +92,4 @@ ENV/
 # IDE
 .idea/
 *.un~
+.history/
