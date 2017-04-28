@@ -45,7 +45,6 @@ The following env variables are then required for the SDK to work:
 The following env variables are additionally used to configure your backend:
 
 * `YOTI_APPLICATION_ID` - found on the Integrations settings page, used to configure the [Yoti Login Button](https://www.yoti.com/developers/#login-button-setup)
-* `YOTI_VERIFICATION_KEY` - found on the Integrations settings page -> Callback URL -> VERIFY, used to verify your back-end callback
 
 ## Examples ##
 
@@ -90,7 +89,7 @@ One tool to do just this is [pyenv](https://github.com/yyuu/pyenv)
 1. In order to execute integration tests run: `tox pytest_integration.ini`
 
 You can choose a subset of interpreters to test with by running `tox -e <testenv_version>`.
-For a list of `<testenv_versions>` see `tox.ini`. Example: `tox -e py26` would run the 
+For a list of `<testenv_versions>` see `tox.ini`. Example: `tox -e py26` would run the
 test suite on Python 2.6 (2.6.9 in our case, as installed with `pyenv`).
 
 To install all the Python versions this SDK has been tested against run:
@@ -114,11 +113,11 @@ will have to be compiled. This will be done automatically, however you may
 need to install development headers of `openssl`.
 
 ##### On Debian-based systems #####
- 
+
 Install `openssl` headers with `apt-get install openssl-dev`
 
 ##### On macOS #####
- 
+
 Install `openssl` headers using [homebrew](http://brew.sh/): `brew install openssl`
 
 Install xcode command line tools so we have access to a C compiler and common libs:

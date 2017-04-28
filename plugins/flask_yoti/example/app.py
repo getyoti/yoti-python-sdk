@@ -11,7 +11,6 @@ app.secret_key = os.urandom(24)
 
 app.config.update(
     YOTI_APPLICATION_ID=YOTI_APPLICATION_ID,
-    YOTI_VERIFICATION_KEY=os.environ.get('YOTI_VERIFICATION_KEY'),
     YOTI_CLIENT_SDK_ID=os.environ.get('YOTI_CLIENT_SDK_ID'),
     YOTI_KEY_FILE_PATH=os.environ.get('YOTI_KEY_FILE_PATH'),
     YOTI_LOGIN_VIEW='login',

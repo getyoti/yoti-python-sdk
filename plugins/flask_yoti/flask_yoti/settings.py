@@ -7,7 +7,6 @@ def get_default_value(name):
         'YOTI_APPLICATION_ID': environ.get('YOTI_APPLICATION_ID'),
         'YOTI_CLIENT_SDK_ID': environ.get('YOTI_CLIENT_SDK_ID'),
         'YOTI_KEY_FILE_PATH': environ.get('YOTI_KEY_FILE_PATH'),
-        'YOTI_VERIFICATION_KEY': environ.get('YOTI_VERIFICATION_KEY', ''),
         'YOTI_REDIRECT_TO': 'flask_yoti.profile',
         'YOTI_LOGIN_VIEW': 'flask_yoti.login',
         'YOTI_LOGIN_BUTTON_LABEL': 'Log in with Yoti'

@@ -17,7 +17,6 @@ class TestViews(TestCase):
         response = self.client.get('/auth/')
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, 200)
-        self.assertIn('meta name="yoti-site-verification"', str(response.content))
 
     def test_login_view(self):
         response = self.client.get('/login/')

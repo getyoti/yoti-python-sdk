@@ -3,13 +3,10 @@ from flask import Markup
 from .login_button import get_login_button_html
 from .settings import get_config_value
 
-
 def yoti_context():
     context = login_button_context()
-    context.update(site_verification_context())
     context.update(application_context())
     return context
-
 
 def login_button_context():
     return {
@@ -18,15 +15,6 @@ def login_button_context():
         'yoti_login_button_md': get_login_button_html('medium'),
         'yoti_login_button_lg': get_login_button_html('large')
     }
-
-
-def site_verification_context():
-    verification_key = get_config_value('YOTI_VERIFICATION_KEY')
-    raw_text = '<meta name="yoti-site-verification" content="{0}">'.format(
-        verification_key
-    )
-    return {'yoti_site_verification': Markup(raw_text)}
-
 
 def application_context():
     yoti_application_id = get_config_value('YOTI_APPLICATION_ID')

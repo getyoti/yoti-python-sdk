@@ -39,10 +39,9 @@ def _activity_details(outcome='SUCCESS'):
 
 
 @pytest.fixture
-def context(app_id, verification_key):
+def context(app_id):
     os.environ.update(
-        YOTI_APPLICATION_ID=app_id,
-        YOTI_VERIFICATION_KEY=verification_key,
+        YOTI_APPLICATION_ID=app_id
     )
     return yoti_context()
 
@@ -55,11 +54,6 @@ def app_id():
 @pytest.fixture(scope='module')
 def sdk_id():
     return '12345678-9012-3456-7890-123456789012'
-
-
-@pytest.fixture(scope='module')
-def verification_key():
-    return '0123456789012345'
 
 
 @pytest.fixture(scope='module')
