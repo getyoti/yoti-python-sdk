@@ -29,7 +29,7 @@ How to retrieve a Yoti profile using the token
 Attributes defined
 
 9) [Running the tests](running-the-tests)-
-Attributes defined
+Running tests for SDK example
 
 10) [Support](#support)-
 Please feel free to reach out
