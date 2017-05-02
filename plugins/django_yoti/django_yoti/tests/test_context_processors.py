@@ -11,13 +11,12 @@ class TestContextProcessors(TestCase):
         self.defaults = {
             'YOTI_APPLICATION_ID': '01234567-8901-2345-6789-012345678901',
             'YOTI_CLIENT_SDK_ID': '01234567-8901-2345-6789-012345678901',
-            'YOTI_VERIFICATION_KEY': '0123456789012345',
             'YOTI_KEY_FILE_PATH': '/home/user/.ssh/yoti_key.pem',
             'YOTI_LOGIN_BUTTON_LABEL': 'Test label'
         }
 
     def test_yoti_context(self):
-        keys = ('yoti_application_id', 'yoti_site_verification',
+        keys = ('yoti_application_id',
                 'yoti_login_button', 'yoti_login_button_sm',
                 'yoti_login_button_md', 'yoti_login_button_lg')
         self.assertEqual(set(self.context.keys()), set(keys))
@@ -26,13 +25,6 @@ class TestContextProcessors(TestCase):
         app_id = self.context.get('yoti_application_id')
         expected_app_id = self.defaults.get('YOTI_APPLICATION_ID')
         self.assertEqual(app_id, expected_app_id)
-
-    def test_verification_key(self):
-        context_tag = self.context.get('yoti_site_verification')
-        html = '<meta name="yoti-site-verification" content="{0}">'.format(
-            self.defaults.get('YOTI_VERIFICATION_KEY')
-        )
-        self.assertHTMLEqual(context_tag, html)
 
     def test_predefined_login_buttons(self):
         context = self.context

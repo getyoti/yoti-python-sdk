@@ -4,7 +4,7 @@ from ..login_button import get_login_button_html
 
 
 def test_yoti_context(context):
-    expected_keys = ('yoti_application_id', 'yoti_site_verification',
+    expected_keys = ('yoti_application_id',
                      'yoti_login_button', 'yoti_login_button_sm',
                      'yoti_login_button_md', 'yoti_login_button_lg')
     assert set(context.keys()) == set(expected_keys)
@@ -12,13 +12,6 @@ def test_yoti_context(context):
 
 def test_context_application_id(context, app_id):
     assert context.get('yoti_application_id') == app_id
-
-
-def test_context_verification_key(context, verification_key):
-    context_tag = context.get('yoti_site_verification')
-    expected_html = '<meta name="yoti-site-verification" ' \
-                    'content="{0}">'.format(verification_key)
-    assert context_tag == expected_html
 
 
 def test_context_predefined_login_buttons(context):

@@ -38,7 +38,6 @@ if __name__ == '__main__':
         YOTI={
             'YOTI_APPLICATION_ID': '01234567-8901-2345-6789-012345678901',
             'YOTI_CLIENT_SDK_ID': '01234567-8901-2345-6789-012345678901',
-            'YOTI_VERIFICATION_KEY': '0123456789012345',
             'YOTI_KEY_FILE_PATH': '/home/user/.ssh/yoti_key.pem'
         }
     )
