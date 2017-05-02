@@ -19,19 +19,22 @@ How to install our SDK
 5) [SDK Project import](#sdk-project-import)-
 How to install the SDK to your project
 
-6) [Profile Retrieval](#profile-retrieval)-
+6) [Configuration](#configuration)-
+Entry point explanation
+
+7) [Profile Retrieval](#profile-retrieval)-
 How to retrieve a Yoti profile using the token
 
-7) [API Coverage](#api-coverage)-
+8) [API Coverage](#api-coverage)-
 Attributes defined
 
-8) [Running the tests](running-the-tests)-
+9) [Running the tests](running-the-tests)-
 Attributes defined
 
-9) [Support](#support)-
+10) [Support](#support)-
 Please feel free to reach out
 
-10) [Version Support](version-support) -
+11) [Version Support](version-support) -
 Extra information on ensuring correct version of Python is being used
 
 ## An Architectural view
