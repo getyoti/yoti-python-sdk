@@ -1,6 +1,6 @@
 # Yoti Python SDK #
 
-Welcome to the Yoti Python SDK. This repo contains the tools and step by step instructions you need to quickly integrate your Golang back-end with Yoti so that your users can share their identity details with your application in a secure and trusted way.
+Welcome to the Yoti Python SDK. This repo contains the tools and step by step instructions you need to quickly integrate your Python back-end with Yoti so that your users can share their identity details with your application in a secure and trusted way.
 
 ## Table of Contents
 
@@ -73,6 +73,7 @@ To import the Yoti SDK inside your project, simply run the following command fro
 ```
    $ pip install yoti-python-sdk
 ```
+
 Both example applications utilise the env variables described above, make sure they are accessible.
 * Installing dependencies: `pip install -e .[examples]`
 
@@ -93,6 +94,7 @@ You can reference the project URL by adding the following import:
 ```
 import "yoti_python_sdk"
 ```
+
 Run your project but please make sure you have all the correct requirements:
 
 1. Install dependencies: `pip install -r requirements.txt`
@@ -153,7 +155,7 @@ Please provide the following the get you up and working as quick as possible:
 
 - Computer Type
 - OS Version
-- Version of Go being used
+- Version of Python being used
 - Screenshot
 
 ## Version Support
