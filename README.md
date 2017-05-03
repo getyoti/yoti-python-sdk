@@ -25,16 +25,22 @@ Entry point explanation
 7) [Profile Retrieval](#profile-retrieval)-
 How to retrieve a Yoti profile using the token
 
-8) [API Coverage](#api-coverage)-
+8) [Running the examples](#running-the-examples)-
+How to retrieve a Yoti profile using the token
+
+9) [Running the tests](#running-the-tests)-
+How to retrieve a Yoti profile using the token
+
+10) [API Coverage](#api-coverage)-
 Attributes defined
 
-9) [Running the tests](running-the-tests)-
+11) [Running the tests](running-the-tests)-
 Running tests for SDK example
 
-10) [Support](#support)-
+12) [Support](#support)-
 Please feel free to reach out
 
-11) [Version Support](version-support) -
+13) [Version Support](version-support) -
 Extra information on ensuring correct version of Python is being used
 
 ## An Architectural view
