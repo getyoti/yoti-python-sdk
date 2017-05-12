@@ -1,81 +1,176 @@
 # Yoti Python SDK #
 
-This package integrates your Python back-end with [Yoti](https://www.yoti.com/) allowing you to
-securely verify users' identities.
+Welcome to the Yoti Python SDK. This repo contains the tools and step by step instructions you need to quickly integrate your Python back-end with Yoti so that your users can share their identity details with your application in a secure and trusted way.
 
-## Example ##
+## Table of Contents
 
-    from yoti_python_sdk import Client
+1) [An Architectural view](#an-architectural-view) -
+High level overview of integration
 
-    @app.route('/callback')
-    def callback():
-        client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
-        activity_details = client.get_activity_details(request.args['token'])
-        return activity_details.user_profile
+2) [References](#references)-
+Guides before you start
 
-For more details and working [Flask](http://flask.pocoo.org/) and [Django](https://www.djangoproject.com/)
-applications see [examples/](https://github.com/getyoti/yoti-python-sdk/tree/master/examples).
+3) [Requirements](#requirements)-
+Everything you need to get started
 
+4) [Installing the SDK](#installing-the-sdk)-
+How to install our SDK
 
-## The Flow ##
+5) [SDK Project import](#sdk-project-import)-
+How to install the SDK to your project
 
-Assuming you created an application and chose `/callback` as your application's callback on [Yoti Dashboard](https://www.yoti.com/dashboard/),
-this endpoint will receive a `token` from Yoti API each time user wishes to share information with you (see the example above).
-This token, encrypted with the private key from `.PEM` container, will be used to send a request to Yoti
-for user's profile details. That's all folks!
+6) [Configuration](#configuration)-
+Entry point explanation
 
-For details see [Yoti Developers Docs](https://www.yoti.com/developers/).
+7) [Profile Retrieval](#profile-retrieval)-
+How to retrieve a Yoti profile using the token
 
-## Installation ##
+8) [Running the examples](#running-the-examples)-
+How to retrieve a Yoti profile using the token
 
-    $ pip install yoti-python-sdk
+9) [Running the tests](#running-the-tests)-
+How to retrieve a Yoti profile using the token
 
-This SDK works with Python 2.6+ and Python 3.3+ .
+10) [API Coverage](#api-coverage)-
+Attributes defined
 
-## Configuration ##
+11) [Running the tests](running-the-tests)-
+Running tests for SDK example
 
-After creating your application on the [Yoti Dashboard](https://www.yoti.com/dashboard/), you need to download
-the `.PEM` key and save it *outside* the repo (keep it private).
+12) [Support](#support)-
+Please feel free to reach out
 
-The following env variables are then required for the SDK to work:
+13) [Version Support](version-support) -
+Extra information on ensuring correct version of Python is being used
 
-* `YOTI_CLIENT_SDK_ID` - found on the Integrations settings page
-* `YOTI_KEY_FILE_PATH` - the full path to your private key downloaded from the Keys settings page (e.g. /home/user/.ssh/access-security.pem)
+## An Architectural view
+
+Before you start your integration, here is a bit of background on how the integration works. To integrate your application with Yoti, your back-end must expose a GET endpoint that Yoti will use to forward tokens.
+The endpoint can be configured in the Yoti Dashboard when you create/update your application. For more information on how to create an application please check our [developer page](https://www.yoti.com/developers/documentation/#login-button-setup).
+
+The image below shows how your application back-end and Yoti integrate into the context of a Login flow.
+Yoti SDK carries out for you steps 6, 7 and the profile decryption in step 8.
+
+![alt text](login_flow.png "Login flow")
+
+Yoti also allows you to enable user details verification from your mobile app by means of the Android (TBA) and iOS (TBA) SDKs. In that scenario, your Yoti-enabled mobile app is playing both the role of the browser and the Yoti app. Your back-end doesn't need to handle these cases in a significantly different way. You might just decide to handle the `User-Agent` header in order to provide different responses for desktop and mobile clients.
+
+## References
+
+* [AES-256 symmetric encryption][]
+* [RSA pkcs asymmetric encryption][]
+* [Protocol buffers][]
+* [Base64 data][]
+
+[AES-256 symmetric encryption]:   https://en.wikipedia.org/wiki/Advanced_Encryption_Standard
+[RSA pkcs asymmetric encryption]: https://en.wikipedia.org/wiki/RSA_(cryptosystem)
+[Protocol buffers]:               https://en.wikipedia.org/wiki/Protocol_Buffers
+[Base64 data]:                    https://en.wikipedia.org/wiki/Base64
+
+## Requirements
+
+This SDK works with Python 2.6+ and Python 3.3+.
+
+## Installing the SDK
+
+To import the Yoti SDK inside your project, simply run the following command from your terminal:
+
+```shell
+$ pip install yoti-python-sdk
+```
+
+## SDK Project import
+
+You can reference the project URL by adding the following import:
+
+```python
+import "yoti_python_sdk"
+```
+
+## Configuration
+
+After creating your application on the [Yoti Dashboard](https://www.yoti.com/dashboard/), you need to download the `.PEM` key and save it *outside* the repo (keep it private).
+
+The following variables are then required for the SDK to work:
+
+* `YOTI_CLIENT_SDK_ID` - is the SDK identifier generated by Yoti Dashboard in the Key tab when you create your app. Note this is not your Application Identifier which is needed by your client-side code
+* `YOTI_KEY_FILE_PATH` - is the path to the application pem file. It can be downloaded only once from the Keys tab in your Yoti Dashboard. (e.g. /home/user/.ssh/access-security.pem)
+
+Please do not open the pem file as this might corrupt the key and you will need to create a new application.
 
 The following env variables are additionally used to configure your backend:
+* `YOTI_APPLICATION_ID` - found on the Integrations settings page, used to configure the [Yoti Login Button](https://www.yoti.com/developers/#login-button-setup).
 
-* `YOTI_APPLICATION_ID` - found on the Integrations settings page, used to configure the [Yoti Login Button](https://www.yoti.com/developers/#login-button-setup)
+Keeping your settings and access keys outside your repository is highly recommended.
 
-## Examples ##
+### Example
+
+```python
+from yoti_python_sdk import Client
+@app.route('/profile')
+def auth():
+    client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
+    activity_details = client.get_activity_details(request.args['token'])
+```
+
+## Profile Retrieval
+
+When your application receives a token via the exposed endpoint (it will be assigned to a query string parameter named `token`), you can easily retrieve the user profile by adding the following to your endpoint handler:
+
+```python
+activity_details = client.get_activity_details(request.args['token'])
+user_profile = activity_details.user_profile
+    return render_template('profile.html',
+                           **user_profile)
+
+```
+
+## Running the examples
 
 Both example applications utilise the env variables described above, make sure they are accessible.
+
 * Installing dependencies: `pip install -e .[examples]`
 
-
-### Flask ###
+### Flask:
 
 * Run `python examples/yoti_example_flask/app.py`
 
-### Django ###
+### Django:
 
-1. Apply migrations before the first start by running:<br>
-    `python examples/yoti_example_django/manage.py migrate`
+1. Apply migrations before the first start by running: `python examples/yoti_example_django/manage.py migrate`
 1. Run: `python examples/yoti_example_django/manage.py runserver 0.0.0.0:5000`
-
 
 ### Plugins ###
 
-Plugins for both Django and Flask are in the `plugins/` dir. Their purpose is to make it as easy as possible to use
-Yoti SDK with those frameworks. See their respective `README`'s for details.
+Plugins for both Django and Flask are in the `plugins/` dir. Their purpose is to make it as easy as possible to use the Yoti SDK with those frameworks. See their respective `README` files for details.
 
+## Running the tests
 
-## Executing tests ##
+Run your project but please make sure you have all the correct requirements:
 
 1. Install dependencies: `pip install -r requirements.txt`
-1. Install the SDK: `python setup.py develop`
-1. Execute in the main project dir: `py.test`
-1. To execute integration tests run: `py.test -c pytest_integration.ini`
+2. Install the SDK: `python setup.py develop`
+3. Execute in the main project dir: `py.test`
+4. To execute integration tests run: `py.test -c pytest_integration.ini`
 
+## API Coverage
+
+* Activity Details
+    * [X] User ID `user_id`
+    * [X] Profile
+        * [X] Photo `selfie`
+        * [X] Given Names `given_names`
+        * [X] Family Name `family_name`
+        * [X] Mobile Number `phone_number`
+        * [X] Email address `email_address`
+        * [X] Date of Birth `date_of_birth`
+        * [X] Address `postal_address`
+        * [X] Gender `gender`
+        * [X] Nationality `nationality`
+        * [X]
+
+
+## Version Support
 ### Testing on multiple Python versions ###
 
 Tests executed using [py.test](http://doc.pytest.org/en/latest/) use your default/virtualenv's Python interpreter.
@@ -94,23 +189,27 @@ test suite on Python 2.6 (2.6.9 in our case, as installed with `pyenv`).
 
 To install all the Python versions this SDK has been tested against run:
 
-    $ for version in 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b3; do pyenv install $version; done
+```shell
+$ for version in 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b3; do pyenv install $version; done
+```
 
-activate the installed interpreters (execute in this directory):
+Sctivate the installed interpreters (execute in this directory):
 
-    $ pyenv local 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b3
+```shell
+$ pyenv local 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b3
+```
 
-run the tests:
+Run the tests:
 
-    $ tox
+```shell
+$ tox
+```
 
 #### Tox Common Issues ####
 
 Supporting multiple Python versions with dependencies, often requiring compilation, is not without issues.
 
-For Python versions that do not provide binary wheels for `cryptography`, it
-will have to be compiled. This will be done automatically, however you may
-need to install development headers of `openssl`.
+For Python versions that do not provide binary wheels for `cryptography`, it will have to be compiled. This will be done automatically, however, you may need to install development headers of `openssl`.
 
 ##### On Debian-based systems #####
 
@@ -120,15 +219,29 @@ Install `openssl` headers with `apt-get install openssl-dev`
 
 Install `openssl` headers using [homebrew](http://brew.sh/): `brew install openssl`
 
-Install xcode command line tools so we have access to a C compiler and common libs:
+Install Xcode command line tools so we have access to a C compiler and common libs:
 
-    xcode-select --install
+```shell
+$ xcode-select --install
+```
 
 See [building cryptography on OS X](https://cryptography.io/en/latest/installation/#building-cryptography-on-os-x)
 
 
 For Python 2.6 and 2.7 you *might* have to install them via `pyenv` with specific unicode code point settings:
 
-    PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs2" pyenv install <python version>
+```
+PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs2" pyenv install <python version>
+```
 
-to avoid `cffi` errors related to unicode see: [cffi ucs2 vs ucs4](http://cffi.readthedocs.io/en/latest/installation.html#linux-and-os-x-ucs2-versus-ucs4)
+To avoid `cffi` errors related to unicode see: [cffi ucs2 vs ucs4](http://cffi.readthedocs.io/en/latest/installation.html#linux-and-os-x-ucs2-versus-ucs4)
+
+## Support
+
+For any questions or support please email [sdksupport@yoti.com](mailto:sdksupport@yoti.com).
+Please provide the following the get you up and working as quick as possible:
+
+- Computer Type
+- OS Version
+- Version of Python being used
+- Screenshot
