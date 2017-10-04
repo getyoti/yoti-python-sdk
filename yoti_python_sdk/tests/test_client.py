@@ -11,6 +11,8 @@ try:
 except ImportError:
     import mock
 
+from config import SDK_IDENTIFIER
+
 from yoti_python_sdk import YOTI_API_ENDPOINT
 from yoti_python_sdk import Client
 from yoti_python_sdk.client import NO_KEY_FILE_SPECIFIED_ERROR
@@ -36,7 +38,8 @@ def expected_headers(x_yoti_auth_key, x_yoti_auth_digest):
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'X-Yoti-Auth-Key': x_yoti_auth_key,
-        'X-Yoti-Auth-Digest': x_yoti_auth_digest
+        'X-Yoti-Auth-Digest': x_yoti_auth_digest,
+        'X-SDK': SDK_IDENTIFIER
     }
 
 
