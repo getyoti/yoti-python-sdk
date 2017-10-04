@@ -8,13 +8,13 @@ long_description = 'This package contains the tools you need to quickly ' \
                    'application in a secure and trusted way.'
 
 setup(
-    name='yoti-python-sdk',
+    name='yoti',
     version=VERSION,
     packages=find_packages(),
     license='OTHER',
-    description='Yoti Python SDK for back-end integration.',
+    description='The Yoti Python SDK, providing API support for Login, Verify (2FA) and Age Verification.',
     long_description=long_description,
-    url='https://github.com/getyoti/python',
+    url='https://github.com/getyoti/yoti-python-sdk',
     author='Yoti',
     author_email='tech@yoti.com',
     install_requires=['cryptography>=1.4', 'protobuf>=3.0.0',

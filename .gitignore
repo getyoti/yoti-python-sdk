@@ -93,3 +93,4 @@ ENV/
 .idea/
 *.un~
 .history/
+.vscode
