@@ -167,7 +167,6 @@ Run your project but please make sure you have all the correct requirements:
         * [X] Address `postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
-        * [X]
 
 
 ## Version Support
