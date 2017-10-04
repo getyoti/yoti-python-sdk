@@ -190,7 +190,7 @@ To install all the Python versions this SDK has been tested against run:
 $ for version in 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b3; do pyenv install $version; done
 ```
 
-Sctivate the installed interpreters (execute in this directory):
+Activate the installed interpreters (execute in this directory):
 
 ```shell
 $ pyenv local 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b3
