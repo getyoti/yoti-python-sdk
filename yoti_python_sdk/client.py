@@ -10,6 +10,8 @@ from os.path import isfile, expanduser
 import requests
 from past.builtins import basestring
 
+from config import SDK_IDENTIFIER
+
 import yoti_python_sdk
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.crypto import Crypto
@@ -93,6 +95,7 @@ class Client(object):
         return {
             'X-Yoti-Auth-Key': self.__crypto.get_public_key(),
             'X-Yoti-Auth-Digest': self.__crypto.sign('GET&' + path),
+            'X-SDK': SDK_IDENTIFIER,
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
