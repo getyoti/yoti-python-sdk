@@ -151,7 +151,6 @@ Run your project but please make sure you have all the correct requirements:
 1. Install dependencies: `pip install -r requirements.txt`
 2. Install the SDK: `python setup.py develop`
 3. Execute in the main project dir: `py.test`
-4. To execute integration tests run: `py.test -c pytest_integration.ini`
 
 ## API Coverage
 
@@ -180,7 +179,6 @@ One tool to do just this is [pyenv](https://github.com/yyuu/pyenv)
 1. Install Python interpreters you want to test with, e.g. `pyenv install 2.6.9`
 1. Install project dependencies: `pip install -r requirements.txt`
 1. Execute in the main project dir: `tox`
-1. In order to execute integration tests run: `tox pytest_integration.ini`
 
 You can choose a subset of interpreters to test with by running `tox -e <testenv_version>`.
 For a list of `<testenv_versions>` see `tox.ini`. Example: `tox -e py26` would run the
