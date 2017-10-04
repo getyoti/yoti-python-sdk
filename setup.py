@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-VERSION = '1.2.0'
+VERSION = '2.0.0'
 long_description = 'This package contains the tools you need to quickly ' \
                    'integrate your Python back-end with Yoti, so that your ' \
                    'users can share their identity details with your ' \
@@ -38,5 +38,5 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    keywords='',
+    keywords='2FA multifactor authentication verification identity login register verify 2Factor',
 )
