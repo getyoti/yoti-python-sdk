@@ -1,2 +1,2 @@
-yoti-python-sdk>=0.1.0
+yoti>=2.0.0
 Django>=1.8
