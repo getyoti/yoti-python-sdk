@@ -76,7 +76,7 @@ This SDK works with Python 2.6+ and Python 3.3+.
 To import the Yoti SDK inside your project, simply run the following command from your terminal:
 
 ```shell
-$ pip install yoti-python-sdk
+$ pip install yoti
 ```
 
 ## SDK Project import
