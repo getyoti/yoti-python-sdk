@@ -14,7 +14,7 @@ setup(
     url='https://github.com/lampkicking/yoti-sdk-server-python/plugins/flask_yoti',
     author='',
     author_email='',
-    install_requires=['flask>=0.10', 'yoti>=2.0.0'],
+    install_requires=['flask>=0.10', 'yoti>=2.0.1'],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',

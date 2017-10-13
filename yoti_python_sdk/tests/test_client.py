@@ -39,7 +39,7 @@ def expected_headers(x_yoti_auth_key, x_yoti_auth_digest):
         'Accept': 'application/json',
         'X-Yoti-Auth-Key': x_yoti_auth_key,
         'X-Yoti-Auth-Digest': x_yoti_auth_digest,
-        'X-SDK': SDK_IDENTIFIER
+        'X-Yoti-SDK': SDK_IDENTIFIER
     }
 
 

@@ -95,7 +95,7 @@ class Client(object):
         return {
             'X-Yoti-Auth-Key': self.__crypto.get_public_key(),
             'X-Yoti-Auth-Digest': self.__crypto.sign('GET&' + path),
-            'X-SDK': SDK_IDENTIFIER,
+            'X-Yoti-SDK': SDK_IDENTIFIER,
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
