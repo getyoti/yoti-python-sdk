@@ -11,7 +11,7 @@ setup(
     name='yoti',
     version=VERSION,
     packages=find_packages(),
-    license='OTHER',
+    license='MIT',
     description='The Yoti Python SDK, providing API support for Login, Verify (2FA) and Age Verification.',
     long_description=long_description,
     url='https://github.com/getyoti/yoti-python-sdk',
@@ -24,7 +24,7 @@ setup(
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
-        'License :: Other/Proprietary License',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Intended Audience :: Developers',
         'Programming Language :: Python',
