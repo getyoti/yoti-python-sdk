@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 
-from yoti import Client
+from yoti_python_sdk import Client
 
 from .app_settings import (
     YOTI_APPLICATION_ID,
