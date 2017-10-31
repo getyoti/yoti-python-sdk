@@ -154,7 +154,7 @@ urlpatterns = [
 
 ### Yoti application configuration ###
 
-Your Yoti application's callback URL should point to `your_site.com/yoti/auth`.
+Your Yoti application's callback URL should point to `your_site.com/auth`.
 
 ## Using plugin ##
 
@@ -209,4 +209,4 @@ will be redirected to an endpoint, provided by the `YOTI_LOGIN_VIEW` setting.
 
 ## Tests ##
 
-To run unit tests just type: `python django_yoti/runtests.py`
+To run unit tests (after running `python setup.py develop`), type: `python django_yoti/runtests.py`
