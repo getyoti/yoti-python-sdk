@@ -94,4 +94,5 @@ ENV/
 *.un~
 .history/
 .vscode
+examples/yoti_example_django/yoti_example/static/YotiSelfie.jpg
 examples/yoti_example_django/db.sqlite3
