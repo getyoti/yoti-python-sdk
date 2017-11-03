@@ -43,7 +43,7 @@ Please feel free to reach out
 13) [Version Support](version-support) -
 Extra information on ensuring correct version of Python is being used
 
-## An Architectural view
+## An Architectural View
 
 Before you start your integration, here is a bit of background on how the integration works. To integrate your application with Yoti, your back-end must expose a GET endpoint that Yoti will use to forward tokens.
 The endpoint can be configured in the Yoti Dashboard when you create/update your application. For more information on how to create an application please check our [developer page](https://www.yoti.com/developers/documentation/#login-button-setup).
@@ -79,7 +79,7 @@ To import the Yoti SDK inside your project, simply run the following command fro
 $ pip install yoti
 ```
 
-## SDK Project import
+## SDK Project Import
 
 You can reference the project URL by adding the following import:
 
@@ -122,7 +122,7 @@ Here is an example of how this works:
 
 ```python
 client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
-activity_details = client.get_activity_details(request.args['token'])
+activity_details = client.get_activity_details(token)
 
 user_id = activity_details.user_profile.get('user_id')
 selfie = activity_details.user_profile.get('selfie')
@@ -135,9 +135,9 @@ gender = activity_details.user_profile.get('gender')
 nationality = activity_details.user_profile.get('nationality')
 ```
 
-## Running the examples
+## Running the Examples
 
-Both example applications utilise the env variables described above, make sure they are accessible.
+Both example applications utilise the env variables described in [Configuration](#configuration), make sure they are accessible.
 
 * Installing dependencies: `pip install -e .[examples]`
 
@@ -154,7 +154,7 @@ Both example applications utilise the env variables described above, make sure t
 
 Plugins for both Django and Flask are in the `plugins/` dir. Their purpose is to make it as easy as possible to use the Yoti SDK with those frameworks. See their respective `README` files for details.
 
-## Running the tests
+## Running the Tests
 
 Run your project but please make sure you have all the correct requirements:
 
@@ -218,7 +218,7 @@ Supporting multiple Python versions with dependencies, often requiring compilati
 
 For Python versions that do not provide binary wheels for `cryptography`, it will have to be compiled. This will be done automatically, however, you may need to install development headers of `openssl`.
 
-##### On Debian-based systems #####
+##### On Debian-based Systems #####
 
 Install `openssl` headers with `apt-get install openssl-dev`
 
