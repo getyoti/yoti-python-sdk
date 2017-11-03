@@ -122,17 +122,17 @@ Here is an example of how this works:
 
 ```python
 client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
-activity_details = client.get_activity_details(token)
+user_profile = client.get_activity_details(token).user_profile
 
-user_id = activity_details.user_profile.get('user_id')
-selfie = activity_details.user_profile.get('selfie')
-given_names = activity_details.user_profile.get('given_names')
-family_name = activity_details.user_profile.get('family_name')
-phone_number = activity_details.user_profile.get('phone_number')
-date_of_birth = activity_details.user_profile.get('date_of_birth')
-postal_address = activity_details.user_profile.get('postal_address')
-gender = activity_details.user_profile.get('gender')
-nationality = activity_details.user_profile.get('nationality')
+user_id = user_profile.get('user_id')
+selfie = user_profile.get('selfie')
+given_names = user_profile.get('given_names')
+family_name = user_profile.get('family_name')
+phone_number = user_profile.get('phone_number')
+date_of_birth = user_profile.get('date_of_birth')
+postal_address = user_profile.get('postal_address')
+gender = user_profile.get('gender')
+nationality = user_profile.get('nationality')
 ```
 
 ## Running the Examples
