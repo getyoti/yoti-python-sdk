@@ -26,7 +26,7 @@ class AuthView(TemplateView):
         client = Client(YOTI_CLIENT_SDK_ID, YOTI_FULL_KEY_FILE_PATH)
         activity_details = client.get_activity_details(request.GET['token'])
         context = activity_details.user_profile
-        self.save_image(activity_details.user_profile.get('selfie'))
+        self.save_image(context.get('selfie'))
         return self.render_to_response(context)
 
     @staticmethod

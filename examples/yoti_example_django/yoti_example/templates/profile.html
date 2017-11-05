@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PROFILE</title>
+    <title>Yoti Profile</title>
 </head>
 <body>
     <h3><a href="/">Home</a></h3>
     <table>
         {% if user_id %}
             <tr>
-                <td>USER ID:</td>
+                <td>User ID:</td>
                 <td>{{user_id}}</td>
             </tr>
         {% endif %}
 
         {% if selfie %}
             <tr>
-                <td>SELFIE in base64 format:</td>
+                <td>Selfie in base64 format:</td>
                 <td><img width="200" alt="base64photo" src="{{selfie}}" /></td>
             </tr>
             <tr>
-                <td>SELFIE from saved image:</td>
+                <td>Selfie from saved image:</td>
                 <td><img width="200" alt="saved image" src="/static/YotiSelfie.jpg" /></td>
             </tr>
         {% endif %}
@@ -48,7 +48,7 @@
 
         {% if date_of_birth %}
             <tr>
-                <td>DATE OF BIRTH:</td>
+                <td>Date of Birth:</td>
                 <td>{{date_of_birth}}</td>
             </tr>
         {% endif %}

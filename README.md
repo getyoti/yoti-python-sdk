@@ -139,7 +139,7 @@ nationality = user_profile.get('nationality')
 
 Both example applications utilise the env variables described in [Configuration](#configuration), make sure they are accessible.
 
-* Installing dependencies: `pip install -e .[examples]`
+* Installing dependencies: `pip install -e .[examples]` (If you're using `zsh` you need to escape the square brackets: `pip install -e .\[examples\]`)
 
 ### Flask:
 
