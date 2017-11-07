@@ -1,10 +1,8 @@
-import os
+from binascii import a2b_base64
 
 from django.views.generic import TemplateView
 
 from yoti_python_sdk import Client
-from binascii import a2b_base64
-
 from .app_settings import (
     YOTI_APPLICATION_ID,
     YOTI_CLIENT_SDK_ID,
@@ -31,7 +29,7 @@ class AuthView(TemplateView):
 
     @staticmethod
     def save_image(base64_uri):
-        base64_data_stripped = base64_uri[base64_uri.find(",")+1:]
+        base64_data_stripped = base64_uri[base64_uri.find(",") + 1:]
         binary_data = a2b_base64(base64_data_stripped)
         fd = open('yoti_example/static/YotiSelfie.jpg', 'wb')
         fd.write(binary_data)

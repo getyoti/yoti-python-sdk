@@ -1,7 +1,7 @@
-from yoti_python_sdk import Client
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from yoti_python_sdk import Client
 from .decorators import yoti_authenticated
 from .settings import (
     YOTI_CLIENT_SDK_ID,

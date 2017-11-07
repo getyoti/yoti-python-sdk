@@ -1,4 +1,5 @@
 from os import environ
+
 from flask import current_app
 
 

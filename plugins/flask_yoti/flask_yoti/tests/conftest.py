@@ -1,6 +1,6 @@
 import os
-import pytest
 
+import pytest
 from flask import Flask
 from flask_yoti import flask_yoti_blueprint
 from flask_yoti.context_processors import yoti_context

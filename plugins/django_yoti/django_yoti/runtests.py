@@ -1,10 +1,9 @@
 import os
 import sys
-import django
 
+import django
 from django.conf import settings
 from django.test.utils import get_runner
-
 
 # https://docs.djangoproject.com/el/1.10/topics/testing/advanced/
 if __name__ == '__main__':

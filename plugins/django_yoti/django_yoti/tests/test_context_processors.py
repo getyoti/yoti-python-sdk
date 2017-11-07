@@ -5,7 +5,6 @@ from ..login_button import get_login_button_html
 
 
 class TestContextProcessors(TestCase):
-
     def setUp(self):
         self.context = yoti_context(request=None)
         self.defaults = {

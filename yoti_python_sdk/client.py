@@ -10,13 +10,11 @@ from os.path import isfile, expanduser
 import requests
 from past.builtins import basestring
 
-from config import SDK_IDENTIFIER
-
 import yoti_python_sdk
+from config import SDK_IDENTIFIER
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.protobuf.v1 import protobuf
-
 
 NO_KEY_FILE_SPECIFIED_ERROR = 'Please specify the correct private key file ' \
                               'in Client(pem_file_path=...)\nor by setting ' \
