@@ -9,49 +9,70 @@
     <table>
         {% if user_id %}
             <tr>
-                <td>USER ID:</td>
+                <td>User ID:</td>
                 <td>{{user_id}}</td>
             </tr>
         {% endif %}
 
         {% if selfie %}
             <tr>
-                <td>SELFIE:</td>
+                <td>Selfie:</td>
                 <td><img width="200" alt="photo" src="{{selfie}}" /></td>
             </tr>
         {% endif %}
 
-        {% if phone_number %}
+        {% if given_names %}
             <tr>
-                <td>PHONE:</td>
+                <td>Given Names:</td>
+                <td>{{given_names}}</td>
+            </tr>
+        {% endif %}
+
+        {% if family_name %}
+            <tr>
+                <td>Family Name:</td>
+                <td>{{family_name}}</td>
+            </tr>
+        {% endif %}
+
+         {% if phone_number %}
+            <tr>
+                <td>Phone Number:</td>
                 <td>{{phone_number}}</td>
             </tr>
         {% endif %}
 
-        {% if names %}
+        {% if date_of_birth %}
             <tr>
-                <td>NAMES:</td>
-                <td>{{names}}</td>
+                <td>Date of Birth:</td>
+                <td>{{date_of_birth}}</td>
             </tr>
         {% endif %}
 
-        {% if birthdate %}
+        {% if postal_address %}
             <tr>
-                <td>DATE OF BIRTH</td>
-                <td>{{birthdate}}</td>
+                <td>Postal Address:</td>
+                <td>{{postal_address}}</td>
+            </tr>
+        {% endif %}
+
+         {% if email_address %}
+            <tr>
+                <td>Email Address:</td>
+                <td>{{email_address}}</td>
             </tr>
         {% endif %}
 
         {% if nationality %}
             <tr>
-                <td>NATIONALITY</td>
+                <td>Nationality:</td>
                 <td>{{nationality}}</td>
             </tr>
         {% endif %}
 
         {% if gender %}
             <tr>
-                <td>GENDER</td>
+                <td>Gender:</td>
                 <td>{{gender}}</td>
             </tr>
         {% endif %}
