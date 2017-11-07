@@ -154,7 +154,7 @@ urlpatterns = [
 
 ### Yoti application configuration ###
 
-Your Yoti application's callback URL should point to `your_site.com/auth`.
+Your Yoti application's callback URL should point to `your_site.com/yoti/auth`.
 
 ## Using plugin ##
 

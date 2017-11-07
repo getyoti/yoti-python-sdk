@@ -29,7 +29,7 @@ def index():
     return render_template('index.html', app_id=YOTI_APPLICATION_ID)
 
 
-@app.route('/auth')
+@app.route('/yoti/auth')
 def auth():
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_FULL_KEY_FILE_PATH)
     activity_details = client.get_activity_details(request.args['token'])

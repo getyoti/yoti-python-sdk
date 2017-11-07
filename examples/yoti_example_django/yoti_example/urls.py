@@ -20,6 +20,6 @@ from .views import IndexView, AuthView
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
-    url(r'^auth/$', AuthView.as_view(), name='auth'),
+    url(r'^yoti/auth/$', AuthView.as_view(), name='auth'),
     url(r'^admin/', admin.site.urls),
 ]
