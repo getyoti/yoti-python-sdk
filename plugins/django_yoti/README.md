@@ -1,6 +1,6 @@
 # Django Yoti #
 
-Description
+Instructions for configuring your Django project to integrate with Yoti.
 
 ## Plugin configuration ##
 ### General settings ###
@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     - `yoti_application_id`
     - `yoti_login_button_*`
 
-* If you're using django template backend that supports context processors
+* If you're using a Django template backend that supports context processors
 like default DTL (Django Template Language) and want to use context tags
 inside your template (e.g. `{{ yoti_login_button_*}}`), then you should
 include `django_yoti`'s context processors into your templates
@@ -43,7 +43,7 @@ TEMPLATES = [
     },
 ]
 ```
-* Otherwise you'll have to pass yoti context to your templates manually:
+* Otherwise you'll have to pass Yoti context to your templates manually:
 ```python
 from django_yoti import yoti_context
 
@@ -94,7 +94,7 @@ urlpatterns = [
     url(r'^profile/', views.profile, name='yoti_profile')
 ]
 ```
-`yoti_auth` url is used for receiving token via callback and should'nt be changed.<br>
+`yoti_auth` URL is used for receiving token via callback and shouldn't be changed.<br>
 The last two URLs are examples and can be overridden by the following settings:
 
 ```python
@@ -188,9 +188,9 @@ def profile_view(request):
 ```
 <br>
 
-To make `yoti_authenticated` decorator work with django class based
+To make `yoti_authenticated` decorator work with Django class based
 views as well as with classic method based views, you can use it while
-declaring your project's urls:
+declaring your project's URLs:
 ```python
 # your_django_project/urls.py
 from django_yoti import yoti_authenticated
