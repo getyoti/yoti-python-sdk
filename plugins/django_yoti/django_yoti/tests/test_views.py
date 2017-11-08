@@ -1,8 +1,8 @@
-from django.test import TestCase, Client, RequestFactory
-from django.http.response import HttpResponse, HttpResponseRedirectBase
 from django.contrib.sessions.middleware import SessionMiddleware
-from yoti_python_sdk.activity_details import ActivityDetails
+from django.http.response import HttpResponse, HttpResponseRedirectBase
+from django.test import TestCase, Client, RequestFactory
 
+from yoti_python_sdk.activity_details import ActivityDetails
 from ..views import profile
 
 

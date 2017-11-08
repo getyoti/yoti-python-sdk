@@ -8,14 +8,13 @@ from flask import (
     redirect,
     url_for,
 )
-from yoti_python_sdk import Client
 
+from yoti_python_sdk import Client
+from .context_processors import yoti_context
 from .context_storage import activity_details_storage
 from .decorators import yoti_authenticated
-from .context_processors import yoti_context
-from .settings import get_config_value
 from .helpers import is_cookie_session
-
+from .settings import get_config_value
 
 flask_yoti_blueprint = Blueprint('flask_yoti', __name__,
                                  template_folder='templates')

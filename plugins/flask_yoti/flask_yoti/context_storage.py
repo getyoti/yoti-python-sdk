@@ -2,7 +2,6 @@ from time import time
 
 
 class ActivityDetailsStorage(object):
-
     def __init__(self):
         self.storage = {}
         self._timestamps = {}

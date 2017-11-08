@@ -1,9 +1,10 @@
 from functools import wraps
+
 from flask import redirect, session, url_for
 
 from .context_storage import activity_details_storage
-from .settings import get_config_value
 from .helpers import is_cookie_session
+from .settings import get_config_value
 
 
 def yoti_authenticated(view_func):

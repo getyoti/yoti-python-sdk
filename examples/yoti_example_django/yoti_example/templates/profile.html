@@ -2,56 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PROFILE</title>
+    <title>Yoti Profile</title>
 </head>
 <body>
     <h3><a href="/">Home</a></h3>
     <table>
         {% if user_id %}
             <tr>
-                <td>USER ID:</td>
+                <td>User ID:</td>
                 <td>{{user_id}}</td>
             </tr>
         {% endif %}
 
         {% if selfie %}
             <tr>
-                <td>SELFIE:</td>
-                <td><img width="200" alt="photo" src="{{selfie}}" /></td>
+                <td>Selfie in base64 format:</td>
+                <td><img width="200" alt="base64photo" src="{{selfie}}" /></td>
+            </tr>
+            <tr>
+                <td>Selfie from saved image:</td>
+                <td><img width="200" alt="saved image" src="/static/YotiSelfie.jpg" /></td>
             </tr>
         {% endif %}
 
-        {% if phone %}
+        {% if given_names %}
             <tr>
-                <td>PHONE:</td>
-                <td>{{phone}}</td>
+                <td>Given Names:</td>
+                <td>{{given_names}}</td>
             </tr>
         {% endif %}
 
-        {% if names %}
+        {% if family_name %}
             <tr>
-                <td>NAMES:</td>
-                <td>{{names}}</td>
+                <td>Family Name:</td>
+                <td>{{family_name}}</td>
             </tr>
         {% endif %}
 
-        {% if birthdate %}
+         {% if phone_number %}
             <tr>
-                <td>DATE OF BIRTH</td>
-                <td>{{birthdate}}</td>
+                <td>Phone Number:</td>
+                <td>{{phone_number}}</td>
+            </tr>
+        {% endif %}
+
+        {% if date_of_birth %}
+            <tr>
+                <td>Date of Birth:</td>
+                <td>{{date_of_birth}}</td>
+            </tr>
+        {% endif %}
+
+        {% if postal_address %}
+            <tr>
+                <td>Postal Address:</td>
+                <td>{{postal_address}}</td>
+            </tr>
+        {% endif %}
+
+         {% if email_address %}
+            <tr>
+                <td>Email Address:</td>
+                <td>{{email_address}}</td>
             </tr>
         {% endif %}
 
         {% if nationality %}
             <tr>
-                <td>NATIONALITY</td>
+                <td>Nationality:</td>
                 <td>{{nationality}}</td>
             </tr>
         {% endif %}
 
         {% if gender %}
             <tr>
-                <td>GENDER</td>
+                <td>Gender:</td>
                 <td>{{gender}}</td>
             </tr>
         {% endif %}

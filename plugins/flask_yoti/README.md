@@ -1,5 +1,7 @@
 # Flask Yoti #
 
+Instructions for configuring your Flask project to integrate with Yoti.
+
 ## Plugin configuration ##
 ### General settings ###
 
@@ -120,7 +122,7 @@ button in order for it to work. See: [Yoti Developers Documentation](https://www
 
 2. After successful authentication, user will be redirected to a view,
 provided by the `YOTI_REDIRECT_TO` setting.
-3. In order to have an access to an authenticated user's information inside a view,
+3. In order to get access to an authenticated user's information inside a view,
 you should use a `@yoti_authenticated` decorator.
 Example:
 ```python
