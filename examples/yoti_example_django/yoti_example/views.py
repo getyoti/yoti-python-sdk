@@ -2,6 +2,12 @@ from binascii import a2b_base64
 
 from django.views.generic import TemplateView
 
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
 from yoti_python_sdk import Client
 from .app_settings import (
     YOTI_APPLICATION_ID,
