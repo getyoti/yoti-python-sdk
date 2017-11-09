@@ -68,7 +68,6 @@ app.config.update({
     ...
     'YOTI_LOGIN_VIEW': '...',
     'YOTI_REDIRECT_TO': '...',
-    'YOTI_LOGIN_BUTTON_LABEL': '...',
 })
 ```
 * **`YOTI_LOGIN_VIEW`**<br>
@@ -106,14 +105,13 @@ Your Yoti application's callback URL should point to `your_site.com/yoti/auth`.
 ## Plugin usage ##
 
 1. First you need to add a login button to some of your view's templates.
-- You can do it by using one of the predefined login buttons:
+- You can do it by using the predefined login button:
+```HTML
+<span data-yoti-application-id="{{app_id}}">
+    Log in with Yoti
+</span>
 ```
-{{ yoti_login_button_sm }}
-{{ yoti_login_button_md }}
-{{ yoti_login_button_lg }}
-```
-- or with `{{ yoti_login_button(size='small', text='Log In with Yoti')`<br>
-Available button sizes: `small`, `medium`, `large`
+
 
 By clicking this button, user will be redirected to the Yoti Authentication page.
 
@@ -140,4 +138,4 @@ will be redirected to an endpoint, provided by the `YOTI_LOGIN_VIEW` setting.
 
 ## Tests ##
 
-To run unit tests just type `py.test` inside `flask_yoti` dir.
+To run unit tests (after running `python setup.py develop`), type: `python flask_yoti/runtests.py`

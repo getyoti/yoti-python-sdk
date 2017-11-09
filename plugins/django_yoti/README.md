@@ -17,13 +17,12 @@ INSTALLED_APPS = [
 ]
 ```
 
-* Django Yoti plugin provides the following template context vars:
+* Django Yoti plugin provides the following template context var:
     - `yoti_application_id`
-    - `yoti_login_button_*`
 
 * If you're using a Django template backend that supports context processors
 like default DTL (Django Template Language) and want to use context tags
-inside your template (e.g. `{{ yoti_login_button_*}}`), then you should
+inside your template (e.g. `{{yoti_application_id}}`), then you should
 include `django_yoti`'s context processors into your templates
 configuration like this:
 ```python
@@ -106,7 +105,6 @@ YOTI = {
     ...
     'YOTI_LOGIN_VIEW': '...',
     'YOTI_REDIRECT_TO': '...',
-    'YOTI_LOGIN_BUTTON_LABEL': '...',
 }
 ```
 * **`YOTI_LOGIN_VIEW`**<br>
@@ -159,13 +157,12 @@ Your Yoti application's callback URL should point to `your_site.com/yoti/auth`.
 ## Using plugin ##
 
 1. First you need to add a login button to some of your view's templates.
-- You can do it by using one of the predefined login buttons:
+- You can do it by using the predefined login button:
+```HTML
+<span data-yoti-application-id="{{app_id}}">
+    Log in with Yoti
+</span>
 ```
-{{ yoti_login_button_sm }}
-{{ yoti_login_button_md }}
-{{ yoti_login_button_lg }}
-```
-- or with a default one `{{ yoti_login_button }}`<br>
 
 By clicking this button, user will be redirected to the Yoti Authentication page.
 

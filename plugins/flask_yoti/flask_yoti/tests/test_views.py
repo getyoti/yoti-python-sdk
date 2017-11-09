@@ -33,5 +33,5 @@ def test_profile_view_outcome_is_success(test_client, app_id, activity_details_s
         response = _client.get('/profile')
         assert isinstance(response, Response)
         assert getattr(response, 'status_code', None) == 200
-        assert 'PHONE:' in str(response.data)
+        assert 'Phone Number:' in str(response.data)
         assert '55555555' in str(response.data)

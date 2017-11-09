@@ -1,8 +1,7 @@
 from binascii import a2b_base64
+from os.path import join, dirname
 
 from django.views.generic import TemplateView
-
-from os.path import join, dirname
 from dotenv import load_dotenv
 
 dotenv_path = join(dirname(__file__), '.env')
