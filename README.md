@@ -101,7 +101,7 @@ The following variables are then required for the SDK to work, these are found u
 
 One way to configure these environment variables is to use an .env file. There are `.env.example` files supplied in the [Django](/examples/yoti_example_django/yoti_example/.env.example) and [Flask](/examples/yoti_example_flask/.env.example) example projects, which you can rename to `.env` and enter your settings into this file.
 
-### Example
+### Example Initialisation
 
 ```python
 from yoti_python_sdk import Client
