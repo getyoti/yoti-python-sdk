@@ -11,12 +11,13 @@
     <!-- Your website content -->
 
     <!-- This span will create the Yoti button -->
-    <div>Button: {{ yoti_login_button }}</div>
+    <span data-yoti-application-id="{{app_id}}">
+        Log in with Yoti
+    </span>
 
-    <!-- This script snippet will also be required in your HTML body during the early pilot period -->
+    <!-- This script snippet will also be required in your HTML body -->
     <script>
-        _ybg.config.service = 'https://www.yoti.com/connect/';
-        _ybg.init();
+        _ybg.init()
     </script>
 </body>
 </html>

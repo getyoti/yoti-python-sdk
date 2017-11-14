@@ -10,7 +10,6 @@ def get_default_value(name):
         'YOTI_KEY_FILE_PATH': environ.get('YOTI_KEY_FILE_PATH'),
         'YOTI_REDIRECT_TO': 'flask_yoti.profile',
         'YOTI_LOGIN_VIEW': 'flask_yoti.login',
-        'YOTI_LOGIN_BUTTON_LABEL': 'Log in with Yoti'
     }.get(name)
 
 

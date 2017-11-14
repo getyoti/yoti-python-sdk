@@ -20,8 +20,6 @@ YOTI_KEY_FILE_PATH = _get_parameter('YOTI_KEY_FILE_PATH')
 
 YOTI_REDIRECT_TO = GLOBAL_YOTI_SETTINGS.get('YOTI_REDIRECT_TO', 'yoti_profile')
 YOTI_LOGIN_VIEW = GLOBAL_YOTI_SETTINGS.get('YOTI_LOGIN_VIEW', 'yoti_login')
-YOTI_LOGIN_BUTTON_LABEL = GLOBAL_YOTI_SETTINGS.get('YOTI_LOGIN_BUTTON_LABEL',
-                                                   'Log in with Yoti')
 
 __all__ = [
     'YOTI_APPLICATION_ID',
@@ -29,5 +27,4 @@ __all__ = [
     'YOTI_KEY_FILE_PATH',
     'YOTI_REDIRECT_TO',
     'YOTI_LOGIN_VIEW',
-    'YOTI_LOGIN_BUTTON_LABEL',
 ]
