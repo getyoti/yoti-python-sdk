@@ -7,40 +7,37 @@ Welcome to the Yoti Python SDK. This repo contains the tools and step by step in
 1) [An Architectural view](#an-architectural-view) -
 High level overview of integration
 
-2) [References](#references)-
+2) [References](#references) -
 Guides before you start
 
-3) [Requirements](#requirements)-
+3) [Requirements](#requirements) -
 Everything you need to get started
 
-4) [Installing the SDK](#installing-the-sdk)-
+4) [Installing the SDK](#installing-the-sdk) -
 How to install our SDK
 
-5) [SDK Project import](#sdk-project-import)-
+5) [SDK Project import](#sdk-project-import) -
 How to install the SDK to your project
 
-6) [Configuration](#configuration)-
+6) [Configuration](#configuration) -
 Entry point explanation
 
-7) [Handling Users](#handling-users)-
+7) [Handling Users](#handling-users) -
 How to manage users
 
-8) [Running the examples](#running-the-examples)-
+8) [Running the examples](#running-the-examples) -
 How to retrieve a Yoti profile using the token
 
-9) [Running the tests](#running-the-tests)-
-How to retrieve a Yoti profile using the token
-
-10) [API Coverage](#api-coverage)-
-Attributes defined
-
-11) [Running the tests](running-the-tests)-
+9) [Running the tests](#running-the-tests) -
 Running tests for SDK example
 
-12) [Version Support](version-support) -
+10) [API Coverage](#api-coverage) -
+Attributes defined
+
+11) [Version Support](#version-support) -
 Extra information on ensuring correct version of Python is being used
 
-13) [Support](#support)-
+12) [Support](#support) -
 Please feel free to reach out
 
 ## An Architectural View
