@@ -142,8 +142,10 @@ Both example applications utilise the env variables described in [Configuration]
 
 ### Django:
 
-1. Apply migrations before the first start by running: `python examples/yoti_example_django/manage.py migrate`
-1. Run: `python examples/yoti_example_django/manage.py runserver 0.0.0.0:5000`
+1. Change directories to the Django project:
+`cd examples/yoti_example_django` 
+2. Apply migrations before the first start by running: `python manage.py migrate`
+3. Run: `python manage.py runserver 0.0.0.0:5000`
 
 ### Plugins ###
 
