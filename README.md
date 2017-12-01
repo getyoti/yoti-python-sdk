@@ -217,7 +217,24 @@ For Python versions that do not provide binary wheels for `cryptography`, it wil
 
 ##### On Debian-based Systems #####
 
-Install `openssl` headers with `apt-get install openssl-dev`
+Install `openssl` headers with:
+```shell
+apt-get install openssl-dev
+```
+
+See [Building Cryptography on Linux](https://cryptography.io/en/latest/installation/#building-cryptography-on-linux) for more information. 
+
+##### On Windows ######
+
+- Download and compile the OpenSSL binaries for your architecture from the [OpenSSL release](https://ci.cryptography.io/job/cryptography-support-jobs/job/openssl-release-1.1/) website
+- Set the `LIB` and `INCLUDE` environment variables to include your OpenSSL installation location e.g.
+```shell
+C:\> \path\to\vcvarsall.bat x86_amd64
+C:\> set LIB=C:\OpenSSL-win64\lib;%LIB%
+C:\> set INCLUDE=C:\OpenSSL-win64\include;%INCLUDE%
+C:\> pip install cryptography
+```
+For more information see the [building for windows](https://cryptography.io/en/latest/installation/#building-cryptography-on-windows) section on the Cryptography website.
 
 ##### On macOS #####
 
