@@ -7,37 +7,34 @@ Welcome to the Yoti Python SDK. This repo contains the tools and step by step in
 1) [An Architectural view](#an-architectural-view) -
 High level overview of integration
 
-2) [References](#references) -
+1) [References](#references) -
 Guides before you start
 
-3) [Requirements](#requirements) -
+1) [Requirements](#requirements) -
 Everything you need to get started
 
-4) [Installing the SDK](#installing-the-sdk) -
+1) [Installing the SDK](#installing-the-sdk) -
 How to install our SDK
 
-5) [SDK Project import](#sdk-project-import) -
+1) [SDK Project import](#sdk-project-import) -
 How to install the SDK to your project
 
-6) [Configuration](#configuration) -
+1) [Configuration](#configuration) -
 Entry point explanation
 
-7) [Handling Users](#handling-users) -
+1) [Handling Users](#handling-users) -
 How to manage users
 
-8) [Running the examples](#running-the-examples) -
+1) [Running the examples](#running-the-examples) -
 How to retrieve a Yoti profile using the token
 
-9) [Running the tests](#running-the-tests) -
+1) [Running the tests](#running-the-tests) -
 Running tests for SDK example
 
-10) [API Coverage](#api-coverage) -
+1) [API Coverage](#api-coverage) -
 Attributes defined
 
-11) [Version Support](#version-support) -
-Extra information on ensuring correct version of Python is being used
-
-12) [Support](#support) -
+1) [Support](#support) -
 Please feel free to reach out
 
 ## An Architectural View
@@ -159,6 +156,8 @@ Run your project but please make sure you have all the correct requirements:
 2. Install the SDK: `python setup.py develop`
 3. Execute in the main project dir: `py.test`
 
+For information on testing with multiple Python versions, see [VERSION-SUPPORT.md](/VERSION-SUPPORT.md)
+
 ## API Coverage
 
 * Activity Details
@@ -173,89 +172,6 @@ Run your project but please make sure you have all the correct requirements:
         * [X] Address `postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
-
-
-## Version Support
-### Testing on multiple Python versions ###
-
-Tests executed using [py.test](http://doc.pytest.org/en/latest/) use your default/virtualenv's Python interpreter.
-Testing multiple versions of Python requires them to be installed and accessible on your system.
-One tool to do just this is [pyenv](https://github.com/yyuu/pyenv)
-
-1. Install `pyenv`
-1. Install Python interpreters you want to test with, e.g. `pyenv install 2.6.9`
-1. Install project dependencies: `pip install -r requirements.txt`
-1. Execute in the main project dir: `tox`
-
-You can choose a subset of interpreters to test with by running `tox -e <testenv_version>`.
-For a list of `<testenv_versions>` see `tox.ini`. Example: `tox -e py26` would run the
-test suite on Python 2.6 (2.6.9 in our case, as installed with `pyenv`).
-
-To install all the Python versions this SDK has been tested against run:
-
-```shell
-$ for version in 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b3; do pyenv install $version; done
-```
-
-Activate the installed interpreters (execute in this directory):
-
-```shell
-$ pyenv local 2.6.9 2.7.12 3.3.6 3.4.5 3.5.2 3.6.0b3
-```
-
-Run the tests:
-
-```shell
-$ tox
-```
-
-#### Tox Common Issues ####
-
-Supporting multiple Python versions with dependencies, often requiring compilation, is not without issues.
-
-For Python versions that do not provide binary wheels for `cryptography`, it will have to be compiled. This will be done automatically, however, you may need to install development headers of `openssl`.
-
-##### On Debian-based Systems #####
-
-Install `openssl` headers with:
-```shell
-apt-get install openssl-dev
-```
-
-See [Building Cryptography on Linux](https://cryptography.io/en/latest/installation/#building-cryptography-on-linux) for more information. 
-
-##### On Windows ######
-
-- Download and compile the OpenSSL binaries for your architecture from the [OpenSSL release](https://ci.cryptography.io/job/cryptography-support-jobs/job/openssl-release-1.1/) website
-- Set the `LIB` and `INCLUDE` environment variables to include your OpenSSL installation location e.g.
-```shell
-C:\> \path\to\vcvarsall.bat x86_amd64
-C:\> set LIB=C:\OpenSSL-win64\lib;%LIB%
-C:\> set INCLUDE=C:\OpenSSL-win64\include;%INCLUDE%
-C:\> pip install cryptography
-```
-For more information see the [building for windows](https://cryptography.io/en/latest/installation/#building-cryptography-on-windows) section on the Cryptography website.
-
-##### On macOS #####
-
-Install `openssl` headers using [homebrew](http://brew.sh/): `brew install openssl`
-
-Install Xcode command line tools so we have access to a C compiler and common libs:
-
-```shell
-$ xcode-select --install
-```
-
-See [building cryptography on OS X](https://cryptography.io/en/latest/installation/#building-cryptography-on-os-x)
-
-
-For Python 2.6 and 2.7 you *might* have to install them via `pyenv` with specific unicode code point settings:
-
-```
-PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs2" pyenv install <python version>
-```
-
-To avoid `cffi` errors related to unicode see: [cffi ucs2 vs ucs4](http://cffi.readthedocs.io/en/latest/installation.html#linux-and-os-x-ucs2-versus-ucs4)
 
 ## Support
 
