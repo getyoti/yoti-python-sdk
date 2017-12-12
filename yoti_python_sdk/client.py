@@ -11,7 +11,7 @@ import requests
 from past.builtins import basestring
 
 import yoti_python_sdk
-from config import SDK_IDENTIFIER
+from .config import SDK_IDENTIFIER
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.protobuf.v1 import protobuf
