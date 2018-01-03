@@ -70,7 +70,7 @@ This SDK works with Python 2.6+ and Python 3.3+.
 To import the Yoti SDK inside your project, simply run the following command from your terminal:
 
 ```shell
-$ pip install yoti
+pip install yoti
 ```
 
 ## SDK Project Import
@@ -133,14 +133,13 @@ Both example applications utilise the env variables described in [Configuration]
 
 * Installing dependencies: `pip install -e .[examples]` (If you're using `zsh` you need to escape the square brackets: `pip install -e .\[examples\]`)
 
-### Flask:
+### Flask
 
 * Run `python examples/yoti_example_flask/app.py`
 
-### Django:
+### Django
 
-1. Change directories to the Django project:
-`cd examples/yoti_example_django` 
+1. Change directories to the Django project: `cd examples/yoti_example_django`
 2. Apply migrations before the first start by running: `python manage.py migrate`
 3. Run: `python manage.py runserver 0.0.0.0:5000`
 
@@ -176,9 +175,11 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
 ## Support
 
 For any questions or support please email [sdksupport@yoti.com](mailto:sdksupport@yoti.com).
-Please provide the following the get you up and working as quick as possible:
+Please provide the following to get you up and working as quickly as possible:
 
-- Computer Type
-- OS Version
-- Version of Python being used
-- Screenshot
+* Computer type
+* OS version
+* Version of Python being used
+* Screenshot
+
+Once we have answered your question we may contact you again to discuss Yoti products and services. If you’d prefer us not to do this, please let us know when you e-mail.
