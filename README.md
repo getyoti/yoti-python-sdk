@@ -129,15 +129,31 @@ nationality = user_profile.get('nationality')
 
 ## Running the Examples
 
+### With Docker
+
+#### Flask
+
+To run the Flask container:
+ 
+1. Clone this repository
+1. Change directory to the Flask example project with `cd examples/yoti_example_flask`
+1. After you have followed the steps in [Configuration](#configuration), fill in your `YOTI_APPLICATION_ID`, `YOTI_CLIENT_SDK_ID` and `YOTI_FULL_KEY_FILE_PATH` variables in the [docker-compose.yml](/docker-compose.yml) file.
+1. Rebuild the images if you have modified the docker-compose.yml file with
+   - `docker-compose build --no-cache`
+1. Build the container with `docker-compose up`
+1. Navigate to http://localhost:5000
+
+### Running Locally
+
 Both example applications utilise the env variables described in [Configuration](#configuration), make sure they are accessible.
 
 * Installing dependencies: `pip install -e .[examples]` (If you're using `zsh` you need to escape the square brackets: `pip install -e .\[examples\]`)
 
-### Flask
+#### Flask
 
 * Run `python examples/yoti_example_flask/app.py`
 
-### Django
+#### Django
 
 1. Change directories to the Django project: `cd examples/yoti_example_django`
 2. Apply migrations before the first start by running: `python manage.py migrate`

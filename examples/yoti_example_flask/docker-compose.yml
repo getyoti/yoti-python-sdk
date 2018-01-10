@@ -1,0 +1,13 @@
+version: '3.4'
+services:
+  web:
+    build:
+      context: ./
+      args:
+        YOTI_APPLICATION_ID: "your_application_id"
+        YOTI_CLIENT_SDK_ID: "your_client_sdk_id"
+        YOTI_FULL_KEY_FILE_PATH: "path_to_your_pem_file"
+    ports:
+     - "5000:5000"
+   
+    restart: always
