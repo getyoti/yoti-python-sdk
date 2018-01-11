@@ -129,6 +129,8 @@ nationality = user_profile.get('nationality')
 
 ## Running the Examples
 
+The callback URL for both example projects will be http://localhost:5000/yoti/auth/
+
 ### With Docker
 
 #### Flask
