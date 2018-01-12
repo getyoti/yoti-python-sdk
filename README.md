@@ -139,7 +139,7 @@ To run the Flask container:
  
 1. Clone this repository
 1. Change directory to the Flask example project with `cd examples/yoti_example_flask`
-1. Make sure the environment variables `YOTI_APPLICATION_ID`, `YOTI_CLIENT_SDK_ID` and `YOTI_FULL_KEY_FILE_PATH` are set (instructions in the [Configuration](#configuration) section). _Please note that with Docker, the .pem file must reside in a location within where docker is being run from, so it should be placed somewhere under the respective  [yoti_example_flask](/examples/yoti_example_flask)/[yoti_example_django](/examples/yoti_example_django) folders._
+1. Make sure the environment variables `YOTI_APPLICATION_ID`, `YOTI_CLIENT_SDK_ID` and `YOTI_KEY_FILE_PATH` are set (instructions in the [Configuration](#configuration) section). _Please note that with Docker, the .pem file must reside in a location within where docker is being run from, so it should be placed somewhere under the respective  [yoti_example_flask](/examples/yoti_example_flask)/[yoti_example_django](/examples/yoti_example_django) folders._
 1. Rebuild the images if you have modified the docker-compose.yml file with
    - `docker-compose build --no-cache`
 1. Build the container with `docker-compose up`
