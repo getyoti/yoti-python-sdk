@@ -1,3 +1,4 @@
+# noinspection PyPackageRequirements
 import os
 from binascii import a2b_base64
 from os.path import join, dirname
@@ -44,4 +45,4 @@ def auth():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

@@ -1,6 +1,6 @@
 # Flask Yoti #
 
-Instructions for configuring your Flask project to integrate with Yoti.
+Instructions for configuring your Flask project to integrate with Yoti. For details on how to run the Flask docker image, see the [Running the Examples - With Docker](https://github.com/getyoti/yoti-python-sdk/blob/master/README.md#with-docker) section in the main README.
 
 ## Plugin configuration ##
 ### General settings ###
