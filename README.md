@@ -93,7 +93,7 @@ The variables required for the SDK to work are found in the tabs on your Yoti ap
 
 **Please do not open the pem file** as this might corrupt the key and you will need to create a new application.
 
-One way to configure these environment variables is to use an .env file. There are `.env.example` files supplied in the [Django](/examples/yoti_example_django/yoti_example/.env.example) and [Flask](/examples/yoti_example_flask/.env.example) example projects, which you can rename to `.env` and enter your settings into this file.
+One way to configure these environment variables is to use an .env file. There are `.env.example` files supplied in the [Django](/examples/yoti_example_django/yoti_example/.env.example) and [Flask](/examples/yoti_example_flask/.env.example) example projects, which you can rename to `.env` and enter your settings into this file. **Do not use quotes when entering your environment variables**
 
 ### Example Initialisation
 
@@ -133,12 +133,13 @@ The callback URL for both example projects will be http://localhost:5000/yoti/au
 
 ### With Docker
 
-#### Flask
-
-To run the Flask container:
+To run the Flask or Django containers:
  
 1. Clone this repository
-1. Change directory to the Flask example project with `cd examples/yoti_example_flask`
+1. Change directory to the example project directory with
+   * `cd examples/yoti_example_flask` for __Flask__   
+   __OR__
+   * `cd examples/yoti_example_django` for __Django__
 1. Make sure the environment variables `YOTI_APPLICATION_ID`, `YOTI_CLIENT_SDK_ID` and `YOTI_KEY_FILE_PATH` are set (instructions in the [Configuration](#configuration) section). _Please note that with Docker, the .pem file must reside in a location within where docker is being run from, so it should be placed somewhere under the respective  [yoti_example_flask](/examples/yoti_example_flask)/[yoti_example_django](/examples/yoti_example_django) folders._
 1. Rebuild the images if you have modified the docker-compose.yml file with
    - `docker-compose build --no-cache`
