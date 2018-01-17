@@ -30,6 +30,7 @@ if __name__ == '__main__':
                 'OPTIONS': {
                     'context_processors': [
                         'django_yoti.context_processors.yoti_context',
+						'django.contrib.auth.context_processors.auth',
                     ],
                 },
             },
