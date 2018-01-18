@@ -4,14 +4,14 @@ from os.path import join, dirname
 from django.views.generic import TemplateView
 from dotenv import load_dotenv
 
-dotenv_path = join(dirname(__file__), '.env')
+dotenv_path = join(dirname(__file__), '..\\', '.env')
 load_dotenv(dotenv_path)
 
 from yoti_python_sdk import Client
-from .app_settings import (
+from app_settings import (
     YOTI_APPLICATION_ID,
     YOTI_CLIENT_SDK_ID,
-    YOTI_FULL_KEY_FILE_PATH
+    YOTI_KEY_FILE_PATH
 )
 
 
@@ -26,7 +26,7 @@ class AuthView(TemplateView):
     template_name = 'profile.html'
 
     def get(self, request, *args, **kwargs):
-        client = Client(YOTI_CLIENT_SDK_ID, YOTI_FULL_KEY_FILE_PATH)
+        client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
         activity_details = client.get_activity_details(request.GET['token'])
         context = activity_details.user_profile
         self.save_image(context.get('selfie'))

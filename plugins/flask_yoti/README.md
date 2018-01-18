@@ -132,4 +132,7 @@ will be redirected to an endpoint, provided by the `YOTI_LOGIN_VIEW` setting.
 
 ## Tests ##
 
-To run unit tests (after running `python setup.py develop`), type: `python flask_yoti/runtests.py`
+To run unit tests:
+1. Change to the right directory - `cd plugins/flask_yoti`
+1. Run the setup file - `python setup.py develop`
+1. Run the tests - `py.test`

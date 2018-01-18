@@ -14,7 +14,7 @@ load_dotenv(dotenv_path)
 from settings import (
     YOTI_APPLICATION_ID,
     YOTI_CLIENT_SDK_ID,
-    YOTI_FULL_KEY_FILE_PATH,
+    YOTI_KEY_FILE_PATH,
 )
 
 app = Flask(__name__)
@@ -36,7 +36,7 @@ def index():
 
 @app.route('/yoti/auth')
 def auth():
-    client = Client(YOTI_CLIENT_SDK_ID, YOTI_FULL_KEY_FILE_PATH)
+    client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
     activity_details = client.get_activity_details(request.args['token'])
     user_profile = activity_details.user_profile
     save_image(user_profile.get('selfie'))

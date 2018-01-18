@@ -8,4 +8,7 @@ RUN if [ "$YOTI_KEY_FILE_PATH" = "yourKeyFilePath" ] ; then echo YOTI_KEY_FILE_P
 ADD . /code
 WORKDIR /code
 RUN pip install --no-cache-dir -r requirements.txt
-CMD ["python", "app.py"]
+ENV YOTI_APPLICATION_ID $YOTI_APPLICATION_ID
+ENV YOTI_CLIENT_SDK_ID $YOTI_CLIENT_SDK_ID
+ENV YOTI_KEY_FILE_PATH $YOTI_KEY_FILE_PATH
+CMD ["python", "manage.py", "runserver", "0.0.0.0:5000"]
