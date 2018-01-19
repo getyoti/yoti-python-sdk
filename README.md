@@ -154,7 +154,8 @@ Both example applications utilise the env variables described in [Configuration]
 
 #### Flask
 
-* Run `python examples/yoti_example_flask/app.py`
+1. Change directories to the Flask project: `cd examples/yoti_example_flask`
+1. Run `python app.py`
 
 #### Django
 
