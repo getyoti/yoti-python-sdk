@@ -19,14 +19,18 @@ def test_protobuf_value_based_on_content_type(proto):
     result = proto.value_based_on_content_type(value, proto.CT_STRING)
     assert isinstance(result, basestring)
 
-    result = proto.value_based_on_content_type(value, proto.CT_JPEG)
-    assert result == 'data:image/jpeg;base64,dGVzdCBzdHJpbmc='
-
     result = proto.value_based_on_content_type(value, proto.CT_DATE)
     assert isinstance(result, basestring)
 
-    result = proto.value_based_on_content_type(value, proto.CT_PNG)
-    assert result == 'data:image/png;base64,dGVzdCBzdHJpbmc='
-
     result = proto.value_based_on_content_type(value)
     assert result == value
+
+
+def test_protobuf_image_uri_based_on_content_type(proto):
+    value = b'test string'
+
+    result = proto.image_uri_based_on_content_type(value, proto.CT_JPEG)
+    assert result == 'data:image/jpeg;base64,dGVzdCBzdHJpbmc='
+
+    result = proto.image_uri_based_on_content_type(value, proto.CT_PNG)
+    assert result == 'data:image/png;base64,dGVzdCBzdHJpbmc='

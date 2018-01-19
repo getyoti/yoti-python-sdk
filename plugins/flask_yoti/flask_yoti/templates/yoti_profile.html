@@ -14,10 +14,10 @@
             </tr>
         {% endif %}
 
-        {% if selfie %}
+        {% if base64_selfie_uri %}
             <tr>
-                <td>Selfie:</td>
-                <td><img width="200" alt="photo" src="{{selfie}}" /></td>
+                <td>Selfie in base64 format:</td>
+                <td><img width="200" alt="base64photo" src="{{base64_selfie_uri}}" /></td>
             </tr>
         {% endif %}
 

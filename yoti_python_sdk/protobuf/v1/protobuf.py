@@ -14,7 +14,8 @@ class Protobuf(object):
     CT_DATE = 3  # string in RFC3339 format (YYYY-MM-DD)
     CT_PNG = 4  # standard .png image
 
-    def current_user(self, receipt):
+    @staticmethod
+    def current_user(receipt):
         if receipt.get('other_party_profile_content') is None or receipt.get('other_party_profile_content') == '':
             return None
 
@@ -25,7 +26,8 @@ class Protobuf(object):
         merged_user.MergeFromString(decoded_profile_content)
         return merged_user
 
-    def attribute_list(self, data):
+    @staticmethod
+    def attribute_list(data):
         attribute_list = attrpubapi.AttributeList()
         attribute_list.MergeFromString(data)
         return attribute_list
@@ -35,11 +37,14 @@ class Protobuf(object):
             raise TypeError('Wrong content type')
         elif content_type == self.CT_STRING:
             return value.decode('utf-8')
-        elif content_type == self.CT_JPEG:
-            data = base64.b64encode(value).decode('utf-8')
-            return 'data:image/jpeg;base64,{0}'.format(data)
         elif content_type == self.CT_DATE:
             return value.decode('utf-8')
+        return value
+
+    def image_uri_based_on_content_type(self, value, content_type=None):
+        if content_type == self.CT_JPEG:
+            data = base64.b64encode(value).decode('utf-8')
+            return 'data:image/jpeg;base64,{0}'.format(data)
         elif content_type == self.CT_PNG:
             data = base64.b64encode(value).decode('utf-8')
             return 'data:image/png;base64,{0}'.format(data)

@@ -113,7 +113,9 @@ def test_requesting_activity_details_with_correct_data(
     assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
     selfie = activity_details.user_profile.get('selfie')
     assert isinstance(selfie, basestring)
-    assert selfie.startswith('data:image/jpeg;base64')
+    base64_selfie_uri = getattr(activity_details, 'base64_selfie_uri')
+    assert isinstance(base64_selfie_uri, basestring)
+    assert base64_selfie_uri.startswith('data:image/jpeg;base64')
 
 
 @mock.patch('requests.get', side_effect=mocked_requests_get_null_profile)

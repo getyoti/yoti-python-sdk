@@ -1,4 +1,3 @@
-from binascii import a2b_base64
 from os.path import join, dirname
 
 from django.views.generic import TemplateView
@@ -29,13 +28,12 @@ class AuthView(TemplateView):
         client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
         activity_details = client.get_activity_details(request.GET['token'])
         context = activity_details.user_profile
+        context['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
         self.save_image(context.get('selfie'))
         return self.render_to_response(context)
 
     @staticmethod
-    def save_image(base64_uri):
-        base64_data_stripped = base64_uri[base64_uri.find(",") + 1:]
-        binary_data = a2b_base64(base64_data_stripped)
+    def save_image(selfie_data):
         fd = open('yoti_example/static/YotiSelfie.jpg', 'wb')
-        fd.write(binary_data)
+        fd.write(selfie_data)
         fd.close()
