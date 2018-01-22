@@ -37,7 +37,9 @@ def auth():
     activity_details = client.get_activity_details(request.args['token'])
     user_profile = activity_details.user_profile
     user_profile['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
-    save_image(user_profile.get('selfie'))
+    selfie = user_profile.get('selfie')
+    if selfie is not None:
+        save_image(selfie)
     return render_template('profile.html',
                            **user_profile)
 
