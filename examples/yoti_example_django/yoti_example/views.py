@@ -29,7 +29,9 @@ class AuthView(TemplateView):
         activity_details = client.get_activity_details(request.GET['token'])
         context = activity_details.user_profile
         context['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
-        self.save_image(context.get('selfie'))
+        selfie = context.get('selfie')
+        if selfie is not None:
+            self.save_image(selfie)
         return self.render_to_response(context)
 
     @staticmethod
