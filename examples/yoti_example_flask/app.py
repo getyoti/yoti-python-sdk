@@ -1,6 +1,5 @@
 # noinspection PyPackageRequirements
 import os
-from binascii import a2b_base64
 from os.path import join, dirname
 
 from dotenv import load_dotenv
@@ -20,12 +19,10 @@ from settings import (
 app = Flask(__name__)
 
 
-def save_image(base64_uri):
-    base64_data_stripped = base64_uri[base64_uri.find(",") + 1:]
-    binary_data = a2b_base64(base64_data_stripped)
+def save_image(selfie_data):
     upload_path = os.path.join(app.root_path, 'static', 'YotiSelfie.jpg')
     fd = open(upload_path, 'wb')
-    fd.write(binary_data)
+    fd.write(selfie_data)
     fd.close()
 
 
@@ -39,7 +36,10 @@ def auth():
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
     activity_details = client.get_activity_details(request.args['token'])
     user_profile = activity_details.user_profile
-    save_image(user_profile.get('selfie'))
+    user_profile['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
+    selfie = user_profile.get('selfie')
+    if selfie is not None:
+        save_image(selfie)
     return render_template('profile.html',
                            **user_profile)
 

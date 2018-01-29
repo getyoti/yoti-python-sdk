@@ -1,11 +1,6 @@
-from binascii import a2b_base64
-from os.path import join, dirname
-
 from django.views.generic import TemplateView
-from dotenv import load_dotenv
-
-dotenv_path = join(dirname(__file__), '..\\', '.env')
-load_dotenv(dotenv_path)
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 from yoti_python_sdk import Client
 from app_settings import (
@@ -29,13 +24,14 @@ class AuthView(TemplateView):
         client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
         activity_details = client.get_activity_details(request.GET['token'])
         context = activity_details.user_profile
-        self.save_image(context.get('selfie'))
+        context['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
+        selfie = context.get('selfie')
+        if selfie is not None:
+            self.save_image(selfie)
         return self.render_to_response(context)
 
     @staticmethod
-    def save_image(base64_uri):
-        base64_data_stripped = base64_uri[base64_uri.find(",") + 1:]
-        binary_data = a2b_base64(base64_data_stripped)
+    def save_image(selfie_data):
         fd = open('yoti_example/static/YotiSelfie.jpg', 'wb')
-        fd.write(binary_data)
+        fd.write(selfie_data)
         fd.close()
