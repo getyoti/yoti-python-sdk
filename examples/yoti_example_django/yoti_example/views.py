@@ -1,10 +1,6 @@
-from os.path import join, dirname
-
 from django.views.generic import TemplateView
-from dotenv import load_dotenv
-
-dotenv_path = join(dirname(__file__), '..\\', '.env')
-load_dotenv(dotenv_path)
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 from yoti_python_sdk import Client
 from app_settings import (
