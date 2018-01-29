@@ -156,12 +156,14 @@ Both example applications utilise the env variables described in [Configuration]
 
 1. Change directories to the Flask project: `cd examples/yoti_example_flask`
 1. Run `python app.py`
+1. Navigate to http://localhost:5000
 
 #### Django
 
 1. Change directories to the Django project: `cd examples/yoti_example_django`
-2. Apply migrations before the first start by running: `python manage.py migrate`
-3. Run: `python manage.py runserver 0.0.0.0:5000`
+1. Apply migrations before the first start by running: `python manage.py migrate`
+1. Run: `python manage.py runserver 0.0.0.0:5000`
+1. Navigate to http://localhost:5000
 
 ### Plugins ###
 
