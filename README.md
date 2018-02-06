@@ -123,6 +123,7 @@ family_name = user_profile.get('family_name')
 full_name = user_profile.get('full_name')
 phone_number = user_profile.get('phone_number')
 date_of_birth = user_profile.get('date_of_birth')
+age_verified = user_profile.get('age_verified')
 postal_address = user_profile.get('postal_address')
 gender = user_profile.get('gender')
 nationality = user_profile.get('nationality')
@@ -191,7 +192,8 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
         * [X] Full Name `full_name`
         * [X] Mobile Number `phone_number`
         * [X] Email address `email_address`
-        * [X] Date of Birth `date_of_birth`
+        * [X] Age / Date of Birth `date_of_birth`
+		* [X] Age / Verify Condition `age_[over|under]:[1-999]`
         * [X] Address `postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
