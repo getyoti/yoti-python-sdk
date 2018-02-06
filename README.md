@@ -191,9 +191,9 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
         * [X] Family Name `family_name`
         * [X] Full Name `full_name`
         * [X] Mobile Number `phone_number`
-        * [X] Email address `email_address`
+        * [X] Email Address `email_address`
         * [X] Age / Date of Birth `date_of_birth`
-		* [X] Age / Verify Condition `age_[over|under]:[1-999]`
+        * [X] Age / Verify Condition `age_[over|under]:[1-999]`
         * [X] Address `postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
