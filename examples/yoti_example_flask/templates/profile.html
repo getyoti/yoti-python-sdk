@@ -39,6 +39,13 @@
             </tr>
         {% endif %}
 
+         {% if full_name %}
+            <tr>
+                <td>Full Name:</td>
+                <td>{{full_name}}</td>
+            </tr>
+        {% endif %}
+
         {% if phone_number %}
             <tr>
                 <td>Phone Number:</td>
@@ -50,6 +57,13 @@
             <tr>
                 <td>Date of Birth:</td>
                 <td>{{date_of_birth}}</td>
+            </tr>
+        {% endif %}
+
+        {% if age_verified %}
+            <tr>
+                <td>Age Verified:</td>
+                <td>{{age_verified}}</td>
             </tr>
         {% endif %}
 

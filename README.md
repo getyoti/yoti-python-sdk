@@ -120,6 +120,7 @@ user_id = user_profile.get('user_id')
 selfie = user_profile.get('selfie')
 given_names = user_profile.get('given_names')
 family_name = user_profile.get('family_name')
+full_name = user_profile.get('full_name')
 phone_number = user_profile.get('phone_number')
 date_of_birth = user_profile.get('date_of_birth')
 postal_address = user_profile.get('postal_address')
@@ -187,9 +188,11 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
         * [X] Photo `selfie`
         * [X] Given Names `given_names`
         * [X] Family Name `family_name`
+        * [X] Full Name `full_name`
         * [X] Mobile Number `phone_number`
-        * [X] Email address `email_address`
-        * [X] Date of Birth `date_of_birth`
+        * [X] Email Address `email_address`
+        * [X] Age / Date of Birth `date_of_birth`
+        * [X] Age / Verify Condition `age_[over|under]:[1-999]`
         * [X] Address `postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
