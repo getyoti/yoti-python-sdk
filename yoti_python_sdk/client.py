@@ -19,6 +19,7 @@ from yoti_python_sdk.protobuf.v1 import protobuf
 NO_KEY_FILE_SPECIFIED_ERROR = 'Please specify the correct private key file ' \
                               'in Client(pem_file_path=...)\nor by setting ' \
                               'the "YOTI_KEY_FILE_PATH" environment variable'
+HTTP_SUPPORTED_METHODS = ['POST', 'PUT', 'PATCH', 'GET', 'DELETE']
 
 
 class Client(object):
@@ -52,7 +53,9 @@ class Client(object):
             raise RuntimeError('{0}: {1}'.format(error, exception))
 
     def get_activity_details(self, encrypted_request_token):
-        response = self.__make_request(encrypted_request_token)
+        http_method = 'GET'
+        content = None
+        response = self.__make_request(encrypted_request_token, http_method, content)
         receipt = json.loads(response.text).get('receipt')
 
         encrypted_data = protobuf.Protobuf().current_user(receipt)
@@ -69,10 +72,10 @@ class Client(object):
         attribute_list = protobuf.Protobuf().attribute_list(decrypted_data)
         return ActivityDetails(receipt, attribute_list)
 
-    def __make_request(self, encrypted_request_token):
+    def __make_request(self, encrypted_request_token, http_method, content):
         path = self.__get_request_path(encrypted_request_token)
         url = yoti_python_sdk.YOTI_API_ENDPOINT + path
-        headers = self.__get_request_headers(path)
+        headers = self.__get_request_headers(path, http_method, content)
         response = requests.get(url=url, headers=headers)
 
         if not response.status_code == 200:
@@ -89,11 +92,26 @@ class Client(object):
             token, nonce, timestamp, self.sdk_id
         )
 
-    def __get_request_headers(self, path):
+    def __get_request_headers(self, path, http_method, content):
+        request = self.__create_request(http_method, path, content)
+
         return {
             'X-Yoti-Auth-Key': self.__crypto.get_public_key(),
-            'X-Yoti-Auth-Digest': self.__crypto.sign('GET&' + path),
+            'X-Yoti-Auth-Digest': self.__crypto.sign(request),
             'X-Yoti-SDK': SDK_IDENTIFIER,
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
+
+    @staticmethod
+    def __create_request(http_method, path, content):
+        if http_method not in HTTP_SUPPORTED_METHODS:
+            raise ValueError(
+                "{} is not in the list of supported methods: {}".format(http_method, HTTP_SUPPORTED_METHODS))
+
+        request = "{}&{}".format(http_method, path)
+
+        if content is not None:
+            request += "&" + content
+
+        return request

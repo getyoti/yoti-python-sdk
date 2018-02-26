@@ -155,3 +155,31 @@ def test_requesting_activity_details_with_missing_profile(
     mock_get.assert_called_once_with(url=expected_url, headers=expected_headers)
     assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
     assert isinstance(activity_details, ActivityDetails)
+
+
+@mock.patch('requests.get', side_effect=mocked_requests_get)
+@mock.patch('time.time', side_effect=mocked_timestamp)
+@mock.patch('uuid.uuid4', side_effect=mocked_uuid4)
+def test_creating_request_with_unsupported_http_method(
+        mock_uuid4, mock_time, mock_get, client, expected_headers):
+    with pytest.raises(ValueError):
+        client._Client__create_request(http_method="UNSUPPORTED_METHOD", path=YOTI_API_ENDPOINT, content=None)
+
+
+@mock.patch('requests.get', side_effect=mocked_requests_get)
+@mock.patch('uuid.uuid4', side_effect=mocked_uuid4)
+@mock.patch('time.time', side_effect=mocked_timestamp)
+def test_creating_request_with_supported_http_method(
+        mock_uuid4, mock_time, mock_get, client, expected_headers):
+    client._Client__create_request(http_method="GET", path=YOTI_API_ENDPOINT, content=None)
+
+
+@mock.patch('requests.get', side_effect=mocked_requests_get)
+@mock.patch('uuid.uuid4', side_effect=mocked_uuid4)
+@mock.patch('time.time', side_effect=mocked_timestamp)
+def test_creating_request_content_is_added(
+        mock_uuid4, mock_time, mock_get, client, expected_headers):
+    content = "Content"
+    request = client._Client__create_request(http_method="GET", path=YOTI_API_ENDPOINT, content=content)
+
+    assert request.endswith("&" + content)
