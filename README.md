@@ -25,6 +25,9 @@ Entry point explanation
 1) [Handling Users](#handling-users) -
 How to manage users
 
+1) [AML Integration](#aml-integration) -
+How to integrate with Yoti's AML (Anti Money Laundering) service
+
 1) [Running the examples](#running-the-examples) -
 How to retrieve a Yoti profile using the token
 
@@ -127,6 +130,63 @@ postal_address = user_profile.get('postal_address')
 gender = user_profile.get('gender')
 nationality = user_profile.get('nationality')
 ```
+
+## AML Integration
+
+Yoti provides an AML (Anti Money Laundering) check service to allow a deeper KYC process to prevent fraud. This is a chargeable service, so please contact [sdksupport@yoti.com](mailto:sdksupport@yoti.com) for more information.
+
+Yoti will provide a boolean result on the following checks:
+
+* PEP list - Verify against Politically Exposed Persons list
+* Fraud list - Verify against  US Social Security Administration Fraud (SSN Fraud) list
+* Watch list - Verify against watch lists from the Office of Foreign Assets Control
+
+To use this functionality you must ensure your application is assigned to your Organisation in the Yoti Dashboard - please see here for further information.
+
+For the AML check you will need to provide the following:
+
+* Data provided by Yoti (please ensure you have selected the Given name(s) and Family name attributes from the Data tab in the Yoti Dashboard)
+  * Given name(s)
+  * Family name
+* Data that must be collected from the user:
+  * Country of residence (must be an ISO 3166 3-letter code)
+  * Social Security Number (US citizens only)
+  * Postcode/Zip code (US citizens only)
+
+### Consent
+
+Performing an AML check on a person *requires* their consent.
+**You must ensure you have user consent *before* using this service.**
+
+### Code Example
+
+Given a YotiClient initialised with your SDK ID and KeyPair (see [Client Initialisation](#client-initialisation)) performing an AML check is a straightforward case of providing basic profile data.
+
+```python
+from yoti_python_sdk import aml
+from yoti_python_sdk import Client
+
+client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
+given_names = "Edward Richard George"
+family_name = "Heath"
+
+aml_address = aml.AmlAddress(country="GBR")
+aml_profile = aml.AmlProfile(
+    given_names,
+    family_name,
+    aml_address
+)
+
+
+aml_result = client.perform_aml_check(aml_profile)
+
+print("AML Result for {1} {2}:", given_names, family_name)
+print("On PEP list: " + str(aml_result.on_pep_list))
+print("On fraud list: " + str(aml_result.on_fraud_list))
+print("On watchlist: " + str(aml_result.on_watch_list))
+```
+
+Additionally an [example AML application](/examples/aml/app.py) is provided in the examples folder.
 
 ## Running the Examples
 
