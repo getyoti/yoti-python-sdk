@@ -3,20 +3,22 @@ import json
 
 class AmlResult:
     def __init__(self, response_text):
+        if not response_text:
+            raise ValueError("AML Response is not valid")
+
         try:
             self.on_pep_list = json.loads(response_text).get('on_pep_list')
             self.on_fraud_list = json.loads(response_text).get('on_fraud_list')
             self.on_watch_list = json.loads(response_text).get('on_watch_list')
 
-        except Exception as exc:
-            raise ValueError(
-                'Could not retrieve AML values from response: {0}'.format(
-                    exc))
+        except (AttributeError, IOError, TypeError, OSError) as exc:
+            error = 'Could not parse AML result from response: "{0}"'.format(response_text)
+            exception = '{0}: {1}'.format(type(exc).__name__, exc)
+            raise RuntimeError('{0}: {1}'.format(error, exception))
 
-        finally:
-            self.__check_for_none_values(self.on_pep_list)
-            self.__check_for_none_values(self.on_fraud_list)
-            self.__check_for_none_values(self.on_watch_list)
+        self.__check_for_none_values(self.on_pep_list)
+        self.__check_for_none_values(self.on_fraud_list)
+        self.__check_for_none_values(self.on_watch_list)
 
     @staticmethod
     def __check_for_none_values(arg):

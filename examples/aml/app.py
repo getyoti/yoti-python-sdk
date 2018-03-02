@@ -23,10 +23,13 @@ def cli_exception(exception_type, value, tb):
 
 given_names = "Edward Richard George"
 family_name = "Heath"
-country = "GBR"
 
-aml_address = aml.AmlAddress(country)
-aml_profile = aml.AmlProfile(given_names, family_name, aml_address)
+aml_address = aml.AmlAddress(country="GBR")
+aml_profile = aml.AmlProfile(
+    given_names,
+    family_name,
+    aml_address
+)
 
 if sys.stdin.isatty():
     sys.excepthook = cli_exception

@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from os import environ
 
 import pytest
+from cryptography.fernet import base64
 from past.builtins import basestring
 
 try:
@@ -179,7 +180,11 @@ def test_creating_request_with_supported_http_method(
 @mock.patch('time.time', side_effect=mocked_timestamp)
 def test_creating_request_content_is_added(
         mock_uuid4, mock_time, mock_get, client, expected_headers):
-    content = "Content"
-    request = client._Client__create_request(http_method="GET", path=YOTI_API_ENDPOINT, content=content)
+    content = '{"Content"}'
+    content_bytes = content.encode()
+    request = client._Client__create_request(http_method="GET", path=YOTI_API_ENDPOINT, content=content_bytes)
 
-    assert request.endswith("&" + content)
+    b64encoded = base64.b64encode(content_bytes)
+    b64ascii = b64encoded.decode('ascii')
+
+    assert request.endswith("&" + b64ascii)
