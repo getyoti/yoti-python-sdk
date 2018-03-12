@@ -10,7 +10,8 @@ FIXTURES_DIR = join(dirname(abspath(__file__)), 'fixtures')
 PEM_FILE_PATH = join(FIXTURES_DIR, 'sdk-test.pem')
 ENCRYPTED_TOKEN_FILE_PATH = join(FIXTURES_DIR, 'encrypted_yoti_token.txt')
 AUTH_KEY_FILE_PATH = join(FIXTURES_DIR, 'auth_key.txt')
-AUTH_DIGEST_FILE_PATH = join(FIXTURES_DIR, 'auth_digest.txt')
+AUTH_DIGEST_GET_FILE_PATH = join(FIXTURES_DIR, 'auth_digest_get.txt')
+AUTH_DIGEST_POST_FILE_PATH = join(FIXTURES_DIR, 'auth_digest_post.txt')
 
 YOTI_CLIENT_SDK_ID = '737204aa-d54e-49a4-8bde-26ddbe6d880c'
 
@@ -45,6 +46,12 @@ def x_yoti_auth_key():
 
 
 @pytest.fixture(scope='module')
-def x_yoti_auth_digest():
-    with open(AUTH_DIGEST_FILE_PATH, 'r') as auth_digest_file:
+def x_yoti_auth_digest_get():
+    with open(AUTH_DIGEST_GET_FILE_PATH, 'r') as auth_digest_file:
+        return auth_digest_file.read()
+
+
+@pytest.fixture(scope='module')
+def x_yoti_auth_digest_post():
+    with open(AUTH_DIGEST_POST_FILE_PATH, 'r') as auth_digest_file:
         return auth_digest_file.read()

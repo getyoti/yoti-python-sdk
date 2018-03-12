@@ -13,6 +13,16 @@ def mocked_requests_get(*args, **kwargs):
     return MockResponse(status_code=200, text=response)
 
 
+def mocked_requests_post_aml_profile(*args, **kwargs):
+    with open('yoti_python_sdk/tests/fixtures/aml_response.txt', 'r') as f:
+        response = f.read()
+    return MockResponse(status_code=200, text=response)
+
+
+def mocked_requests_post_aml_profile_not_found(*args, **kwargs):
+    return MockResponse(status_code=404, text="Not Found")
+
+
 def mocked_requests_get_null_profile(*args, **kwargs):
     with open('yoti_python_sdk/tests/fixtures/response_null_profile.txt', 'r') as f:
         response = f.read()
