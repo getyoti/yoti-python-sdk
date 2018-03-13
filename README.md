@@ -180,7 +180,7 @@ aml_profile = aml.AmlProfile(
 
 aml_result = client.perform_aml_check(aml_profile)
 
-print("AML Result for {1} {2}:", given_names, family_name)
+print("AML Result for {0} {1}:".format(given_names, family_name))
 print("On PEP list: " + str(aml_result.on_pep_list))
 print("On fraud list: " + str(aml_result.on_fraud_list))
 print("On watchlist: " + str(aml_result.on_watch_list))
