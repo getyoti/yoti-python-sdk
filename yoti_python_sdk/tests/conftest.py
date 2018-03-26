@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from os.path import dirname, join, abspath
-
 import pytest
+from os.path import dirname, join, abspath
 
 from yoti_python_sdk import Client
 from yoti_python_sdk.crypto import Crypto
@@ -37,6 +36,23 @@ def encrypted_request_token():
 def decrypted_request_token():
     return 'd1JtHdjH-2c161003-cbaf-4080-b2a8-5a6d86577334-3f9d9a9a-' \
            '470c-48e5-8ceb-25cf86674ba4'
+
+
+@pytest.fixture(scope='module')
+def user_id():
+    return 'some_id'
+
+
+@pytest.fixture(scope='module')
+def successful_receipt():
+    return {'remember_me_id': user_id(),
+            'sharing_outcome': 'SUCCESS'}
+
+
+@pytest.fixture(scope='module')
+def failure_receipt():
+    return {'remember_me_id': user_id(),
+            'sharing_outcome': 'FAILURE'}
 
 
 @pytest.fixture(scope='module')

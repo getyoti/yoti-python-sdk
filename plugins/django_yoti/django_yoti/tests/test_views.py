@@ -3,6 +3,7 @@ from django.http.response import HttpResponse, HttpResponseRedirectBase
 from django.test import TestCase, Client, RequestFactory
 
 from yoti_python_sdk.activity_details import ActivityDetails
+from yoti_python_sdk.tests.conftest import successful_receipt, failure_receipt
 from ..views import profile
 
 
@@ -31,10 +32,7 @@ class TestViews(TestCase):
         self.assertEqual(response.url, '/login/')
 
     def test_profile_outcome_is_failure(self):
-        receipt = {'remember_me_id': 'some_id',
-                   'sharing_outcome': 'FAILURE'}
-        activity_details = ActivityDetails(receipt, None)
-
+        activity_details = ActivityDetails(failure_receipt(), None)
         request = self.factory.get('/profile/')
         self._update_session(request, activity_details=dict(activity_details))
         response = profile(request)
@@ -43,10 +41,8 @@ class TestViews(TestCase):
         self.assertEqual(response.url, '/login/')
 
     def test_profile_outcome_is_success(self):
-        user_id = 'some_id'
         user_profile = {'phone_number': '55555555'}
-        receipt = {'remember_me_id': user_id,
-                   'sharing_outcome': 'SUCCESS'}
+        receipt = successful_receipt()
         activity_details = ActivityDetails(receipt, None)
         activity_details.user_profile = user_profile
 
