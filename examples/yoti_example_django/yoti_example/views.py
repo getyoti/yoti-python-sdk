@@ -26,9 +26,6 @@ class AuthView(TemplateView):
         context = activity_details.user_profile
         context['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
 
-        # This key uses the  format: age_[over|under]:[1-999] and is dynamically
-        # generated based on the dashboard attribute Age / Verify Condition
-        context['age_verified'] = context.get('age_over:18')
         selfie = context.get('selfie')
         if selfie is not None:
             self.save_image(selfie)

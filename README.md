@@ -117,7 +117,8 @@ Here is an example of how this works:
 
 ```python
 client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
-user_profile = client.get_activity_details(token).user_profile
+activity_details = client.get_activity_details(token)
+user_profile = activity_details.user_profile
 
 user_id = user_profile.get('user_id')
 selfie = user_profile.get('selfie')
@@ -126,9 +127,12 @@ family_name = user_profile.get('family_name')
 full_name = user_profile.get('full_name')
 phone_number = user_profile.get('phone_number')
 date_of_birth = user_profile.get('date_of_birth')
+is_age_verified = user_profile.get('is_age_verified')
 postal_address = user_profile.get('postal_address')
 gender = user_profile.get('gender')
 nationality = user_profile.get('nationality')
+
+base64_selfie_uri = activity_details.get('base64_selfie_uri')
 ```
 
 ## AML Integration
@@ -250,7 +254,7 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
 
 * Activity Details
     * [X] User ID `user_id`
-    * [X] Profile
+    * [X] Profile `user_profile`
         * [X] Photo `selfie`
         * [X] Given Names `given_names`
         * [X] Family Name `family_name`
@@ -258,10 +262,11 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
         * [X] Mobile Number `phone_number`
         * [X] Email Address `email_address`
         * [X] Age / Date of Birth `date_of_birth`
-        * [X] Age / Verify Condition `age_[over|under]:[1-999]`
+        * [X] Age / Is Age Verified `is_age_verified`
         * [X] Address `postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
+    * [X] Base64 Selfie URI `base64_selfie_uri`
 
 ## Support
 

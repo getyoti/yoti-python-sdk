@@ -38,9 +38,6 @@ def auth():
     user_profile = activity_details.user_profile
     user_profile['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
 
-    # This key uses the  format: age_[over|under]:[1-999] and is dynamically
-    # generated based on the dashboard attribute Age / Verify Condition
-    user_profile['age_verified'] = user_profile.get('age_over:18')
     selfie = user_profile.get('selfie')
     if selfie is not None:
         save_image(selfie)

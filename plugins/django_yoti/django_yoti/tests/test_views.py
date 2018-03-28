@@ -41,8 +41,10 @@ class TestViews(TestCase):
         self.assertEqual(response.url, '/login/')
 
     def test_profile_outcome_is_success(self):
+        user_id = 'some_id'
         user_profile = {'phone_number': '55555555'}
-        receipt = successful_receipt()
+        receipt = {'remember_me_id': user_id,
+                   'sharing_outcome': 'SUCCESS'}
         activity_details = ActivityDetails(receipt, None)
         activity_details.user_profile = user_profile
 
