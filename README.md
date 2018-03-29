@@ -242,11 +242,11 @@ Plugins for both Django and Flask are in the `plugins/` dir. Their purpose is to
 
 ## Running the Tests
 
-Run your project but please make sure you have all the correct requirements:
+Running the tests is done by the following process, ensuring you are using Python 3.0+:
 
 1. Install dependencies: `pip install -r requirements.txt`
-2. Install the SDK: `python setup.py develop`
-3. Execute in the main project dir: `py.test`
+1. Install the SDK: `python setup.py develop`
+1. Execute in the main project dir: `py.test`
 
 For information on testing with multiple Python versions, see [VERSION-SUPPORT.md](/VERSION-SUPPORT.md)
 
