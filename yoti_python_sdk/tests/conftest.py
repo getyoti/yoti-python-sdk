@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from os.path import dirname, join, abspath
-
 import pytest
+import io
+from os.path import dirname, join, abspath
 
 from yoti_python_sdk import Client
 from yoti_python_sdk.crypto import Crypto
@@ -40,6 +40,23 @@ def decrypted_request_token():
 
 
 @pytest.fixture(scope='module')
+def user_id():
+    return 'some_id'
+
+
+@pytest.fixture(scope='module')
+def successful_receipt():
+    return {'remember_me_id': user_id(),
+            'sharing_outcome': 'SUCCESS'}
+
+
+@pytest.fixture(scope='module')
+def failure_receipt():
+    return {'remember_me_id': user_id(),
+            'sharing_outcome': 'FAILURE'}
+
+
+@pytest.fixture(scope='module')
 def x_yoti_auth_key():
     with open(AUTH_KEY_FILE_PATH, 'r') as auth_key_file:
         return auth_key_file.read()
@@ -53,5 +70,5 @@ def x_yoti_auth_digest_get():
 
 @pytest.fixture(scope='module')
 def x_yoti_auth_digest_post():
-    with open(AUTH_DIGEST_POST_FILE_PATH, 'r') as auth_digest_file:
+    with io.open(AUTH_DIGEST_POST_FILE_PATH, mode='r', encoding='utf-8') as auth_digest_file:
         return auth_digest_file.read()
