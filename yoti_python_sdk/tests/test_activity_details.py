@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pytest
 
 from yoti_python_sdk.activity_details import ActivityDetails
