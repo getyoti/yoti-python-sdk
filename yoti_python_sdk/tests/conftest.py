@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
+import io
 from os.path import dirname, join, abspath
 
 from yoti_python_sdk import Client
@@ -69,5 +70,5 @@ def x_yoti_auth_digest_get():
 
 @pytest.fixture(scope='module')
 def x_yoti_auth_digest_post():
-    with open(AUTH_DIGEST_POST_FILE_PATH, 'r') as auth_digest_file:
+    with io.open(AUTH_DIGEST_POST_FILE_PATH, mode='r', encoding='utf-8') as auth_digest_file:
         return auth_digest_file.read()
