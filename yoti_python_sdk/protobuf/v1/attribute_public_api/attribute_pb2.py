@@ -19,7 +19,8 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='attribute.proto',
   package='attrpubapi_v1',
-  serialized_pb=_b('\n\x0f\x61ttribute.proto\x12\rattrpubapi_v1\"\x82\x01\n\tAttribute\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x0c\x12\x30\n\x0c\x63ontent_type\x18\x03 \x01(\x0e\x32\x1a.attrpubapi_v1.ContentType\x12&\n\x07\x61nchors\x18\x04 \x03(\x0b\x32\x15.attrpubapi_v1.Anchor\"\x98\x01\n\x06\x41nchor\x12\x15\n\rartifact_link\x18\x01 \x01(\x0c\x12\x1b\n\x13origin_server_certs\x18\x02 \x03(\x0c\x12\x1a\n\x12\x61rtifact_signature\x18\x03 \x01(\x0c\x12\x10\n\x08sub_type\x18\x04 \x01(\t\x12\x11\n\tsignature\x18\x05 \x01(\x0c\x12\x19\n\x11signed_time_stamp\x18\x06 \x01(\x0c*E\n\x0b\x43ontentType\x12\r\n\tUNDEFINED\x10\x00\x12\n\n\x06STRING\x10\x01\x12\x08\n\x04JPEG\x10\x02\x12\x08\n\x04\x44\x41TE\x10\x03\x12\x07\n\x03PNG\x10\x04\x42#\n\x16\x63om.yoti.attrpubapi_v1B\tAttrProto')
+  syntax='proto2',
+  serialized_pb=_b('\n\x0f\x61ttribute.proto\x12\rattrpubapi_v1\"\x82\x01\n\tAttribute\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x0c\x12\x30\n\x0c\x63ontent_type\x18\x03 \x01(\x0e\x32\x1a.attrpubapi_v1.ContentType\x12&\n\x07\x61nchors\x18\x04 \x03(\x0b\x32\x15.attrpubapi_v1.Anchor\"\x98\x01\n\x06\x41nchor\x12\x15\n\rartifact_link\x18\x01 \x01(\x0c\x12\x1b\n\x13origin_server_certs\x18\x02 \x03(\x0c\x12\x1a\n\x12\x61rtifact_signature\x18\x03 \x01(\x0c\x12\x10\n\x08sub_type\x18\x04 \x01(\t\x12\x11\n\tsignature\x18\x05 \x01(\x0c\x12\x19\n\x11signed_time_stamp\x18\x06 \x01(\x0c*O\n\x0b\x43ontentType\x12\r\n\tUNDEFINED\x10\x00\x12\n\n\x06STRING\x10\x01\x12\x08\n\x04JPEG\x10\x02\x12\x08\n\x04\x44\x41TE\x10\x03\x12\x07\n\x03PNG\x10\x04\x12\x08\n\x04JSON\x10\x05\x42#\n\x16\x63om.yoti.attrpubapi_v1B\tAttrProto')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -49,11 +50,15 @@ _CONTENTTYPE = _descriptor.EnumDescriptor(
       name='PNG', index=4, number=4,
       options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='JSON', index=5, number=5,
+      options=None,
+      type=None),
   ],
   containing_type=None,
   options=None,
   serialized_start=322,
-  serialized_end=391,
+  serialized_end=401,
 )
 _sym_db.RegisterEnumDescriptor(_CONTENTTYPE)
 
@@ -63,6 +68,7 @@ STRING = 1
 JPEG = 2
 DATE = 3
 PNG = 4
+JSON = 5
 
 
 
@@ -109,6 +115,7 @@ _ATTRIBUTE = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -174,6 +181,7 @@ _ANCHOR = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],

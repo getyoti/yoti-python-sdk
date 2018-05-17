@@ -9,10 +9,11 @@ import yoti_python_sdk.protobuf.v1.common_public_api.encrypted_data_pb2 as compu
 
 class Protobuf(object):
     CT_UNDEFINED = 0  # should not be seen, and is used as an error placeholder
-    CT_STRING = 1  # UTF-8 encoded text.
-    CT_JPEG = 2  # standard .jpeg image.
+    CT_STRING = 1  # UTF-8 encoded text
+    CT_JPEG = 2  # standard .jpeg image
     CT_DATE = 3  # string in RFC3339 format (YYYY-MM-DD)
     CT_PNG = 4  # standard .png image
+    CT_JSON = 5  # value encoded using JSON
 
     @staticmethod
     def current_user(receipt):
@@ -39,6 +40,8 @@ class Protobuf(object):
             return value.decode('utf-8')
         elif content_type == self.CT_DATE:
             return value.decode('utf-8')
+        # elif content_type == self.CT_JSON:
+        #     return value.decode('utf-8')
         return value
 
     def image_uri_based_on_content_type(self, value, content_type=None):

@@ -1,9 +1,69 @@
 # -*- coding: utf-8 -*-
+import collections
+import json
+
 import pytest
 
+from yoti_python_sdk import config
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.protobuf.v1.protobuf import Protobuf
 from yoti_python_sdk.tests.conftest import successful_receipt
+
+ADDRESS_FORMAT_KEY = "addressFormat"
+ADDRESS_FORMAT_VALUE = 1
+INDIA_FORMAT_VALUE = 2
+USA_FORMAT_VALUE = 3
+
+BUILDING_NUMBER_KEY = "buildingNumber"
+BUILDING_NUMBER_VALUE = "15a"
+
+CARE_OF_KEY = "care_of"
+CARE_OF_VALUE = "S/O: Name"
+
+STATE_KEY = "state"
+INDIA_STATE_VALUE = "Punjab"
+USA_STATE_VALUE = "AL"
+
+BUILDING_KEY = "building"
+BUILDING_VALUE = "House No.1111-A"
+
+STREET_KEY = "street"
+STREET_VALUE = "42nd Street"
+
+DISTRICT_KEY = "district"
+DISTRICT_VALUE = "DISTRICT 10"
+
+SUBDISTRICT_KEY = "subdistrict"
+SUBDISTRICT_VALUE = "Sub-DISTRICT 10"
+
+POST_OFFICE_KEY = "post_office"
+INDIA_POST_OFFICE_VALUE = "Rajguru Nagar"
+
+ADDRESS_LINE_1_KEY = "addressLineOne"
+ADDRESS_LINE_1_VALUE = "15a North Street"
+
+TOWN_CITY_KEY = "townCity"
+TOWN_CITY_VALUE = "TOWN/CITY NAME"
+
+POSTAL_CODE_KEY = "postalCode"
+POSTAL_CODE_VALUE = "SM5 2HW"
+INDIA_POSTAL_CODE_VALUE = "141012"
+USA_POSTAL_CODE_VALUE = "36201"
+
+COUNTRY_ISO_KEY = "countryIso"
+COUNTRY_ISO_VALUE = "GBR"
+INDIA_COUNTRY_ISO_VALUE = "IND"
+USA_COUNTRY_ISO_VALUE = "USA"
+
+COUNTRY_KEY = "country"
+COUNTRY_VALUE = "UK"
+INDIA_COUNTRY_VALUE = "India"
+USA_COUNTRY_VALUE = "USA"
+
+FORMATTED_ADDRESS_KEY = "formattedAddress"
+FORMATTED_ADDRESS_VALUE = "15a North Street\nCARSHALTON\nSM5 2HW\nUK"
+INDIA_FORMATTED_ADDRESS_VALUE = 'S/O: Name\nHouse No.1111-A\n42nd Street\nTOWN/CITY NAME\nSub-DISTRICT 10\nDISTRICT 10\nPunjab\n141012\nRajgura Nagar\nIndia'
+USA_FORMATTED_ADDRESS_VALUE = "15a North Street\nTOWN/CITY NAME\nAL\n36201\nUSA"
 
 
 def create_selfie_field(activity_details):
@@ -18,6 +78,13 @@ def create_age_verified_field(activity_details, over, encoded_string_verified_va
     activity_details.field.name = "age_over:{0}".format(age) if over is True else "age_under:".format(age)
     activity_details.field.value = encoded_string_verified_value
     activity_details.field.content_type = Protobuf.CT_STRING
+
+
+def create_structured_postal_address_field(activity_details, json_address_value):
+    activity_details.field = lambda: None
+    activity_details.field.name = "structured_postal_address"
+    activity_details.field.value = json_address_value
+    activity_details.field.content_type = Protobuf.CT_JSON
 
 
 def test_try_parse_selfie_field_valid_selfie():
@@ -58,3 +125,145 @@ def test_try_parse_age_verified_field_non_bool_value_throws_error():
 
     with pytest.raises(TypeError):
         ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
+
+
+def test_try_parse_structured_postal_address_uk():
+    activity_details = ActivityDetails(successful_receipt())
+    structured_postal_address = {ADDRESS_FORMAT_KEY: ADDRESS_FORMAT_VALUE,
+                                 BUILDING_NUMBER_KEY: BUILDING_NUMBER_VALUE,
+                                 ADDRESS_LINE_1_KEY: ADDRESS_LINE_1_VALUE,
+                                 TOWN_CITY_KEY: TOWN_CITY_VALUE,
+                                 POSTAL_CODE_KEY: POSTAL_CODE_VALUE,
+                                 COUNTRY_ISO_KEY: COUNTRY_ISO_VALUE,
+                                 COUNTRY_KEY: COUNTRY_VALUE,
+                                 FORMATTED_ADDRESS_KEY: FORMATTED_ADDRESS_VALUE}
+
+    structured_postal_address_json = json.dumps(structured_postal_address)
+
+    create_structured_postal_address_field(activity_details, structured_postal_address_json)
+
+    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field)
+
+    actual_structured_postal_address = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+
+    assert type(actual_structured_postal_address) is collections.OrderedDict
+    assert actual_structured_postal_address[ADDRESS_FORMAT_KEY] == ADDRESS_FORMAT_VALUE
+    assert actual_structured_postal_address[BUILDING_NUMBER_KEY] == BUILDING_NUMBER_VALUE
+    assert actual_structured_postal_address[ADDRESS_LINE_1_KEY] == ADDRESS_LINE_1_VALUE
+    assert actual_structured_postal_address[TOWN_CITY_KEY] == TOWN_CITY_VALUE
+    assert actual_structured_postal_address[POSTAL_CODE_KEY] == POSTAL_CODE_VALUE
+    assert actual_structured_postal_address[COUNTRY_ISO_KEY] == COUNTRY_ISO_VALUE
+    assert actual_structured_postal_address[COUNTRY_KEY] == COUNTRY_VALUE
+    assert actual_structured_postal_address[FORMATTED_ADDRESS_KEY] == FORMATTED_ADDRESS_VALUE
+
+
+def test_try_parse_structured_postal_address_india():
+    activity_details = ActivityDetails(successful_receipt())
+    structured_postal_address = {ADDRESS_FORMAT_KEY: INDIA_FORMAT_VALUE,
+                                 CARE_OF_KEY: CARE_OF_VALUE,
+                                 BUILDING_KEY: BUILDING_VALUE,
+                                 STREET_KEY: STREET_VALUE,
+                                 TOWN_CITY_KEY: TOWN_CITY_VALUE,
+                                 SUBDISTRICT_KEY: SUBDISTRICT_VALUE,
+                                 DISTRICT_KEY: DISTRICT_VALUE,
+                                 STATE_KEY: INDIA_STATE_VALUE,
+                                 POSTAL_CODE_KEY: INDIA_POSTAL_CODE_VALUE,
+                                 POST_OFFICE_KEY: INDIA_POST_OFFICE_VALUE,
+                                 COUNTRY_ISO_KEY: INDIA_COUNTRY_ISO_VALUE,
+                                 COUNTRY_KEY: INDIA_COUNTRY_VALUE,
+                                 FORMATTED_ADDRESS_KEY: INDIA_FORMATTED_ADDRESS_VALUE}
+
+    structured_postal_address_json = json.dumps(structured_postal_address)
+
+    create_structured_postal_address_field(activity_details, structured_postal_address_json)
+
+    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field)
+
+    actual_structured_postal_address = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+
+    assert type(actual_structured_postal_address) is collections.OrderedDict
+    assert actual_structured_postal_address[ADDRESS_FORMAT_KEY] == INDIA_FORMAT_VALUE
+    assert actual_structured_postal_address[CARE_OF_KEY] == CARE_OF_VALUE
+    assert actual_structured_postal_address[BUILDING_KEY] == BUILDING_VALUE
+    assert actual_structured_postal_address[STREET_KEY] == STREET_VALUE
+    assert actual_structured_postal_address[TOWN_CITY_KEY] == TOWN_CITY_VALUE
+    assert actual_structured_postal_address[SUBDISTRICT_KEY] == SUBDISTRICT_VALUE
+    assert actual_structured_postal_address[DISTRICT_KEY] == DISTRICT_VALUE
+    assert actual_structured_postal_address[STATE_KEY] == INDIA_STATE_VALUE
+    assert actual_structured_postal_address[POSTAL_CODE_KEY] == INDIA_POSTAL_CODE_VALUE
+    assert actual_structured_postal_address[POST_OFFICE_KEY] == INDIA_POST_OFFICE_VALUE
+    assert actual_structured_postal_address[COUNTRY_ISO_KEY] == INDIA_COUNTRY_ISO_VALUE
+    assert actual_structured_postal_address[COUNTRY_KEY] == INDIA_COUNTRY_VALUE
+    assert actual_structured_postal_address[FORMATTED_ADDRESS_KEY] == INDIA_FORMATTED_ADDRESS_VALUE
+
+
+def test_try_parse_structured_postal_address_usa():
+    activity_details = ActivityDetails(successful_receipt())
+    structured_postal_address = {ADDRESS_FORMAT_KEY: USA_FORMAT_VALUE,
+                                 ADDRESS_LINE_1_KEY: ADDRESS_LINE_1_VALUE,
+                                 TOWN_CITY_KEY: TOWN_CITY_VALUE,
+                                 STATE_KEY: USA_STATE_VALUE,
+                                 POSTAL_CODE_KEY: USA_POSTAL_CODE_VALUE,
+                                 COUNTRY_ISO_KEY: USA_COUNTRY_ISO_VALUE,
+                                 COUNTRY_KEY: USA_COUNTRY_VALUE,
+                                 FORMATTED_ADDRESS_KEY: USA_FORMATTED_ADDRESS_VALUE}
+
+    structured_postal_address_json = json.dumps(structured_postal_address)
+
+    create_structured_postal_address_field(activity_details, structured_postal_address_json)
+
+    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field)
+
+    actual_structured_postal_address = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+
+    assert type(actual_structured_postal_address) is collections.OrderedDict
+    assert actual_structured_postal_address[ADDRESS_FORMAT_KEY] == USA_FORMAT_VALUE
+    assert actual_structured_postal_address[ADDRESS_LINE_1_KEY] == ADDRESS_LINE_1_VALUE
+    assert actual_structured_postal_address[TOWN_CITY_KEY] == TOWN_CITY_VALUE
+    assert actual_structured_postal_address[STATE_KEY] == USA_STATE_VALUE
+    assert actual_structured_postal_address[POSTAL_CODE_KEY] == USA_POSTAL_CODE_VALUE
+    assert actual_structured_postal_address[COUNTRY_ISO_KEY] == USA_COUNTRY_ISO_VALUE
+    assert actual_structured_postal_address[COUNTRY_KEY] == USA_COUNTRY_VALUE
+    assert actual_structured_postal_address[FORMATTED_ADDRESS_KEY] == USA_FORMATTED_ADDRESS_VALUE
+
+
+def test_try_parse_structured_postal_address_nested_json():
+    formatted_address_json = {
+        "item1": [
+            [1, 'a1'],
+            [2, 'a2'],
+        ],
+        "item2": [
+            [3, 'b3'],
+            [4, 'b4'],
+        ],
+    }
+
+    activity_details = ActivityDetails(successful_receipt())
+    structured_postal_address = {ADDRESS_FORMAT_KEY: ADDRESS_FORMAT_VALUE,
+                                 BUILDING_NUMBER_KEY: BUILDING_NUMBER_VALUE,
+                                 ADDRESS_LINE_1_KEY: ADDRESS_LINE_1_VALUE,
+                                 TOWN_CITY_KEY: TOWN_CITY_VALUE,
+                                 POSTAL_CODE_KEY: POSTAL_CODE_VALUE,
+                                 COUNTRY_ISO_KEY: COUNTRY_ISO_VALUE,
+                                 COUNTRY_KEY: COUNTRY_VALUE,
+                                 FORMATTED_ADDRESS_KEY: formatted_address_json}
+
+    structured_postal_address_json = json.dumps(structured_postal_address)
+
+    create_structured_postal_address_field(activity_details, structured_postal_address_json)
+
+    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field)
+
+    actual_structured_postal_address = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+
+    assert type(actual_structured_postal_address) is collections.OrderedDict
+    assert actual_structured_postal_address[ADDRESS_FORMAT_KEY] == ADDRESS_FORMAT_VALUE
+    assert actual_structured_postal_address[BUILDING_NUMBER_KEY] == BUILDING_NUMBER_VALUE
+    assert actual_structured_postal_address[ADDRESS_LINE_1_KEY] == ADDRESS_LINE_1_VALUE
+    assert actual_structured_postal_address[TOWN_CITY_KEY] == TOWN_CITY_VALUE
+    assert actual_structured_postal_address[POSTAL_CODE_KEY] == POSTAL_CODE_VALUE
+    assert actual_structured_postal_address[COUNTRY_ISO_KEY] == COUNTRY_ISO_VALUE
+    assert actual_structured_postal_address[COUNTRY_KEY] == COUNTRY_VALUE
+
+    assert actual_structured_postal_address[FORMATTED_ADDRESS_KEY] == formatted_address_json
