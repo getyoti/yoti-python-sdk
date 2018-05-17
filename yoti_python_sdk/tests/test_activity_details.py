@@ -9,12 +9,12 @@ from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.protobuf.v1.protobuf import Protobuf
 from yoti_python_sdk.tests.conftest import successful_receipt
 
-ADDRESS_FORMAT_KEY = "addressFormat"
+ADDRESS_FORMAT_KEY = "address_format"
 ADDRESS_FORMAT_VALUE = 1
 INDIA_FORMAT_VALUE = 2
 USA_FORMAT_VALUE = 3
 
-BUILDING_NUMBER_KEY = "buildingNumber"
+BUILDING_NUMBER_KEY = "building_number"
 BUILDING_NUMBER_VALUE = "15a"
 
 CARE_OF_KEY = "care_of"
@@ -39,18 +39,18 @@ SUBDISTRICT_VALUE = "Sub-DISTRICT 10"
 POST_OFFICE_KEY = "post_office"
 INDIA_POST_OFFICE_VALUE = "Rajguru Nagar"
 
-ADDRESS_LINE_1_KEY = "addressLineOne"
+ADDRESS_LINE_1_KEY = "address_line_1"
 ADDRESS_LINE_1_VALUE = "15a North Street"
 
-TOWN_CITY_KEY = "townCity"
+TOWN_CITY_KEY = "town_city"
 TOWN_CITY_VALUE = "TOWN/CITY NAME"
 
-POSTAL_CODE_KEY = "postalCode"
+POSTAL_CODE_KEY = "postal_code"
 POSTAL_CODE_VALUE = "SM5 2HW"
 INDIA_POSTAL_CODE_VALUE = "141012"
 USA_POSTAL_CODE_VALUE = "36201"
 
-COUNTRY_ISO_KEY = "countryIso"
+COUNTRY_ISO_KEY = "country_iso"
 COUNTRY_ISO_VALUE = "GBR"
 INDIA_COUNTRY_ISO_VALUE = "IND"
 USA_COUNTRY_ISO_VALUE = "USA"
@@ -60,7 +60,7 @@ COUNTRY_VALUE = "UK"
 INDIA_COUNTRY_VALUE = "India"
 USA_COUNTRY_VALUE = "USA"
 
-FORMATTED_ADDRESS_KEY = "formattedAddress"
+FORMATTED_ADDRESS_KEY = "formatted_address"
 FORMATTED_ADDRESS_VALUE = "15a North Street\nCARSHALTON\nSM5 2HW\nUK"
 INDIA_FORMATTED_ADDRESS_VALUE = 'S/O: Name\nHouse No.1111-A\n42nd Street\nTOWN/CITY NAME\nSub-DISTRICT 10\nDISTRICT 10\nPunjab\n141012\nRajgura Nagar\nIndia'
 USA_FORMATTED_ADDRESS_VALUE = "15a North Street\nTOWN/CITY NAME\nAL\n36201\nUSA"
@@ -82,7 +82,7 @@ def create_age_verified_field(activity_details, over, encoded_string_verified_va
 
 def create_structured_postal_address_field(activity_details, json_address_value):
     activity_details.field = lambda: None
-    activity_details.field.name = "structured_postal_address"
+    activity_details.field.name = config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS
     activity_details.field.value = json_address_value
     activity_details.field.content_type = Protobuf.CT_JSON
 
@@ -267,3 +267,19 @@ def test_try_parse_structured_postal_address_nested_json():
     assert actual_structured_postal_address[COUNTRY_KEY] == COUNTRY_VALUE
 
     assert actual_structured_postal_address[FORMATTED_ADDRESS_KEY] == formatted_address_json
+
+
+def test_set_address_to_be_formatted_address():
+    activity_details = ActivityDetails(successful_receipt())
+
+    structured_postal_address = {FORMATTED_ADDRESS_KEY: FORMATTED_ADDRESS_VALUE}
+    structured_postal_address_json = json.dumps(structured_postal_address)
+
+    create_structured_postal_address_field(activity_details, structured_postal_address_json)
+    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field)
+
+    assert 'postal_address' not in activity_details.user_profile
+
+    ActivityDetails.set_address_to_be_formatted_address_if_null(activity_details)
+
+    assert activity_details.user_profile['postal_address'] == FORMATTED_ADDRESS_VALUE
