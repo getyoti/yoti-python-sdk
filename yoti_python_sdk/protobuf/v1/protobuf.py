@@ -40,8 +40,6 @@ class Protobuf(object):
             return value.decode('utf-8')
         elif content_type == self.CT_DATE:
             return value.decode('utf-8')
-        # elif content_type == self.CT_JSON:
-        #     return value.decode('utf-8')
         return value
 
     def image_uri_based_on_content_type(self, value, content_type=None):

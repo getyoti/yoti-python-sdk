@@ -40,18 +40,19 @@ class ActivityDetails:
         )
 
     def try_parse_age_verified_field(self, field):
-        is_age_verified = Protobuf().value_based_on_content_type(
-            field.value,
-            field.content_type
-        )
-        if is_age_verified == 'true':
-            self.user_profile['is_age_verified'] = True
-            return
-        if is_age_verified == 'false':
-            self.user_profile['is_age_verified'] = False
-            return
-        else:
-            raise TypeError("age_verified_field unable to be parsed")
+        if field is not None:
+            is_age_verified = Protobuf().value_based_on_content_type(
+                field.value,
+                field.content_type
+            )
+            if is_age_verified == 'true':
+                self.user_profile['is_age_verified'] = True
+                return
+            if is_age_verified == 'false':
+                self.user_profile['is_age_verified'] = False
+                return
+
+        raise TypeError("age_verified_field unable to be parsed")
 
     def try_convert_structured_postal_address_to_dict(self, field):
         decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict)

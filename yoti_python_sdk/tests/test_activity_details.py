@@ -97,10 +97,10 @@ def test_try_parse_selfie_field_valid_selfie():
 
 def test_try_parse_age_verified_both_missing_returns_null():
     activity_details = ActivityDetails(successful_receipt())
-    create_selfie_field(activity_details)
+    field = None
 
-    ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
-    assert not activity_details.user_profile
+    with pytest.raises(TypeError):
+        ActivityDetails.try_parse_age_verified_field(activity_details, field)
 
 
 def test_try_parse_age_verified_field_age_over():
