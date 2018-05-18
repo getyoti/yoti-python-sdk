@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 
 import json
 from os import environ
-from os.path import isfile, expanduser
 
 import requests
 from cryptography.fernet import base64
+from os.path import isfile, expanduser
 from past.builtins import basestring
 
 import yoti_python_sdk

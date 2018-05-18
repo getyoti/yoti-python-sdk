@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-import pytest
 import io
+
+import pytest
 from os.path import dirname, join, abspath
 
 from yoti_python_sdk import Client

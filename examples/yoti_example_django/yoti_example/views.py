@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 from dotenv import load_dotenv, find_dotenv
+
 load_dotenv(find_dotenv())
 
 from yoti_python_sdk import Client

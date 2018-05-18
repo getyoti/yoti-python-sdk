@@ -1,9 +1,9 @@
 # noinspection PyPackageRequirements
 import os
-from os.path import join, dirname
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, request
+from os.path import join, dirname
 
 from yoti_python_sdk import Client
 

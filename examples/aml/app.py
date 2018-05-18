@@ -1,8 +1,8 @@
 import sys
 from os import environ
-from os.path import join, dirname
 
 from dotenv import load_dotenv
+from os.path import join, dirname
 
 from yoti_python_sdk import Client
 from yoti_python_sdk import aml

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
 from os import environ
 
-import json
 import pytest
 from cryptography.fernet import base64
 from past.builtins import basestring
