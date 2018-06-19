@@ -9,6 +9,7 @@ certifi==2018.4.16        # via requests
 cffi==1.11.5              # via cryptography
 chardet==3.0.4            # via requests
 cryptography==2.2.2       # via yoti
+django-sslserver==0.20
 django==1.11
 future==0.16.0            # via yoti
 idna==2.7                 # via cryptography, requests
