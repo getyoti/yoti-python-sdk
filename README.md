@@ -194,7 +194,7 @@ Additionally an [example AML application](/examples/aml/app.py) is provided in t
 
 ## Running the Examples
 
-The callback URL for both example projects will be `http://localhost:5000/yoti/auth`
+The callback URL for both example projects will be `https://localhost:5000/yoti/auth`
 
 ### With Docker
 
@@ -209,7 +209,7 @@ To run the Flask or Django container:
 1. Rebuild the images if you have modified the docker-compose.yml file with
    - `docker-compose build --no-cache`
 1. Start the container with `docker-compose up`
-1. Navigate to http://localhost:5000
+1. Navigate to https://localhost:5000
 
 ### Running Locally
 
@@ -227,8 +227,8 @@ Both example applications utilise the env variables described in [Configuration]
 
 1. Change directories to the Django project: `cd examples/yoti_example_django`
 1. Apply migrations before the first start by running: `python manage.py migrate`
-1. Run: `python manage.py runserver 0.0.0.0:5000`
-1. Navigate to http://localhost:5000
+1. Run: `python manage.py runsslserver 0.0.0.0:5000`
+1. Navigate to https://localhost:5000
 
 #### AML Example
 
@@ -275,3 +275,11 @@ Please provide the following to get you up and working as quickly as possible:
 * Screenshot
 
 Once we have answered your question we may contact you again to discuss Yoti products and services. If you’d prefer us not to do this, please let us know when you e-mail.
+
+### Windows Configuration
+If you're using Windows and you haven't installed Cryptography before, you might need to set two environment variables for Cryptography to install (it is a requirement of the Yoti package):
+```shell 
+set LIB=C:\OpenSSL-Win64\lib;%LIB%
+set INCLUDE=C:\OpenSSL-Win64\include;%INCLUDE%
+```
+Where `OpenSSL-Win64` is the location that you have installed OpenSSL to. See [here](https://cryptography.io/en/latest/installation/#building-cryptography-on-windows) for more information.
