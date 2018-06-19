@@ -1,4 +1,5 @@
 import json
+
 import pytest
 
 from yoti_python_sdk import aml

@@ -236,10 +236,6 @@ Both example applications utilise the env variables described in [Configuration]
 1. Install requirements with `pip install -r requirements.txt`
 1. Run: `python app.py`
 
-### Plugins ###
-
-Plugins for both Django and Flask are in the `plugins/` dir. Their purpose is to make it as easy as possible to use the Yoti SDK with those frameworks. See the [Django](/plugins/django_yoti/README.md) and [Flask](/plugins/flask_yoti/README.md) README files for further details.
-
 ## Running the Tests
 
 Running the tests is done by the following process, ensuring you are using Python 3.0+:
