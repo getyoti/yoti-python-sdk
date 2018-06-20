@@ -12,4 +12,4 @@ ENV YOTI_APPLICATION_ID $YOTI_APPLICATION_ID
 ENV YOTI_CLIENT_SDK_ID $YOTI_CLIENT_SDK_ID
 ENV YOTI_KEY_FILE_PATH $YOTI_KEY_FILE_PATH
 CMD ["python", "manage.py", "migrate"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:5000"]
+CMD ["python", "manage.py", "runsslserver", "0.0.0.0:5000"]
