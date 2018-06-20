@@ -215,17 +215,17 @@ To run the Flask or Django container:
 
 Both example applications utilise the env variables described in [Configuration](#configuration), make sure they are accessible.
 
-* Installing dependencies: `pip install -e .[examples]` (If you're using `zsh` you need to escape the square brackets: `pip install -e .\[examples\]`)
-
 #### Flask
 
 1. Change directories to the Flask project: `cd examples/yoti_example_flask`
+1. Install dependencies: `pip install -r requirements.txt`
 1. Run `python app.py`
 1. Navigate to https:////localhost:5000
 
 #### Django
 
 1. Change directories to the Django project: `cd examples/yoti_example_django`
+1. Install dependencies: `pip install -r requirements.txt`
 1. Apply migrations before the first start by running: `python manage.py migrate`
 1. Run: `python manage.py runsslserver 0.0.0.0:5000`
 1. Navigate to https://localhost:5000
