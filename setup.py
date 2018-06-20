@@ -20,7 +20,7 @@ setup(
     install_requires=['cryptography>=1.4', 'protobuf>=3.0.0',
                       'requests>=2.0.0', 'future>=0.11.0'],
     extras_require={
-        'examples': ['Django>=1.8', 'Flask>=0.10', 'python-dotenv>=0.7.1', 'django-sslserver>=0.2'],
+        'examples': ['Django>=1.8', 'Flask>=0.10', 'python-dotenv>=0.7.1', 'django-sslserver>=0.2', 'pyopenssl>=18.0.0'],
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
