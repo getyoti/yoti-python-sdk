@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import collections
 import json
 
+import collections
 import pytest
 
 from yoti_python_sdk import config
