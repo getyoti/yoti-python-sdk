@@ -220,7 +220,7 @@ Both example applications utilise the env variables described in [Configuration]
 1. Change directories to the Flask project: `cd examples/yoti_example_flask`
 1. Install dependencies: `pip install -r requirements.txt`
 1. Run `python app.py`
-1. Navigate to https:////localhost:5000
+1. Navigate to https://localhost:5000
 
 #### Django
 

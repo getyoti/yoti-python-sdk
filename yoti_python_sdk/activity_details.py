@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-import collections
 import json
+
+import collections
 
 from yoti_python_sdk import config
 from yoti_python_sdk.protobuf.v1.protobuf import Protobuf
@@ -63,7 +64,8 @@ class ActivityDetails:
     def set_address_to_be_formatted_address_if_null(self):
         if 'postal_address' not in self.user_profile and 'structured_postal_address' in self.user_profile:
             if 'formatted_address' in self.user_profile['structured_postal_address']:
-                self.user_profile['postal_address'] = self.user_profile['structured_postal_address']['formatted_address']
+                self.user_profile['postal_address'] = self.user_profile['structured_postal_address'][
+                    'formatted_address']
 
     def __iter__(self):
         yield 'user_id', self.user_id
