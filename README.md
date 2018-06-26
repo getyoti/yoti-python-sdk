@@ -194,7 +194,9 @@ Additionally an [example AML application](/examples/aml/app.py) is provided in t
 
 ## Running the Examples
 
-The callback URL for both example projects will be `https://localhost:5000/yoti/auth`
+From the [Yoti Dashboard](https://www.yoti.com/dashboard/applications):
+1. Set the application domain of your app to `localhost:5000`
+1. Set the scenario callback URL to `/yoti/auth`
 
 ### With Docker
 
