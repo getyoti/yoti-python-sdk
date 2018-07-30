@@ -4,11 +4,13 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
+asn1==2.2.0
+asn1crypto==0.24.0        # via cryptography
 attrs==18.1.0             # via pytest
 cffi==1.11.5              # via cryptography
 click==6.6
 colorama==0.3.9           # via pytest
-cryptography==1.5.2
+cryptography==2.2.2
 django==1.11
 flask==0.11.1
 future==0.15.2
@@ -21,8 +23,8 @@ pbr==1.10.0
 pluggy==0.6.0             # via pytest, tox
 protobuf==3.1.0.post1
 py==1.5.3                 # via pytest, tox
-pyasn1==0.4.3             # via cryptography
 pycparser==2.18           # via cffi
+pyopenssl==18.0.0
 pytest==3.3.2
 pytz==2018.4              # via django
 requests==2.11.1
