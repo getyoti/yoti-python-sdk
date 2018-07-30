@@ -141,8 +141,12 @@ def test_requesting_activity_details_with_correct_data(
     mock_get.assert_called_once_with(url=expected_activity_details_url, headers=expected_get_headers)
     assert isinstance(activity_details, ActivityDetails)
     assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
-    selfie = activity_details.user_profile.get('selfie')
-    assert isinstance(selfie, basestring)
+    selfie_user_profile = activity_details.user_profile.get('selfie')
+    assert isinstance(selfie_user_profile, basestring)
+
+    selfie_profile = activity_details.profile.get('selfie').get_value()
+    assert isinstance(selfie_profile, basestring)
+
     base64_selfie_uri = getattr(activity_details, 'base64_selfie_uri')
     assert isinstance(base64_selfie_uri, basestring)
     assert base64_selfie_uri.startswith('data:image/jpeg;base64')
