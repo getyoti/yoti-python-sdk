@@ -81,7 +81,7 @@ pip install yoti
 You can reference the project URL by adding the following import:
 
 ```python
-import "yoti_python_sdk"
+import yoti_python_sdk
 ```
 
 ## Configuration

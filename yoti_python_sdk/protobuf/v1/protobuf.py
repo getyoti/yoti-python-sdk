@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from cryptography.fernet import base64
+from yoti_python_sdk.protobuf.v1.attribute_public_api import attribute_pb2, list_pb2
 
-import yoti_python_sdk.protobuf.v1.attribute_public_api.list_pb2 as attrpubapi
 import yoti_python_sdk.protobuf.v1.common_public_api.encrypted_data_pb2 as compubapi
 
 
@@ -29,9 +29,15 @@ class Protobuf(object):
 
     @staticmethod
     def attribute_list(data):
-        attribute_list = attrpubapi.AttributeList()
+        attribute_list = list_pb2.AttributeList()
         attribute_list.MergeFromString(data)
         return attribute_list
+
+    @staticmethod
+    def anchor(data):
+        anchor = attribute_pb2.Anchor()
+        anchor.MergeFromString(data)
+        return anchor
 
     def value_based_on_content_type(self, value, content_type=None):
         if content_type == self.CT_UNDEFINED:

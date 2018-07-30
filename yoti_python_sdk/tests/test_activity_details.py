@@ -107,7 +107,7 @@ def test_try_parse_age_verified_field_age_over():
     activity_details = ActivityDetails(successful_receipt())
     create_age_verified_field(activity_details, True, "true".encode(), 18)
 
-    ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
+    ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field, None)
     assert activity_details.user_profile['is_age_verified'] is True
 
 
@@ -115,7 +115,7 @@ def test_try_parse_age_verified_field_age_under():
     activity_details = ActivityDetails(successful_receipt())
     create_age_verified_field(activity_details, False, "false".encode(), 55)
 
-    ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
+    ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field, None)
     assert activity_details.user_profile['is_age_verified'] is False
 
 
@@ -124,7 +124,7 @@ def test_try_parse_age_verified_field_non_bool_value_throws_error():
     create_age_verified_field(activity_details, True, "18".encode(), 18)
 
     with pytest.raises(TypeError):
-        ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
+        ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field, None)
 
 
 def test_try_parse_structured_postal_address_uk():
@@ -142,7 +142,7 @@ def test_try_parse_structured_postal_address_uk():
 
     create_structured_postal_address_field(activity_details, structured_postal_address_json)
 
-    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field)
+    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field, None)
 
     actual_structured_postal_address = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
 
@@ -177,7 +177,7 @@ def test_try_parse_structured_postal_address_india():
 
     create_structured_postal_address_field(activity_details, structured_postal_address_json)
 
-    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field)
+    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field, None)
 
     actual_structured_postal_address = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
 
@@ -212,7 +212,7 @@ def test_try_parse_structured_postal_address_usa():
 
     create_structured_postal_address_field(activity_details, structured_postal_address_json)
 
-    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field)
+    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field, None)
 
     actual_structured_postal_address = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
 
@@ -253,7 +253,7 @@ def test_try_parse_structured_postal_address_nested_json():
 
     create_structured_postal_address_field(activity_details, structured_postal_address_json)
 
-    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field)
+    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field, None)
 
     actual_structured_postal_address = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
 
@@ -276,7 +276,7 @@ def test_set_address_to_be_formatted_address():
     structured_postal_address_json = json.dumps(structured_postal_address)
 
     create_structured_postal_address_field(activity_details, structured_postal_address_json)
-    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field)
+    ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field, None)
 
     assert 'postal_address' not in activity_details.user_profile
 

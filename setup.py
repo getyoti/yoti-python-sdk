@@ -17,11 +17,10 @@ setup(
     url='https://github.com/getyoti/yoti-python-sdk',
     author='Yoti',
     author_email='tech@yoti.com',
-    install_requires=['cryptography>=1.4', 'protobuf>=3.0.0',
-                      'requests>=2.0.0', 'future>=0.11.0'],
+    install_requires=['cryptography>=2.2.1', 'protobuf>=3.1.0',
+                      'requests>=2.11.1', 'future>=0.11.0', 'asn1==2.2.0', 'pyopenssl>=18.0.0'],
     extras_require={
-        'examples': ['Django>=1.8', 'Flask>=0.10', 'python-dotenv>=0.7.1', 'django-sslserver>=0.2',
-                     'pyopenssl>=18.0.0'],
+        'examples': ['Django>=1.8', 'Flask>=0.10', 'python-dotenv>=0.7.1', 'django-sslserver>=0.2', 'Werkzeug==0.11.15'],
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
