@@ -36,7 +36,7 @@ class ActivityDetails:
                 if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
                     self.try_convert_structured_postal_address_to_dict(field, anchors)
 
-            self.set_address_to_be_formatted_address_if_null()
+            self.set_address_to_be_formatted_address_if_null(anchors)
 
         self.user_id = receipt['remember_me_id']
         self.outcome = receipt['sharing_outcome']
@@ -68,20 +68,23 @@ class ActivityDetails:
         decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict)
         self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = decoder.decode(field.value)
         self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = attribute.attribute(
-            "structured_postal_address",
+            config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS,
             decoder.decode(field.value),
             anchors)
 
-    def set_address_to_be_formatted_address_if_null(self):
-        if 'postal_address' not in self.user_profile and 'structured_postal_address' in self.user_profile:
-            if 'formatted_address' in self.user_profile['structured_postal_address']:
-                self.user_profile['postal_address'] = self.user_profile['structured_postal_address'][
-                    'formatted_address']
+    def set_address_to_be_formatted_address_if_null(self, anchors):
+        if config.ATTRIBUTE_POSTAL_ADDRESS not in self.user_profile and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.user_profile:
+            if config.KEY_FORMATTED_ADDRESS in self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]:
+                self.user_profile[config.ATTRIBUTE_POSTAL_ADDRESS] = self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS][
+                    config.KEY_FORMATTED_ADDRESS]
 
-        if 'postal_address' not in self.profile and 'structured_postal_address' in self.profile:
-            if 'formatted_address' in self.profile['structured_postal_address'].get_value():
-                self.profile['postal_address'] = self.profile['structured_postal_address'].get_value()[
-                    'formatted_address']
+        if config.ATTRIBUTE_POSTAL_ADDRESS not in self.profile and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.profile:
+            if config.KEY_FORMATTED_ADDRESS in self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value():
+                formatted_address = self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()[config.KEY_FORMATTED_ADDRESS]
+                self.profile[config.ATTRIBUTE_POSTAL_ADDRESS] = attribute.attribute(
+                    config.ATTRIBUTE_POSTAL_ADDRESS,
+                    formatted_address,
+                    anchors)
 
     def __iter__(self):
         yield 'user_id', self.user_id
