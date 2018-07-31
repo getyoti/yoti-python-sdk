@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+import collections
 import json
 
-import collections
 import pytest
 
 from yoti_python_sdk import config
@@ -146,7 +146,8 @@ def test_try_parse_structured_postal_address_uk():
 
     ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field, None)
 
-    actual_structured_postal_address_user_profile = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+    actual_structured_postal_address_user_profile = activity_details.user_profile[
+        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
 
     assert type(actual_structured_postal_address_user_profile) is collections.OrderedDict
     assert actual_structured_postal_address_user_profile[ADDRESS_FORMAT_KEY] == ADDRESS_FORMAT_VALUE
@@ -158,7 +159,8 @@ def test_try_parse_structured_postal_address_uk():
     assert actual_structured_postal_address_user_profile[COUNTRY_KEY] == COUNTRY_VALUE
     assert actual_structured_postal_address_user_profile[FORMATTED_ADDRESS_KEY] == FORMATTED_ADDRESS_VALUE
 
-    actual_structured_postal_address_profile = activity_details.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()
+    actual_structured_postal_address_profile = activity_details.profile[
+        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()
 
     assert type(actual_structured_postal_address_profile) is collections.OrderedDict
     assert actual_structured_postal_address_profile[ADDRESS_FORMAT_KEY] == ADDRESS_FORMAT_VALUE
@@ -193,7 +195,8 @@ def test_try_parse_structured_postal_address_india():
 
     ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field, None)
 
-    actual_structured_postal_address_user_profile = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+    actual_structured_postal_address_user_profile = activity_details.user_profile[
+        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
 
     assert type(actual_structured_postal_address_user_profile) is collections.OrderedDict
     assert actual_structured_postal_address_user_profile[ADDRESS_FORMAT_KEY] == INDIA_FORMAT_VALUE
@@ -210,7 +213,8 @@ def test_try_parse_structured_postal_address_india():
     assert actual_structured_postal_address_user_profile[COUNTRY_KEY] == INDIA_COUNTRY_VALUE
     assert actual_structured_postal_address_user_profile[FORMATTED_ADDRESS_KEY] == INDIA_FORMATTED_ADDRESS_VALUE
 
-    actual_structured_postal_address_profile = activity_details.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()
+    actual_structured_postal_address_profile = activity_details.profile[
+        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()
 
     assert type(actual_structured_postal_address_profile) is collections.OrderedDict
     assert actual_structured_postal_address_profile[ADDRESS_FORMAT_KEY] == INDIA_FORMAT_VALUE
@@ -245,7 +249,8 @@ def test_try_parse_structured_postal_address_usa():
 
     ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field, None)
 
-    actual_structured_postal_address_user_profile = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+    actual_structured_postal_address_user_profile = activity_details.user_profile[
+        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
 
     assert type(actual_structured_postal_address_user_profile) is collections.OrderedDict
     assert actual_structured_postal_address_user_profile[ADDRESS_FORMAT_KEY] == USA_FORMAT_VALUE
@@ -257,7 +262,8 @@ def test_try_parse_structured_postal_address_usa():
     assert actual_structured_postal_address_user_profile[COUNTRY_KEY] == USA_COUNTRY_VALUE
     assert actual_structured_postal_address_user_profile[FORMATTED_ADDRESS_KEY] == USA_FORMATTED_ADDRESS_VALUE
 
-    actual_structured_postal_address_profile = activity_details.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()
+    actual_structured_postal_address_profile = activity_details.profile[
+        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()
 
     assert type(actual_structured_postal_address_profile) is collections.OrderedDict
     assert actual_structured_postal_address_profile[ADDRESS_FORMAT_KEY] == USA_FORMAT_VALUE
@@ -298,7 +304,8 @@ def test_try_parse_structured_postal_address_nested_json():
 
     ActivityDetails.try_convert_structured_postal_address_to_dict(activity_details, activity_details.field, None)
 
-    actual_structured_postal_address_user_profile = activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+    actual_structured_postal_address_user_profile = activity_details.user_profile[
+        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
 
     assert type(actual_structured_postal_address_user_profile) is collections.OrderedDict
     assert actual_structured_postal_address_user_profile[ADDRESS_FORMAT_KEY] == ADDRESS_FORMAT_VALUE
@@ -311,7 +318,8 @@ def test_try_parse_structured_postal_address_nested_json():
 
     assert actual_structured_postal_address_user_profile[FORMATTED_ADDRESS_KEY] == formatted_address_json
 
-    actual_structured_postal_address_profile = activity_details.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()
+    actual_structured_postal_address_profile = activity_details.profile[
+        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()
 
     assert type(actual_structured_postal_address_profile) is collections.OrderedDict
     assert actual_structured_postal_address_profile[ADDRESS_FORMAT_KEY] == ADDRESS_FORMAT_VALUE

@@ -1,9 +1,10 @@
-import asn1
 import datetime
-import OpenSSL
-import yoti_python_sdk.protobuf.v1.common_public_api.signed_timestamp_pb2 as compubapi
 
+import OpenSSL
+import asn1
 from OpenSSL import crypto
+
+import yoti_python_sdk.protobuf.v1.common_public_api.signed_timestamp_pb2 as compubapi
 from yoti_python_sdk import config
 
 UNKNOWN_EXTENSION = ""
@@ -80,7 +81,7 @@ class Anchor:
 
         decoder.start(once_decoded_value)
         tag, twice_decoded_value = decoder.read()
-        
+
         utf8_value = twice_decoded_value.decode('utf-8')
         return utf8_value
 
@@ -98,7 +99,8 @@ class Anchor:
             signed_timestamp_object.MergeFromString(anchor.signed_time_stamp)
 
             try:
-                signed_timestamp_parsed = datetime.datetime.fromtimestamp(signed_timestamp_object.timestamp / float(1000000))
+                signed_timestamp_parsed = datetime.datetime.fromtimestamp(
+                    signed_timestamp_object.timestamp / float(1000000))
             except OSError:
                 print("Unable to parse timestamp from integer: '{0}'".format(signed_timestamp_object.timestamp))
                 return ""

@@ -2,8 +2,8 @@
 import collections
 import json
 
-from yoti_python_sdk.anchor import Anchor
 from yoti_python_sdk import config, attribute
+from yoti_python_sdk.anchor import Anchor
 from yoti_python_sdk.protobuf.v1.protobuf import Protobuf
 
 
@@ -75,12 +75,14 @@ class ActivityDetails:
     def set_address_to_be_formatted_address_if_null(self, anchors):
         if config.ATTRIBUTE_POSTAL_ADDRESS not in self.user_profile and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.user_profile:
             if config.KEY_FORMATTED_ADDRESS in self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]:
-                self.user_profile[config.ATTRIBUTE_POSTAL_ADDRESS] = self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS][
+                self.user_profile[config.ATTRIBUTE_POSTAL_ADDRESS] = \
+                self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS][
                     config.KEY_FORMATTED_ADDRESS]
 
         if config.ATTRIBUTE_POSTAL_ADDRESS not in self.profile and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.profile:
             if config.KEY_FORMATTED_ADDRESS in self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value():
-                formatted_address = self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()[config.KEY_FORMATTED_ADDRESS]
+                formatted_address = self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()[
+                    config.KEY_FORMATTED_ADDRESS]
                 self.profile[config.ATTRIBUTE_POSTAL_ADDRESS] = attribute.attribute(
                     config.ATTRIBUTE_POSTAL_ADDRESS,
                     formatted_address,
