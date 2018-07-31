@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import io
+from os.path import dirname, join, abspath
 
 import pytest
-from os.path import dirname, join, abspath
 
 from yoti_python_sdk import Client
 from yoti_python_sdk.crypto import Crypto

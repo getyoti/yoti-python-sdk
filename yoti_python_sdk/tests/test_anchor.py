@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
+import binascii
 import datetime
 import io
-import pytest
-import binascii
-import struct
-
 from os.path import abspath, dirname, join
 
 from yoti_python_sdk import anchor, config
