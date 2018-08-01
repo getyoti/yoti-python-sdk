@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+import yoti_python_sdk
 
 from yoti_python_sdk import config
 from yoti_python_sdk.tests import anchor_parser
@@ -30,3 +31,12 @@ def test_parse_yoti_admin():
     assert parsed_anchor.signed_timestamp == datetime.datetime(2018, 4, 11, 13, 13, 4, 95238)
     assert parsed_anchor.sub_type == ""
     assert parsed_anchor.value == "YOTI_ADMIN"
+
+
+def test_anchor_returns_correct_default_values():
+    anchor = yoti_python_sdk.anchor.Anchor()
+
+    assert anchor.anchor_type == "Unknown"
+    assert anchor.signed_timestamp is None
+    assert anchor.sub_type == ""
+    assert anchor.value == ""
