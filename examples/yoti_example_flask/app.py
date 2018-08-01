@@ -35,14 +35,14 @@ def index():
 def auth():
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
     activity_details = client.get_activity_details(request.args['token'])
-    user_profile = activity_details.user_profile
-    user_profile['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
+    profile = activity_details.profile
+    profile['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
 
-    selfie = user_profile.get('selfie')
+    selfie = profile.get('selfie')
     if selfie is not None:
-        save_image(selfie)
+        save_image(selfie.value)
     return render_template('profile.html',
-                           **user_profile)
+                           **profile)
 
 
 if __name__ == '__main__':
