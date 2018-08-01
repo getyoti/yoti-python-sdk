@@ -24,12 +24,12 @@ class AuthView(TemplateView):
     def get(self, request, *args, **kwargs):
         client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
         activity_details = client.get_activity_details(request.GET['token'])
-        context = activity_details.user_profile
+        context = activity_details.profile
         context['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
 
         selfie = context.get('selfie')
         if selfie is not None:
-            self.save_image(selfie)
+            self.save_image(selfie.value)
         return self.render_to_response(context)
 
     @staticmethod

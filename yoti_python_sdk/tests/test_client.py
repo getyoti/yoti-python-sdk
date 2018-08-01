@@ -144,7 +144,7 @@ def test_requesting_activity_details_with_correct_data(
     selfie_user_profile = activity_details.user_profile.get('selfie')
     assert isinstance(selfie_user_profile, basestring)
 
-    selfie_profile = activity_details.profile.get('selfie').get_value()
+    selfie_profile = activity_details.profile.get('selfie').value
     assert isinstance(selfie_profile, basestring)
 
     base64_selfie_uri = getattr(activity_details, 'base64_selfie_uri')

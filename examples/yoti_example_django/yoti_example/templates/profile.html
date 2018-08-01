@@ -1,109 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>Yoti Profile</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<h3><a href="/">Home</a></h3>
-<table>
-    {% if user_id %}
-    <tr>
-        <td>User ID:</td>
-        <td>{{user_id}}</td>
-    </tr>
-    {% endif %}
-
-    {% if base64_selfie_uri %}
-    <tr>
-        <td>Selfie in base64 format:</td>
-        <td><img width="200" alt="base64photo" src="{{base64_selfie_uri}}"/></td>
-    </tr>
-    <tr>
-        <td>Selfie from saved image:</td>
-        <td><img width="200" alt="saved image" src="/static/YotiSelfie.jpg"/></td>
-    </tr>
-    {% endif %}
-
-    {% if given_names %}
-    <tr>
-        <td>Given Names:</td>
-        <td>{{given_names}}</td>
-    </tr>
-    {% endif %}
-
-    {% if family_name %}
-    <tr>
-        <td>Family Name:</td>
-        <td>{{family_name}}</td>
-    </tr>
-    {% endif %}
-
-    {% if full_name %}
-    <tr>
-        <td>Full Name:</td>
-        <td>{{full_name}}</td>
-    </tr>
-    {% endif %}
-
-    {% if phone_number %}
-    <tr>
-        <td>Phone Number:</td>
-        <td>{{phone_number}}</td>
-    </tr>
-    {% endif %}
-
-    {% if date_of_birth %}
-    <tr>
-        <td>Date of Birth:</td>
-        <td>{{date_of_birth}}</td>
-    </tr>
-    {% endif %}
-
-    {% if is_age_verified is not None %}
-    <tr>
-        <td>Age Verified:</td>
-        <td>{{is_age_verified}}</td>
-    </tr>
-    {% endif %}
-
-    {% if postal_address %}
-    <tr>
-        <td>Postal Address:</td>
-        <td>{{postal_address}}</td>
-    </tr>
-    {% endif %}
-
-    {% if email_address %}
-    <tr>
-        <td>Email Address:</td>
-        <td>{{email_address}}</td>
-    </tr>
-    {% endif %}
-
-    {% if nationality %}
-    <tr>
-        <td>Nationality:</td>
-        <td>{{nationality}}</td>
-    </tr>
-    {% endif %}
-
-    {% if gender %}
-    <tr>
-        <td>Gender:</td>
-        <td>{{gender}}</td>
-    </tr>
-    {% endif %}
-
-    {% if structured_postal_address %}
-    <td>Structured Postal Address:</td>
-    {% for key, value in structured_postal_address.items %}
-    <tr>
-        <th> {{ key }}</th>
-        <td> {{ value }}</td>
-    </tr>
-    {% endfor %}
-    {% endif %}
-</table>
+<div class="container">
+    <h2><a href="/">Home</a></h2>
+    <h3>Yoti Profile</h3>
+    <table class="table table-sm">
+        <thead class="thead-dark">
+        <tr>
+            <th rowspan="2" scope="col">Name</th>
+            <th rowspan="2" scope="col">Value</th>
+            <th colspan="3" width="33%" class="table-dark">
+                <table class="table table-dark anchor-table">
+                    <tr class="row no-gutters">
+                        <td colspan="3" class="table-dark" align="center" width="100%">
+                            Anchors
+                        </td>
+                    </tr>
+                    <tr class="row no-gutters">
+                        <th class="col-md-3">S/V</th>
+                        <th class="col-md-6">Value</th>
+                        <th class="col-md-3">Subtype</th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if user_id %}
+        <tr>
+            <th scope="row">Yoti ID</th>
+            <td>{{user_id}}</td>
+            <td colspan="3" width="33%">
+                <table class="table">
+                    <tbody>
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">N/A</td>
+                        <td class="col-md-3">N/A</td>
+                    </tr>
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">N/A</td>
+                        <td class="col-md-3">N/A</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if given_names %}
+        <tr>
+            <th scope="row">Given Name(s)</th>
+            <td>{{ given_names.value }}</td>
+            <td colspan="3" width="33%">
+                <table class="table">
+                    <tbody>
+                    {% for source in given_names.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in given_names.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if family_name %}
+        <tr>
+            <th scope="row">Family Name</th>
+            <td>{{ family_name.value }}</td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in family_name.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in family_name.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if full_name %}
+        <tr>
+            <th scope="row">Full Name</th>
+            <td>{{ full_name.value }}</td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in full_name.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in full_name.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if phone_number %}
+        <tr>
+            <th scope="row">Phone</th>
+            <td>{{ phone_number.value }}</td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in phone_number.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in phone_number.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if email_address %}
+        <tr>
+            <th scope="row">Email</th>
+            <td>{{ email_address.value }}</td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in email_address.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in email_address.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if date_of_birth %}
+        <tr>
+            <th scope="row">Date Of Birth</th>
+            <td>{{ date_of_birth.value }}</td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in date_of_birth.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in date_of_birth.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if is_age_verified is not None %}
+        <tr>
+            <th scope="row">Age verified</th>
+            <td>{{ is_age_verified.value }}</td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in is_age_verified.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in is_age_verified.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if postal_address %}
+        <tr>
+            <th scope="row">Address</th>
+            <td>{{ postal_address.value }}</td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in postal_address.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in postal_address.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if gender %}
+        <tr>
+            <th scope="row">Gender</th>
+            <td>{{ gender.value }}</td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in gender.sources.items %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in gender.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if nationality %}
+        <tr>
+            <th scope="row">Nationality</th>
+            <td>{{ nationality.value }}</td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in nationality.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in nationality.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% if selfie %}
+        <tr>
+            <th scope="row">Selfie as base64 data</th>
+            <td><img width="200" alt="base64photo" src="{{base64_selfie_uri}}"/></td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in selfie.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in selfie.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Selfie as image file</th>
+            <td><img width="200" alt="saved image" src="/static/YotiSelfie.jpg"/></td>
+            <td colspan="3">
+                <table class="table">
+                    <tbody>
+                    {% for source in selfie.sources %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Source</td>
+                        <td class="col-md-6">{{ source.value }}</td>
+                        <td class="col-md-3">{{ source.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for verifier in selfie.verifiers %}
+                    <tr class="row no-gutters">
+                        <td class="col-md-3">Verifier</td>
+                        <td class="col-md-6">{{ verifier.value }}</td>
+                        <td class="col-md-3">{{ verifier.sub_type }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td class="table-dark">Name</td>
+            <td class="table-dark">Value</td>
+            <td colspan="3" width="33%" class="table-dark">
+                <table class="table table-dark anchor-table">
+                    <tr class="row no-gutters">
+                        <td class="col-md-3 table-dark">S/V</td>
+                        <td class="col-md-6 table-dark">Value</td>
+                        <td class="col-md-3 table-dark">Subtype</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

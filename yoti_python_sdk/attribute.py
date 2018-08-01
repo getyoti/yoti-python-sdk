@@ -2,26 +2,27 @@ from yoti_python_sdk import config
 
 
 class attribute:
-    name = ""
-    value = ""
-    anchors = {}
+    def __init__(self, name="", value="", anchors={}):
+        self.__name = name
+        self.__value = value
+        self.__anchors = anchors
 
-    def __init__(self, name, value, anchors):
-        self.name = name
-        self.value = value
-        self.anchors = anchors
+    @property
+    def name(self):
+        return self.__name
 
-    def get_name(self):
-        return self.name
+    @property
+    def value(self):
+        return self.__value
 
-    def get_value(self):
-        return self.value
+    @property
+    def anchors(self):
+        return self.__anchors
 
-    def get_anchors(self):
-        return self.anchors
+    @property
+    def sources(self):
+        return list(filter(lambda a: a.anchor_type == config.ANCHOR_SOURCE, self.__anchors))
 
-    def get_sources(self):
-        return list(filter(lambda a: a.anchor_type == config.ANCHOR_SOURCE, self.anchors))
-
-    def get_verifiers(self):
-        return list(filter(lambda a: a.anchor_type == config.ANCHOR_VERIFIER, self.anchors))
+    @property
+    def verifiers(self):
+        return list(filter(lambda a: a.anchor_type == config.ANCHOR_VERIFIER, self.__anchors))

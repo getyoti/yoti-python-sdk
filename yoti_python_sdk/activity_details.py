@@ -65,23 +65,27 @@ class ActivityDetails:
         raise TypeError("age_verified_field unable to be parsed")
 
     def try_convert_structured_postal_address_to_dict(self, field, anchors):
-        decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict)
-        self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = decoder.decode(field.value)
+        decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)
+        value_to_decode = field.value
+        if not isinstance(value_to_decode, str):
+            value_to_decode = value_to_decode.decode()
+
+        self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = decoder.decode(value_to_decode)
         self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = attribute.attribute(
             config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS,
-            decoder.decode(field.value),
+            decoder.decode(value_to_decode),
             anchors)
 
     def set_address_to_be_formatted_address_if_null(self, anchors):
         if config.ATTRIBUTE_POSTAL_ADDRESS not in self.user_profile and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.user_profile:
             if config.KEY_FORMATTED_ADDRESS in self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]:
                 self.user_profile[config.ATTRIBUTE_POSTAL_ADDRESS] = \
-                self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS][
-                    config.KEY_FORMATTED_ADDRESS]
+                    self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS][
+                        config.KEY_FORMATTED_ADDRESS]
 
         if config.ATTRIBUTE_POSTAL_ADDRESS not in self.profile and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.profile:
-            if config.KEY_FORMATTED_ADDRESS in self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value():
-                formatted_address = self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].get_value()[
+            if config.KEY_FORMATTED_ADDRESS in self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value:
+                formatted_address = self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value[
                     config.KEY_FORMATTED_ADDRESS]
                 self.profile[config.ATTRIBUTE_POSTAL_ADDRESS] = attribute.attribute(
                     config.ATTRIBUTE_POSTAL_ADDRESS,
