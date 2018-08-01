@@ -13,11 +13,12 @@ VERIFIER_EXTENSION = "1.3.6.1.4.1.47127.1.1.2"
 
 
 class Anchor:
-    def __init__(self, anchor_type="Unknown", sub_type="", value="", signed_timestamp=None):
+    def __init__(self, anchor_type="Unknown", sub_type="", value="", signed_timestamp=None, origin_server_certs=None):
         self.__anchor_type = anchor_type
         self.__sub_type = sub_type
         self.__value = value
         self.__signed_timestamp = signed_timestamp
+        self.__origin_server_certs = origin_server_certs
 
     def __iter__(self):
         return self
@@ -40,10 +41,11 @@ class Anchor:
                 origin_server_certs_list = list(anc.origin_server_certs)
                 origin_server_certs_item = origin_server_certs_list[0]
 
-                cert = crypto.load_certificate(OpenSSL.crypto.FILETYPE_ASN1, origin_server_certs_item).to_cryptography()
+                crypto_cert = crypto.load_certificate(OpenSSL.crypto.FILETYPE_ASN1,
+                                                      origin_server_certs_item).to_cryptography()
 
-                for i in range(len(cert.extensions)):
-                    extensions = cert.extensions[i]
+                for i in range(len(crypto_cert.extensions)):
+                    extensions = crypto_cert.extensions[i]
                     if hasattr(extensions, 'oid'):
                         oid = extensions.oid
                         if hasattr(oid, 'dotted_string'):
@@ -61,7 +63,8 @@ class Anchor:
                                         anchor_type,
                                         anc.sub_type,
                                         Anchor.decode_asn1_value(extension_value.value),
-                                        anc.signed_time_stamp))
+                                        anc.signed_time_stamp,
+                                        crypto_cert))
 
         return parsed_anchors
 
@@ -107,3 +110,7 @@ class Anchor:
             return ""
 
         return signed_timestamp_parsed
+
+    @property
+    def origin_server_certs(self):
+        return self.__origin_server_certs
