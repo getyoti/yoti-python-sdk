@@ -1,6 +1,5 @@
 import binascii
 import io
-
 from os.path import abspath, dirname, join
 
 from yoti_python_sdk import anchor

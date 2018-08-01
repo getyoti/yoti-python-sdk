@@ -68,7 +68,7 @@ USA_FORMATTED_ADDRESS_VALUE = "15a North Street\nTOWN/CITY NAME\nAL\n36201\nUSA"
 
 def create_selfie_field(activity_details):
     activity_details.field = lambda: None
-    activity_details.field.name = "selfie"
+    activity_details.field.name = config.ATTRIBUTE_SELFIE
     activity_details.field.value = "base64(ง •̀_•́)ง"
     activity_details.field.content_type = Protobuf.CT_STRING
 
@@ -108,8 +108,8 @@ def test_try_parse_age_verified_field_age_over():
     create_age_verified_field(activity_details, True, "true".encode(), 18)
 
     ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field, None)
-    assert activity_details.user_profile['is_age_verified'] is True
-    assert activity_details.profile['is_age_verified'].value is True
+    assert activity_details.user_profile[config.ATTRIBUTE_IS_AGE_VERIFIED] is True
+    assert activity_details.profile[config.ATTRIBUTE_IS_AGE_VERIFIED].value is True
 
 
 def test_try_parse_age_verified_field_age_under():
@@ -117,8 +117,8 @@ def test_try_parse_age_verified_field_age_under():
     create_age_verified_field(activity_details, False, "false".encode(), 55)
 
     ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field, None)
-    assert activity_details.user_profile['is_age_verified'] is False
-    assert activity_details.profile['is_age_verified'].value is False
+    assert activity_details.user_profile[config.ATTRIBUTE_IS_AGE_VERIFIED] is False
+    assert activity_details.profile[config.ATTRIBUTE_IS_AGE_VERIFIED].value is False
 
 
 def test_try_parse_age_verified_field_non_bool_value_throws_error():
