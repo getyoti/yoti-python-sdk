@@ -26,7 +26,7 @@ class ActivityDetails:
                 self.profile[field.name] = attribute.attribute(field.name, value, anchors)
                 self.user_profile[field.name] = value  # will be deprecated in v3.0.0
 
-                if field.name == 'selfie':
+                if field.name == config.ATTRIBUTE_SELFIE:
                     self.try_parse_selfie_field(field)
 
                 if field.name.startswith(config.ATTRIBUTE_AGE_OVER) or field.name.startswith(
@@ -54,12 +54,12 @@ class ActivityDetails:
                 field.content_type
             )
             if is_age_verified == 'true':
-                self.user_profile['is_age_verified'] = True
-                self.profile['is_age_verified'] = attribute.attribute(is_age_verified, True, anchors)
+                self.user_profile[config.ATTRIBUTE_IS_AGE_VERIFIED] = True
+                self.profile[config.ATTRIBUTE_IS_AGE_VERIFIED] = attribute.attribute(is_age_verified, True, anchors)
                 return
             if is_age_verified == 'false':
-                self.user_profile['is_age_verified'] = False
-                self.profile['is_age_verified'] = attribute.attribute(is_age_verified, False, anchors)
+                self.user_profile[config.ATTRIBUTE_IS_AGE_VERIFIED] = False
+                self.profile[config.ATTRIBUTE_IS_AGE_VERIFIED] = attribute.attribute(is_age_verified, False, anchors)
                 return
 
         raise TypeError("age_verified_field unable to be parsed")

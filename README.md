@@ -118,21 +118,40 @@ Here is an example of how this works:
 ```python
 client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
 activity_details = client.get_activity_details(token)
-user_profile = activity_details.user_profile
 
-user_id = user_profile.get('user_id')
-selfie = user_profile.get('selfie')
-given_names = user_profile.get('given_names')
-family_name = user_profile.get('family_name')
-full_name = user_profile.get('full_name')
-phone_number = user_profile.get('phone_number')
-date_of_birth = user_profile.get('date_of_birth')
-is_age_verified = user_profile.get('is_age_verified')
-postal_address = user_profile.get('postal_address')
-gender = user_profile.get('gender')
-nationality = user_profile.get('nationality')
+profile = activity_details.profile
+		
+selfie = profile.get('selfie').value
+given_names = profile.get('given_names').value
+family_name = profile.get('family_name').value
+full_name = profile.get('full_name').value
+phone_number = profile.get('phone_number').value
+date_of_birth = profile.get('date_of_birth').value
+is_age_verified = profile.get('is_age_verified').value
+postal_address = profile.get('postal_address').value
+gender = profile.get('gender').value
+nationality = profile.get('nationality').value
 
-base64_selfie_uri = activity_details.get('base64_selfie_uri')
+remember_me_id = activity_details.user_id
+base64_selfie_uri = activity_details.base64_selfie_uri
+```
+
+You can retrieve the anchors, sources and verifiers for each attribute as follows:
+```python
+given_names_attribute = profile.get('given_names')
+
+given_names_anchors = given_names_attribute.anchors
+given_names_sources = given_names_attribute.sources
+given_names_verifiers = given_names_attribute.verifiers
+```
+
+You can also retrieve further properties from these respective anchors in the following way:
+```python
+source_anchor = given_names_sources[0]
+value = source_anchor.value
+sub_type = source_anchor.sub_type
+timestamp = source_anchor.signed_timestamp
+origin_server_certs = source_anchor.origin_server_certs
 ```
 
 ## AML Integration
@@ -252,7 +271,7 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
 
 * Activity Details
     * [X] User ID `user_id`
-    * [X] Profile `user_profile`
+    * [X] Profile `profile`
         * [X] Photo `selfie`
         * [X] Given Names `given_names`
         * [X] Family Name `family_name`
