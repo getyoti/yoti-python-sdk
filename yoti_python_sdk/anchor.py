@@ -13,16 +13,11 @@ VERIFIER_EXTENSION = "1.3.6.1.4.1.47127.1.1.2"
 
 
 class Anchor:
-    anchor_type = "Unknown"
-    sub_type = ""
-    value = ""
-    signed_timestamp = compubapi.SignedTimestamp()
-
-    def __init__(self, anchor_type=None, sub_type=None, value=None, signed_timestamp=None):
-        self.anchor_type = anchor_type
-        self.sub_type = sub_type
-        self.value = value
-        self.signed_timestamp = signed_timestamp
+    def __init__(self, anchor_type="Unknown", sub_type="", value="", signed_timestamp=None):
+        self.__anchor_type = anchor_type
+        self.__sub_type = sub_type
+        self.__value = value
+        self.__signed_timestamp = signed_timestamp
 
     def __iter__(self):
         return self
@@ -39,9 +34,8 @@ class Anchor:
 
     @staticmethod
     def parse_anchors(anchors):
+        parsed_anchors = []
         for anc in anchors:
-            parsed_anchors = []
-
             if hasattr(anc, 'origin_server_certs'):
                 origin_server_certs_list = list(anc.origin_server_certs)
                 origin_server_certs_item = origin_server_certs_list[0]
@@ -65,9 +59,9 @@ class Anchor:
                                 if hasattr(extension_value, 'value'):
                                     parsed_anchors.append(Anchor(
                                         anchor_type,
-                                        Anchor.get_sub_type(anc),
+                                        anc.sub_type,
                                         Anchor.decode_asn1_value(extension_value.value),
-                                        Anchor.get_signed_timestamp(anc)))
+                                        anc.signed_time_stamp))
 
         return parsed_anchors
 
@@ -85,26 +79,31 @@ class Anchor:
         utf8_value = twice_decoded_value.decode('utf-8')
         return utf8_value
 
-    @staticmethod
-    def get_sub_type(anchor):
-        if hasattr(anchor, 'sub_type'):
-            return anchor.sub_type
-        else:
+    @property
+    def anchor_type(self):
+        return self.__anchor_type
+
+    @property
+    def value(self):
+        return self.__value
+
+    @property
+    def sub_type(self):
+        return self.__sub_type
+
+    @property
+    def signed_timestamp(self):
+        if self.__signed_timestamp is None:
+            return None
+
+        signed_timestamp_object = compubapi.SignedTimestamp()
+        signed_timestamp_object.MergeFromString(self.__signed_timestamp)
+
+        try:
+            signed_timestamp_parsed = datetime.datetime.fromtimestamp(
+                signed_timestamp_object.timestamp / float(1000000))
+        except OSError:
+            print("Unable to parse timestamp from integer: '{0}'".format(signed_timestamp_object.timestamp))
             return ""
 
-    @staticmethod
-    def get_signed_timestamp(anchor):
-        if hasattr(anchor, 'signed_time_stamp'):
-            signed_timestamp_object = compubapi.SignedTimestamp()
-            signed_timestamp_object.MergeFromString(anchor.signed_time_stamp)
-
-            try:
-                signed_timestamp_parsed = datetime.datetime.fromtimestamp(
-                    signed_timestamp_object.timestamp / float(1000000))
-            except OSError:
-                print("Unable to parse timestamp from integer: '{0}'".format(signed_timestamp_object.timestamp))
-                return ""
-
-            return signed_timestamp_parsed
-        else:
-            return ""
+        return signed_timestamp_parsed
