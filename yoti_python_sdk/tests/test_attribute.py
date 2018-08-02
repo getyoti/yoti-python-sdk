@@ -10,7 +10,7 @@ VALUE = "value"
 def test_attribute_get_values():
     parsed_anchors = []
 
-    attribute = yoti_python_sdk.attribute.attribute(NAME, VALUE, parsed_anchors)
+    attribute = yoti_python_sdk.attribute.Attribute(NAME, VALUE, parsed_anchors)
 
     assert attribute.name == NAME
     assert attribute.value == VALUE
@@ -19,7 +19,7 @@ def test_attribute_get_values():
 
 def test_attribute_get_sources():
     anchors = create_source_and_verifier_anchors()
-    attribute = yoti_python_sdk.attribute.attribute(NAME, VALUE, anchors)
+    attribute = yoti_python_sdk.attribute.Attribute(NAME, VALUE, anchors)
     sources = attribute.sources
 
     assert len(sources) == 1
@@ -28,7 +28,7 @@ def test_attribute_get_sources():
 
 def test_attribute_get_verifiers():
     anchors = create_source_and_verifier_anchors()
-    attribute = yoti_python_sdk.attribute.attribute(NAME, VALUE, anchors)
+    attribute = yoti_python_sdk.attribute.Attribute(NAME, VALUE, anchors)
     verifiers = attribute.verifiers
 
     assert len(verifiers) == 1
