@@ -1,7 +1,7 @@
 from yoti_python_sdk import config
 
 
-class attribute:
+class Attribute:
     def __init__(self, name="", value="", anchors={}):
         self.__name = name
         self.__value = value
