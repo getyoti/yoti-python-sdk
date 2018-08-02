@@ -38,6 +38,7 @@ class Anchor:
         parsed_anchors = []
         for anc in anchors:
             if hasattr(anc, 'origin_server_certs'):
+                anchor_type = "Unknown"
                 origin_server_certs_list = list(anc.origin_server_certs)
                 origin_server_certs_item = origin_server_certs_list[0]
 
@@ -53,18 +54,23 @@ class Anchor:
                                 anchor_type = config.ANCHOR_SOURCE
                             elif oid.dotted_string == VERIFIER_EXTENSION:
                                 anchor_type = config.ANCHOR_VERIFIER
-                            else:
-                                continue
 
-                            if hasattr(extensions, 'value'):
-                                extension_value = extensions.value
-                                if hasattr(extension_value, 'value'):
-                                    parsed_anchors.append(Anchor(
-                                        anchor_type,
-                                        anc.sub_type,
-                                        Anchor.decode_asn1_value(extension_value.value),
-                                        anc.signed_time_stamp,
-                                        crypto_cert))
+                            if anchor_type != "Unknown":
+                                parsed_anchors = Anchor.get_values_from_extensions(anc, anchor_type, extensions, crypto_cert, parsed_anchors)
+
+        return parsed_anchors
+
+    @staticmethod
+    def get_values_from_extensions(anc, anchor_type, extensions, crypto_cert, parsed_anchors):
+        if hasattr(extensions, 'value'):
+            extension_value = extensions.value
+            if hasattr(extension_value, 'value'):
+                parsed_anchors.append(Anchor(
+                    anchor_type,
+                    anc.sub_type,
+                    Anchor.decode_asn1_value(extension_value.value),
+                    anc.signed_time_stamp,
+                    crypto_cert))
 
         return parsed_anchors
 
