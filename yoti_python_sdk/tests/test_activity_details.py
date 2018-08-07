@@ -345,7 +345,7 @@ def test_set_address_to_be_formatted_address():
     assert config.ATTRIBUTE_POSTAL_ADDRESS not in activity_details.user_profile
     assert config.ATTRIBUTE_POSTAL_ADDRESS not in activity_details.profile
 
-    ActivityDetails.set_address_to_be_formatted_address_if_null(activity_details, None)
+    ActivityDetails.ensure_postal_address(activity_details, None)
 
     assert activity_details.user_profile[config.ATTRIBUTE_POSTAL_ADDRESS] == FORMATTED_ADDRESS_VALUE
     assert activity_details.profile[config.ATTRIBUTE_POSTAL_ADDRESS].value == FORMATTED_ADDRESS_VALUE

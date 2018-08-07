@@ -37,7 +37,7 @@ class ActivityDetails:
                 if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
                     self.try_convert_structured_postal_address_to_dict(field, anchors)
 
-            self.set_address_to_be_formatted_address_if_null(anchors)
+            self.ensure_postal_address(anchors)
 
         self.user_id = receipt['remember_me_id']
         self.outcome = receipt['sharing_outcome']
@@ -77,7 +77,7 @@ class ActivityDetails:
             decoder.decode(value_to_decode),
             anchors)
 
-    def set_address_to_be_formatted_address_if_null(self, anchors):
+    def ensure_postal_address(self, anchors):
         # setting in 'user_profile'  - will be removed once user_profile is removed
         if config.ATTRIBUTE_POSTAL_ADDRESS not in self.user_profile and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.user_profile:
             if config.KEY_FORMATTED_ADDRESS in self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]:
