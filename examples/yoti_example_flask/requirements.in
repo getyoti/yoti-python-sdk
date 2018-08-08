@@ -1,4 +1,4 @@
 flask>=0.10
-yoti
+yoti>=2.4.0
 python-dotenv>=0.7.1
 pyopenssl
