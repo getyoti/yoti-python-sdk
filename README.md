@@ -234,7 +234,9 @@ To run the Flask or Django container:
 
 ### Running Locally
 
-Both example applications utilise the env variables described in [Configuration](#configuration), make sure they are accessible.
+1. Both example applications utilise the env variables described in [Configuration](#configuration), make sure they are accessible.
+1. Ensure pip is up to date: `easy_install --upgrade pip`
+1. Ensure setuptools and wheel are up to date: `python -m pip install --upgrade setuptools wheel`
 
 #### Flask
 
