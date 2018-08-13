@@ -60,7 +60,6 @@ COUNTRY_VALUE = "UK"
 INDIA_COUNTRY_VALUE = "India"
 USA_COUNTRY_VALUE = "USA"
 
-FORMATTED_ADDRESS_KEY = config.KEY_FORMATTED_ADDRESS
 FORMATTED_ADDRESS_VALUE = "15a North Street\nCARSHALTON\nSM5 2HW\nUK"
 INDIA_FORMATTED_ADDRESS_VALUE = 'S/O: Name\nHouse No.1111-A\n42nd Street\nTOWN/CITY NAME\nSub-DISTRICT 10\nDISTRICT 10\nPunjab\n141012\nRajgura Nagar\nIndia'
 USA_FORMATTED_ADDRESS_VALUE = "15a North Street\nTOWN/CITY NAME\nAL\n36201\nUSA"
@@ -138,7 +137,7 @@ def test_try_parse_structured_postal_address_uk():
                                  POSTAL_CODE_KEY: POSTAL_CODE_VALUE,
                                  COUNTRY_ISO_KEY: COUNTRY_ISO_VALUE,
                                  COUNTRY_KEY: COUNTRY_VALUE,
-                                 FORMATTED_ADDRESS_KEY: FORMATTED_ADDRESS_VALUE}
+                                 config.KEY_FORMATTED_ADDRESS: FORMATTED_ADDRESS_VALUE}
 
     structured_postal_address_json = json.dumps(structured_postal_address)
 
@@ -157,7 +156,7 @@ def test_try_parse_structured_postal_address_uk():
     assert actual_structured_postal_address_user_profile[POSTAL_CODE_KEY] == POSTAL_CODE_VALUE
     assert actual_structured_postal_address_user_profile[COUNTRY_ISO_KEY] == COUNTRY_ISO_VALUE
     assert actual_structured_postal_address_user_profile[COUNTRY_KEY] == COUNTRY_VALUE
-    assert actual_structured_postal_address_user_profile[FORMATTED_ADDRESS_KEY] == FORMATTED_ADDRESS_VALUE
+    assert actual_structured_postal_address_user_profile[config.KEY_FORMATTED_ADDRESS] == FORMATTED_ADDRESS_VALUE
 
     actual_structured_postal_address_profile = activity_details.profile[
         config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
@@ -170,7 +169,7 @@ def test_try_parse_structured_postal_address_uk():
     assert actual_structured_postal_address_profile[POSTAL_CODE_KEY] == POSTAL_CODE_VALUE
     assert actual_structured_postal_address_profile[COUNTRY_ISO_KEY] == COUNTRY_ISO_VALUE
     assert actual_structured_postal_address_profile[COUNTRY_KEY] == COUNTRY_VALUE
-    assert actual_structured_postal_address_profile[FORMATTED_ADDRESS_KEY] == FORMATTED_ADDRESS_VALUE
+    assert actual_structured_postal_address_profile[config.KEY_FORMATTED_ADDRESS] == FORMATTED_ADDRESS_VALUE
 
 
 def test_try_parse_structured_postal_address_india():
@@ -187,7 +186,7 @@ def test_try_parse_structured_postal_address_india():
                                  POST_OFFICE_KEY: INDIA_POST_OFFICE_VALUE,
                                  COUNTRY_ISO_KEY: INDIA_COUNTRY_ISO_VALUE,
                                  COUNTRY_KEY: INDIA_COUNTRY_VALUE,
-                                 FORMATTED_ADDRESS_KEY: INDIA_FORMATTED_ADDRESS_VALUE}
+                                 config.KEY_FORMATTED_ADDRESS: INDIA_FORMATTED_ADDRESS_VALUE}
 
     structured_postal_address_json = json.dumps(structured_postal_address)
 
@@ -211,7 +210,7 @@ def test_try_parse_structured_postal_address_india():
     assert actual_structured_postal_address_user_profile[POST_OFFICE_KEY] == INDIA_POST_OFFICE_VALUE
     assert actual_structured_postal_address_user_profile[COUNTRY_ISO_KEY] == INDIA_COUNTRY_ISO_VALUE
     assert actual_structured_postal_address_user_profile[COUNTRY_KEY] == INDIA_COUNTRY_VALUE
-    assert actual_structured_postal_address_user_profile[FORMATTED_ADDRESS_KEY] == INDIA_FORMATTED_ADDRESS_VALUE
+    assert actual_structured_postal_address_user_profile[config.KEY_FORMATTED_ADDRESS] == INDIA_FORMATTED_ADDRESS_VALUE
 
     actual_structured_postal_address_profile = activity_details.profile[
         config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
@@ -229,7 +228,7 @@ def test_try_parse_structured_postal_address_india():
     assert actual_structured_postal_address_profile[POST_OFFICE_KEY] == INDIA_POST_OFFICE_VALUE
     assert actual_structured_postal_address_profile[COUNTRY_ISO_KEY] == INDIA_COUNTRY_ISO_VALUE
     assert actual_structured_postal_address_profile[COUNTRY_KEY] == INDIA_COUNTRY_VALUE
-    assert actual_structured_postal_address_profile[FORMATTED_ADDRESS_KEY] == INDIA_FORMATTED_ADDRESS_VALUE
+    assert actual_structured_postal_address_profile[config.KEY_FORMATTED_ADDRESS] == INDIA_FORMATTED_ADDRESS_VALUE
 
 
 def test_try_parse_structured_postal_address_usa():
@@ -241,7 +240,7 @@ def test_try_parse_structured_postal_address_usa():
                                  POSTAL_CODE_KEY: USA_POSTAL_CODE_VALUE,
                                  COUNTRY_ISO_KEY: USA_COUNTRY_ISO_VALUE,
                                  COUNTRY_KEY: USA_COUNTRY_VALUE,
-                                 FORMATTED_ADDRESS_KEY: USA_FORMATTED_ADDRESS_VALUE}
+                                 config.KEY_FORMATTED_ADDRESS: USA_FORMATTED_ADDRESS_VALUE}
 
     structured_postal_address_json = json.dumps(structured_postal_address)
 
@@ -260,7 +259,7 @@ def test_try_parse_structured_postal_address_usa():
     assert actual_structured_postal_address_user_profile[POSTAL_CODE_KEY] == USA_POSTAL_CODE_VALUE
     assert actual_structured_postal_address_user_profile[COUNTRY_ISO_KEY] == USA_COUNTRY_ISO_VALUE
     assert actual_structured_postal_address_user_profile[COUNTRY_KEY] == USA_COUNTRY_VALUE
-    assert actual_structured_postal_address_user_profile[FORMATTED_ADDRESS_KEY] == USA_FORMATTED_ADDRESS_VALUE
+    assert actual_structured_postal_address_user_profile[config.KEY_FORMATTED_ADDRESS] == USA_FORMATTED_ADDRESS_VALUE
 
     actual_structured_postal_address_profile = activity_details.profile[
         config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
@@ -273,7 +272,7 @@ def test_try_parse_structured_postal_address_usa():
     assert actual_structured_postal_address_profile[POSTAL_CODE_KEY] == USA_POSTAL_CODE_VALUE
     assert actual_structured_postal_address_profile[COUNTRY_ISO_KEY] == USA_COUNTRY_ISO_VALUE
     assert actual_structured_postal_address_profile[COUNTRY_KEY] == USA_COUNTRY_VALUE
-    assert actual_structured_postal_address_profile[FORMATTED_ADDRESS_KEY] == USA_FORMATTED_ADDRESS_VALUE
+    assert actual_structured_postal_address_profile[config.KEY_FORMATTED_ADDRESS] == USA_FORMATTED_ADDRESS_VALUE
 
 
 def test_try_parse_structured_postal_address_nested_json():
@@ -296,7 +295,7 @@ def test_try_parse_structured_postal_address_nested_json():
                                  POSTAL_CODE_KEY: POSTAL_CODE_VALUE,
                                  COUNTRY_ISO_KEY: COUNTRY_ISO_VALUE,
                                  COUNTRY_KEY: COUNTRY_VALUE,
-                                 FORMATTED_ADDRESS_KEY: formatted_address_json}
+                                 config.KEY_FORMATTED_ADDRESS: formatted_address_json}
 
     structured_postal_address_json = json.dumps(structured_postal_address)
 
@@ -316,7 +315,7 @@ def test_try_parse_structured_postal_address_nested_json():
     assert actual_structured_postal_address_user_profile[COUNTRY_ISO_KEY] == COUNTRY_ISO_VALUE
     assert actual_structured_postal_address_user_profile[COUNTRY_KEY] == COUNTRY_VALUE
 
-    assert actual_structured_postal_address_user_profile[FORMATTED_ADDRESS_KEY] == formatted_address_json
+    assert actual_structured_postal_address_user_profile[config.KEY_FORMATTED_ADDRESS] == formatted_address_json
 
     actual_structured_postal_address_profile = activity_details.profile[
         config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
@@ -330,13 +329,13 @@ def test_try_parse_structured_postal_address_nested_json():
     assert actual_structured_postal_address_profile[COUNTRY_ISO_KEY] == COUNTRY_ISO_VALUE
     assert actual_structured_postal_address_profile[COUNTRY_KEY] == COUNTRY_VALUE
 
-    assert actual_structured_postal_address_profile[FORMATTED_ADDRESS_KEY] == formatted_address_json
+    assert actual_structured_postal_address_profile[config.KEY_FORMATTED_ADDRESS] == formatted_address_json
 
 
 def test_set_address_to_be_formatted_address():
     activity_details = ActivityDetails(successful_receipt())
 
-    structured_postal_address = {FORMATTED_ADDRESS_KEY: FORMATTED_ADDRESS_VALUE}
+    structured_postal_address = {config.KEY_FORMATTED_ADDRESS: FORMATTED_ADDRESS_VALUE}
     structured_postal_address_json = json.dumps(structured_postal_address)
 
     create_structured_postal_address_field(activity_details, structured_postal_address_json)
