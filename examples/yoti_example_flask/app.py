@@ -1,9 +1,9 @@
 # noinspection PyPackageRequirements
 import os
+from os.path import join, dirname
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, request
-from os.path import join, dirname
 
 from yoti_python_sdk import Client
 
@@ -35,14 +35,15 @@ def index():
 def auth():
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
     activity_details = client.get_activity_details(request.args['token'])
-    profile = activity_details.profile
-    profile['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
+    context = vars(activity_details.profile)
+    context['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
+    context['user_id'] = getattr(activity_details, 'user_id')
 
-    selfie = profile.get('selfie')
+    selfie = context.get('profile', {}).get('selfie')
     if selfie is not None:
         save_image(selfie.value)
     return render_template('profile.html',
-                           **profile)
+                           **context)
 
 
 if __name__ == '__main__':
