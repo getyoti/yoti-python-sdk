@@ -35,6 +35,10 @@ class Anchor:
 
     @staticmethod
     def parse_anchors(anchors):
+
+        if anchors is None:
+            return None
+
         parsed_anchors = []
         for anc in anchors:
             if hasattr(anc, 'origin_server_certs'):
@@ -56,7 +60,8 @@ class Anchor:
                                 anchor_type = config.ANCHOR_VERIFIER
 
                             if anchor_type != "Unknown":
-                                parsed_anchors = Anchor.get_values_from_extensions(anc, anchor_type, extensions, crypto_cert, parsed_anchors)
+                                parsed_anchors = Anchor.get_values_from_extensions(anc, anchor_type, extensions,
+                                                                                   crypto_cert, parsed_anchors)
 
         return parsed_anchors
 

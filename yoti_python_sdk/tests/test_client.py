@@ -146,10 +146,11 @@ def test_requesting_activity_details_with_correct_data(
     selfie_user_profile = activity_details.user_profile.get(config.ATTRIBUTE_SELFIE)
     assert isinstance(selfie_user_profile, basestring)
 
-    selfie_profile = activity_details.profile.get(config.ATTRIBUTE_SELFIE).value
+    selfie_profile = activity_details.profile.selfie.value
     assert isinstance(selfie_profile, basestring)
+    assert activity_details.profile.get_attribute(config.ATTRIBUTE_SELFIE) == activity_details.profile.selfie
 
-    base64_selfie_uri = getattr(activity_details, 'base64_selfie_uri')
+    base64_selfie_uri = getattr(activity_details, config.ATTRIBUTE_BASE64_SELFIE)
     assert isinstance(base64_selfie_uri, basestring)
     assert base64_selfie_uri.startswith('data:image/jpeg;base64')
 
