@@ -56,21 +56,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if given_names %}
+        {% if profile.given_names %}
         <tr>
             <th scope="row">Given Name(s)</th>
-            <td>{{ given_names.value }}</td>
+            <td>{{ profile.given_names.value }}</td>
             <td colspan="3" width="33%">
                 <table class="table">
                     <tbody>
-                    {% for source in given_names.sources %}
+                    {% for source in profile.given_names.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in given_names.verifiers %}
+                    {% for verifier in profile.given_names.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -82,21 +82,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if family_name %}
+        {% if profile.family_name %}
         <tr>
             <th scope="row">Family Name</th>
-            <td>{{ family_name.value }}</td>
+            <td>{{ profile.family_name.value }}</td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in family_name.sources %}
+                    {% for source in profile.family_name.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in family_name.verifiers %}
+                    {% for verifier in profile.family_name.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -108,21 +108,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if full_name %}
+        {% if profile.full_name %}
         <tr>
             <th scope="row">Full Name</th>
-            <td>{{ full_name.value }}</td>
+            <td>{{ profile.full_name.value }}</td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in full_name.sources %}
+                    {% for source in profile.full_name.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in full_name.verifiers %}
+                    {% for verifier in profile.full_name.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -134,21 +134,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if phone_number %}
+        {% if profile.phone_number %}
         <tr>
             <th scope="row">Phone</th>
-            <td>{{ phone_number.value }}</td>
+            <td>{{ profile.phone_number.value }}</td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in phone_number.sources %}
+                    {% for source in profile.phone_number.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in phone_number.verifiers %}
+                    {% for verifier in profile.phone_number.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -160,21 +160,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if email_address %}
+        {% if profile.email_address %}
         <tr>
             <th scope="row">Email</th>
-            <td>{{ email_address.value }}</td>
+            <td>{{ profile.email_address.value }}</td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in email_address.sources %}
+                    {% for source in profile.email_address.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in email_address.verifiers %}
+                    {% for verifier in profile.email_address.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -186,21 +186,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if date_of_birth %}
+        {% if profile.date_of_birth %}
         <tr>
             <th scope="row">Date Of Birth</th>
-            <td>{{ date_of_birth.value }}</td>
+            <td>{{ profile.date_of_birth.value }}</td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in date_of_birth.sources %}
+                    {% for source in profile.date_of_birth.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in date_of_birth.verifiers %}
+                    {% for verifier in profile.date_of_birth.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -212,21 +212,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if is_age_verified is defined%}
+        {% if profile.is_age_verified is defined%}
         <tr>
             <th scope="row">Age verified</th>
-            <td>{{ is_age_verified.value }}</td>
+            <td>{{ profile.is_age_verified.value }}</td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in is_age_verified.sources %}
+                    {% for source in profile.is_age_verified.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in is_age_verified.verifiers %}
+                    {% for verifier in profile.is_age_verified.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -238,21 +238,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if postal_address %}
+        {% if profile.postal_address %}
         <tr>
             <th scope="row">Address</th>
-            <td>{{ postal_address.value }}</td>
+            <td>{{ profile.postal_address.value }}</td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in postal_address.sources %}
+                    {% for source in profile.postal_address.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in postal_address.verifiers %}
+                    {% for verifier in profile.postal_address.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -264,21 +264,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if gender %}
+        {% if profile.gender %}
         <tr>
             <th scope="row">Gender</th>
-            <td>{{ gender.value }}</td>
+            <td>{{ profile.gender.value }}</td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in gender.sources.items %}
+                    {% for source in profile.gender.sources.items %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in gender.verifiers %}
+                    {% for verifier in profile.gender.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -290,21 +290,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if nationality %}
+        {% if profile.nationality %}
         <tr>
             <th scope="row">Nationality</th>
-            <td>{{ nationality.value }}</td>
+            <td>{{ profile.nationality.value }}</td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in nationality.sources %}
+                    {% for source in profile.nationality.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in nationality.verifiers %}
+                    {% for verifier in profile.nationality.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -316,21 +316,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if selfie %}
+        {% if profile.selfie %}
         <tr>
             <th scope="row">Selfie as base64 data</th>
             <td><img width="200" alt="base64photo" src="{{base64_selfie_uri}}"/></td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in selfie.sources %}
+                    {% for source in profile.selfie.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in selfie.verifiers %}
+                    {% for verifier in profile.selfie.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
@@ -347,14 +347,14 @@
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in selfie.sources %}
+                    {% for source in profile.selfie.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in selfie.verifiers %}
+                    {% for verifier in profile.selfie.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>
