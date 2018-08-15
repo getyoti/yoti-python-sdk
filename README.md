@@ -121,24 +121,24 @@ activity_details = client.get_activity_details(token)
 
 profile = activity_details.profile
 		
-selfie = profile.get('selfie').value
-given_names = profile.get('given_names').value
-family_name = profile.get('family_name').value
-full_name = profile.get('full_name').value
-phone_number = profile.get('phone_number').value
-date_of_birth = profile.get('date_of_birth').value
-is_age_verified = profile.get('is_age_verified').value
-postal_address = profile.get('postal_address').value
-gender = profile.get('gender').value
-nationality = profile.get('nationality').value
-
+selfie = profile.selfie.value
+given_names = profile.given_names.value
+family_name = profile.family_name.value
+full_name = profile.full_name.value
+phone_number = profile.phone_number.value
+date_of_birth = profile.date_of_birth.value
+is_age_verified = profile.is_age_verified.value
+postal_address = profile.postal_address.value
+gender = profile.gender.value
+nationality = profile.nationality.value
+		
 remember_me_id = activity_details.user_id
 base64_selfie_uri = activity_details.base64_selfie_uri
 ```
 
 You can retrieve the anchors, sources and verifiers for each attribute as follows:
 ```python
-given_names_attribute = profile.get('given_names')
+given_names_attribute = profile.given_names
 
 given_names_anchors = given_names_attribute.anchors
 given_names_sources = given_names_attribute.sources
