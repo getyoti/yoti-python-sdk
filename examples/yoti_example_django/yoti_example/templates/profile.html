@@ -212,21 +212,21 @@
             </td>
         </tr>
         {% endif %}
-        {% if profile.is_age_verified is not None %}
+        {% if profile.age_verified is not None %}
         <tr>
             <th scope="row">Age verified</th>
-            <td>{{profile.is_age_verified.value }}</td>
+            <td>{{profile.age_verified.value }}</td>
             <td colspan="3">
                 <table class="table">
                     <tbody>
-                    {% for source in profile.is_age_verified.sources %}
+                    {% for source in profile.age_verified.sources %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Source</td>
                         <td class="col-md-6">{{ source.value }}</td>
                         <td class="col-md-3">{{ source.sub_type }}</td>
                     </tr>
                     {% endfor %}
-                    {% for verifier in profile.is_age_verified.verifiers %}
+                    {% for verifier in profile.age_verified.verifiers %}
                     <tr class="row no-gutters">
                         <td class="col-md-3">Verifier</td>
                         <td class="col-md-6">{{ verifier.value }}</td>

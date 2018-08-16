@@ -127,7 +127,7 @@ family_name = profile.family_name.value
 full_name = profile.full_name.value
 phone_number = profile.phone_number.value
 date_of_birth = profile.date_of_birth.value
-is_age_verified = profile.is_age_verified.value
+age_verified = profile.age_verified.value
 postal_address = profile.postal_address.value
 gender = profile.gender.value
 nationality = profile.nationality.value
@@ -273,6 +273,7 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
 
 * Activity Details
     * [X] User ID `user_id`
+    * [X] User Profile `user_profile` - **deprecated**, use `profile` instead
     * [X] Profile `profile`
         * [X] Photo `selfie`
         * [X] Given Names `given_names`
@@ -281,7 +282,7 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
         * [X] Mobile Number `phone_number`
         * [X] Email Address `email_address`
         * [X] Age / Date of Birth `date_of_birth`
-        * [X] Age / Is Age Verified `is_age_verified`
+        * [X] Age / Age Verified `age_verified`
         * [X] Address `postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
