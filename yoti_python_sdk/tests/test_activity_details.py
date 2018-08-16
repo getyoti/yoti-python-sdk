@@ -94,12 +94,12 @@ def test_try_parse_selfie_field_valid_selfie():
     assert activity_details.base64_selfie_uri is not None
 
 
-def test_try_parse_age_verified_both_missing_returns_null():
+def test_try_parse_age_verified_both_missing_not_parsed():
     activity_details = ActivityDetails(successful_receipt())
     field = None
 
-    with pytest.raises(TypeError):
-        ActivityDetails.try_parse_age_verified_field(activity_details, field)
+    ActivityDetails.try_parse_age_verified_field(activity_details, field)
+    assert not isinstance(activity_details.user_profile.get(config.ATTRIBUTE_IS_AGE_VERIFIED), bool)
 
 
 def test_try_parse_age_verified_field_age_over():
@@ -118,12 +118,12 @@ def test_try_parse_age_verified_field_age_under():
     assert activity_details.user_profile[config.ATTRIBUTE_IS_AGE_VERIFIED] is False
 
 
-def test_try_parse_age_verified_field_non_bool_value_throws_error():
+def test_try_parse_age_verified_field_non_bool_value_not_parsed():
     activity_details = ActivityDetails(successful_receipt())
     create_age_verified_field(activity_details, True, "18".encode(), 18)
 
-    with pytest.raises(TypeError):
-        ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
+    ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
+    assert not isinstance(activity_details.user_profile.get(config.ATTRIBUTE_IS_AGE_VERIFIED), bool)
 
 
 def test_try_parse_structured_postal_address_uk():
