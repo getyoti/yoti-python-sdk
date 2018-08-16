@@ -22,13 +22,11 @@ class Profile:
                 anchors = Anchor().parse_anchors(field.anchors)
 
                 self.profile[field.name] = Attribute(field.name, value, anchors)
-                # self.profile[field.name] = Attribute(field.name, field.value, anchors)
 
                 if field.name.startswith(config.ATTRIBUTE_AGE_OVER) or field.name.startswith(
                         config.ATTRIBUTE_AGE_UNDER):
                     self.try_parse_age_verified_field(field, anchors)
-
-                if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
+                elif field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
                     self.try_convert_structured_postal_address_to_dict(field, anchors)
 
             self.ensure_postal_address(anchors)
@@ -100,9 +98,7 @@ class Profile:
 
     def try_convert_structured_postal_address_to_dict(self, field, anchors):
         decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)
-        value_to_decode = field.value
-        if not isinstance(value_to_decode, str):
-            value_to_decode = value_to_decode.decode()
+        value_to_decode = field.value.decode()
 
         self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = Attribute(
             config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS,
