@@ -52,8 +52,8 @@ class Profile:
         return self.get_attribute(config.ATTRIBUTE_GIVEN_NAMES)
 
     @property
-    def is_age_verified(self):
-        return self.get_attribute(config.ATTRIBUTE_IS_AGE_VERIFIED)
+    def age_verified(self):
+        return self.get_attribute(config.ATTRIBUTE_AGE_VERIFIED)
 
     @property
     def nationality(self):
@@ -83,18 +83,19 @@ class Profile:
 
     def try_parse_age_verified_field(self, field, anchors):
         if field is not None:
-            is_age_verified = Protobuf().value_based_on_content_type(
+            age_verified = Protobuf().value_based_on_content_type(
                 field.value,
                 field.content_type
             )
-            if is_age_verified == 'true':
-                self.profile[config.ATTRIBUTE_IS_AGE_VERIFIED] = Attribute(is_age_verified, True, anchors)
+            if age_verified == 'true':
+                self.profile[config.ATTRIBUTE_AGE_VERIFIED] = Attribute(age_verified, True, anchors)
                 return
-            if is_age_verified == 'false':
-                self.profile[config.ATTRIBUTE_IS_AGE_VERIFIED] = Attribute(is_age_verified, False, anchors)
+            if age_verified == 'false':
+                self.profile[config.ATTRIBUTE_AGE_VERIFIED] = Attribute(age_verified, False, anchors)
                 return
 
-        raise TypeError("age_verified_field unable to be parsed")
+            print(
+                "age_verified_field value: '{0}' was unable to be parsed into a boolean value".format(age_verified))
 
     def try_convert_structured_postal_address_to_dict(self, field, anchors):
         decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)

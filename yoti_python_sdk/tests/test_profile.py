@@ -107,7 +107,7 @@ def test_try_parse_age_verified_field_age_over():
         create_attribute_list_with_age_verified_field(
             True, "true".encode(), 18))
 
-    assert profile.profile[config.ATTRIBUTE_IS_AGE_VERIFIED].value is True
+    assert profile.age_verified.value is True
 
 
 def test_try_parse_age_verified_field_age_under():
@@ -115,13 +115,14 @@ def test_try_parse_age_verified_field_age_under():
         create_attribute_list_with_age_verified_field(
             False, "false".encode(), 55))
 
-    assert profile.profile[config.ATTRIBUTE_IS_AGE_VERIFIED].value is False
+    assert profile.age_verified.value is False
 
 
-def test_try_parse_age_verified_field_non_bool_value_throws_error():
-    with pytest.raises(TypeError):
-        Profile(create_attribute_list_with_age_verified_field(
+def test_try_parse_age_verified_field_non_bool_value_not_parsed():
+    profile = Profile(create_attribute_list_with_age_verified_field(
             True, "18".encode(), 18))
+
+    assert not isinstance(profile.age_verified, bool)
 
 
 def test_try_parse_structured_postal_address_uk():
@@ -138,8 +139,7 @@ def test_try_parse_structured_postal_address_uk():
 
     profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_json))
 
-    actual_structured_postal_address_profile = profile.profile[
-        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
+    actual_structured_postal_address_profile = profile.structured_postal_address.value
 
     assert type(actual_structured_postal_address_profile) is collections.OrderedDict
     assert actual_structured_postal_address_profile[ADDRESS_FORMAT_KEY] == ADDRESS_FORMAT_VALUE
@@ -171,8 +171,7 @@ def test_try_parse_structured_postal_address_india():
 
     profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_bytes))
 
-    actual_structured_postal_address_profile = profile.profile[
-        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
+    actual_structured_postal_address_profile = profile.structured_postal_address.value
 
     assert type(actual_structured_postal_address_profile) is collections.OrderedDict
     assert actual_structured_postal_address_profile[ADDRESS_FORMAT_KEY] == INDIA_FORMAT_VALUE
@@ -204,8 +203,7 @@ def test_try_parse_structured_postal_address_usa():
 
     profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_bytes))
 
-    actual_structured_postal_address_profile = profile.profile[
-        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
+    actual_structured_postal_address_profile = profile.structured_postal_address.value
 
     assert type(actual_structured_postal_address_profile) is collections.OrderedDict
     assert actual_structured_postal_address_profile[ADDRESS_FORMAT_KEY] == USA_FORMAT_VALUE
@@ -243,8 +241,7 @@ def test_try_parse_structured_postal_address_nested_json():
 
     profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_bytes))
 
-    actual_structured_postal_address_profile = profile.profile[
-        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
+    actual_structured_postal_address_profile = profile.structured_postal_address.value
 
     assert type(actual_structured_postal_address_profile) is collections.OrderedDict
     assert actual_structured_postal_address_profile[ADDRESS_FORMAT_KEY] == ADDRESS_FORMAT_VALUE
@@ -264,7 +261,7 @@ def test_set_address_to_be_formatted_address():
 
     profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_bytes))
 
-    assert profile.profile[config.ATTRIBUTE_POSTAL_ADDRESS].value == FORMATTED_ADDRESS_VALUE
+    assert profile.postal_address.value == FORMATTED_ADDRESS_VALUE
 
 
 def test_get_attribute():
