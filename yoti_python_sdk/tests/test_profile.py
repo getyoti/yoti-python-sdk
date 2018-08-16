@@ -134,7 +134,7 @@ def test_try_parse_structured_postal_address_uk():
                                  COUNTRY_KEY: COUNTRY_VALUE,
                                  config.KEY_FORMATTED_ADDRESS: FORMATTED_ADDRESS_VALUE}
 
-    structured_postal_address_json = json.dumps(structured_postal_address)
+    structured_postal_address_json = json.dumps(structured_postal_address).encode()
 
     profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_json))
 
@@ -167,9 +167,9 @@ def test_try_parse_structured_postal_address_india():
                                  COUNTRY_KEY: INDIA_COUNTRY_VALUE,
                                  config.KEY_FORMATTED_ADDRESS: INDIA_FORMATTED_ADDRESS_VALUE}
 
-    structured_postal_address_json = json.dumps(structured_postal_address)
+    structured_postal_address_bytes = json.dumps(structured_postal_address).encode()
 
-    profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_json))
+    profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_bytes))
 
     actual_structured_postal_address_profile = profile.profile[
         config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
@@ -200,9 +200,9 @@ def test_try_parse_structured_postal_address_usa():
                                  COUNTRY_KEY: USA_COUNTRY_VALUE,
                                  config.KEY_FORMATTED_ADDRESS: USA_FORMATTED_ADDRESS_VALUE}
 
-    structured_postal_address_json = json.dumps(structured_postal_address)
+    structured_postal_address_bytes = json.dumps(structured_postal_address).encode()
 
-    profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_json))
+    profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_bytes))
 
     actual_structured_postal_address_profile = profile.profile[
         config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
@@ -239,9 +239,9 @@ def test_try_parse_structured_postal_address_nested_json():
                                  COUNTRY_KEY: COUNTRY_VALUE,
                                  config.KEY_FORMATTED_ADDRESS: formatted_address_json}
 
-    structured_postal_address_json = json.dumps(structured_postal_address)
+    structured_postal_address_bytes = json.dumps(structured_postal_address).encode()
 
-    profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_json))
+    profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_bytes))
 
     actual_structured_postal_address_profile = profile.profile[
         config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value
@@ -260,9 +260,9 @@ def test_try_parse_structured_postal_address_nested_json():
 
 def test_set_address_to_be_formatted_address():
     structured_postal_address = {config.KEY_FORMATTED_ADDRESS: FORMATTED_ADDRESS_VALUE}
-    structured_postal_address_json = json.dumps(structured_postal_address)
+    structured_postal_address_bytes = json.dumps(structured_postal_address).encode()
 
-    profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_json))
+    profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_bytes))
 
     assert profile.profile[config.ATTRIBUTE_POSTAL_ADDRESS].value == FORMATTED_ADDRESS_VALUE
 

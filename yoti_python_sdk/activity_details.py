@@ -59,7 +59,7 @@ class ActivityDetails:
                 self.user_profile[config.ATTRIBUTE_IS_AGE_VERIFIED] = False
                 return
 
-        raise TypeError("age_verified_field unable to be parsed")
+            print("age_verified_field value: '{0}' was unable to be parsed into a boolean value".format(is_age_verified))
 
     def try_convert_structured_postal_address_to_dict(self, field):
         decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)
