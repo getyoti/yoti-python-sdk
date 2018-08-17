@@ -53,7 +53,7 @@ class Profile:
 
     @property
     def age_verified(self):
-        return self.get_attribute(config.ATTRIBUTE_AGE_VERIFIED)
+        return self.get_attribute(config.KEY_AGE_VERIFIED)
 
     @property
     def nationality(self):
@@ -88,10 +88,10 @@ class Profile:
                 field.content_type
             )
             if age_verified == 'true':
-                self.profile[config.ATTRIBUTE_AGE_VERIFIED] = Attribute(age_verified, True, anchors)
+                self.profile[config.KEY_AGE_VERIFIED] = Attribute(age_verified, True, anchors)
                 return
             if age_verified == 'false':
-                self.profile[config.ATTRIBUTE_AGE_VERIFIED] = Attribute(age_verified, False, anchors)
+                self.profile[config.KEY_AGE_VERIFIED] = Attribute(age_verified, False, anchors)
                 return
 
             print(
