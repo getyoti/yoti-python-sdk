@@ -53,10 +53,10 @@ class ActivityDetails:
                 field.content_type
             )
             if age_verified == 'true':
-                self.user_profile[config.ATTRIBUTE_AGE_VERIFIED] = True
+                self.user_profile[config.KEY_AGE_VERIFIED_DEPRECATED] = True
                 return
             if age_verified == 'false':
-                self.user_profile[config.ATTRIBUTE_AGE_VERIFIED] = False
+                self.user_profile[config.KEY_AGE_VERIFIED_DEPRECATED] = False
                 return
 
             print(
