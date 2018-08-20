@@ -48,18 +48,19 @@ class ActivityDetails:
 
     def try_parse_age_verified_field(self, field):
         if field is not None:
-            is_age_verified = Protobuf().value_based_on_content_type(
+            age_verified = Protobuf().value_based_on_content_type(
                 field.value,
                 field.content_type
             )
-            if is_age_verified == 'true':
-                self.user_profile[config.ATTRIBUTE_IS_AGE_VERIFIED] = True
+            if age_verified == 'true':
+                self.user_profile[config.KEY_AGE_VERIFIED_DEPRECATED] = True
                 return
-            if is_age_verified == 'false':
-                self.user_profile[config.ATTRIBUTE_IS_AGE_VERIFIED] = False
+            if age_verified == 'false':
+                self.user_profile[config.KEY_AGE_VERIFIED_DEPRECATED] = False
                 return
 
-            print("age_verified_field value: '{0}' was unable to be parsed into a boolean value".format(is_age_verified))
+            print(
+                "age_verified_field value: '{0}' was unable to be parsed into a boolean value".format(age_verified))
 
     def try_convert_structured_postal_address_to_dict(self, field):
         decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)
