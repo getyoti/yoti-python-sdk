@@ -24,11 +24,18 @@ class AuthView(TemplateView):
     def get(self, request, *args, **kwargs):
         client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
         activity_details = client.get_activity_details(request.GET['token'])
-        context = vars(activity_details.profile)
+        profile = activity_details.profile
+        profile_dict = vars(profile)
+
+        context = profile_dict.get('attributes')
         context['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
         context['user_id'] = getattr(activity_details, 'user_id')
 
-        selfie = context.get('profile', {}).get('selfie')
+        age_verified = profile.get_attribute('age_over:18')  # age condition defined in dashboard
+        if age_verified is not None:
+            context['age_verified'] = age_verified
+
+        selfie = context.get('selfie')
         if selfie is not None:
             self.save_image(selfie.value)
         return self.render_to_response(context)

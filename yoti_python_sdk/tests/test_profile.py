@@ -81,48 +81,12 @@ def create_attribute_list_with_selfie_field():
         content_type=Protobuf.CT_JPEG)
 
 
-def create_attribute_list_with_age_verified_field(over, encoded_string_verified_value, age):
-    return create_single_attribute_list(
-        name="age_over:{0}".format(age) if over is True else "age_under:".format(age),
-        value=encoded_string_verified_value,
-        anchors=None,
-        content_type=Protobuf.CT_STRING)
-
-
 def create_attribute_list_with_structured_postal_address_field(json_address_value):
     return create_single_attribute_list(
         name=config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS,
         value=json_address_value,
         anchors=None,
         content_type=Protobuf.CT_JSON)
-
-
-def test_try_parse_age_verified_both_missing_returns_null():
-    with pytest.raises(TypeError):
-        Profile.try_parse_age_verified_field(field=None, anchors=None)
-
-
-def test_try_parse_age_verified_field_age_over():
-    profile = Profile(
-        create_attribute_list_with_age_verified_field(
-            True, "true".encode(), 18))
-
-    assert profile.age_verified.value is True
-
-
-def test_try_parse_age_verified_field_age_under():
-    profile = Profile(
-        create_attribute_list_with_age_verified_field(
-            False, "false".encode(), 55))
-
-    assert profile.age_verified.value is False
-
-
-def test_try_parse_age_verified_field_non_bool_value_not_parsed():
-    profile = Profile(create_attribute_list_with_age_verified_field(
-            True, "18".encode(), 18))
-
-    assert not isinstance(profile.age_verified, bool)
 
 
 def test_try_parse_structured_postal_address_uk():
