@@ -120,7 +120,6 @@ client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
 activity_details = client.get_activity_details(token)
 
 profile = activity_details.profile
-user_profile = activity_details.user_profile  #deprecated
 		
 selfie = profile.selfie.value
 given_names = profile.given_names.value
