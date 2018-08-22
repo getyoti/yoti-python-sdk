@@ -10,7 +10,7 @@ from yoti_python_sdk.protobuf.v1.protobuf import Protobuf
 
 class Profile:
     def __init__(self, profile_attributes):
-        self.profile = {}
+        self.attributes = {}
 
         if profile_attributes:
             for field in profile_attributes:
@@ -21,12 +21,9 @@ class Profile:
 
                 anchors = Anchor().parse_anchors(field.anchors)
 
-                self.profile[field.name] = Attribute(field.name, value, anchors)
+                self.attributes[field.name] = Attribute(field.name, value, anchors)
 
-                if field.name.startswith(config.ATTRIBUTE_AGE_OVER) or field.name.startswith(
-                        config.ATTRIBUTE_AGE_UNDER):
-                    self.try_parse_age_verified_field(field, anchors)
-                elif field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
+                if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
                     self.try_convert_structured_postal_address_to_dict(field, anchors)
 
             self.ensure_postal_address(anchors)
@@ -52,10 +49,6 @@ class Profile:
         return self.get_attribute(config.ATTRIBUTE_GIVEN_NAMES)
 
     @property
-    def age_verified(self):
-        return self.get_attribute(config.KEY_AGE_VERIFIED)
-
-    @property
     def nationality(self):
         return self.get_attribute(config.ATTRIBUTE_NATIONALITY)
 
@@ -76,42 +69,27 @@ class Profile:
         return self.get_attribute(config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS)
 
     def get_attribute(self, attribute_name):
-        if attribute_name in self.profile:
-            return self.profile.get(attribute_name)
+        if attribute_name in self.attributes:
+            return self.attributes.get(attribute_name)
         else:
             return None
 
-    def try_parse_age_verified_field(self, field, anchors):
-        if field is not None:
-            age_verified = Protobuf().value_based_on_content_type(
-                field.value,
-                field.content_type
-            )
-            if age_verified == 'true':
-                self.profile[config.KEY_AGE_VERIFIED] = Attribute(age_verified, True, anchors)
-                return
-            if age_verified == 'false':
-                self.profile[config.KEY_AGE_VERIFIED] = Attribute(age_verified, False, anchors)
-                return
-
-            print(
-                "age_verified_field value: '{0}' was unable to be parsed into a boolean value".format(age_verified))
 
     def try_convert_structured_postal_address_to_dict(self, field, anchors):
         decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)
         value_to_decode = field.value.decode()
 
-        self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = Attribute(
+        self.attributes[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = Attribute(
             config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS,
             decoder.decode(value_to_decode),
             anchors)
 
     def ensure_postal_address(self, anchors):
-        if config.ATTRIBUTE_POSTAL_ADDRESS not in self.profile and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.profile:
-            if config.KEY_FORMATTED_ADDRESS in self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value:
-                formatted_address = self.profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value[
+        if config.ATTRIBUTE_POSTAL_ADDRESS not in self.attributes and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.attributes:
+            if config.KEY_FORMATTED_ADDRESS in self.attributes[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value:
+                formatted_address = self.attributes[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value[
                     config.KEY_FORMATTED_ADDRESS]
-                self.profile[config.ATTRIBUTE_POSTAL_ADDRESS] = Attribute(
+                self.attributes[config.ATTRIBUTE_POSTAL_ADDRESS] = Attribute(
                     config.ATTRIBUTE_POSTAL_ADDRESS,
                     formatted_address,
                     anchors)

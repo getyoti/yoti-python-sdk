@@ -128,7 +128,6 @@ family_name = profile.family_name.value
 full_name = profile.full_name.value
 phone_number = profile.phone_number.value
 date_of_birth = profile.date_of_birth.value
-age_verified = profile.age_verified.value
 postal_address = profile.postal_address.value
 gender = profile.gender.value
 nationality = profile.nationality.value
@@ -154,6 +153,12 @@ sub_type = source_anchor.sub_type
 timestamp = source_anchor.signed_timestamp
 origin_server_certs = source_anchor.origin_server_certs
 ```
+
+If you have chosen `Verify Condition` on the [Yoti Dashboard](https://www.yoti.com/dashboard/applications) with the age condition of "Over 18", you can retrieve the user information as follows:
+```python
+age_verification_attribute = profile.get_attribute("age_over:18")
+```
+You can retrieve the sources and verifiers in the same way as detailed above.
 
 ## AML Integration
 
@@ -281,8 +286,7 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
         * [X] Full Name `full_name`
         * [X] Mobile Number `phone_number`
         * [X] Email Address `email_address`
-        * [X] Age / Date of Birth `date_of_birth`
-        * [X] Age / Age Verified `age_verified`
+        * [X] Date of Birth `date_of_birth`
         * [X] Address `postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`

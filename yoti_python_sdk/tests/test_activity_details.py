@@ -97,7 +97,7 @@ def test_try_parse_age_verified_both_missing_not_parsed():
     field = None
 
     ActivityDetails.try_parse_age_verified_field(activity_details, field)
-    assert not isinstance(activity_details.user_profile.get(config.KEY_AGE_VERIFIED_DEPRECATED), bool)
+    assert not isinstance(activity_details.user_profile.get(config.KEY_AGE_VERIFIED), bool)
 
 
 def test_try_parse_age_verified_field_age_over():
@@ -105,7 +105,7 @@ def test_try_parse_age_verified_field_age_over():
     create_age_verified_field(activity_details, True, "true".encode(), 18)
 
     ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
-    assert activity_details.user_profile[config.KEY_AGE_VERIFIED_DEPRECATED] is True
+    assert activity_details.user_profile[config.KEY_AGE_VERIFIED] is True
 
 
 def test_try_parse_age_verified_field_age_under():
@@ -113,7 +113,7 @@ def test_try_parse_age_verified_field_age_under():
     create_age_verified_field(activity_details, False, "false".encode(), 55)
 
     ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
-    assert activity_details.user_profile[config.KEY_AGE_VERIFIED_DEPRECATED] is False
+    assert activity_details.user_profile[config.KEY_AGE_VERIFIED] is False
 
 
 def test_try_parse_age_verified_field_non_bool_value_not_parsed():
@@ -121,7 +121,7 @@ def test_try_parse_age_verified_field_non_bool_value_not_parsed():
     create_age_verified_field(activity_details, True, "18".encode(), 18)
 
     ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
-    assert not isinstance(activity_details.user_profile.get(config.KEY_AGE_VERIFIED_DEPRECATED), bool)
+    assert not isinstance(activity_details.user_profile.get(config.KEY_AGE_VERIFIED), bool)
 
 
 def test_try_parse_structured_postal_address_uk():
