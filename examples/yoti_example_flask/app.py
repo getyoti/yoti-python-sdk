@@ -42,7 +42,8 @@ def auth():
     context['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
     context['user_id'] = getattr(activity_details, 'user_id')
 
-    age_verified = profile.get_attribute('age_over:18')  # age condition defined in dashboard
+    # change this string according to the age condition defined in dashboard
+    age_verified = profile.get_attribute('age_over:18')
     if age_verified is not None:
         context['age_verified'] = age_verified
 
