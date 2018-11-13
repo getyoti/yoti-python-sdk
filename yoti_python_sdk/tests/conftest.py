@@ -48,6 +48,7 @@ def user_id():
 @pytest.fixture(scope='module')
 def successful_receipt():
     return {'remember_me_id': user_id(),
+            'receipt_id': 'Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN',
             'sharing_outcome': 'SUCCESS'}
 
 
