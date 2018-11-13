@@ -10,7 +10,7 @@ attrs==18.1.0             # via pytest
 cffi==1.11.5              # via cryptography
 click==6.6
 colorama==0.3.9           # via pytest
-cryptography==2.2.2
+cryptography==2.4.1
 future==0.15.2
 idna==2.7                 # via cryptography
 itsdangerous==0.24
