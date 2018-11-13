@@ -53,6 +53,10 @@ class Profile:
         return self.get_attribute(config.ATTRIBUTE_NATIONALITY)
 
     @property
+    def email_address(self):
+        return self.get_attribute(config.ATTRIBUTE_EMAIL_ADDRESS)
+
+    @property
     def phone_number(self):
         return self.get_attribute(config.ATTRIBUTE_PHONE_NUMBER)
 
