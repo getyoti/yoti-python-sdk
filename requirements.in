@@ -1,6 +1,6 @@
 asn1==2.2.0
 click==6.6
-cryptography>=2.2.1
+cryptography>=2.3.0
 itsdangerous==0.24
 mock==2.0.0
 pbr==1.10.0
