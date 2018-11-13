@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-VERSION = '2.4.0'
+VERSION = '2.5.0'
 long_description = 'This package contains the tools you need to quickly ' \
                    'integrate your Python back-end with Yoti, so that your ' \
                    'users can share their identity details with your ' \

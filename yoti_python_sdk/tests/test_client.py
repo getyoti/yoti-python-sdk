@@ -142,7 +142,10 @@ def test_requesting_activity_details_with_correct_data(
 
     mock_get.assert_called_once_with(url=expected_activity_details_url, headers=expected_get_headers)
     assert isinstance(activity_details, ActivityDetails)
+
     assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
+    assert activity_details.receipt_id == "Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN"
+
     selfie_user_profile = activity_details.user_profile.get(config.ATTRIBUTE_SELFIE)
     assert isinstance(selfie_user_profile, basestring)
 
@@ -165,6 +168,7 @@ def test_requesting_activity_details_with_null_profile(
 
     mock_get.assert_called_once_with(url=expected_activity_details_url, headers=expected_get_headers)
     assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
+    assert activity_details.receipt_id == "Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN"
     assert isinstance(activity_details, ActivityDetails)
 
 
@@ -178,6 +182,7 @@ def test_requesting_activity_details_with_empty_profile(
 
     mock_get.assert_called_once_with(url=expected_activity_details_url, headers=expected_get_headers)
     assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
+    assert activity_details.receipt_id == "Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN"
     assert isinstance(activity_details, ActivityDetails)
 
 
@@ -191,6 +196,7 @@ def test_requesting_activity_details_with_missing_profile(
 
     mock_get.assert_called_once_with(url=expected_activity_details_url, headers=expected_get_headers)
     assert activity_details.user_id == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
+    assert activity_details.receipt_id == "Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN"
     assert isinstance(activity_details, ActivityDetails)
 
 
