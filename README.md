@@ -130,6 +130,7 @@ date_of_birth = profile.date_of_birth.value
 postal_address = profile.postal_address.value
 gender = profile.gender.value
 nationality = profile.nationality.value
+email_address = profile.email_address.value
 		
 remember_me_id = activity_details.user_id
 receipt_id = activity_details.receipt_id
