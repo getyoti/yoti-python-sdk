@@ -39,6 +39,7 @@ class ActivityDetails:
 
         self.user_id = receipt['remember_me_id']
         self.outcome = receipt['sharing_outcome']
+        self.receipt_id = receipt['receipt_id']
 
     def try_parse_selfie_field(self, field):
         self.base64_selfie_uri = Protobuf().image_uri_based_on_content_type(
@@ -81,6 +82,7 @@ class ActivityDetails:
     def __iter__(self):
         yield 'user_id', self.user_id
         yield 'outcome', self.outcome
+        yield 'receipt_id', self.receipt_id
         yield 'user_profile', self.user_profile
         yield 'profile', self.profile
         yield 'base64_selfie_uri', self.base64_selfie_uri

@@ -34,26 +34,16 @@
         </tr>
         </thead>
         <tbody>
+         {% if receipt_id %}
+        <tr>
+            <th scope="row">Receipt ID</th>
+            <td>{{receipt_id}}</td>
+        </tr>
+        {% endif %}
         {% if user_id %}
         <tr>
             <th scope="row">Yoti ID</th>
             <td>{{user_id}}</td>
-            <td colspan="3" width="33%">
-                <table class="table">
-                    <tbody>
-                    <tr class="row no-gutters">
-                        <td class="col-md-3">Source</td>
-                        <td class="col-md-6">N/A</td>
-                        <td class="col-md-3">N/A</td>
-                    </tr>
-                    <tr class="row no-gutters">
-                        <td class="col-md-3">Verifier</td>
-                        <td class="col-md-6">N/A</td>
-                        <td class="col-md-3">N/A</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </td>
         </tr>
         {% endif %}
         {% if given_names %}

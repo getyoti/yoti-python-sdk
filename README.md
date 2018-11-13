@@ -132,6 +132,7 @@ gender = profile.gender.value
 nationality = profile.nationality.value
 		
 remember_me_id = activity_details.user_id
+receipt_id = activity_details.receipt_id
 base64_selfie_uri = activity_details.base64_selfie_uri
 ```
 
