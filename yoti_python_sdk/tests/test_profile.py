@@ -81,6 +81,14 @@ def create_attribute_list_with_selfie_field():
         content_type=Protobuf.CT_JPEG)
 
 
+def create_attribute_list_with_email_field():
+    return create_single_attribute_list(
+        name=config.ATTRIBUTE_EMAIL_ADDRESS,
+        value="y@ti.com".encode(),
+        anchors=None,
+        content_type=Protobuf.CT_STRING)
+
+
 def create_attribute_list_with_structured_postal_address_field(json_address_value):
     return create_single_attribute_list(
         name=config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS,
@@ -228,10 +236,16 @@ def test_set_address_to_be_formatted_address():
     assert profile.postal_address.value == FORMATTED_ADDRESS_VALUE
 
 
-def test_get_attribute():
+def test_get_attribute_selfie():
     profile = Profile(create_attribute_list_with_selfie_field())
 
     assert profile.get_attribute(config.ATTRIBUTE_SELFIE) == profile.selfie
+
+
+def test_get_attribute_email_address():
+    profile = Profile(create_attribute_list_with_email_field())
+
+    assert profile.get_attribute(config.ATTRIBUTE_EMAIL_ADDRESS) == profile.email_address
 
 
 def test_get_attribute_returns_none():
