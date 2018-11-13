@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import collections
 import json
+import os
+import sys
 
 from yoti_python_sdk import config
 from yoti_python_sdk.activity_details import ActivityDetails
@@ -119,8 +121,9 @@ def test_try_parse_age_verified_field_age_under():
 def test_try_parse_age_verified_field_non_bool_value_not_parsed():
     activity_details = ActivityDetails(successful_receipt())
     create_age_verified_field(activity_details, True, "18".encode(), 18)
-
+    sys.stdout = open(os.devnull, 'w')  # disable print
     ActivityDetails.try_parse_age_verified_field(activity_details, activity_details.field)
+    sys.stdout = sys.__stdout__  # enable print
     assert not isinstance(activity_details.user_profile.get(config.KEY_AGE_VERIFIED), bool)
 
 
