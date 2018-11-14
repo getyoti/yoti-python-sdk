@@ -3,11 +3,12 @@ import collections
 import json
 import os
 import sys
+from datetime import datetime
 
 from yoti_python_sdk import config
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.protobuf.v1.protobuf import Protobuf
-from yoti_python_sdk.tests.conftest import successful_receipt
+from yoti_python_sdk.tests.conftest import successful_receipt, failure_receipt, no_values_receipt, user_id
 
 ADDRESS_FORMAT_KEY = "address_format"
 ADDRESS_FORMAT_VALUE = 1
@@ -100,6 +101,20 @@ def test_try_parse_age_verified_both_missing_not_parsed():
 
     ActivityDetails.try_parse_age_verified_field(activity_details, field)
     assert not isinstance(activity_details.user_profile.get(config.KEY_AGE_VERIFIED), bool)
+
+
+def test_failure_receipt_handled():
+    activity_details = ActivityDetails(failure_receipt())
+
+    assert activity_details.user_id == user_id()
+    assert activity_details.outcome == "FAILURE"
+    assert activity_details.timestamp == datetime(2016, 11, 14, 11, 35, 33)
+
+
+def test_missing_values_handled():
+    activity_details = ActivityDetails(no_values_receipt())
+
+    assert isinstance(activity_details, ActivityDetails)
 
 
 def test_try_parse_age_verified_field_age_over():
