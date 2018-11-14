@@ -2,8 +2,6 @@
 import collections
 import json
 
-import pytest
-
 from yoti_python_sdk import config
 from yoti_python_sdk.profile import Profile
 from yoti_python_sdk.protobuf.v1.protobuf import Protobuf

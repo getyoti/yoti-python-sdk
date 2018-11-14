@@ -8,4 +8,4 @@ services:
         YOTI_CLIENT_SDK_ID: "${YOTI_CLIENT_SDK_ID}"
         YOTI_KEY_FILE_PATH: "${YOTI_KEY_FILE_PATH}"
     ports:
-     - "5000:5000"
+    - "5000:5000"
