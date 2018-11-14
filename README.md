@@ -134,6 +134,7 @@ email_address = profile.email_address.value
 		
 remember_me_id = activity_details.user_id
 receipt_id = activity_details.receipt_id
+timestamp = activity_details.timestamp
 base64_selfie_uri = activity_details.base64_selfie_uri
 ```
 

@@ -42,20 +42,37 @@ def decrypted_request_token():
 
 @pytest.fixture(scope='module')
 def user_id():
-    return 'some_id'
+    return 'ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN'
+
+
+@pytest.fixture(scope='module')
+def receipt_id():
+    return 'Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN'
+
+
+@pytest.fixture(scope='module')
+def timestamp():
+    return '2016-11-14T11:35:33Z'
 
 
 @pytest.fixture(scope='module')
 def successful_receipt():
     return {'remember_me_id': user_id(),
-            'receipt_id': 'Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN',
+            'receipt_id': receipt_id(),
+            'timestamp': timestamp(),
             'sharing_outcome': 'SUCCESS'}
 
 
 @pytest.fixture(scope='module')
 def failure_receipt():
     return {'remember_me_id': user_id(),
-            'sharing_outcome': 'FAILURE'}
+            'sharing_outcome': 'FAILURE',
+            'timestamp': timestamp()}
+
+
+@pytest.fixture(scope='module')
+def no_values_receipt():
+    return {}
 
 
 @pytest.fixture(scope='module')
