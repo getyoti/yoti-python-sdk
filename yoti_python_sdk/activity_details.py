@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import collections
 import json
+from datetime import datetime
 
 from yoti_python_sdk import config
 from yoti_python_sdk.profile import Profile
@@ -37,9 +38,13 @@ class ActivityDetails:
 
             self.ensure_postal_address()
 
-        self.user_id = receipt['remember_me_id']
-        self.outcome = receipt['sharing_outcome']
-        self.receipt_id = receipt['receipt_id']
+        self.user_id = receipt.get('remember_me_id')
+        self.outcome = receipt.get('sharing_outcome')
+        self.receipt_id = receipt.get('receipt_id')
+        timestamp = receipt.get('timestamp')
+
+        if timestamp is not None:
+            self.timestamp = datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%SZ')
 
     def try_parse_selfie_field(self, field):
         self.base64_selfie_uri = Protobuf().image_uri_based_on_content_type(
