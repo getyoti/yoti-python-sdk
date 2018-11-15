@@ -280,7 +280,9 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
 ## API Coverage
 
 * Activity Details
-    * [X] User ID `user_id`
+    * [X] Remember Me ID `user_id`
+    * [X] ReceiptID `receipt_id`
+    * [X] Timestamp `timestamp`
     * [X] Profile `profile`
         * [X] Photo `selfie`
         * [X] Given Names `given_names`
