@@ -120,7 +120,7 @@ client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
 activity_details = client.get_activity_details(token)
 
 profile = activity_details.profile
-		
+        
 selfie = profile.selfie.value
 given_names = profile.given_names.value
 family_name = profile.family_name.value
@@ -131,8 +131,9 @@ postal_address = profile.postal_address.value
 gender = profile.gender.value
 nationality = profile.nationality.value
 email_address = profile.email_address.value
-		
+        
 remember_me_id = activity_details.user_id
+parent_remember_me_id = activity_details.parent_remember_me_id
 receipt_id = activity_details.receipt_id
 timestamp = activity_details.timestamp
 base64_selfie_uri = activity_details.base64_selfie_uri
@@ -281,6 +282,7 @@ For information on testing with multiple Python versions, see [VERSION-SUPPORT.m
 
 * Activity Details
     * [X] Remember Me ID `user_id`
+    * [X] Parent Remember Me ID `parent_remember_me_id`
     * [X] ReceiptID `receipt_id`
     * [X] Timestamp `timestamp`
     * [X] Profile `profile`
