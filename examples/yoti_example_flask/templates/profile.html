@@ -46,6 +46,12 @@
             <td>{{user_id}}</td>
         </tr>
         {% endif %}
+        {% if parent_remember_me_id %}
+        <tr>
+            <th scope="row">Parent Remember Me ID</th>
+            <td>{{parent_remember_me_id}}</td>
+        </tr>
+        {% endif %}
         {% if given_names %}
         <tr>
             <th scope="row">Given Name(s)</th>

@@ -39,6 +39,7 @@ class ActivityDetails:
             self.ensure_postal_address()
 
         self.user_id = receipt.get('remember_me_id')
+        self.parent_remember_me_id = receipt.get('parent_remember_me_id')
         self.outcome = receipt.get('sharing_outcome')
         self.receipt_id = receipt.get('receipt_id')
         timestamp = receipt.get('timestamp')
@@ -86,6 +87,7 @@ class ActivityDetails:
 
     def __iter__(self):
         yield 'user_id', self.user_id
+        yield 'parent_remember_me_id', self.parent_remember_me_id
         yield 'outcome', self.outcome
         yield 'receipt_id', self.receipt_id
         yield 'user_profile', self.user_profile

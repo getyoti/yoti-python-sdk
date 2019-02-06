@@ -8,7 +8,8 @@ from datetime import datetime
 from yoti_python_sdk import config
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.protobuf.v1.protobuf import Protobuf
-from yoti_python_sdk.tests.conftest import successful_receipt, failure_receipt, no_values_receipt, user_id
+from yoti_python_sdk.tests.conftest import successful_receipt, failure_receipt, \
+    no_values_receipt, user_id, parent_remember_me_id, empty_strings
 
 ADDRESS_FORMAT_KEY = "address_format"
 ADDRESS_FORMAT_VALUE = 1
@@ -115,6 +116,32 @@ def test_missing_values_handled():
     activity_details = ActivityDetails(no_values_receipt())
 
     assert isinstance(activity_details, ActivityDetails)
+
+
+def test_remember_me_id_empty():
+    activity_details = ActivityDetails(empty_strings())
+
+    assert activity_details.user_id == ''
+    assert isinstance(activity_details, ActivityDetails)
+
+
+def test_remember_me_id_valid():
+    activity_details = ActivityDetails(successful_receipt())
+
+    assert activity_details.user_id == user_id()
+
+
+def test_parent_remember_me_id_empty():
+    activity_details = ActivityDetails(empty_strings())
+
+    assert activity_details.user_id == ''
+    assert isinstance(activity_details, ActivityDetails)
+
+
+def test_parent_remember_me_id_valid():
+    activity_details = ActivityDetails(successful_receipt())
+
+    assert activity_details.parent_remember_me_id == parent_remember_me_id()
 
 
 def test_try_parse_age_verified_field_age_over():

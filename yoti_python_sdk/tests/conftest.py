@@ -46,6 +46,11 @@ def user_id():
 
 
 @pytest.fixture(scope='module')
+def parent_remember_me_id():
+    return 'f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrNijH4k4qafTG0FSNUgQIvd2Z3Nx1j8'
+
+
+@pytest.fixture(scope='module')
 def receipt_id():
     return 'Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN'
 
@@ -58,6 +63,7 @@ def timestamp():
 @pytest.fixture(scope='module')
 def successful_receipt():
     return {'remember_me_id': user_id(),
+            'parent_remember_me_id': parent_remember_me_id(),
             'receipt_id': receipt_id(),
             'timestamp': timestamp(),
             'sharing_outcome': 'SUCCESS'}
@@ -68,6 +74,13 @@ def failure_receipt():
     return {'remember_me_id': user_id(),
             'sharing_outcome': 'FAILURE',
             'timestamp': timestamp()}
+
+
+@pytest.fixture(scope='module')
+def empty_strings():
+    return {'remember_me_id': '',
+            'parent_remember_me_id': '',
+            'sharing_outcome': ''}
 
 
 @pytest.fixture(scope='module')
