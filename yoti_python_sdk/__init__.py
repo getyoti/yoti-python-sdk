@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+from distutils.util import convert_path
 from os import environ
 
 from yoti_python_sdk.client import Client
-from distutils.util import convert_path
 
 DEFAULTS = {
     'YOTI_API_URL': 'https://api.yoti.com',

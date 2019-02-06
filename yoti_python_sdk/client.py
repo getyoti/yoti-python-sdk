@@ -17,7 +17,6 @@ from yoti_python_sdk.endpoint import Endpoint
 from yoti_python_sdk.protobuf.v1 import protobuf
 from .config import *
 
-
 NO_KEY_FILE_SPECIFIED_ERROR = 'Please specify the correct private key file ' \
                               'in Client(pem_file_path=...)\nor by setting ' \
                               'the "YOTI_KEY_FILE_PATH" environment variable'

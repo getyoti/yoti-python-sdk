@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
+
 from yoti_python_sdk import __version__
 
 long_description = 'This package contains the tools you need to quickly ' \
@@ -20,7 +21,8 @@ setup(
     install_requires=['cryptography>=2.2.1', 'protobuf>=3.1.0',
                       'requests>=2.11.1', 'future>=0.11.0', 'asn1==2.2.0', 'pyopenssl>=18.0.0'],
     extras_require={
-        'examples': ['Django>=1.8', 'Flask>=0.10', 'python-dotenv>=0.7.1', 'django-sslserver>=0.2', 'Werkzeug==0.11.15'],
+        'examples': ['Django>=1.8', 'Flask>=0.10', 'python-dotenv>=0.7.1', 'django-sslserver>=0.2',
+                     'Werkzeug==0.11.15'],
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
