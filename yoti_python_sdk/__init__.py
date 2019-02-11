@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 from distutils.util import convert_path
 from os import environ
 
@@ -11,7 +13,11 @@ DEFAULTS = {
 }
 
 main_ns = {}
-ver_path = convert_path('yoti_python_sdk/version.py')
+
+directory_name = os.path.dirname(__file__)
+version_path = os.path.join(directory_name, 'version.py')
+
+ver_path = convert_path(version_path)
 with open(ver_path) as ver_file:
     exec(ver_file.read(), main_ns)
 
