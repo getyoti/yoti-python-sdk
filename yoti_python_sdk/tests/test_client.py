@@ -16,10 +16,11 @@ try:
 except ImportError:
     import mock
 
+import yoti_python_sdk
 from yoti_python_sdk import YOTI_API_ENDPOINT
 from yoti_python_sdk import Client
 from yoti_python_sdk import aml
-from yoti_python_sdk.config import SDK_IDENTIFIER
+from yoti_python_sdk.config import *
 from yoti_python_sdk.client import NO_KEY_FILE_SPECIFIED_ERROR
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.tests.conftest import YOTI_CLIENT_SDK_ID, PEM_FILE_PATH
@@ -41,23 +42,29 @@ INVALID_KEY_FILES = (INVALID_KEY_FILE_PATH, 'wrong_pa&*#@th',
 
 @pytest.fixture(scope='module')
 def expected_get_headers(x_yoti_auth_key, x_yoti_auth_digest_get):
+    sdk_version = yoti_python_sdk.__version__
+
     return {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-Yoti-Auth-Key': x_yoti_auth_key,
-        'X-Yoti-Auth-Digest': x_yoti_auth_digest_get,
-        'X-Yoti-SDK': SDK_IDENTIFIER
+        'Content-Type': JSON_CONTENT_TYPE,
+        'Accept': JSON_CONTENT_TYPE,
+        X_YOTI_AUTH_KEY: x_yoti_auth_key,
+        X_YOTI_AUTH_DIGEST: x_yoti_auth_digest_get,
+        X_YOTI_SDK: SDK_IDENTIFIER,
+        X_YOTI_SDK_VERSION: sdk_version
     }
 
 
 @pytest.fixture(scope='module')
 def expected_post_headers(x_yoti_auth_key, x_yoti_auth_digest_post):
+    sdk_version = yoti_python_sdk.__version__
+
     return {
-        'X-Yoti-Auth-Key': x_yoti_auth_key,
-        'X-Yoti-Auth-Digest': x_yoti_auth_digest_post,
-        'X-Yoti-SDK': SDK_IDENTIFIER,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        X_YOTI_AUTH_KEY: x_yoti_auth_key,
+        X_YOTI_AUTH_DIGEST: x_yoti_auth_digest_post,
+        X_YOTI_SDK: SDK_IDENTIFIER,
+        X_YOTI_SDK_VERSION: sdk_version,
+        'Content-Type': JSON_CONTENT_TYPE,
+        'Accept': JSON_CONTENT_TYPE
     }
 
 

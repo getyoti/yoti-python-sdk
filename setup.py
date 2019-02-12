@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-VERSION = '2.5.0'
+from yoti_python_sdk import __version__
+
 long_description = 'This package contains the tools you need to quickly ' \
                    'integrate your Python back-end with Yoti, so that your ' \
                    'users can share their identity details with your ' \
@@ -9,14 +10,14 @@ long_description = 'This package contains the tools you need to quickly ' \
 
 setup(
     name='yoti',
-    version=VERSION,
+    version=__version__,
     packages=find_packages(),
     license='MIT',
     description='The Yoti Python SDK, providing API support for Login, Verify (2FA) and Age Verification.',
     long_description=long_description,
     url='https://github.com/getyoti/yoti-python-sdk',
     author='Yoti',
-    author_email='tech@yoti.com',
+    author_email='websdk@yoti.com',
     install_requires=['cryptography>=2.2.1', 'protobuf>=3.1.0',
                       'requests>=2.11.1', 'future>=0.11.0', 'asn1==2.2.0', 'pyopenssl>=18.0.0'],
     extras_require={

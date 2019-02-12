@@ -26,7 +26,7 @@ class Profile:
                 if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
                     self.try_convert_structured_postal_address_to_dict(field, anchors)
 
-            self.ensure_postal_address(anchors)
+            self.ensure_postal_address()
 
     @property
     def date_of_birth(self):
@@ -78,7 +78,6 @@ class Profile:
         else:
             return None
 
-
     def try_convert_structured_postal_address_to_dict(self, field, anchors):
         decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)
         value_to_decode = field.value.decode()
@@ -88,12 +87,14 @@ class Profile:
             decoder.decode(value_to_decode),
             anchors)
 
-    def ensure_postal_address(self, anchors):
+    def ensure_postal_address(self):
         if config.ATTRIBUTE_POSTAL_ADDRESS not in self.attributes and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.attributes:
-            if config.KEY_FORMATTED_ADDRESS in self.attributes[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value:
-                formatted_address = self.attributes[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS].value[
+            structured_postal_address = self.attributes[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+
+            if config.KEY_FORMATTED_ADDRESS in structured_postal_address.value:
+                formatted_address = structured_postal_address.value[
                     config.KEY_FORMATTED_ADDRESS]
                 self.attributes[config.ATTRIBUTE_POSTAL_ADDRESS] = Attribute(
                     config.ATTRIBUTE_POSTAL_ADDRESS,
                     formatted_address,
-                    anchors)
+                    structured_postal_address.anchors)
