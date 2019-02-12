@@ -30,6 +30,7 @@ class AuthView(TemplateView):
         context = profile_dict.get('attributes')
         context['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
         context['user_id'] = getattr(activity_details, 'user_id')
+        context['parent_remember_me_id'] = getattr(activity_details, 'parent_remember_me_id')
         context['receipt_id'] = getattr(activity_details, 'receipt_id')
         context['timestamp'] = getattr(activity_details, 'timestamp')
 

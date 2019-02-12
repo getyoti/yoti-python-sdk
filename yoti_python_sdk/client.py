@@ -15,7 +15,7 @@ from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.endpoint import Endpoint
 from yoti_python_sdk.protobuf.v1 import protobuf
-from .config import SDK_IDENTIFIER
+from .config import *
 
 NO_KEY_FILE_SPECIFIED_ERROR = 'Please specify the correct private key file ' \
                               'in Client(pem_file_path=...)\nor by setting ' \
@@ -112,13 +112,15 @@ class Client(object):
 
     def __get_request_headers(self, path, http_method, content):
         request = self.__create_request(http_method, path, content)
+        sdk_version = yoti_python_sdk.__version__
 
         return {
-            'X-Yoti-Auth-Key': self.__crypto.get_public_key(),
-            'X-Yoti-Auth-Digest': self.__crypto.sign(request),
-            'X-Yoti-SDK': SDK_IDENTIFIER,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            X_YOTI_AUTH_KEY: self.__crypto.get_public_key(),
+            X_YOTI_AUTH_DIGEST: self.__crypto.sign(request),
+            X_YOTI_SDK: SDK_IDENTIFIER,
+            X_YOTI_SDK_VERSION: sdk_version,
+            'Content-Type': JSON_CONTENT_TYPE,
+            'Accept': JSON_CONTENT_TYPE
         }
 
     @staticmethod

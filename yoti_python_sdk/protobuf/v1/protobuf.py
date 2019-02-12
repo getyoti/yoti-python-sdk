@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from cryptography.fernet import base64
-from yoti_python_sdk.protobuf.v1.attribute_public_api import attribute_pb2, list_pb2
 
 import yoti_python_sdk.protobuf.v1.common_public_api.encrypted_data_pb2 as compubapi
+from yoti_python_sdk.protobuf.v1.attribute_public_api import attribute_pb2, list_pb2
 
 
 class Protobuf(object):
