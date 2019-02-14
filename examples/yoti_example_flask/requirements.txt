@@ -10,18 +10,18 @@ certifi==2018.4.16        # via requests
 cffi==1.11.5              # via cryptography
 chardet==3.0.4            # via requests
 click==6.7                # via flask
-cryptography==2.2.2       # via pyopenssl, yoti
+cryptography==2.5
 flask==1.0.2
 future==0.16.0            # via yoti
-idna==2.7                 # via cryptography, requests
+idna==2.7                 # via requests
 itsdangerous==0.24        # via flask
 jinja2==2.10              # via flask
 markupsafe==1.0           # via jinja2
 protobuf==3.6.0           # via yoti
 pycparser==2.18           # via cffi
-pyopenssl==18.0.0
+pyopenssl==19.0.0
 python-dotenv==0.8.2
-requests==2.19.1          # via yoti
+requests==2.21.0
 six==1.11.0               # via cryptography, protobuf, pyopenssl
 urllib3==1.23             # via requests
 werkzeug==0.14.1          # via flask
