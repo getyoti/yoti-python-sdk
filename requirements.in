@@ -7,7 +7,7 @@ pbr==1.10.0
 protobuf==3.1.0.post1
 pyopenssl==18.0.0
 pytest==3.3.2
-requests>=2.11.1
+requests>=2.20.0
 tox>=1.7.2
 virtualenv==13.1.2
 future==0.15.2
