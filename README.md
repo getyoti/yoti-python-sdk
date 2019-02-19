@@ -256,7 +256,8 @@ To run the Flask or Django container:
 
 #### Django
 
-1. Change directories to the Django project: `cd examples/yoti_example_django`
+1. You will need Python 3+ to run the Django example
+1. Change directories to the ` project: `cd examples/yoti_example_django`
 1. Install dependencies: `pip install -r requirements.txt`
 1. Apply migrations before the first start by running: `python manage.py migrate`
 1. Run: `python manage.py runsslserver 0.0.0.0:5000`
