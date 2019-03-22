@@ -7,7 +7,7 @@ from datetime import datetime
 
 from yoti_python_sdk import config
 from yoti_python_sdk.activity_details import ActivityDetails
-from protobuf.protobuf import Protobuf
+from yoti_python_sdk.protobuf.protobuf import Protobuf
 from yoti_python_sdk.tests.conftest import successful_receipt, failure_receipt, \
     no_values_receipt, user_id, parent_remember_me_id, empty_strings
 
