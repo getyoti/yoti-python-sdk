@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from protobuf.protobuf import Protobuf
+from yoti_python_sdk.protobuf.protobuf import Protobuf
 
 
 class ProtobufAttribute(object):

@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from cryptography.fernet import base64
 
-import protobuf.common_public_api.EncryptedData_pb2 as compubapi
-from protobuf.attribute_public_api import Attribute_pb2, List_pb2
+from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2, List_pb2
+from yoti_python_sdk.protobuf.common_public_api import EncryptedData_pb2
 
 
 class Protobuf(object):
@@ -23,7 +23,7 @@ class Protobuf(object):
         profile_content = receipt['other_party_profile_content']
         decoded_profile_content = base64.b64decode(profile_content)
 
-        merged_user = compubapi.EncryptedData()
+        merged_user = EncryptedData_pb2.EncryptedData()
         merged_user.MergeFromString(decoded_profile_content)
         return merged_user
 
