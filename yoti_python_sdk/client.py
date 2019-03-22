@@ -14,7 +14,7 @@ from yoti_python_sdk import aml
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.endpoint import Endpoint
-from protobuf import protobuf
+from yoti_python_sdk.protobuf import protobuf
 from .config import *
 
 NO_KEY_FILE_SPECIFIED_ERROR = 'Please specify the correct private key file ' \

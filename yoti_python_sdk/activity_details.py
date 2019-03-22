@@ -5,7 +5,7 @@ from datetime import datetime
 
 from yoti_python_sdk import config
 from yoti_python_sdk.profile import Profile
-from protobuf.protobuf import Protobuf
+from yoti_python_sdk.protobuf.protobuf import Protobuf
 
 
 class ActivityDetails:
