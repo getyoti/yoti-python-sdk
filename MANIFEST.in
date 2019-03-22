@@ -1,2 +1,1 @@
 prune yoti_python_sdk/tests
-recursive-include yoti_python_sdk/protobuf/v1/definitions *.proto
