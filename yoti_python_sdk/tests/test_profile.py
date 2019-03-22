@@ -4,7 +4,7 @@ import json
 
 from yoti_python_sdk import config
 from yoti_python_sdk.profile import Profile
-from protobuf.protobuf import Protobuf
+from yoti_python_sdk.protobuf.protobuf import Protobuf
 from yoti_python_sdk.tests.protobuf_attribute import ProtobufAttribute
 
 ADDRESS_FORMAT_KEY = "address_format"

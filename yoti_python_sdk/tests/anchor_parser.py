@@ -3,7 +3,7 @@ import io
 from os.path import abspath, dirname, join
 
 from yoti_python_sdk import anchor
-from protobuf import protobuf
+from yoti_python_sdk.protobuf import protobuf
 
 FIXTURES_DIR = join(dirname(abspath(__file__)), 'fixtures')
 ANCHOR_DRIVING_LICENSE = join(FIXTURES_DIR, 'anchor_driving_license.txt')

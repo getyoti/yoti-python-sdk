@@ -19,7 +19,7 @@ itsdangerous==0.24
 mock==2.0.0
 pbr==1.10.0
 pluggy==0.6.0             # via pytest, tox
-protobuf==3.1.0.post1
+protobuf==3.7.0
 py==1.5.3                 # via pytest, tox
 pycparser==2.18           # via cffi
 pyopenssl==18.0.0

@@ -2,7 +2,7 @@
 import pytest
 from past.builtins import basestring
 
-from protobuf import protobuf
+from yoti_python_sdk.protobuf import protobuf
 
 
 @pytest.fixture(scope='module')
