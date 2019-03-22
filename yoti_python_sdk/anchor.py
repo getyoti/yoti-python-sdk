@@ -4,7 +4,7 @@ import OpenSSL
 import asn1
 from OpenSSL import crypto
 
-import yoti_python_sdk.protobuf.v1.common_public_api.signed_timestamp_pb2 as compubapi
+import protobuf.common_public_api.SignedTimestamp_pb2 as compubapi
 from yoti_python_sdk import config
 
 UNKNOWN_EXTENSION = ""
