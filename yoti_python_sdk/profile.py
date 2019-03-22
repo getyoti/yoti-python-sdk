@@ -5,7 +5,7 @@ import json
 from yoti_python_sdk import config
 from yoti_python_sdk.anchor import Anchor
 from yoti_python_sdk.attribute import Attribute
-from yoti_python_sdk.protobuf.v1.protobuf import Protobuf
+from protobuf.protobuf import Protobuf
 
 
 class Profile:
