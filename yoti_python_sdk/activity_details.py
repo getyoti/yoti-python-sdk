@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import collections
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 from yoti_python_sdk import config
 from yoti_python_sdk.profile import Profile
@@ -45,7 +45,7 @@ class ActivityDetails:
         timestamp = receipt.get('timestamp')
 
         if timestamp is not None:
-            self.timestamp = datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%SZ')
+            self.timestamp = datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
 
     def try_parse_selfie_field(self, field):
         self.base64_selfie_uri = Protobuf().image_uri_based_on_content_type(

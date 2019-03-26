@@ -3,7 +3,7 @@ import collections
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 
 from yoti_python_sdk import config
 from yoti_python_sdk.activity_details import ActivityDetails
@@ -109,7 +109,7 @@ def test_failure_receipt_handled():
 
     assert activity_details.user_id == user_id()
     assert activity_details.outcome == "FAILURE"
-    assert activity_details.timestamp == datetime(2016, 11, 14, 11, 35, 33)
+    assert activity_details.timestamp == datetime(2016, 11, 14, 11, 35, 33, tzinfo=timezone.utc)
 
 
 def test_missing_values_handled():

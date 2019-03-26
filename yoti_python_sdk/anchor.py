@@ -114,7 +114,7 @@ class Anchor:
         signed_timestamp_object.MergeFromString(self.__signed_timestamp)
 
         try:
-            signed_timestamp_parsed = datetime.datetime.fromtimestamp(
+            signed_timestamp_parsed = datetime.datetime.utcfromtimestamp(
                 signed_timestamp_object.timestamp / float(1000000))
         except OSError:
             print("Unable to parse timestamp from integer: '{0}'".format(signed_timestamp_object.timestamp))
