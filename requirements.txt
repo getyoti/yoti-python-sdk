@@ -24,6 +24,7 @@ py==1.5.3                 # via pytest, tox
 pycparser==2.18           # via cffi
 pyopenssl==18.0.0
 pytest==3.3.2
+pytz==2018.9
 requests==2.21.0
 six==1.10.0               # via cryptography, mock, protobuf, pyopenssl, pytest, tox
 tox==3.0.0
