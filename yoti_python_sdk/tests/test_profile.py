@@ -2,6 +2,8 @@
 import collections
 import json
 
+import pytest
+
 from yoti_python_sdk import config
 from yoti_python_sdk.profile import Profile
 from yoti_python_sdk.protobuf.protobuf import Protobuf
@@ -93,6 +95,52 @@ def create_attribute_list_with_structured_postal_address_field(json_address_valu
         value=json_address_value,
         anchors=None,
         content_type=Protobuf.CT_JSON)
+
+
+@pytest.mark.parametrize(
+    "string, expected_int", [("0", 0), ("1", 1), ("123", 123), ("-10", -10), ("-1", -1)]
+)
+def test_try_parse_int_value(string, expected_int):
+    attribute_name = "int_attribute"
+    attribute_list = create_single_attribute_list(
+        name=attribute_name,
+        value=str.encode(string),
+        anchors=None,
+        content_type=Protobuf.CT_INT)
+
+    profile = Profile(attribute_list)
+    int_attribute = profile.get_attribute(attribute_name)
+    assert int_attribute.value == expected_int
+
+
+def test_error_parsing_attribute_does_not_affect_other_attribute():
+    string_attribute_name = "string_attribute"
+    int_attribute_name = "int_attribute"
+    string_value = "string"
+
+    attribute_list = list()
+
+    attribute_list.append(ProtobufAttribute(
+        name=string_attribute_name,
+        value=str.encode(string_value),
+        anchors=None,
+        content_type=Protobuf.CT_STRING))
+
+    attribute_list.append(ProtobufAttribute(
+        name=int_attribute_name,
+        value=str.encode("invalid_int"),
+        anchors=None,
+        content_type=Protobuf.CT_INT))
+
+    profile = Profile(attribute_list)
+
+    assert len(profile.attributes) == 1
+
+    retrieved_string_attribute = profile.get_attribute(string_attribute_name)
+    assert retrieved_string_attribute.name == string_attribute_name
+    assert retrieved_string_attribute.value == string_value
+
+    assert profile.get_attribute(int_attribute_name) is None
 
 
 def test_try_parse_structured_postal_address_uk():

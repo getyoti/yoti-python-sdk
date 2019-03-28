@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import collections
 import json
+import logging
 
 from yoti_python_sdk import config
 from yoti_python_sdk.anchor import Anchor
@@ -14,17 +15,22 @@ class Profile:
 
         if profile_attributes:
             for field in profile_attributes:
-                value = Protobuf().value_based_on_content_type(
-                    field.value,
-                    field.content_type
-                )
+                try:
+                    value = Protobuf().value_based_on_content_type(
+                        field.value,
+                        field.content_type
+                    )
 
-                anchors = Anchor().parse_anchors(field.anchors)
+                    anchors = Anchor().parse_anchors(field.anchors)
 
-                self.attributes[field.name] = Attribute(field.name, value, anchors)
+                    self.attributes[field.name] = Attribute(field.name, value, anchors)
 
-                if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
-                    self.try_convert_structured_postal_address_to_dict(field, anchors)
+                    if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
+                        self.try_convert_structured_postal_address_to_dict(field, anchors)
+
+                except Exception as exc:
+                    error = 'Error parsing profile attribute: "{0}"'.format(field.name)
+                    logging.warning('error: {0}, exception: {1} - {2}'.format(error, type(exc).__name__, exc))
 
             self.ensure_postal_address()
 

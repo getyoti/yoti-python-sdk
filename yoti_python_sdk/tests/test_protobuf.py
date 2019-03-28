@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import pytest
-from past.builtins import basestring
 
 from yoti_python_sdk.protobuf import protobuf
 
@@ -11,19 +10,30 @@ def proto():
 
 
 def test_protobuf_value_based_on_content_type(proto):
-    value = b'test string'
+    string_value = "123"
+    byte_value = str.encode(string_value)
+    int_value = int(string_value)
 
     with pytest.raises(TypeError):
-        proto.value_based_on_content_type(value, proto.CT_UNDEFINED)
+        proto.value_based_on_content_type(byte_value, proto.CT_UNDEFINED)
 
-    result = proto.value_based_on_content_type(value, proto.CT_STRING)
-    assert isinstance(result, basestring)
+    result = proto.value_based_on_content_type(byte_value, proto.CT_STRING)
+    assert result == string_value
 
-    result = proto.value_based_on_content_type(value, proto.CT_DATE)
-    assert isinstance(result, basestring)
+    result = proto.value_based_on_content_type(byte_value, proto.CT_DATE)
+    assert result == string_value
 
-    result = proto.value_based_on_content_type(value)
-    assert result == value
+    result = proto.value_based_on_content_type(byte_value, proto.CT_JPEG)
+    assert result == byte_value
+
+    result = proto.value_based_on_content_type(byte_value, proto.CT_PNG)
+    assert result == byte_value
+
+    result = proto.value_based_on_content_type(byte_value, proto.CT_INT)
+    assert result == int_value
+
+    result = proto.value_based_on_content_type(byte_value)
+    assert result == string_value
 
 
 def test_protobuf_image_uri_based_on_content_type(proto):
