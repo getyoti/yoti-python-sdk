@@ -2,9 +2,9 @@ import datetime
 
 import OpenSSL
 import asn1
+import yoti_python_sdk.protobuf.common_public_api.SignedTimestamp_pb2 as compubapi
 from OpenSSL import crypto
 
-import yoti_python_sdk.protobuf.common_public_api.SignedTimestamp_pb2 as compubapi
 from yoti_python_sdk import config
 
 UNKNOWN_EXTENSION = ""
