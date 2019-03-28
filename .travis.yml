@@ -1,10 +1,6 @@
 language: python
 
 dist: xenial
-
-os:
-  - linux
-  - osx
   
 # Only clone the most recent commit.
 git:
