@@ -1,4 +1,4 @@
-FROM python:3.6.3
+FROM python:3.7-slim
 ARG YOTI_APPLICATION_ID
 ARG YOTI_CLIENT_SDK_ID
 ARG YOTI_KEY_FILE_PATH
@@ -12,5 +12,5 @@ ENV YOTI_APPLICATION_ID $YOTI_APPLICATION_ID
 ENV YOTI_CLIENT_SDK_ID $YOTI_CLIENT_SDK_ID
 ENV YOTI_KEY_FILE_PATH $YOTI_KEY_FILE_PATH
 
-CMD ["python", "manage.py", "migrate"]
-ENTRYPOINT ["python", "manage.py", "runsslserver", "0.0.0.0:5000"]
+RUN python manage.py migrate
+CMD ["python", "manage.py", "runsslserver", "0.0.0.0:5000"]
