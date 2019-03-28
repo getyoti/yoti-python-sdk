@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from cryptography.fernet import base64
+import logging
 
+from cryptography.fernet import base64
 from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2, List_pb2
 from yoti_python_sdk.protobuf.common_public_api import EncryptedData_pb2
 
@@ -14,6 +15,8 @@ class Protobuf(object):
     CT_DATE = 3  # string in RFC3339 format (YYYY-MM-DD)
     CT_PNG = 4  # standard .png image
     CT_JSON = 5  # value encoded using JSON
+    CT_INT = 6  # int value
+    CT_MULTI_VALUE = 7  # allows a list of values
 
     @staticmethod
     def current_user(receipt):
@@ -46,7 +49,16 @@ class Protobuf(object):
             return value.decode('utf-8')
         elif content_type == self.CT_DATE:
             return value.decode('utf-8')
-        return value
+        elif content_type == self.CT_JPEG \
+                or content_type == self.CT_PNG:
+            return value
+        elif content_type == self.CT_INT:
+            string_value = value.decode('utf-8')
+            int_value = int(string_value)
+            return int_value
+
+        logging.warning("Unknown type '{0}', attempting to parse it as a String".format(content_type))
+        return value.decode('utf-8')
 
     def image_uri_based_on_content_type(self, value, content_type=None):
         if content_type == self.CT_JPEG:
