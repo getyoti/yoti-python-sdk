@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-
 import yoti_python_sdk
 from yoti_python_sdk import config
-from yoti_python_sdk.config import UTC_TIMEZONE
 from yoti_python_sdk.tests import anchor_parser
 
 
