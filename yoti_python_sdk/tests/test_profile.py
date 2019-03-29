@@ -124,9 +124,7 @@ def test_error_parsing_attribute_has_none_value():
 
     profile = Profile(attribute_list)
 
-    retrieved_string_attribute = profile.get_attribute(int_attribute_name)
-    assert retrieved_string_attribute.name == int_attribute_name
-    assert retrieved_string_attribute.value is None
+    assert profile.get_attribute(int_attribute_name) is None
 
 
 def test_error_parsing_attribute_does_not_affect_other_attribute():
@@ -150,7 +148,7 @@ def test_error_parsing_attribute_does_not_affect_other_attribute():
 
     profile = Profile(attribute_list)
 
-    assert len(profile.attributes) == 2
+    assert len(profile.attributes) == 1
 
     retrieved_string_attribute = profile.get_attribute(string_attribute_name)
     assert retrieved_string_attribute.name == string_attribute_name
