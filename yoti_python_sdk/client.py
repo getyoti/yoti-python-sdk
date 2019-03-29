@@ -97,7 +97,7 @@ class Client(object):
         return response
 
     def __make_aml_check_request(self, http_method, aml_profile):
-        aml_profile_json = json.dumps(aml_profile.__dict__)
+        aml_profile_json = json.dumps(aml_profile.__dict__, sort_keys=True)
         aml_profile_bytes = aml_profile_json.encode()
         path = self.__endpoint.get_aml_request_url()
         url = yoti_python_sdk.YOTI_API_ENDPOINT + path
