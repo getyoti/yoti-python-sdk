@@ -2,7 +2,7 @@
 import yoti_python_sdk
 from yoti_python_sdk import config
 from yoti_python_sdk.tests import anchor_parser
-from datetime import datetime, timezone
+from datetime import datetime
 
 def test_parse_anchors_driving_license():
     parsed_anchor = anchor_parser.get_driving_license_anchor()
