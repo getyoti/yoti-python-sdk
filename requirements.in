@@ -10,6 +10,5 @@ pyopenssl==18.0.0
 pytest==3.3.2
 pytz==2018.9
 requests>=2.20.0
-tox>=1.7.2
 virtualenv==13.1.2
 wheel==0.24.0
