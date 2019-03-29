@@ -113,6 +113,22 @@ def test_try_parse_int_value(string, expected_int):
     assert int_attribute.value == expected_int
 
 
+def test_error_parsing_attribute_has_none_value():
+    int_attribute_name = "int_attribute"
+
+    attribute_list = create_single_attribute_list(
+        name=int_attribute_name,
+        value=str.encode("invalid_int"),
+        anchors=None,
+        content_type=Protobuf.CT_INT)
+
+    profile = Profile(attribute_list)
+
+    retrieved_string_attribute = profile.get_attribute(int_attribute_name)
+    assert retrieved_string_attribute.name == int_attribute_name
+    assert retrieved_string_attribute.value is None
+
+
 def test_error_parsing_attribute_does_not_affect_other_attribute():
     string_attribute_name = "string_attribute"
     int_attribute_name = "int_attribute"
@@ -134,13 +150,11 @@ def test_error_parsing_attribute_does_not_affect_other_attribute():
 
     profile = Profile(attribute_list)
 
-    assert len(profile.attributes) == 1
+    assert len(profile.attributes) == 2
 
     retrieved_string_attribute = profile.get_attribute(string_attribute_name)
     assert retrieved_string_attribute.name == string_attribute_name
     assert retrieved_string_attribute.value == string_value
-
-    assert profile.get_attribute(int_attribute_name) is None
 
 
 def test_try_parse_structured_postal_address_uk():

@@ -20,17 +20,17 @@ class Profile:
                         field.value,
                         field.content_type
                     )
-
-                    anchors = Anchor().parse_anchors(field.anchors)
-
-                    self.attributes[field.name] = Attribute(field.name, value, anchors)
-
-                    if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
-                        self.try_convert_structured_postal_address_to_dict(field, anchors)
-
                 except Exception as exc:
                     error = 'Error parsing profile attribute: "{0}"'.format(field.name)
                     logging.warning('error: {0}, exception: {1} - {2}'.format(error, type(exc).__name__, exc))
+                    value = None
+
+                anchors = Anchor().parse_anchors(field.anchors)
+
+                self.attributes[field.name] = Attribute(field.name, value, anchors)
+
+                if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
+                    self.try_convert_structured_postal_address_to_dict(field, anchors)
 
             self.ensure_postal_address()
 
