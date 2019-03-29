@@ -1,0 +1,34 @@
+language: python
+
+dist: xenial
+  
+# Only clone the most recent commit.
+git:
+  depth: 1
+  
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.5-dev"
+  - "3.6"
+  - "3.6-dev"
+  - "3.7"
+  - "3.7-dev"
+  - "3.8-dev"
+
+cache: pip
+
+before_install:
+  - pip install -U setuptools
+  
+install:
+  - pip install -r requirements.txt
+  - python setup.py develop
+  
+script:
+  - py.test -v
+
+matrix:
+  allow_failures:
+  - python: "3.8-dev"

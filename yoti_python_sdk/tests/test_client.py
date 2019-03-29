@@ -261,7 +261,7 @@ def test_perform_aml_check_details_with_correct_data(
 
     aml_result = client.perform_aml_check(aml_profile)
 
-    aml_profile_json = json.dumps(aml_profile.__dict__)
+    aml_profile_json = json.dumps(aml_profile.__dict__, sort_keys=True)
     aml_profile_bytes = aml_profile_json.encode()
 
     mock_post.assert_called_once_with(url=expected_aml_url, headers=expected_post_headers, data=aml_profile_bytes)
