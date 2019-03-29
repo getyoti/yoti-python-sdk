@@ -277,7 +277,7 @@ Running the tests is done by the following process, ensuring you are using Pytho
 1. Install the SDK: `python setup.py develop`
 1. Execute in the main project dir: `py.test`
 
-For information on testing with multiple Python versions, see [VERSION-SUPPORT.md](/VERSION-SUPPORT.md)
+See [.travis.yml](/.travis.yml) for compatibility with Python versions.
 
 ## API Coverage
 

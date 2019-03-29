@@ -18,16 +18,15 @@ idna==2.7                 # via cryptography, requests
 itsdangerous==0.24
 mock==2.0.0
 pbr==1.10.0
-pluggy==0.6.0             # via pytest, tox
+pluggy==0.6.0             # via pytest
 protobuf==3.7.0
-py==1.5.3                 # via pytest, tox
+py==1.5.3                 # via pytest
 pycparser==2.18           # via cffi
 pyopenssl==18.0.0
 pytest==3.3.2
 pytz==2018.9
 requests==2.21.0
-six==1.10.0               # via cryptography, mock, protobuf, pyopenssl, pytest, tox
-tox==3.0.0
+six==1.10.0               # via cryptography, mock, protobuf, pyopenssl, pytest
 urllib3==1.24.1           # via requests
 virtualenv==13.1.2
 wheel==0.24.0
