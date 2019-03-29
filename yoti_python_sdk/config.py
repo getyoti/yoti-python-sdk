@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import pytz
 
 SDK_IDENTIFIER = "Python"
 ATTRIBUTE_AGE_OVER = "age_over:"
@@ -25,5 +24,3 @@ X_YOTI_AUTH_DIGEST = "X-Yoti-Auth-Digest"
 X_YOTI_SDK = "X-Yoti-SDK"
 X_YOTI_SDK_VERSION = X_YOTI_SDK + "-Version"
 JSON_CONTENT_TYPE = 'application/json'
-UTC_TIMEZONE = pytz.utc
-
