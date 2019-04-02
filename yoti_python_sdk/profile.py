@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import collections
-import json
 import logging
 
 from yoti_python_sdk import config
@@ -25,12 +23,10 @@ class Profile:
 
                     self.attributes[field.name] = Attribute(field.name, value, anchors)
 
-                    if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
-                        self.try_convert_structured_postal_address_to_dict(field, anchors)
-
                 except Exception as exc:
                     error = 'Error parsing profile attribute: "{0}"'.format(field.name)
-                    logging.warning('error: {0}, exception: {1} - {2}'.format(error, type(exc).__name__, exc))
+                    if logging.getLogger().propagate:
+                        logging.warning('error: {0}, exception: {1} - {2}'.format(error, type(exc).__name__, exc))
 
             self.ensure_postal_address()
 
@@ -83,15 +79,6 @@ class Profile:
             return self.attributes.get(attribute_name)
         else:
             return None
-
-    def try_convert_structured_postal_address_to_dict(self, field, anchors):
-        decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)
-        value_to_decode = field.value.decode()
-
-        self.attributes[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = Attribute(
-            config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS,
-            decoder.decode(value_to_decode),
-            anchors)
 
     def ensure_postal_address(self):
         if config.ATTRIBUTE_POSTAL_ADDRESS not in self.attributes and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.attributes:
