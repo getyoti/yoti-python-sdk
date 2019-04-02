@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import collections
+import json
 import logging
 
 from cryptography.fernet import base64
@@ -50,12 +52,16 @@ class Protobuf(object):
         elif content_type == self.CT_JPEG \
                 or content_type == self.CT_PNG:
             return value
+        elif content_type == self.CT_JSON:
+            return self.convert_to_dict(value)
         elif content_type == self.CT_INT:
             string_value = value.decode('utf-8')
             int_value = int(string_value)
             return int_value
 
-        logging.warning("Unknown type '{0}', attempting to parse it as a String".format(content_type))
+        if logging.getLogger().propagate:
+            logging.warning("Unknown type '{0}', attempting to parse it as a String".format(content_type))
+
         return value.decode('utf-8')
 
     def image_uri_based_on_content_type(self, value, content_type=None):
@@ -66,3 +72,10 @@ class Protobuf(object):
             data = base64.b64encode(value).decode('utf-8')
             return 'data:image/png;base64,{0}'.format(data)
         return value
+
+    @staticmethod
+    def convert_to_dict(byte_value):
+        decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)
+        value_to_decode = byte_value.decode()
+
+        return decoder.decode(value_to_decode)

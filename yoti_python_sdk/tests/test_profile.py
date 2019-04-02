@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import collections
 import json
+import logging
 
 import pytest
 
@@ -122,7 +123,13 @@ def test_error_parsing_attribute_has_none_value():
         anchors=None,
         content_type=Protobuf.CT_INT)
 
+    # disable logging for the below call: warning shown as int is invalid
+    logger = logging.getLogger()
+    logger.propagate = False
+
     profile = Profile(attribute_list)
+
+    logger.propagate = True
 
     assert profile.get_attribute(int_attribute_name) is None
 
@@ -146,7 +153,13 @@ def test_error_parsing_attribute_does_not_affect_other_attribute():
         anchors=None,
         content_type=Protobuf.CT_INT))
 
+    # disable logging for the below call: warning shown as int is invalid
+    logger = logging.getLogger()
+    logger.propagate = False
+
     profile = Profile(attribute_list)
+
+    logger.propagate = True
 
     assert len(profile.attributes) == 1
 
@@ -180,6 +193,33 @@ def test_try_parse_structured_postal_address_uk():
     assert actual_structured_postal_address_profile[COUNTRY_ISO_KEY] == COUNTRY_ISO_VALUE
     assert actual_structured_postal_address_profile[COUNTRY_KEY] == COUNTRY_VALUE
     assert actual_structured_postal_address_profile[config.KEY_FORMATTED_ADDRESS] == FORMATTED_ADDRESS_VALUE
+
+
+def test_other_json_type_is_parsed():
+    json_attribute_name = "other_json"
+    key_a = "keyA"
+    key_b = "keyB"
+    value_a = "valueA"
+    value_b = "valueB"
+    json_value = {key_a: value_a,
+                  key_b: value_b}
+
+    encoded_json = json.dumps(json_value).encode()
+
+    attribute_list = create_single_attribute_list(
+        name=json_attribute_name,
+        value=encoded_json,
+        anchors=None,
+        content_type=Protobuf.CT_JSON)
+
+    profile = Profile(attribute_list)
+
+    retrieved_attribute = profile.get_attribute(json_attribute_name)
+
+    assert retrieved_attribute.name == json_attribute_name
+    assert type(retrieved_attribute.value) is collections.OrderedDict
+    assert retrieved_attribute.value[key_a] == value_a
+    assert retrieved_attribute.value[key_b] == value_b
 
 
 def test_try_parse_structured_postal_address_india():
