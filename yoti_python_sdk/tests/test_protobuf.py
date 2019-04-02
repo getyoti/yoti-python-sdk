@@ -14,8 +14,8 @@ def test_protobuf_value_based_on_content_type(proto):
     byte_value = str.encode(string_value)
     int_value = int(string_value)
 
-    with pytest.raises(TypeError):
-        proto.value_based_on_content_type(byte_value, proto.CT_UNDEFINED)
+    result = proto.value_based_on_content_type(byte_value, proto.CT_UNDEFINED)
+    assert result == string_value
 
     result = proto.value_based_on_content_type(byte_value, proto.CT_STRING)
     assert result == string_value
