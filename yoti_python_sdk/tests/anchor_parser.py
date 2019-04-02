@@ -11,7 +11,7 @@ ANCHOR_PASSPORT = join(FIXTURES_DIR, 'anchor_passport.txt')
 ANCHOR_YOTI_ADMIN = join(FIXTURES_DIR, 'anchor_yoti_admin.txt')
 
 
-def parse_anchor_from_base64_text(file_path):
+def get_anchor_from_base64_text(file_path):
     base64_driving_license_anchor = read_file(file_path)
     driving_license_anchor_bytes = binascii.a2b_base64(base64_driving_license_anchor)
 
@@ -19,19 +19,19 @@ def parse_anchor_from_base64_text(file_path):
     anchors = list()
     anchors.append(protobuf_anchor)
 
-    return anchor.Anchor().parse_anchors(anchors)[0]
+    return anchors
 
 
-def get_driving_license_anchor():
-    return parse_anchor_from_base64_text(ANCHOR_DRIVING_LICENSE)
+def get_parsed_driving_license_anchor():
+    return anchor.Anchor().parse_anchors(get_anchor_from_base64_text(ANCHOR_DRIVING_LICENSE))[0]
 
 
-def get_passport_anchor():
-    return parse_anchor_from_base64_text(ANCHOR_PASSPORT)
+def get_parsed_passport_anchor():
+    return anchor.Anchor().parse_anchors(get_anchor_from_base64_text(ANCHOR_PASSPORT))[0]
 
 
-def get_yoti_admin_anchor():
-    return parse_anchor_from_base64_text(ANCHOR_YOTI_ADMIN)
+def get_parsed_yoti_admin_anchor():
+    return anchor.Anchor().parse_anchors(get_anchor_from_base64_text(ANCHOR_YOTI_ADMIN))[0]
 
 
 def read_file(file_path):

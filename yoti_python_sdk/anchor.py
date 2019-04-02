@@ -1,10 +1,11 @@
 import datetime
+import logging
 
 import OpenSSL
 import asn1
+import yoti_python_sdk.protobuf.common_public_api.SignedTimestamp_pb2 as compubapi
 from OpenSSL import crypto
 
-import yoti_python_sdk.protobuf.common_public_api.SignedTimestamp_pb2 as compubapi
 from yoti_python_sdk import config
 
 UNKNOWN_EXTENSION = ""
@@ -43,25 +44,36 @@ class Anchor:
         for anc in anchors:
             if hasattr(anc, 'origin_server_certs'):
                 anchor_type = "Unknown"
-                origin_server_certs_list = list(anc.origin_server_certs)
-                origin_server_certs_item = origin_server_certs_list[0]
+                try:
+                    origin_server_certs_list = list(anc.origin_server_certs)
+                    origin_server_certs_item = origin_server_certs_list[0]
 
-                crypto_cert = crypto.load_certificate(OpenSSL.crypto.FILETYPE_ASN1,
-                                                      origin_server_certs_item).to_cryptography()
+                    crypto_cert = crypto.load_certificate(OpenSSL.crypto.FILETYPE_ASN1,
+                                                          origin_server_certs_item).to_cryptography()
+
+                except Exception as exc:
+                    logging.warning(
+                        'Error loading anchor certificate, exception: {0} - {1}'.format(type(exc).__name__, exc))
+                    continue
 
                 for i in range(len(crypto_cert.extensions)):
-                    extensions = crypto_cert.extensions[i]
-                    if hasattr(extensions, 'oid'):
-                        oid = extensions.oid
-                        if hasattr(oid, 'dotted_string'):
-                            if oid.dotted_string == SOURCE_EXTENSION:
-                                anchor_type = config.ANCHOR_SOURCE
-                            elif oid.dotted_string == VERIFIER_EXTENSION:
-                                anchor_type = config.ANCHOR_VERIFIER
+                    try:
+                        extensions = crypto_cert.extensions[i]
+                        if hasattr(extensions, 'oid'):
+                            oid = extensions.oid
+                            if hasattr(oid, 'dotted_string'):
+                                if oid.dotted_string == SOURCE_EXTENSION:
+                                    anchor_type = config.ANCHOR_SOURCE
+                                elif oid.dotted_string == VERIFIER_EXTENSION:
+                                    anchor_type = config.ANCHOR_VERIFIER
 
-                            if anchor_type != "Unknown":
-                                parsed_anchors = Anchor.get_values_from_extensions(anc, anchor_type, extensions,
-                                                                                   crypto_cert, parsed_anchors)
+                                if anchor_type != "Unknown":
+                                    parsed_anchors = Anchor.get_values_from_extensions(anc, anchor_type, extensions,
+                                                                                       crypto_cert, parsed_anchors)
+                    except Exception as exc:
+                        logging.warning('Error parsing anchor certificate extension, exception: {0} - {1}'.format(
+                            type(exc).__name__, exc))
+                        continue
 
         return parsed_anchors
 
