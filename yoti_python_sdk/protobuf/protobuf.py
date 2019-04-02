@@ -43,9 +43,7 @@ class Protobuf(object):
         return anchor
 
     def value_based_on_content_type(self, value, content_type=None):
-        if content_type == self.CT_UNDEFINED:
-            raise TypeError('Wrong content type')
-        elif content_type == self.CT_STRING:
+        if content_type == self.CT_STRING:
             return value.decode('utf-8')
         elif content_type == self.CT_DATE:
             return value.decode('utf-8')
