@@ -36,7 +36,7 @@ def test_attribute_get_verifiers():
 
 
 def create_source_and_verifier_anchors():
-    passport_anchor = anchor_parser.get_passport_anchor()  # source
-    yoti_admin_anchor = anchor_parser.get_yoti_admin_anchor()  # verifier
+    passport_anchor = anchor_parser.get_parsed_passport_anchor()  # source
+    yoti_admin_anchor = anchor_parser.get_parsed_yoti_admin_anchor()  # verifier
 
     return [passport_anchor, yoti_admin_anchor]
