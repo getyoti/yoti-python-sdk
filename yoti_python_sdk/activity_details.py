@@ -4,9 +4,8 @@ import json
 import logging
 from datetime import datetime
 
-from yoti_python_sdk import config
+from yoti_python_sdk import attribute_parser, config
 from yoti_python_sdk.profile import Profile
-from yoti_python_sdk.protobuf.protobuf import Protobuf
 
 
 class ActivityDetails:
@@ -21,7 +20,7 @@ class ActivityDetails:
 
             for field in decrypted_profile_attributes:  # will be removed in v3.0.0
                 try:
-                    value = Protobuf().value_based_on_content_type(
+                    value = attribute_parser.value_based_on_content_type(
                         field.value,
                         field.content_type
                     )
@@ -62,14 +61,14 @@ class ActivityDetails:
             self.timestamp = datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%SZ')
 
     def try_parse_selfie_field(self, field):
-        self.base64_selfie_uri = Protobuf().image_uri_based_on_content_type(
+        self.base64_selfie_uri = attribute_parser.image_uri_based_on_content_type(
             field.value,
             field.content_type
         )
 
     def try_parse_age_verified_field(self, field):
         if field is not None:
-            age_verified = Protobuf().value_based_on_content_type(
+            age_verified = attribute_parser.value_based_on_content_type(
                 field.value,
                 field.content_type
             )
