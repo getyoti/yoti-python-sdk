@@ -47,6 +47,8 @@ class Protobuf(object):
     def value_based_on_content_type(self, value, content_type=None):
         if content_type == self.CT_STRING:
             return value.decode('utf-8')
+        elif value == b'':
+            raise ValueError("Content type: '{0}' should not have an empty value".format(content_type))
         elif content_type == self.CT_DATE:
             return value.decode('utf-8')
         elif content_type == self.CT_JPEG \
