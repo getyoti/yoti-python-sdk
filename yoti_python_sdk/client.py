@@ -55,12 +55,13 @@ class Client(object):
             raise RuntimeError('{0}: {1}'.format(error, exception))
 
     def get_activity_details(self, encrypted_request_token):
+        proto = protobuf.Protobuf()
         http_method = 'GET'
         content = None
         response = self.__make_activity_details_request(encrypted_request_token, http_method, content)
         receipt = json.loads(response.text).get('receipt')
 
-        encrypted_data = protobuf.Protobuf().current_user(receipt)
+        encrypted_data = proto.current_user(receipt)
 
         if not encrypted_data:
             return ActivityDetails(receipt)
@@ -71,7 +72,7 @@ class Client(object):
             encrypted_data.iv,
             encrypted_data.cipher_text
         )
-        attribute_list = protobuf.Protobuf().attribute_list(decrypted_data)
+        attribute_list = proto.attribute_list(decrypted_data)
         return ActivityDetails(receipt, attribute_list)
 
     def perform_aml_check(self, aml_profile):

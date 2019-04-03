@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from yoti_python_sdk import config
+from yoti_python_sdk import attribute_parser, config
 from yoti_python_sdk.anchor import Anchor
 from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.image import Image
-from yoti_python_sdk.protobuf.protobuf import Protobuf
 
 
 class Profile:
@@ -15,7 +14,7 @@ class Profile:
         if profile_attributes:
             for field in profile_attributes:
                 try:
-                    value = Protobuf().value_based_on_content_type(
+                    value = attribute_parser.value_based_on_content_type(
                         field.value,
                         field.content_type
                     )
