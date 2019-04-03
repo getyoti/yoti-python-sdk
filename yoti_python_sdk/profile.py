@@ -23,10 +23,13 @@ class Profile:
 
                     self.attributes[field.name] = Attribute(field.name, value, anchors)
 
-                except Exception as exc:
-                    error = 'Error parsing profile attribute: "{0}"'.format(field.name)
+                except ValueError as ve:
                     if logging.getLogger().propagate:
-                        logging.warning('error: {0}, exception: {1} - {2}'.format(error, type(exc).__name__, exc))
+                        logging.warning(ve)
+                except Exception as exc:
+                    if logging.getLogger().propagate:
+                        logging.warning(
+                            'Error parsing profile attribute:{0}, exception: {1} - {2}'.format(field.name, type(exc).__name__, exc))
 
             self.ensure_postal_address()
 
