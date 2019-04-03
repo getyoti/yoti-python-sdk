@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from yoti_python_sdk import attribute_parser
 from yoti_python_sdk.protobuf.protobuf import Protobuf
 
 
@@ -30,7 +32,7 @@ class Image:
             return ""
 
     def base64_content(self):
-        return Protobuf().image_uri_based_on_content_type(
+        return attribute_parser.image_uri_based_on_content_type(
             # TODO: move image_uri_based_on_content_type method to this class
             self.__data,
             self.__content_type)
