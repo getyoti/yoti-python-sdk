@@ -52,8 +52,9 @@ class Anchor:
                                                           origin_server_certs_item).to_cryptography()
 
                 except Exception as exc:
-                    logging.warning(
-                        'Error loading anchor certificate, exception: {0} - {1}'.format(type(exc).__name__, exc))
+                    if logging.getLogger().propagate:
+                        logging.warning(
+                            'Error loading anchor certificate, exception: {0} - {1}'.format(type(exc).__name__, exc))
                     continue
 
                 for i in range(len(crypto_cert.extensions)):
@@ -71,8 +72,9 @@ class Anchor:
                                     parsed_anchors = Anchor.get_values_from_extensions(anc, anchor_type, extensions,
                                                                                        crypto_cert, parsed_anchors)
                     except Exception as exc:
-                        logging.warning('Error parsing anchor certificate extension, exception: {0} - {1}'.format(
-                            type(exc).__name__, exc))
+                        if logging.getLogger().propagate:
+                            logging.warning('Error parsing anchor certificate extension, exception: {0} - {1}'.format(
+                                type(exc).__name__, exc))
                         continue
 
         return parsed_anchors

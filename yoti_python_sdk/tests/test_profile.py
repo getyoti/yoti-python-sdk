@@ -134,6 +134,42 @@ def test_error_parsing_attribute_has_none_value():
     assert profile.get_attribute(int_attribute_name) is None
 
 
+@pytest.mark.parametrize("content_type", [Protobuf.CT_DATE, Protobuf.CT_INT, Protobuf.CT_JPEG, Protobuf.CT_PNG, Protobuf.CT_JSON, Protobuf.CT_UNDEFINED])
+def test_parse_empty_values_returns_none(content_type):
+    attribute_name = "attribute_name"
+
+    attribute_list = create_single_attribute_list(
+        name=attribute_name,
+        value=b'',
+        anchors=None,
+        content_type=content_type)
+
+    # disable logging for the below call: warning logged as value is empty
+    logger = logging.getLogger()
+    logger.propagate = False
+
+    profile = Profile(attribute_list)
+
+    logger.propagate = True
+
+    assert profile.get_attribute(attribute_name) is None
+
+
+@pytest.mark.parametrize("value", [b'', "".encode()])
+def test_parse_empty_string_value_returns_attribute(value):
+    attribute_name = "attribute_name"
+
+    attribute_list = create_single_attribute_list(
+        name=attribute_name,
+        value=value,
+        anchors=None,
+        content_type=Protobuf.CT_STRING)
+
+    profile = Profile(attribute_list)
+
+    assert profile.get_attribute(attribute_name).value == ""
+
+
 def test_error_parsing_attribute_does_not_affect_other_attribute():
     string_attribute_name = "string_attribute"
     int_attribute_name = "int_attribute"
