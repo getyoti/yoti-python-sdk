@@ -4,6 +4,7 @@ import logging
 from yoti_python_sdk import config
 from yoti_python_sdk.anchor import Anchor
 from yoti_python_sdk.attribute import Attribute
+from yoti_python_sdk.image import Image
 from yoti_python_sdk.protobuf.protobuf import Protobuf
 
 
@@ -18,6 +19,12 @@ class Profile:
                         field.value,
                         field.content_type
                     )
+
+                    # first condition will be removed in v3.0.0, so selfie also returns an Image object
+                    if field.name != config.ATTRIBUTE_SELFIE and \
+                            (field.content_type == Protobuf.CT_JPEG \
+                             or field.content_type == Protobuf.CT_PNG):
+                        value = Image(field.value, field.content_type)
 
                     anchors = Anchor().parse_anchors(field.anchors)
 

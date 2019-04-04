@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import collections
 import json
+import logging
 from datetime import datetime
 
 from yoti_python_sdk import config
@@ -19,22 +20,34 @@ class ActivityDetails:
             self.profile = Profile(decrypted_profile_attributes)
 
             for field in decrypted_profile_attributes:  # will be removed in v3.0.0
-                value = Protobuf().value_based_on_content_type(
-                    field.value,
-                    field.content_type
-                )
+                try:
+                    value = Protobuf().value_based_on_content_type(
+                        field.value,
+                        field.content_type
+                    )
 
-                self.user_profile[field.name] = value
+                    self.user_profile[field.name] = value
 
-                if field.name == config.ATTRIBUTE_SELFIE:
-                    self.try_parse_selfie_field(field)
+                    if field.name == config.ATTRIBUTE_SELFIE:
+                        self.try_parse_selfie_field(field)
 
-                if field.name.startswith(config.ATTRIBUTE_AGE_OVER) or field.name.startswith(
-                        config.ATTRIBUTE_AGE_UNDER):
-                    self.try_parse_age_verified_field(field)
+                    if field.name.startswith(config.ATTRIBUTE_AGE_OVER) or field.name.startswith(
+                            config.ATTRIBUTE_AGE_UNDER):
+                        self.try_parse_age_verified_field(field)
 
-                if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
-                    self.try_convert_structured_postal_address_to_dict(field)
+                    if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
+                        self.try_convert_structured_postal_address_to_dict(field)
+
+                except ValueError as ve:
+                    if logging.getLogger().propagate:
+                        logging.warning(ve)
+                except Exception as exc:
+                    if logging.getLogger().propagate:
+                        logging.warning(
+                            'Error parsing profile attribute:{0}, exception: {1} - {2}'.format(
+                                field.name,
+                                type(exc).__name__,
+                                exc))
 
             self.ensure_postal_address()
 
