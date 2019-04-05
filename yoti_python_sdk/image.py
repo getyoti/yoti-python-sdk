@@ -3,11 +3,15 @@ from yoti_python_sdk.protobuf.protobuf import Protobuf
 
 class Image:
     def __init__(self, image_bytes, image_content_type):
-        if image_content_type == Protobuf.CT_JPEG or image_content_type == Protobuf.CT_PNG:
+        if image_content_type in Image.allowed_types():
             self.__data = image_bytes
             self.__content_type = image_content_type
         else:
             raise TypeError("Content type '{0}' is not a supported image type".format(image_content_type))
+
+    @staticmethod
+    def allowed_types():
+        return [Protobuf.CT_PNG, Protobuf.CT_JPEG]
 
     @property
     def data(self):
