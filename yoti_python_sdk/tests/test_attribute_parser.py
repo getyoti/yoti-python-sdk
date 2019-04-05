@@ -51,13 +51,3 @@ def test_image_value_based_on_content_type(proto, content_type):
     result = attribute_parser.value_based_on_content_type(BYTE_VALUE, content_type)
     assert result.data == BYTE_VALUE
     assert result.content_type == content_type
-
-
-def test_attribute_parser_image_uri_based_on_content_type(proto):
-    value = b'test string'
-
-    result = attribute_parser.image_uri_based_on_content_type(value, proto.CT_JPEG)
-    assert result == 'data:image/jpeg;base64,dGVzdCBzdHJpbmc='
-
-    result = attribute_parser.image_uri_based_on_content_type(value, proto.CT_PNG)
-    assert result == 'data:image/png;base64,dGVzdCBzdHJpbmc='

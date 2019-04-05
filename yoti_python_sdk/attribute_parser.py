@@ -5,8 +5,6 @@ import collections
 import json
 import logging
 
-from cryptography.fernet import base64
-
 from yoti_python_sdk.protobuf.protobuf import Protobuf
 
 
@@ -31,16 +29,6 @@ def value_based_on_content_type(value, content_type=None):
         logging.warning("Unknown type '{0}', attempting to parse it as a String".format(content_type))
 
     return value.decode('utf-8')
-
-
-def image_uri_based_on_content_type(value, content_type=None):
-    if content_type == Protobuf.CT_JPEG:
-        data = base64.b64encode(value).decode('utf-8')
-        return 'data:image/jpeg;base64,{0}'.format(data)
-    elif content_type == Protobuf.CT_PNG:
-        data = base64.b64encode(value).decode('utf-8')
-        return 'data:image/png;base64,{0}'.format(data)
-    return value
 
 
 def convert_to_dict(byte_value):

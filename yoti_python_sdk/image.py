@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from yoti_python_sdk import attribute_parser
+from cryptography.fernet import base64
+
 from yoti_python_sdk.protobuf.protobuf import Protobuf
 
 
@@ -32,7 +33,11 @@ class Image:
             return ""
 
     def base64_content(self):
-        return attribute_parser.image_uri_based_on_content_type(
-            # TODO: move image_uri_based_on_content_type method to this class
-            self.__data,
-            self.__content_type)
+        if self.__content_type == Protobuf.CT_JPEG:
+            data = base64.b64encode(self.__data).decode('utf-8')
+            return 'data:image/jpeg;base64,{0}'.format(data)
+        elif self.__content_type == Protobuf.CT_PNG:
+            data = base64.b64encode(self.__data).decode('utf-8')
+            return 'data:image/png;base64,{0}'.format(data)
+
+        raise TypeError("Content type '{0}' is not a supported image type".format(self.__content_type))
