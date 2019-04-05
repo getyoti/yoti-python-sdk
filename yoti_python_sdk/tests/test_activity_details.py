@@ -88,14 +88,6 @@ def create_structured_postal_address_field(activity_details, json_address_value)
     activity_details.field.content_type = Protobuf.CT_JSON
 
 
-def test_try_parse_selfie_field_valid_selfie():
-    activity_details = ActivityDetails(successful_receipt())
-    create_selfie_field(activity_details)
-
-    ActivityDetails.try_parse_selfie_field(activity_details, activity_details.field)
-    assert activity_details.base64_selfie_uri is not None
-
-
 def test_try_parse_age_verified_both_missing_not_parsed():
     activity_details = ActivityDetails(successful_receipt())
     field = None
