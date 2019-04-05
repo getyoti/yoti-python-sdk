@@ -45,15 +45,15 @@ class Protobuf(object):
         return anchor
 
     def value_based_on_content_type(self, value, content_type=None):
+        from yoti_python_sdk.image import Image
         if content_type == self.CT_STRING:
             return value.decode('utf-8')
         elif value == b'':
             raise ValueError("Content type: '{0}' should not have an empty value".format(content_type))
         elif content_type == self.CT_DATE:
             return value.decode('utf-8')
-        elif content_type == self.CT_JPEG \
-                or content_type == self.CT_PNG:
-            return value
+        elif content_type in Image.allowed_types():
+            return Image(value, content_type)
         elif content_type == self.CT_JSON:
             return self.convert_to_dict(value)
         elif content_type == self.CT_INT:

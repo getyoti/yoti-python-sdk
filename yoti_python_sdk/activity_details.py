@@ -26,10 +26,11 @@ class ActivityDetails:
                         field.content_type
                     )
 
-                    self.user_profile[field.name] = value
-
                     if field.name == config.ATTRIBUTE_SELFIE:
                         self.try_parse_selfie_field(field)
+                        value = field.value
+
+                    self.user_profile[field.name] = value
 
                     if field.name.startswith(config.ATTRIBUTE_AGE_OVER) or field.name.startswith(
                             config.ATTRIBUTE_AGE_UNDER):

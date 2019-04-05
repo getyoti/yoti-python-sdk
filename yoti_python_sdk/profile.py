@@ -20,11 +20,10 @@ class Profile:
                         field.content_type
                     )
 
-                    # first condition will be removed in v3.0.0, so selfie also returns an Image object
-                    if field.name != config.ATTRIBUTE_SELFIE and \
-                            (field.content_type == Protobuf.CT_JPEG \
-                             or field.content_type == Protobuf.CT_PNG):
-                        value = Image(field.value, field.content_type)
+                    # this will be removed in v3.0.0, so selfie also returns an Image object
+                    if field.content_type in Image.allowed_types():
+                        if field.name == config.ATTRIBUTE_SELFIE:
+                            value = field.value
 
                     anchors = Anchor().parse_anchors(field.anchors)
 
