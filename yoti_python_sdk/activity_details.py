@@ -26,8 +26,8 @@ class ActivityDetails:
                     )
 
                     if field.name == config.ATTRIBUTE_SELFIE:
-                        self.try_parse_selfie_field(field)
-                        value = field.value
+                        self.base64_selfie_uri = value.base64_content()
+                        value = field.value  # set value to be byte content, for backwards compatibility
 
                     self.user_profile[field.name] = value
 
@@ -59,12 +59,6 @@ class ActivityDetails:
 
         if timestamp is not None:
             self.timestamp = datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%SZ')
-
-    def try_parse_selfie_field(self, field):
-        self.base64_selfie_uri = attribute_parser.image_uri_based_on_content_type(
-            field.value,
-            field.content_type
-        )
 
     def try_parse_age_verified_field(self, field):
         if field is not None:
