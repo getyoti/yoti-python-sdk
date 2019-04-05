@@ -5,9 +5,9 @@ import pytest
 
 from yoti_python_sdk.protobuf import protobuf
 
-string_value = "123"
-byte_value = str.encode(string_value)
-int_value = int(string_value)
+STRING_VALUE = "123"
+BYTE_VALUE = str.encode(STRING_VALUE)
+INT_VALUE = int(STRING_VALUE)
 
 
 @pytest.fixture(scope='module')
@@ -17,27 +17,27 @@ def proto():
 
 @pytest.mark.parametrize(
     "content_type, expected_value",
-    [(proto().CT_STRING, string_value),
-     (proto().CT_DATE, string_value),
-     (proto().CT_INT, int_value)])
+    [(proto().CT_STRING, STRING_VALUE),
+     (proto().CT_DATE, STRING_VALUE),
+     (proto().CT_INT, INT_VALUE)])
 def test_protobuf_values_based_on_content_type(content_type, expected_value):
-    result = proto().value_based_on_content_type(byte_value, content_type)
+    result = proto().value_based_on_content_type(BYTE_VALUE, content_type)
     assert result == expected_value
 
 
-def test_warning_protobuf_values_based_on_content_type(proto):
+def test_protobuf_values_based_on_other_content_types(proto):
     # disable logging for the below types: warning shown as type is not recognized
     logger = logging.getLogger()
     logger.propagate = False
 
-    result = proto.value_based_on_content_type(byte_value, proto.CT_UNDEFINED)
-    assert result == string_value
+    result = proto.value_based_on_content_type(BYTE_VALUE, proto.CT_UNDEFINED)
+    assert result == STRING_VALUE
 
-    result = proto.value_based_on_content_type(byte_value)
-    assert result == string_value
+    result = proto.value_based_on_content_type(BYTE_VALUE)
+    assert result == STRING_VALUE
 
-    result = proto.value_based_on_content_type(byte_value, 100)
-    assert result == string_value
+    result = proto.value_based_on_content_type(BYTE_VALUE, 100)
+    assert result == STRING_VALUE
 
     logger.propagate = True
 
@@ -47,8 +47,8 @@ def test_warning_protobuf_values_based_on_content_type(proto):
     (proto().CT_JPEG,
      proto().CT_PNG))
 def test_image_value_based_on_content_type(proto, content_type):
-    result = proto.value_based_on_content_type(byte_value, content_type)
-    assert result.data == byte_value
+    result = proto.value_based_on_content_type(BYTE_VALUE, content_type)
+    assert result.data == BYTE_VALUE
     assert result.content_type == content_type
 
 
