@@ -29,14 +29,14 @@ class ActivityDetails:
                         self.base64_selfie_uri = value.base64_content()
                         value = field.value  # set value to be byte content, for backwards compatibility
 
-                    self.user_profile[field.name] = value
+                    if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
+                        value = self.try_convert_structured_postal_address_to_dict(field)
 
                     if field.name.startswith(config.ATTRIBUTE_AGE_OVER) or field.name.startswith(
                             config.ATTRIBUTE_AGE_UNDER):
                         self.try_parse_age_verified_field(field)
 
-                    if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
-                        self.try_convert_structured_postal_address_to_dict(field)
+                    self.user_profile[field.name] = value
 
                 except ValueError as ve:
                     if logging.getLogger().propagate:
@@ -76,13 +76,14 @@ class ActivityDetails:
             print(
                 "age_verified_field value: '{0}' was unable to be parsed into a boolean value".format(age_verified))
 
-    def try_convert_structured_postal_address_to_dict(self, field):
+    @staticmethod
+    def try_convert_structured_postal_address_to_dict(field):
         decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)
         value_to_decode = field.value
         if not isinstance(value_to_decode, str):
             value_to_decode = value_to_decode.decode()
 
-        self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = decoder.decode(value_to_decode)
+        return decoder.decode(value_to_decode)
 
     def ensure_postal_address(self):
         # setting in 'user_profile'  - will be removed once user_profile is removed

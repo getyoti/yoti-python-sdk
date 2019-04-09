@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from yoti_python_sdk import attribute_parser, config
+from yoti_python_sdk import attribute_parser, config, multivalue
 from yoti_python_sdk.anchor import Anchor
 from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.image import Image
@@ -23,6 +23,9 @@ class Profile:
                     if field.content_type in Image.allowed_types():
                         if field.name == config.ATTRIBUTE_SELFIE:
                             value = field.value
+
+                    if field.name == config.ATTRIBUTE_DOCUMENT_IMAGES:
+                        value = multivalue.filter_values(value, Image)
 
                     anchors = Anchor().parse_anchors(field.anchors)
 
@@ -81,6 +84,10 @@ class Profile:
     @property
     def structured_postal_address(self):
         return self.get_attribute(config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS)
+
+    @property
+    def document_images(self):
+        return self.get_attribute(config.ATTRIBUTE_DOCUMENT_IMAGES)
 
     def get_attribute(self, attribute_name):
         if attribute_name in self.attributes:
