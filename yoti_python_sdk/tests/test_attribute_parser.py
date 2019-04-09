@@ -43,11 +43,13 @@ def test_attribute_parser_values_based_on_other_content_types(proto):
     logger.propagate = True
 
 
-@pytest.mark.parametrize(
-    "content_type",
-    (proto().CT_JPEG,
-     proto().CT_PNG))
-def test_image_value_based_on_content_type(proto, content_type):
-    result = attribute_parser.value_based_on_content_type(BYTE_VALUE, content_type)
+def test_png_image_value_based_on_content_type():
+    result = attribute_parser.value_based_on_content_type(BYTE_VALUE, proto().CT_PNG)
     assert result.data == BYTE_VALUE
-    assert result.content_type == content_type
+    assert result.content_type == "png"
+
+
+def test_jpeg_image_value_based_on_content_type():
+    result = attribute_parser.value_based_on_content_type(BYTE_VALUE, proto().CT_JPEG)
+    assert result.data == BYTE_VALUE
+    assert result.content_type == "jpeg"

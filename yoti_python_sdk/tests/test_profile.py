@@ -6,8 +6,10 @@ import logging
 import pytest
 
 from yoti_python_sdk import config
+from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.profile import Profile
 from yoti_python_sdk.protobuf.protobuf import Protobuf
+from yoti_python_sdk.tests import attribute_fixture_parser, image_helper
 from yoti_python_sdk.tests.protobuf_attribute import ProtobufAttribute
 
 ADDRESS_FORMAT_KEY = "address_format"
@@ -368,6 +370,56 @@ def test_set_address_to_be_formatted_address():
     profile = Profile(create_attribute_list_with_structured_postal_address_field(structured_postal_address_bytes))
 
     assert profile.postal_address.value == FORMATTED_ADDRESS_VALUE
+
+
+def test_document_images():
+    document_images_attribute = attribute_fixture_parser.get_attribute_from_base64_text(
+        attribute_fixture_parser.ATTRIBUTE_DOCUMENT_IMAGES)
+
+    attribute_list = list()
+    attribute_list.append(document_images_attribute)
+
+    profile = Profile(attribute_list)
+
+    document_images_attribute = profile.document_images
+    assert len(document_images_attribute.value) == 2
+    image_helper.assert_is_expected_image(document_images_attribute.value[0], "jpeg", "vWgD//2Q==")
+    image_helper.assert_is_expected_image(document_images_attribute.value[1], "jpeg", "38TVEH/9k=")
+
+
+def test_nested_multi_value():
+    attribute_name = "nested_multi_value"
+    inner_multi_value = attribute_fixture_parser.parse_multi_value()
+
+    outer_list = [inner_multi_value]
+
+    profile = Profile(profile_attributes=None)
+    profile.attributes[attribute_name] = Attribute(
+        name=attribute_name,
+        value=outer_list,
+        anchors=None)
+
+    retrieved_multi_value = profile.get_attribute(attribute_name)
+
+    assert isinstance(retrieved_multi_value.value, list)
+
+    for item in retrieved_multi_value.value:
+        assert isinstance(item, list)
+
+    image_helper.assert_is_expected_image(retrieved_multi_value.value[0][0], "jpeg", "vWgD//2Q==")
+    image_helper.assert_is_expected_image(retrieved_multi_value.value[0][1], "jpeg", "38TVEH/9k=")
+
+
+def test_get_attribute_document_images():
+    attribute_list = create_single_attribute_list(
+        name=config.ATTRIBUTE_DOCUMENT_IMAGES,
+        value=b'',
+        anchors=None,
+        content_type=Protobuf.CT_MULTI_VALUE)
+
+    profile = Profile(attribute_list)
+
+    assert profile.get_attribute(config.ATTRIBUTE_DOCUMENT_IMAGES) == profile.document_images
 
 
 def test_get_attribute_selfie():
