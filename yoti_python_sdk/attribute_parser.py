@@ -5,6 +5,7 @@ import collections
 import json
 import logging
 
+from yoti_python_sdk import multivalue
 from yoti_python_sdk.protobuf.protobuf import Protobuf
 
 
@@ -24,6 +25,8 @@ def value_based_on_content_type(value, content_type=None):
         string_value = value.decode('utf-8')
         int_value = int(string_value)
         return int_value
+    elif content_type == Protobuf.CT_MULTI_VALUE:
+        return multivalue.parse(value)
 
     if logging.getLogger().propagate:
         logging.warning("Unknown type '{0}', attempting to parse it as a String".format(content_type))

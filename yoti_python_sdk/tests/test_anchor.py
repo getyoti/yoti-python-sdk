@@ -8,7 +8,7 @@ from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2
 import yoti_python_sdk
 from yoti_python_sdk import config
 from yoti_python_sdk.anchor import Anchor
-from yoti_python_sdk.tests import anchor_parser
+from yoti_python_sdk.tests import anchor_fixture_parser
 
 
 def get_utc_offset():
@@ -21,7 +21,7 @@ def get_utc_offset():
 
 
 def test_parse_anchors_driving_license():
-    parsed_anchor = anchor_parser.get_parsed_driving_license_anchor()
+    parsed_anchor = anchor_fixture_parser.get_parsed_driving_license_anchor()
 
     assert parsed_anchor.anchor_type == config.ANCHOR_SOURCE
     assert parsed_anchor.sub_type == ""
@@ -31,7 +31,7 @@ def test_parse_anchors_driving_license():
 
 
 def test_parse_anchors_passport():
-    parsed_anchor = anchor_parser.get_parsed_passport_anchor()
+    parsed_anchor = anchor_fixture_parser.get_parsed_passport_anchor()
 
     assert parsed_anchor.anchor_type == config.ANCHOR_SOURCE
     assert parsed_anchor.sub_type == "OCR"
@@ -41,7 +41,7 @@ def test_parse_anchors_passport():
 
 
 def test_parse_yoti_admin():
-    parsed_anchor = anchor_parser.get_parsed_yoti_admin_anchor()
+    parsed_anchor = anchor_fixture_parser.get_parsed_yoti_admin_anchor()
 
     assert parsed_anchor.anchor_type == config.ANCHOR_VERIFIER
     assert parsed_anchor.sub_type == ""
@@ -61,7 +61,8 @@ def test_anchor_returns_correct_default_values():
 
 
 def test_error_parsing_anchor_certificate_carries_on_parsing():
-    driving_license_anchor = anchor_parser.get_anchor_from_base64_text(anchor_parser.ANCHOR_DRIVING_LICENSE)[0]
+    driving_license_anchor = \
+        anchor_fixture_parser.get_anchor_from_base64_text(anchor_fixture_parser.ANCHOR_DRIVING_LICENSE)[0]
     anchors = list()
     anchors.append(Attribute_pb2.Anchor())
     anchors.append(driving_license_anchor)

@@ -13,8 +13,8 @@ class Protobuf(object):
     CT_DATE = 3  # string in RFC3339 format (YYYY-MM-DD)
     CT_PNG = 4  # standard .png image
     CT_JSON = 5  # value encoded using JSON
-    CT_INT = 6  # int value
-    CT_MULTI_VALUE = 7  # allows a list of values
+    CT_MULTI_VALUE = 6  # allows a list of values
+    CT_INT = 7  # int value
 
     @staticmethod
     def current_user(receipt):
@@ -39,3 +39,15 @@ class Protobuf(object):
         anchor = Attribute_pb2.Anchor()
         anchor.MergeFromString(data)
         return anchor
+
+    @staticmethod
+    def attribute(data):
+        attribute = Attribute_pb2.Attribute()
+        attribute.MergeFromString(data)
+        return attribute
+
+    @staticmethod
+    def multi_value(data):
+        multi_value = Attribute_pb2.MultiValue()
+        multi_value.MergeFromString(data)
+        return multi_value
