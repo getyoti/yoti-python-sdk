@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from yoti_python_sdk import attribute_parser
 from yoti_python_sdk.protobuf import protobuf
 
 
 def parse(multi_value_bytes):
+    from yoti_python_sdk import attribute_parser  # needed here (and not above) for Python 2.7 & 3.4 dependency handling
+
     proto = protobuf.Protobuf()
     multi_value_list = []
     parsed_multi_value = proto.multi_value(multi_value_bytes)
