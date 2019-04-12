@@ -50,7 +50,7 @@ def expected_get_headers(x_yoti_auth_key, x_yoti_auth_digest_get):
         X_YOTI_AUTH_KEY: x_yoti_auth_key,
         X_YOTI_AUTH_DIGEST: x_yoti_auth_digest_get,
         X_YOTI_SDK: SDK_IDENTIFIER,
-        X_YOTI_SDK_VERSION: sdk_version
+        X_YOTI_SDK_VERSION: "Python-" + sdk_version
     }
 
 
@@ -62,7 +62,7 @@ def expected_post_headers(x_yoti_auth_key, x_yoti_auth_digest_post):
         X_YOTI_AUTH_KEY: x_yoti_auth_key,
         X_YOTI_AUTH_DIGEST: x_yoti_auth_digest_post,
         X_YOTI_SDK: SDK_IDENTIFIER,
-        X_YOTI_SDK_VERSION: sdk_version,
+        X_YOTI_SDK_VERSION: "Python-" + sdk_version,
         'Content-Type': JSON_CONTENT_TYPE,
         'Accept': JSON_CONTENT_TYPE
     }

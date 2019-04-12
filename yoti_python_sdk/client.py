@@ -119,7 +119,7 @@ class Client(object):
             X_YOTI_AUTH_KEY: self.__crypto.get_public_key(),
             X_YOTI_AUTH_DIGEST: self.__crypto.sign(request),
             X_YOTI_SDK: SDK_IDENTIFIER,
-            X_YOTI_SDK_VERSION: sdk_version,
+            X_YOTI_SDK_VERSION: "{0}-{1}".format(SDK_IDENTIFIER, sdk_version),
             'Content-Type': JSON_CONTENT_TYPE,
             'Accept': JSON_CONTENT_TYPE
         }
