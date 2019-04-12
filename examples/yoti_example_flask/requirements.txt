@@ -15,7 +15,7 @@ flask==1.0.2
 future==0.16.0            # via yoti
 idna==2.7                 # via requests
 itsdangerous==0.24        # via flask
-jinja2==2.10              # via flask
+jinja2==2.10.1
 markupsafe==1.0           # via jinja2
 protobuf==3.6.0           # via yoti
 pycparser==2.18           # via cffi
