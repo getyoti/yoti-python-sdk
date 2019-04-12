@@ -41,3 +41,14 @@ def test_multi_value_filter_string():
 
     assert len(filtered_list) == 1
     assert filtered_list[0] is string_value
+
+
+def test_multi_value_filter_is_immutable():
+    original_string_value = "string_value"
+    multi_value = [0, original_string_value]
+
+    filtered_list = multivalue.filter_values(multi_value, str)
+
+    filtered_list[0] == "changed_string_value"
+
+    assert filtered_list[0] == original_string_value
