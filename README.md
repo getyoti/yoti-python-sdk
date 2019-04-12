@@ -66,7 +66,7 @@ Yoti also allows you to enable user details verification from your mobile app by
 
 ## Requirements
 
-This SDK works with Python 2.6+ and Python 3.3+.
+To see the versions of Python this SDK is compatible with, see the [.travis.yml](/.travis.yml) file.
 
 ## Installing the SDK
 
@@ -276,8 +276,6 @@ Running the tests is done by the following process, ensuring you are using Pytho
 1. Install dependencies: `pip install -r requirements.txt`
 1. Install the SDK: `python setup.py develop`
 1. Execute in the main project dir: `py.test`
-
-See [.travis.yml](/.travis.yml) for compatibility with Python versions.
 
 ## API Coverage
 
