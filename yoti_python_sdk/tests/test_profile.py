@@ -391,20 +391,20 @@ def test_nested_multi_value():
     attribute_name = "nested_multi_value"
     inner_multi_value = attribute_fixture_parser.parse_multi_value()
 
-    outer_list = [inner_multi_value]
+    outer_tuple = (inner_multi_value,)
 
     profile = Profile(profile_attributes=None)
     profile.attributes[attribute_name] = Attribute(
         name=attribute_name,
-        value=outer_list,
+        value=outer_tuple,
         anchors=None)
 
     retrieved_multi_value = profile.get_attribute(attribute_name)
 
-    assert isinstance(retrieved_multi_value.value, list)
+    assert isinstance(retrieved_multi_value.value, tuple)
 
     for item in retrieved_multi_value.value:
-        assert isinstance(item, list)
+        assert isinstance(item, tuple)
 
     image_helper.assert_is_expected_image(retrieved_multi_value.value[0][0], "jpeg", "vWgD//2Q==")
     image_helper.assert_is_expected_image(retrieved_multi_value.value[0][1], "jpeg", "38TVEH/9k=")
