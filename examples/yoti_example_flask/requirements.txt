@@ -25,4 +25,4 @@ requests==2.21.0
 six==1.11.0               # via cryptography, protobuf, pyopenssl
 urllib3==1.23             # via requests
 werkzeug==0.14.1          # via flask
-yoti==2.6.0
+yoti==2.7.0
