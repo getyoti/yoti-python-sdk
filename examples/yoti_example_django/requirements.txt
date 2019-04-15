@@ -22,4 +22,4 @@ pytz==2018.4              # via django
 requests==2.21.0
 six==1.11.0               # via cryptography, protobuf, pyopenssl
 urllib3==1.23             # via requests
-yoti==2.6.0
+yoti==2.7.0

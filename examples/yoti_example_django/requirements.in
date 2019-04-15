@@ -1,4 +1,4 @@
-yoti>=2.6.0
+yoti>=2.7.0
 Django>1.11.16
 python-dotenv>=0.7.1
 django-sslserver>=0.2.0
