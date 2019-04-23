@@ -27,6 +27,6 @@ pytest==3.3.2
 pytz==2018.9
 requests==2.21.0
 six==1.10.0               # via cryptography, mock, protobuf, pyopenssl, pytest
-urllib3==1.24.1           # via requests
+urllib3==1.24.2
 virtualenv==13.1.2
 wheel==0.24.0
