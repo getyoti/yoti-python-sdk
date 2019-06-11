@@ -413,7 +413,7 @@ def test_nested_multi_value():
 def test_get_attribute_document_images():
     attribute_list = create_single_attribute_list(
         name=config.ATTRIBUTE_DOCUMENT_IMAGES,
-        value=b'',
+        value=[],
         anchors=None,
         content_type=Protobuf.CT_MULTI_VALUE)
 
