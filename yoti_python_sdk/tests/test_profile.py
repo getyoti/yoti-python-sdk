@@ -136,7 +136,9 @@ def test_error_parsing_attribute_has_none_value():
     assert profile.get_attribute(int_attribute_name) is None
 
 
-@pytest.mark.parametrize("content_type", [Protobuf.CT_DATE, Protobuf.CT_INT, Protobuf.CT_JPEG, Protobuf.CT_PNG, Protobuf.CT_JSON, Protobuf.CT_UNDEFINED])
+@pytest.mark.parametrize("content_type",
+                         [Protobuf.CT_DATE, Protobuf.CT_INT, Protobuf.CT_JPEG, Protobuf.CT_PNG, Protobuf.CT_JSON,
+                          Protobuf.CT_UNDEFINED])
 def test_parse_empty_values_returns_none(content_type):
     attribute_name = "attribute_name"
 
