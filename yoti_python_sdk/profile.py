@@ -37,7 +37,8 @@ class Profile:
                 except Exception as exc:
                     if logging.getLogger().propagate:
                         logging.warning(
-                            'Error parsing profile attribute:{0}, exception: {1} - {2}'.format(field.name, type(exc).__name__, exc))
+                            'Error parsing profile attribute:{0}, exception: {1} - {2}'.format(field.name,
+                                                                                               type(exc).__name__, exc))
 
             self.ensure_postal_address()
 
