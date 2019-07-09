@@ -44,53 +44,104 @@ class Profile:
 
     @property
     def date_of_birth(self):
+        """date_of_birth represents the user's date of birth as a string.
+        Will be changed to return a datetime in v3.0.0.
+        Will be None if not provided by Yoti.
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_DATE_OF_BIRTH)
 
     @property
     def family_name(self):
+        """family_name represents the user's family name. This will be None if not provided by Yoti.
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_FAMILY_NAME)
 
     @property
+    def given_names(self):
+        """given_names represents the user's given names. This will be None if not provided by Yoti.
+        :return: Attribute(str)
+        """
+        return self.get_attribute(config.ATTRIBUTE_GIVEN_NAMES)
+
+    @property
     def full_name(self):
+        """full_name represents the user's full name.
+        If family_name and given_names are present, the value will be equal to the string 'given_names + " " + family_name'.
+        Will be None if not provided by Yoti.
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_FULL_NAME)
 
     @property
     def gender(self):
+        """gender corresponds to the gender in the registered document.
+        The value will be one of the strings "MALE", "FEMALE", "TRANSGENDER" or "OTHER".
+        Will be None if not provided by Yoti.
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_GENDER)
 
     @property
-    def given_names(self):
-        return self.get_attribute(config.ATTRIBUTE_GIVEN_NAMES)
-
-    @property
     def nationality(self):
+        """nationality corresponds to the nationality in the passport.
+        The value is an ISO-3166-1 alpha-3 code with ICAO9303 (passport) extensions.
+        Will be None if not provided by Yoti.
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_NATIONALITY)
 
     @property
     def email_address(self):
+        """email_address represents the user's email address. This will be None if not provided by Yoti.
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_EMAIL_ADDRESS)
 
     @property
     def phone_number(self):
+        """phone_number represents the user's mobile phone number. This will be None if not provided by Yoti.
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_PHONE_NUMBER)
 
     @property
     def postal_address(self):
+        """postal_address represents the user's address. This will be None if not provided by Yoti.
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_POSTAL_ADDRESS)
 
     @property
     def selfie(self):
+        """selfie is a photograph of the user. Will be None if not provided by Yoti.
+        :return: Attribute(image)
+        """
         return self.get_attribute(config.ATTRIBUTE_SELFIE)
 
     @property
     def structured_postal_address(self):
+        """structured_postal_address represents the user's address represented as an OrderedDict.
+        This will be None if not provided by Yoti.
+        :return: Attribute(OrderedDict)
+        """
         return self.get_attribute(config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS)
 
     @property
     def document_images(self):
+        """document_images returns a tuple of document images cropped from the image in the capture page.
+        There can be multiple images as per the number of regions in the capture in this attribute.
+        Will be None if not provided by Yoti.
+        :return: Attribute(tuple(image))
+        """
         return self.get_attribute(config.ATTRIBUTE_DOCUMENT_IMAGES)
 
     def get_attribute(self, attribute_name):
+        """retrieves an attribute based on its name
+        :param attribute_name:
+        :return: Attribute
+        """
         if attribute_name in self.attributes:
             return self.attributes.get(attribute_name)
         else:
