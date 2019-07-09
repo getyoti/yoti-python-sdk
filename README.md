@@ -131,6 +131,7 @@ full_name = profile.full_name.value
 phone_number = profile.phone_number.value
 date_of_birth = profile.date_of_birth.value
 postal_address = profile.postal_address.value
+structured_postal_address = profile.structured_postal_address.value
 gender = profile.gender.value
 nationality = profile.nationality.value
 email_address = profile.email_address.value
@@ -296,6 +297,7 @@ Running the tests is done by the following process, ensuring you are using Pytho
         * [X] Email Address `email_address`
         * [X] Date of Birth `date_of_birth`
         * [X] Address `postal_address`
+        * [X] Structured Postal Address `structured_postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
     * [X] Application Profile `application_profile`
