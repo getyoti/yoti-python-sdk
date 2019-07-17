@@ -88,6 +88,9 @@
   width: 220px;
   height: 220px;
   border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 .yoti-profile-picture-powered,
