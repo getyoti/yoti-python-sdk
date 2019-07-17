@@ -5,7 +5,7 @@ load_dotenv(find_dotenv())
 
 from yoti_python_sdk import Client
 from app_settings import (
-    YOTI_APPLICATION_ID,
+    YOTI_SCENARIO_ID,
     YOTI_CLIENT_SDK_ID,
     YOTI_KEY_FILE_PATH
 )
@@ -15,7 +15,7 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
     def get(self, request, *args, **kwargs):
-        return self.render_to_response({'app_id': YOTI_APPLICATION_ID})
+        return self.render_to_response({'scenario_id': YOTI_SCENARIO_ID})
 
 
 class AuthView(TemplateView):

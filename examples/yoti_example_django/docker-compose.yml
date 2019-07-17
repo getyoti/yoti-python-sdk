@@ -4,7 +4,7 @@ services:
     build:
       context: ./
       args:
-        YOTI_APPLICATION_ID: "${YOTI_APPLICATION_ID}"
+        YOTI_SCENARIO_ID: "${YOTI_SCENARIO_ID}"
         YOTI_CLIENT_SDK_ID: "${YOTI_CLIENT_SDK_ID}"
         YOTI_KEY_FILE_PATH: "${YOTI_KEY_FILE_PATH}"
     ports:
