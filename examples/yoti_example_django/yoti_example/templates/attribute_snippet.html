@@ -1,0 +1,47 @@
+{% if prop.value %}
+  <div class="yoti-attribute-list-item">
+    <div class="yoti-attribute-name">
+      <div class="yoti-attribute-name-cell">
+        <i class="{{ icon }}"></i>
+        <span class="yoti-attribute-name-cell-text">{{ name }}</span>
+      </div>
+    </div>
+      
+    <div class="yoti-attribute-value">
+      <div class="yoti-attribute-value-text">
+        {% if prop.name == "document_images" %}
+          {% for image in prop.value %}
+            <img src="{image.value.base64_content() }" />
+          {% endfor %}
+        {% elif prop.name == "structured_postal_address" %}
+          <table>
+            {% for key, value in prop.value.items %}
+              <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          {{ prevalue }}
+          {{ prop.value }}
+        {% endif %}
+      </div>
+    </div>
+    <div class="yoti-attribute-anchors-layout">
+      <div class="yoti-attribute-anchors-head -s-v">S / V</div>
+      <div class="yoti-attribute-anchors-head -value">Value</div>
+      <div class="yoti-attribute-anchors-head -subtype">Sub type</div>
+      {% for source in prop.sources %}
+        <div class="yoti-attribute-anchors -s-v">Source</div>
+        <div class="yoti-attribute-anchors -value">{{ source.value }}</div>
+        <div class="yoti-attribute-anchors -subtype">{{ source.subtype }}</div>
+      {% endfor %}
+      {% for verifier in prop.verifiers %}
+        <div class="yoti-attribute-anchors -s-v">Verifier</div>
+        <div class="yoti-attribute-anchors -value">{{ verifier.value }}</div>
+        <div class="yoti-attribute-anchors -subtype">{{ verifier.subtype }}</div>
+      {% endfor %}
+    </div>
+  </div> 
+{% endif %}
