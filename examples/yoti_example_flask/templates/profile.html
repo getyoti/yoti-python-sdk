@@ -1,4 +1,4 @@
-{% macro parse_documents(prop) %}
+{% macro parse_document_images(prop) %}
   {% for image in prop.value %}
     <img src="{image.value.base64_content() }" />
   {% endfor %}
@@ -29,7 +29,7 @@
         <div class="yoti-attribute-value">
           <div class="yoti-attribute-value-text">
             {% if prop.name == "document_images" %}
-              {{ parse_documents(prop) }}
+              {{ parse_document_images(prop) }}
             {% elif prop.name == "structured_postal_address" %}
               {{ parse_structured_address(prop) }}
             {% else %}
