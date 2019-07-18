@@ -11,7 +11,7 @@ dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
 from settings import (
-    YOTI_APPLICATION_ID,
+    YOTI_SCENARIO_ID,
     YOTI_CLIENT_SDK_ID,
     YOTI_KEY_FILE_PATH,
 )
@@ -28,7 +28,7 @@ def save_image(selfie_data):
 
 @app.route('/')
 def index():
-    return render_template('index.html', app_id=YOTI_APPLICATION_ID)
+    return render_template('index.html', scenario_id=YOTI_SCENARIO_ID)
 
 
 @app.route('/yoti/auth')
