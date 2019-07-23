@@ -14,5 +14,5 @@ def test_should_build():
         TransactionalFlowExtensionBuilder().with_content(EXTENSION_CONTENT).build()
     )
 
-    assert extension.extension_type == TRANSACTIONAL_FLOW
-    assert extension.content == EXTENSION_CONTENT
+    assert extension["type"] == TRANSACTIONAL_FLOW
+    assert extension["content"] == EXTENSION_CONTENT

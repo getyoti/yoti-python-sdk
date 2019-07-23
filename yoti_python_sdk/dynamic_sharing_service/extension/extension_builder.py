@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from .extension import Extension
-
 
 class ExtensionBuilder(object):
     def __init__(self):
@@ -13,7 +11,7 @@ class ExtensionBuilder(object):
     """
 
     def with_extension_type(self, extension_type):
-        self.__extension["_Extension__extension_type"] = extension_type
+        self.__extension["type"] = extension_type
         return self
 
     """
@@ -21,12 +19,12 @@ class ExtensionBuilder(object):
     """
 
     def with_content(self, content):
-        self.__extension["_Extension__content"] = content
+        self.__extension["content"] = content
         return self
 
     """
-    @return An Extension object
+    @return Dictionary representation of an extension
     """
 
     def build(self):
-        return Extension(**self.__extension)
+        return self.__extension.copy()

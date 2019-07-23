@@ -4,7 +4,6 @@ from yoti_python_sdk.dynamic_sharing_service.policy.dynamic_policy_builder impor
 from yoti_python_sdk.dynamic_sharing_service.policy.wanted_attribute_builder import (
     WantedAttributeBuilder,
 )
-from yoti_python_sdk.dynamic_sharing_service.policy.dynamic_policy import DynamicPolicy
 
 from yoti_python_sdk import config
 
@@ -21,14 +20,14 @@ def test_an_attribute_can_only_exist_once():
         .build()
     )
 
-    assert len(policy.wanted_attributes) == 1
-    assert wanted_attribute in policy.wanted_attributes
+    assert len(policy["wanted"]) == 1
+    assert wanted_attribute in policy["wanted"]
 
 
 def test_remember_me():
     policy = DynamicPolicyBuilder().with_wanted_remember_me().build()
 
-    assert policy.is_wanted_remember_me
+    assert policy["wanted_remember_me"]
 
 
 def test_build_with_simple_attributes():
@@ -46,8 +45,8 @@ def test_build_with_simple_attributes():
     builder.with_email()
     policy = builder.build()
 
-    attr_names = [attr.name for attr in policy.wanted_attributes]
-    assert len(policy.wanted_attributes) == 11
+    attr_names = [attr["name"] for attr in policy["wanted"]]
+    assert len(policy["wanted"]) == 11
     assert config.ATTRIBUTE_FAMILY_NAME in attr_names
     assert config.ATTRIBUTE_GIVEN_NAMES in attr_names
     assert config.ATTRIBUTE_FULL_NAME in attr_names
@@ -68,7 +67,7 @@ def test_build_with_age_derived_attributes():
     builder.with_age_under(40)
     policy = builder.build()
 
-    attrs = [attr.derivation for attr in policy.wanted_attributes]
+    attrs = [attr["derivation"] for attr in policy["wanted"]]
     assert len(attrs) == 3
     assert config.ATTRIBUTE_AGE_OVER + "18" in attrs
     assert config.ATTRIBUTE_AGE_UNDER + "30" in attrs
@@ -78,9 +77,9 @@ def test_build_with_age_derived_attributes():
 def test_a_derivation_can_exist_only_once():
     policy = DynamicPolicyBuilder().with_age_under(30).with_age_under(30).build()
 
-    assert len(policy.wanted_attributes) == 1
+    assert len(policy["wanted"]) == 1
     assert config.ATTRIBUTE_AGE_UNDER + "30" in [
-        a.derivation for a in policy.wanted_attributes
+        a["derivation"] for a in policy["wanted"]
     ]
 
 
@@ -93,16 +92,16 @@ def test_wanted_auth_types():
         .build()
     )
 
-    assert len(policy.wanted_auth_types) == 3
-    assert DynamicPolicy.SELFIE_AUTH_TYPE in policy.wanted_auth_types
-    assert DynamicPolicy.PIN_AUTH_TYPE in policy.wanted_auth_types
-    assert 99 in policy.wanted_auth_types
+    assert len(policy["wanted_auth_types"]) == 3
+    assert DynamicPolicyBuilder.SELFIE_AUTH_TYPE in policy["wanted_auth_types"]
+    assert DynamicPolicyBuilder.PIN_AUTH_TYPE in policy["wanted_auth_types"]
+    assert 99 in policy["wanted_auth_types"]
 
 
 def test_build_with_auth_types_true():
     policy = DynamicPolicyBuilder().with_selfie_auth(False).build()
 
-    assert len(policy.wanted_auth_types) == 0
+    assert len(policy["wanted_auth_types"]) == 0
 
 
 def test_auth_types_can_exist_only_once():
@@ -115,16 +114,6 @@ def test_auth_types_can_exist_only_once():
         .build()
     )
 
-    assert len(policy.wanted_auth_types) == 1
-    assert DynamicPolicy.SELFIE_AUTH_TYPE not in policy.wanted_auth_types
-    assert DynamicPolicy.PIN_AUTH_TYPE in policy.wanted_auth_types
-
-
-def test_serialization():
-    data = DynamicPolicyBuilder().with_selfie_auth().with_email().build().data
-
-    assert len(data["wanted"]) == 1
-    assert config.ATTRIBUTE_EMAIL_ADDRESS in [attr["name"] for attr in data["wanted"]]
-    assert len(data["wanted_auth_types"]) == 1
-    assert DynamicPolicy.SELFIE_AUTH_TYPE in data["wanted_auth_types"]
-    assert not data["wanted_remember_me"]
+    assert len(policy["wanted_auth_types"]) == 1
+    assert DynamicPolicyBuilder.SELFIE_AUTH_TYPE not in policy["wanted_auth_types"]
+    assert DynamicPolicyBuilder.PIN_AUTH_TYPE in policy["wanted_auth_types"]

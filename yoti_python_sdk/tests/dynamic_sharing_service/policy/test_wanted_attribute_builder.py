@@ -11,5 +11,5 @@ def test_build():
 
     attribute = builder.withName(NAME).withDerivation(DERIVATION).build()
 
-    assert attribute.name == NAME
-    assert attribute.derivation == DERIVATION
+    assert attribute["name"] == NAME
+    assert attribute["derivation"] == DERIVATION
