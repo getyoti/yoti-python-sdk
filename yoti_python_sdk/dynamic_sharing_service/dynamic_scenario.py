@@ -29,3 +29,15 @@ class DynamicScenario(object):
     @property
     def callback_endpoint(self):
         return self.__callback_endpoint
+
+    """
+    @return A nested dictionary with key-values that match the api
+    """
+
+    @property
+    def data(self):
+        return {
+            "callback_endpoint": self.callback_endpoint,
+            "policy": self.policy.data,
+            "extensions": [extension.data for extension in self.extensions],
+        }

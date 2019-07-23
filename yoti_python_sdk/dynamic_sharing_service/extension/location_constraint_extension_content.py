@@ -24,3 +24,12 @@ class ExpectedDeviceLocation(object):
     @property
     def uncertainty(self):
         return self.__uncertainty
+
+    @property
+    def data(self):
+        return {
+            "latitude": self.__latitude,
+            "longtitude": self.__longtitude,
+            "radius": self.__radius,
+            "uncertainty": self.__uncertainty,
+        }

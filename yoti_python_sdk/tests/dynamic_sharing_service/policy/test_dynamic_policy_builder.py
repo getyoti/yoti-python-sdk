@@ -118,3 +118,13 @@ def test_auth_types_can_exist_only_once():
     assert len(policy.wanted_auth_types) == 1
     assert DynamicPolicy.SELFIE_AUTH_TYPE not in policy.wanted_auth_types
     assert DynamicPolicy.PIN_AUTH_TYPE in policy.wanted_auth_types
+
+
+def test_serialization():
+    data = DynamicPolicyBuilder().with_selfie_auth().with_email().build().data
+
+    assert len(data["wanted"]) == 1
+    assert config.ATTRIBUTE_EMAIL_ADDRESS in [attr["name"] for attr in data["wanted"]]
+    assert len(data["wanted_auth_types"]) == 1
+    assert DynamicPolicy.SELFIE_AUTH_TYPE in data["wanted_auth_types"]
+    assert not data["wanted_remember_me"]

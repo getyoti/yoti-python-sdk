@@ -12,7 +12,7 @@ class Extension(object):
 
     @property
     def extension_type(self):
-        return self.__extension_type
+        return self.__dict__.get("_Extension__extension_type", None)
 
     """
     @return The extension's data
@@ -20,4 +20,11 @@ class Extension(object):
 
     @property
     def content(self):
-        return self.__content
+        return self.__dict__.get("_Extension__content", None)
+
+    @property
+    def data(self):
+        return {
+            "type": self.extension_type,
+            "content": self.content.data if self.content else {},
+        }

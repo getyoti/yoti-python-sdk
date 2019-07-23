@@ -19,3 +19,11 @@ def test_build_simple_extension():
 
     assert extension.extension_type == EXTENSION_TYPE
     assert extension.content == EXTENSION_CONTENT
+
+
+def test_serialization():
+    EXTENSION_TYPE = "TEST"
+    data = ExtensionBuilder().with_extension_type(EXTENSION_TYPE).build().data
+
+    assert data["type"] == EXTENSION_TYPE
+    assert data["content"] == {}

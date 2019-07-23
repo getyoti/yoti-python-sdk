@@ -32,3 +32,11 @@ class DynamicPolicy(object):
     @property
     def is_wanted_remember_me(self):
         return self.__is_wanted_remember_me
+
+    @property
+    def data(self):
+        return {
+            "wanted": [attribute.data for attribute in self.wanted_attributes],
+            "wanted_auth_types": self.wanted_auth_types,
+            "wanted_remember_me": self.is_wanted_remember_me,
+        }

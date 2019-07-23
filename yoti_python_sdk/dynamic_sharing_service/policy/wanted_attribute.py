@@ -25,3 +25,7 @@ class WantedAttribute(object):
     @property
     def derivation(self):
         return self.__dict__.get("_WantedAttribute__derivation", None)
+
+    @property
+    def data(self):
+        return {"name": self.name, "derivation": self.derivation}
