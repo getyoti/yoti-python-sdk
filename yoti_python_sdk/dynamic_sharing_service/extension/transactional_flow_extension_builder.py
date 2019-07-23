@@ -8,5 +8,5 @@ class TransactionalFlowExtensionBuilder(ExtensionBuilder):
     TRANSACTIONAL_FLOW = "TRANSACTIONAL_FLOW"
 
     def __init__(self):
-        super().__init__()
+        super(TransactionalFlowExtensionBuilder, self).__init__()
         self.with_extension_type(self.TRANSACTIONAL_FLOW)
