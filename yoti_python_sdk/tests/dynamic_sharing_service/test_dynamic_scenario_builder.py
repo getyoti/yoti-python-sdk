@@ -10,13 +10,24 @@ from yoti_python_sdk.dynamic_sharing_service.policy.dynamic_policy_builder impor
 
 
 def test_build_scenario():
+    EXTENSION1 = "Extension 1"
+    EXTENSION2 = "Extension 2"
+    CALLBACK_ENDPOINT = "Callback Endpoint"
+
     scenario = (
         DynamicScenarioBuilder()
         .with_policy(
             DynamicPolicyBuilder().with_full_name().with_wanted_remember_me().build()
         )
+        .with_extension(EXTENSION1)
+        .with_extension(EXTENSION2)
+        .with_callback_endpoint(CALLBACK_ENDPOINT)
         .build()
     )
 
     assert len(scenario.policy.wanted_attributes) == 1
     assert scenario.policy.is_wanted_remember_me
+    assert len(scenario.extensions) == 2
+    assert EXTENSION1 in scenario.extensions
+    assert EXTENSION2 in scenario.extensions
+    assert scenario.callback_endpoint == CALLBACK_ENDPOINT
