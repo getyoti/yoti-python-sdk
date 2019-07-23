@@ -15,24 +15,33 @@ from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.endpoint import Endpoint
 from yoti_python_sdk.protobuf import protobuf
-from .config import *
+from .config import (
+    X_YOTI_AUTH_KEY,
+    X_YOTI_AUTH_DIGEST,
+    X_YOTI_SDK,
+    SDK_IDENTIFIER,
+    X_YOTI_SDK_VERSION,
+    JSON_CONTENT_TYPE,
+)
 
-NO_KEY_FILE_SPECIFIED_ERROR = 'Please specify the correct private key file ' \
-                              'in Client(pem_file_path=...)\nor by setting ' \
-                              'the "YOTI_KEY_FILE_PATH" environment variable'
-HTTP_SUPPORTED_METHODS = ['POST', 'PUT', 'PATCH', 'GET', 'DELETE']
+NO_KEY_FILE_SPECIFIED_ERROR = (
+    "Please specify the correct private key file "
+    "in Client(pem_file_path=...)\nor by setting "
+    'the "YOTI_KEY_FILE_PATH" environment variable'
+)
+HTTP_SUPPORTED_METHODS = ["POST", "PUT", "PATCH", "GET", "DELETE"]
 
 
 class Client(object):
     def __init__(self, sdk_id=None, pem_file_path=None):
-        self.sdk_id = sdk_id or environ.get('YOTI_CLIENT_SDK_ID')
-        pem_file_path_env = environ.get('YOTI_KEY_FILE_PATH')
+        self.sdk_id = sdk_id or environ.get("YOTI_CLIENT_SDK_ID")
+        pem_file_path_env = environ.get("YOTI_KEY_FILE_PATH")
 
         if pem_file_path is not None:
-            error_source = 'argument specified in Client()'
+            error_source = "argument specified in Client()"
             pem = self.__read_pem_file(pem_file_path, error_source)
         elif pem_file_path_env is not None:
-            error_source = 'specified by the YOTI_KEY_FILE_PATH env variable'
+            error_source = "specified by the YOTI_KEY_FILE_PATH env variable"
             pem = self.__read_pem_file(pem_file_path_env, error_source)
         else:
             raise RuntimeError(NO_KEY_FILE_SPECIFIED_ERROR)
@@ -46,31 +55,33 @@ class Client(object):
             key_file_path = expanduser(key_file_path)
 
             if not isinstance(key_file_path, basestring) or not isfile(key_file_path):
-                raise IOError('File not found: {0}'.format(key_file_path))
-            with open(key_file_path, 'rb') as pem_file:
+                raise IOError("File not found: {0}".format(key_file_path))
+            with open(key_file_path, "rb") as pem_file:
                 return pem_file.read().strip()
         except (AttributeError, IOError, TypeError, OSError) as exc:
-            error = 'Could not read private key file: "{0}", passed as: {1} '.format(key_file_path, error_source)
-            exception = '{0}: {1}'.format(type(exc).__name__, exc)
-            raise RuntimeError('{0}: {1}'.format(error, exception))
+            error = 'Could not read private key file: "{0}", passed as: {1} '.format(
+                key_file_path, error_source
+            )
+            exception = "{0}: {1}".format(type(exc).__name__, exc)
+            raise RuntimeError("{0}: {1}".format(error, exception))
 
     def get_activity_details(self, encrypted_request_token):
         proto = protobuf.Protobuf()
-        http_method = 'GET'
+        http_method = "GET"
         content = None
-        response = self.__make_activity_details_request(encrypted_request_token, http_method, content)
-        receipt = json.loads(response.text).get('receipt')
+        response = self.__make_activity_details_request(
+            encrypted_request_token, http_method, content
+        )
+        receipt = json.loads(response.text).get("receipt")
 
         encrypted_data = proto.current_user(receipt)
 
         if not encrypted_data:
             return ActivityDetails(receipt)
 
-        unwrapped_key = self.__crypto.decrypt_token(receipt['wrapped_receipt_key'])
+        unwrapped_key = self.__crypto.decrypt_token(receipt["wrapped_receipt_key"])
         decrypted_data = self.__crypto.decipher(
-            unwrapped_key,
-            encrypted_data.iv,
-            encrypted_data.cipher_text
+            unwrapped_key, encrypted_data.iv, encrypted_data.cipher_text
         )
         attribute_list = proto.attribute_list(decrypted_data)
         return ActivityDetails(receipt, attribute_list)
@@ -79,21 +90,35 @@ class Client(object):
         if aml_profile is None:
             raise TypeError("aml_profile not set")
 
-        http_method = 'POST'
+        http_method = "POST"
 
         response = self.__make_aml_check_request(http_method, aml_profile)
 
         return aml.AmlResult(response.text)
 
-    def __make_activity_details_request(self, encrypted_request_token, http_method, content):
-        decrypted_token = self.__crypto.decrypt_token(encrypted_request_token).decode('utf-8')
+    def make_request(self, http_method, endpoint, body):
+        url = yoti_python_sdk.YOTI_API_URL + endpoint
+        headers = self.__get_request_headers(endpoint, http_method, body)
+        response = requests.request(http_method, url, headers=headers, data=body)
+        return response
+
+    @property
+    def endpoints(self):
+        return self.__endpoint
+
+    def __make_activity_details_request(
+        self, encrypted_request_token, http_method, content
+    ):
+        decrypted_token = self.__crypto.decrypt_token(encrypted_request_token).decode(
+            "utf-8"
+        )
         path = self.__endpoint.get_activity_details_request_path(decrypted_token)
         url = yoti_python_sdk.YOTI_API_ENDPOINT + path
         headers = self.__get_request_headers(path, http_method, content)
         response = requests.get(url=url, headers=headers)
 
         if not response.status_code == 200:
-            raise RuntimeError('Unsuccessful Yoti API call: {0}'.format(response.text))
+            raise RuntimeError("Unsuccessful Yoti API call: {0}".format(response.text))
 
         return response
 
@@ -107,7 +132,7 @@ class Client(object):
         response = requests.post(url=url, headers=headers, data=aml_profile_bytes)
 
         if not response.status_code == 200:
-            raise RuntimeError('Unsuccessful Yoti API call: {0}'.format(response.text))
+            raise RuntimeError("Unsuccessful Yoti API call: {0}".format(response.text))
 
         return response
 
@@ -120,21 +145,24 @@ class Client(object):
             X_YOTI_AUTH_DIGEST: self.__crypto.sign(request),
             X_YOTI_SDK: SDK_IDENTIFIER,
             X_YOTI_SDK_VERSION: "{0}-{1}".format(SDK_IDENTIFIER, sdk_version),
-            'Content-Type': JSON_CONTENT_TYPE,
-            'Accept': JSON_CONTENT_TYPE
+            "Content-Type": JSON_CONTENT_TYPE,
+            "Accept": JSON_CONTENT_TYPE,
         }
 
     @staticmethod
     def __create_request(http_method, path, content):
         if http_method not in HTTP_SUPPORTED_METHODS:
             raise ValueError(
-                "{} is not in the list of supported methods: {}".format(http_method, HTTP_SUPPORTED_METHODS))
+                "{} is not in the list of supported methods: {}".format(
+                    http_method, HTTP_SUPPORTED_METHODS
+                )
+            )
 
         request = "{}&{}".format(http_method, path)
 
         if content is not None:
             b64encoded = base64.b64encode(content)
-            b64ascii = b64encoded.decode('ascii')
+            b64ascii = b64encoded.decode("ascii")
             request += "&" + b64ascii
 
         return request
