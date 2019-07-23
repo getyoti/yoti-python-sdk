@@ -114,7 +114,7 @@ class DynamicPolicyBuilder(object):
 
     def build(self):
         return {
-            "wanted": self.__wanted_attributes.values(),
+            "wanted": list(self.__wanted_attributes.values()),
             "wanted_auth_types": [
                 auth for (auth, b) in self.__wanted_auth_types.items() if b
             ],
