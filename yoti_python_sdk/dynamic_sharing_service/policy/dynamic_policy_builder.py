@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from yoti_python_sdk import config
 
-from .dynamic_policy import DynamicPolicy
 from .wanted_attribute_builder import WantedAttributeBuilder
 
 """
@@ -12,6 +11,9 @@ Builder for DynamicPolicy
 
 
 class DynamicPolicyBuilder(object):
+    SELFIE_AUTH_TYPE = 1
+    PIN_AUTH_TYPE = 2
+
     def __init__(self):
         self.__wanted_attributes = {}
         self.__wanted_auth_types = {}
@@ -23,9 +25,9 @@ class DynamicPolicyBuilder(object):
 
     def with_wanted_attribute(self, wanted_attribute):
         key = (
-            wanted_attribute.derivation
-            if wanted_attribute.derivation
-            else wanted_attribute.name
+            wanted_attribute["derivation"]
+            if wanted_attribute.get("derivation", False)
+            else wanted_attribute["name"]
         )
         self.__wanted_attributes[key] = wanted_attribute
         return self
@@ -97,10 +99,10 @@ class DynamicPolicyBuilder(object):
         return self
 
     def with_selfie_auth(self, wanted=True):
-        return self.with_wanted_auth_type(DynamicPolicy.SELFIE_AUTH_TYPE, wanted)
+        return self.with_wanted_auth_type(self.SELFIE_AUTH_TYPE, wanted)
 
     def with_pin_auth(self, wanted=True):
-        return self.with_wanted_auth_type(DynamicPolicy.PIN_AUTH_TYPE, wanted)
+        return self.with_wanted_auth_type(self.PIN_AUTH_TYPE, wanted)
 
     """
     @param wanted
@@ -111,10 +113,10 @@ class DynamicPolicyBuilder(object):
         return self
 
     def build(self):
-        return DynamicPolicy(
-            _DynamicPolicy__wanted_attributes=self.__wanted_attributes.values(),
-            _DynamicPolicy__wanted_auth_types=[
+        return {
+            "wanted": self.__wanted_attributes.values(),
+            "wanted_auth_types": [
                 auth for (auth, b) in self.__wanted_auth_types.items() if b
             ],
-            _DynamicPolicy__is_wanted_remember_me=self.__is_wanted_remember_me,
-        )
+            "wanted_remember_me": self.__is_wanted_remember_me,
+        }

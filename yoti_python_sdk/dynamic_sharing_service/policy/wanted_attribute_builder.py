@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from .wanted_attribute import WantedAttribute
-
 """
 Builder for WantedAttribute
 """
@@ -17,7 +15,7 @@ class WantedAttributeBuilder(object):
     """
 
     def withName(self, name):
-        self.__attribute["_WantedAttribute__name"] = name
+        self.__attribute["name"] = name
         return self
 
     """
@@ -25,7 +23,7 @@ class WantedAttributeBuilder(object):
     """
 
     def withDerivation(self, derivation):
-        self.__attribute["_WantedAttribute__derivation"] = derivation
+        self.__attribute["derivation"] = derivation
         return self
 
     """
@@ -33,4 +31,4 @@ class WantedAttributeBuilder(object):
     """
 
     def build(self):
-        return WantedAttribute(**self.__attribute)
+        return self.__attribute.copy()

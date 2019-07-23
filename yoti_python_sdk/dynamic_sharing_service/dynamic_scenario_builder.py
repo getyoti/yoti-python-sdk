@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from .dynamic_scenario import DynamicScenario
 from .policy.dynamic_policy_builder import DynamicPolicyBuilder
 
 
 class DynamicScenarioBuilder(object):
     def __init__(self):
         self.__scenario = {
-            "_DynamicScenario__policy": DynamicPolicyBuilder().build(),
-            "_DynamicScenario__extensions": [],
-            "_DynamicScenario__callback_endpoint": "",
+            "policy": DynamicPolicyBuilder().build(),
+            "extensions": [],
+            "callback_endpoint": "",
         }
 
     """
@@ -18,7 +17,7 @@ class DynamicScenarioBuilder(object):
     """
 
     def with_policy(self, policy):
-        self.__scenario["_DynamicScenario__policy"] = policy
+        self.__scenario["policy"] = policy
         return self
 
     """
@@ -26,7 +25,7 @@ class DynamicScenarioBuilder(object):
     """
 
     def with_extension(self, extension):
-        self.__scenario["_DynamicScenario__extensions"].append(extension)
+        self.__scenario["extensions"].append(extension)
         return self
 
     """
@@ -34,12 +33,12 @@ class DynamicScenarioBuilder(object):
     """
 
     def with_callback_endpoint(self, callback_endpoint):
-        self.__scenario["_DynamicScenario__callback_endpoint"] = callback_endpoint
+        self.__scenario["callback_endpoint"] = callback_endpoint
         return self
 
     """
-    @return A DynamicScenario
+    @return Dictionary representation of dynamic scenario
     """
 
     def build(self):
-        return DynamicScenario(**self.__scenario)
+        return self.__scenario.copy()
