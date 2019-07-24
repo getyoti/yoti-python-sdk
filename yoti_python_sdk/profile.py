@@ -5,6 +5,7 @@ from yoti_python_sdk import attribute_parser, config, multivalue
 from yoti_python_sdk.anchor import Anchor
 from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.image import Image
+from yoti_python_sdk import document_details
 
 
 class Profile:
@@ -15,8 +16,7 @@ class Profile:
             for field in profile_attributes:
                 try:
                     value = attribute_parser.value_based_on_content_type(
-                        field.value,
-                        field.content_type
+                        field.value, field.content_type
                     )
 
                     # this will be removed in v3.0.0, so selfie also returns an Image object
@@ -26,6 +26,8 @@ class Profile:
 
                     if field.name == config.ATTRIBUTE_DOCUMENT_IMAGES:
                         value = multivalue.filter_values(value, Image)
+                    if field.name == config.ATTRIBUTE_DOCUMENT_DETAILS:
+                        value = document_details.DocumentDetails(value)
 
                     anchors = Anchor().parse_anchors(field.anchors)
 
@@ -37,8 +39,10 @@ class Profile:
                 except Exception as exc:
                     if logging.getLogger().propagate:
                         logging.warning(
-                            'Error parsing profile attribute:{0}, exception: {1} - {2}'.format(field.name,
-                                                                                               type(exc).__name__, exc))
+                            "Error parsing profile attribute:{0}, exception: {1} - {2}".format(
+                                field.name, type(exc).__name__, exc
+                            )
+                        )
 
             self.ensure_postal_address()
 
@@ -137,6 +141,10 @@ class Profile:
         """
         return self.get_attribute(config.ATTRIBUTE_DOCUMENT_IMAGES)
 
+    @property
+    def document_details(self):
+        return self.get_attribute(config.ATTRIBUTE_DOCUMENT_DETAILS)
+
     def get_attribute(self, attribute_name):
         """retrieves an attribute based on its name
         :param attribute_name:
@@ -148,13 +156,20 @@ class Profile:
             return None
 
     def ensure_postal_address(self):
-        if config.ATTRIBUTE_POSTAL_ADDRESS not in self.attributes and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.attributes:
-            structured_postal_address = self.attributes[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+        if (
+            config.ATTRIBUTE_POSTAL_ADDRESS not in self.attributes
+            and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.attributes
+        ):
+            structured_postal_address = self.attributes[
+                config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS
+            ]
 
             if config.KEY_FORMATTED_ADDRESS in structured_postal_address.value:
                 formatted_address = structured_postal_address.value[
-                    config.KEY_FORMATTED_ADDRESS]
+                    config.KEY_FORMATTED_ADDRESS
+                ]
                 self.attributes[config.ATTRIBUTE_POSTAL_ADDRESS] = Attribute(
                     config.ATTRIBUTE_POSTAL_ADDRESS,
                     formatted_address,
-                    structured_postal_address.anchors)
+                    structured_postal_address.anchors,
+                )
