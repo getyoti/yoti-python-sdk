@@ -94,6 +94,9 @@ class DynamicPolicyBuilder(object):
     def with_email(self):
         return self.with_wanted_attribute_by_name(config.ATTRIBUTE_EMAIL_ADDRESS)
 
+    def with_document_details(self):
+        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_DOCUMENT_DETAILS)
+
     """
     @param wanted_auth_type
     """
