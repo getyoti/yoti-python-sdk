@@ -15,12 +15,12 @@ def create_share_url(yoti_client, dynamic_scenario):
     response = yoti_client.make_request(http_method, endpoint, payload)
 
     status_code = response.status_code
-    if status_code == 200:
+    if status_code >= 200 and status_code < 300:
         response_json = json.loads(response.text)
 
         return ShareUrl(
             _ShareUrl__qr_code=response_json["qrcode"],
-            _ShareUrl__ref_id=response_json["codeId"],
+            _ShareUrl__ref_id=response_json["ref_id"],
         )
 
     elif status_code == 400:
@@ -28,7 +28,9 @@ def create_share_url(yoti_client, dynamic_scenario):
     elif status_code == 404:
         raise RuntimeError(APPLICATION_NOT_FOUND)
     else:
-        raise RuntimeError(UNKNOWN_ERROR)
+        raise RuntimeError(
+            UNKNOWN_ERROR + ": " + str(status_code) + " " + response.text
+        )
 
 
 class ShareUrl(object):

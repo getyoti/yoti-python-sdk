@@ -6,56 +6,74 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request
 
 from yoti_python_sdk import Client
+from yoti_python_sdk.dynamic_sharing_service.policy import DynamicPolicyBuilder
+from yoti_python_sdk.dynamic_sharing_service import DynamicScenarioBuilder
+from yoti_python_sdk.dynamic_sharing_service import create_share_url
 
-dotenv_path = join(dirname(__file__), '.env')
+dotenv_path = join(dirname(__file__), ".env")
 load_dotenv(dotenv_path)
 
-from settings import (
-    YOTI_SCENARIO_ID,
-    YOTI_CLIENT_SDK_ID,
-    YOTI_KEY_FILE_PATH,
-)
+from settings import YOTI_SCENARIO_ID, YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH  # noqa
 
 app = Flask(__name__)
 
 
 def save_image(selfie_data):
-    upload_path = os.path.join(app.root_path, 'static', 'YotiSelfie.jpg')
-    fd = open(upload_path, 'wb')
+    upload_path = os.path.join(app.root_path, "static", "YotiSelfie.jpg")
+    fd = open(upload_path, "wb")
     fd.write(selfie_data)
     fd.close()
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html', scenario_id=YOTI_SCENARIO_ID)
+    return render_template("index.html", scenario_id=YOTI_SCENARIO_ID)
 
 
-@app.route('/yoti/auth')
+@app.route("/dynamic_share")
+def dynamic_share():
+    client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
+    policy = DynamicPolicyBuilder().with_full_name().with_age_over(18).build()
+    scenario = (
+        DynamicScenarioBuilder()
+        .with_policy(policy)
+        .with_callback_endpoint("/yoti/auth")
+        .build()
+    )
+    share = create_share_url(client, scenario)
+    return render_template(
+        "dynamic_share.html",
+        yoti_client_sdk=YOTI_CLIENT_SDK_ID,
+        yoti_share_url=share.share_url,
+    )
+
+
+@app.route("/yoti/auth")
 def auth():
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
-    activity_details = client.get_activity_details(request.args['token'])
+    activity_details = client.get_activity_details(request.args["token"])
     profile = activity_details.profile
     profile_dict = vars(profile)
 
-    context = profile_dict.get('attributes')
-    context['base64_selfie_uri'] = getattr(activity_details, 'base64_selfie_uri')
-    context['user_id'] = getattr(activity_details, 'user_id')
-    context['parent_remember_me_id'] = getattr(activity_details, 'parent_remember_me_id')
-    context['receipt_id'] = getattr(activity_details, 'receipt_id')
-    context['timestamp'] = getattr(activity_details, 'timestamp')
+    context = profile_dict.get("attributes")
+    context["base64_selfie_uri"] = getattr(activity_details, "base64_selfie_uri")
+    context["user_id"] = getattr(activity_details, "user_id")
+    context["parent_remember_me_id"] = getattr(
+        activity_details, "parent_remember_me_id"
+    )
+    context["receipt_id"] = getattr(activity_details, "receipt_id")
+    context["timestamp"] = getattr(activity_details, "timestamp")
 
     # change this string according to the age condition defined in Yoti Hub
-    age_verified = profile.get_attribute('age_over:18')
+    age_verified = profile.get_attribute("age_over:18")
     if age_verified is not None:
-        context['age_verified'] = age_verified
+        context["age_verified"] = age_verified
 
-    selfie = context.get('selfie')
+    selfie = context.get("selfie")
     if selfie is not None:
         save_image(selfie.value)
-    return render_template('profile.html',
-                           **context)
+    return render_template("profile.html", **context)
 
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", ssl_context='adhoc')
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", ssl_context="adhoc")
