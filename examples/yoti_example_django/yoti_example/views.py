@@ -30,7 +30,13 @@ class DynamicShareView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
-        policy = DynamicPolicyBuilder().with_full_name().with_age_over(18).build()
+        policy = (
+            DynamicPolicyBuilder()
+            .with_full_name()
+            .with_age_over(18)
+            .with_document_details()
+            .build()
+        )
         scenario = (
             DynamicScenarioBuilder()
             .with_policy(policy)
