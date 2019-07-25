@@ -20,10 +20,10 @@ class Endpoint(object):
         )
 
     def get_dynamic_share_request_url(self):
-        return "/qrcodes/apps/{appid}?nonce={nonce}&timestamp={timestamp}&appId={appid}".format(
+        return "/qrcodes/apps/{appid}?nonce={nonce}&timestamp={timestamp}".format(
             appid=self.sdk_id,
-            nonce=self.__create_nonce,
-            timestamp=self.__create_timestamp,
+            nonce=self.__create_nonce(),
+            timestamp=self.__create_timestamp(),
         )
 
     @staticmethod
