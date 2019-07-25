@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from .views import IndexView, AuthView
+from .views import IndexView, AuthView, DynamicShareView
 
 urlpatterns = [
-    url(r'^$', IndexView.as_view(), name='index'),
-    url(r'^yoti/auth/$', AuthView.as_view(), name='auth'),
-    url(r'^admin/', admin.site.urls),
+    url(r"^$", IndexView.as_view(), name="index"),
+    url(r"^yoti/auth/$", AuthView.as_view(), name="auth"),
+    url(r"^admin/", admin.site.urls),
+    url(r"^dynamic_share/$", DynamicShareView.as_view(), name="dynamic_share"),
 ]
