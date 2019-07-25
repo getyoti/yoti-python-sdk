@@ -560,7 +560,7 @@ def test_get_attribute_returns_none():
 def test_get_document_details_usa():
     attribute_list = create_single_attribute_list(
         name=config.ATTRIBUTE_DOCUMENT_DETAILS,
-        value=bytes(USA_DOCUMENT_DETAILS, "utf-8"),
+        value=USA_DOCUMENT_DETAILS.encode(),
         anchors=None,
         content_type=Protobuf.CT_STRING,
     )
@@ -576,7 +576,7 @@ def test_get_document_details_usa():
 def test_get_document_details_india():
     attribute_list = create_single_attribute_list(
         name=config.ATTRIBUTE_DOCUMENT_DETAILS,
-        value=bytes(INDIA_DOCUMENT_DETAILS, "utf-8"),
+        value=INDIA_DOCUMENT_DETAILS.encode(),
         anchors=None,
         content_type=Protobuf.CT_STRING,
     )
