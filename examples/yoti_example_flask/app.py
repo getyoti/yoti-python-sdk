@@ -33,7 +33,13 @@ def index():
 @app.route("/dynamic-share")
 def dynamic_share():
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
-    policy = DynamicPolicyBuilder().with_full_name().with_age_over(18).build()
+    policy = (
+        DynamicPolicyBuilder()
+        .with_full_name()
+        .with_age_over(18)
+        .with_document_details()
+        .build()
+    )
     scenario = (
         DynamicScenarioBuilder()
         .with_policy(policy)
