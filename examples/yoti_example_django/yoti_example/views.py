@@ -34,7 +34,7 @@ class AuthView(TemplateView):
         context['receipt_id'] = getattr(activity_details, 'receipt_id')
         context['timestamp'] = getattr(activity_details, 'timestamp')
 
-        # change this string according to the age condition defined in dashboard
+        # change this string according to the age condition defined in Yoti Hub
         age_verified = profile.get_attribute('age_over:18')
         if age_verified is not None:
             context['age_verified'] = age_verified
