@@ -2,6 +2,7 @@
 import collections
 import json
 import logging
+from deprecated import deprecated
 from datetime import datetime
 
 from yoti_python_sdk import attribute_parser, config
@@ -14,26 +15,30 @@ class ActivityDetails:
         self.user_profile = {}  # will be removed in v3.0.0
         self.base64_selfie_uri = None
 
-        if decrypted_profile and hasattr(decrypted_profile, 'attributes'):
+        if decrypted_profile and hasattr(decrypted_profile, "attributes"):
             decrypted_profile_attributes = decrypted_profile.attributes
             self.profile = Profile(decrypted_profile_attributes)
 
             for field in decrypted_profile_attributes:  # will be removed in v3.0.0
                 try:
                     value = attribute_parser.value_based_on_content_type(
-                        field.value,
-                        field.content_type
+                        field.value, field.content_type
                     )
 
                     if field.name == config.ATTRIBUTE_SELFIE:
                         self.base64_selfie_uri = value.base64_content()
-                        value = field.value  # set value to be byte content, for backwards compatibility
+                        value = (
+                            field.value
+                        )  # set value to be byte content, for backwards compatibility
 
                     if field.name == config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS:
-                        value = self.try_convert_structured_postal_address_to_dict(field)
+                        value = self.try_convert_structured_postal_address_to_dict(
+                            field
+                        )
 
-                    if field.name.startswith(config.ATTRIBUTE_AGE_OVER) or field.name.startswith(
-                            config.ATTRIBUTE_AGE_UNDER):
+                    if field.name.startswith(
+                        config.ATTRIBUTE_AGE_OVER
+                    ) or field.name.startswith(config.ATTRIBUTE_AGE_UNDER):
                         self.try_parse_age_verified_field(field)
 
                     self.user_profile[field.name] = value
@@ -44,41 +49,59 @@ class ActivityDetails:
                 except Exception as exc:
                     if logging.getLogger().propagate:
                         logging.warning(
-                            'Error parsing profile attribute:{0}, exception: {1} - {2}'.format(
-                                field.name,
-                                type(exc).__name__,
-                                exc))
+                            "Error parsing profile attribute:{0}, exception: {1} - {2}".format(
+                                field.name, type(exc).__name__, exc
+                            )
+                        )
 
             self.ensure_postal_address()
 
-        self.user_id = receipt.get('remember_me_id')
-        self.parent_remember_me_id = receipt.get('parent_remember_me_id')
-        self.outcome = receipt.get('sharing_outcome')
-        self.receipt_id = receipt.get('receipt_id')
-        timestamp = receipt.get('timestamp')
+        self.__remember_me_id = receipt.get("remember_me_id")
+        self.parent_remember_me_id = receipt.get("parent_remember_me_id")
+        self.outcome = receipt.get("sharing_outcome")
+        self.receipt_id = receipt.get("receipt_id")
+        timestamp = receipt.get("timestamp")
 
         if timestamp is not None:
-            self.timestamp = datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%SZ')
+            self.timestamp = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
+
+    @property
+    def remember_me_id(self):
+        return self.__remember_me_id
+
+    @property
+    @deprecated
+    def user_id(self):
+        return self.__remember_me_id
+
+    @user_id.setter
+    @deprecated
+    def user_id(self, value):
+        self.__remember_me_id = value
 
     def try_parse_age_verified_field(self, field):
         if field is not None:
             age_verified = attribute_parser.value_based_on_content_type(
-                field.value,
-                field.content_type
+                field.value, field.content_type
             )
-            if age_verified == 'true':
+            if age_verified == "true":
                 self.user_profile[config.KEY_AGE_VERIFIED] = True
                 return
-            if age_verified == 'false':
+            if age_verified == "false":
                 self.user_profile[config.KEY_AGE_VERIFIED] = False
                 return
 
             print(
-                "age_verified_field value: '{0}' was unable to be parsed into a boolean value".format(age_verified))
+                "age_verified_field value: '{0}' was unable to be parsed into a boolean value".format(
+                    age_verified
+                )
+            )
 
     @staticmethod
     def try_convert_structured_postal_address_to_dict(field):
-        decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict, strict=False)
+        decoder = json.JSONDecoder(
+            object_pairs_hook=collections.OrderedDict, strict=False
+        )
         value_to_decode = field.value
         if not isinstance(value_to_decode, str):
             value_to_decode = value_to_decode.decode()
@@ -87,17 +110,23 @@ class ActivityDetails:
 
     def ensure_postal_address(self):
         # setting in 'user_profile'  - will be removed once user_profile is removed
-        if config.ATTRIBUTE_POSTAL_ADDRESS not in self.user_profile and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.user_profile:
-            if config.KEY_FORMATTED_ADDRESS in self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]:
-                self.user_profile[config.ATTRIBUTE_POSTAL_ADDRESS] = \
-                    self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS][
-                        config.KEY_FORMATTED_ADDRESS]
+        if (
+            config.ATTRIBUTE_POSTAL_ADDRESS not in self.user_profile
+            and config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS in self.user_profile
+        ):
+            if (
+                config.KEY_FORMATTED_ADDRESS
+                in self.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS]
+            ):
+                self.user_profile[config.ATTRIBUTE_POSTAL_ADDRESS] = self.user_profile[
+                    config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS
+                ][config.KEY_FORMATTED_ADDRESS]
 
     def __iter__(self):
-        yield 'user_id', self.user_id
-        yield 'parent_remember_me_id', self.parent_remember_me_id
-        yield 'outcome', self.outcome
-        yield 'receipt_id', self.receipt_id
-        yield 'user_profile', self.user_profile
-        yield 'profile', self.profile
-        yield 'base64_selfie_uri', self.base64_selfie_uri
+        yield "user_id", self.user_id
+        yield "parent_remember_me_id", self.parent_remember_me_id
+        yield "outcome", self.outcome
+        yield "receipt_id", self.receipt_id
+        yield "user_profile", self.user_profile
+        yield "profile", self.profile
+        yield "base64_selfie_uri", self.base64_selfie_uri
