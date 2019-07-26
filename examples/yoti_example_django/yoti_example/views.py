@@ -39,7 +39,7 @@ class DynamicShareView(TemplateView):
         )
         share = create_share_url(client, scenario)
         context = {
-            "yoti_client_sdk": YOTI_CLIENT_SDK_ID,
+            "yoti_client_sdk_id": YOTI_CLIENT_SDK_ID,
             "yoti_share_url": share.share_url,
         }
         return self.render_to_response(context)
