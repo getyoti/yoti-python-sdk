@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import pytest
+
 from yoti_python_sdk.tests.conftest import PEM_FILE_PATH, YOTI_CLIENT_SDK_ID
 from yoti_python_sdk.tests.mocks import (
     mocked_requests_post_share_url,
@@ -44,11 +46,9 @@ def test_create_share_url_invalid_json(mock_uuid4, mock_time, mock_get):
     yoti_client = Client(YOTI_CLIENT_SDK_ID, PEM_FILE_PATH)
     dynamic_scenario = DynamicScenarioBuilder().build()
 
-    try:
+    with pytest.raises(RuntimeError) as err:
         share_url.create_share_url(yoti_client, dynamic_scenario)
-        assert False  # Should have thrown
-    except RuntimeError as err:
-        assert str(err) == share_url.INVALID_DATA
+    assert share_url.INVALID_DATA in str(err)
 
 
 @mock.patch(
@@ -60,8 +60,6 @@ def test_create_share_url_app_not_found(mock_uuid4, mock_time, mock_get):
     yoti_client = Client(YOTI_CLIENT_SDK_ID, PEM_FILE_PATH)
     dynamic_scenario = DynamicScenarioBuilder().build()
 
-    try:
+    with pytest.raises(RuntimeError) as err:
         share_url.create_share_url(yoti_client, dynamic_scenario)
-        assert False  # Should have thrown
-    except RuntimeError as err:
-        assert str(err) == share_url.APPLICATION_NOT_FOUND
+    assert share_url.APPLICATION_NOT_FOUND in str(err)
