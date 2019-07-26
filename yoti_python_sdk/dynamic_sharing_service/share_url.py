@@ -5,7 +5,7 @@ import json
 
 INVALID_DATA = "Json is incorrect, contains invalid data"
 APPLICATION_NOT_FOUND = "Application was not found"
-UNKNOWN_ERROR = "Unknown HTTP error occured"
+UNKNOWN_ERROR = "Unknown HTTP error occurred"
 
 
 def create_share_url(yoti_client, dynamic_scenario):
@@ -15,7 +15,7 @@ def create_share_url(yoti_client, dynamic_scenario):
     response = yoti_client.make_request(http_method, endpoint, payload)
 
     status_code = response.status_code
-    if status_code >= 200 and status_code < 300:
+    if 200 <= status_code < 300:
         response_json = json.loads(response.text)
 
         return ShareUrl(
