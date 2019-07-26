@@ -11,8 +11,8 @@ certifi==2018.11.29       # via requests
 cffi==1.11.5              # via cryptography
 chardet==3.0.4            # via requests
 click==6.6
-colorama==0.3.9           # via pytest
 cryptography==2.4.1
+deprecated==1.2.6
 future==0.15.2
 idna==2.7                 # via cryptography, requests
 itsdangerous==0.24
@@ -30,3 +30,7 @@ six==1.10.0               # via cryptography, mock, protobuf, pyopenssl, pytest
 urllib3==1.24.2
 virtualenv==13.1.2
 wheel==0.24.0
+wrapt==1.11.2             # via deprecated
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools==41.0.1        # via protobuf, pytest
