@@ -43,7 +43,7 @@ def dynamic_share():
     share = create_share_url(client, scenario)
     return render_template(
         "dynamic_share.html",
-        yoti_client_sdk=YOTI_CLIENT_SDK_ID,
+        yoti_client_sdk_id=YOTI_CLIENT_SDK_ID,
         yoti_share_url=share.share_url,
     )
 
