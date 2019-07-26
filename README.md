@@ -43,7 +43,7 @@ Please feel free to reach out
 ## An Architectural View
 
 Before you start your integration, here is a bit of background on how the integration works. To integrate your application with Yoti, your back-end must expose a GET endpoint that Yoti will use to forward tokens.
-The endpoint can be configured in the Yoti Hub when you create/update your application. For more information on how to create an application please check our [developer page](https://www.yoti.com/developers/documentation/#login-button-setup).
+The endpoint can be configured in the Yoti Hub when you create/update your application. For more information on how to create an application please check our [developer page](https://developers.yoti.com/yoti-app-integration/yoti-app-integration#step-3-front-end-integration).
 
 The image below shows how your application back-end and Yoti integrate into the context of a Login flow.
 Yoti SDK carries out for you steps 6, 7 and the profile decryption in step 8.
@@ -157,7 +157,7 @@ timestamp = source_anchor.signed_timestamp
 origin_server_certs = source_anchor.origin_server_certs
 ```
 
-If you have chosen `Verify Condition` on the [Yoti Hub](https://hub.yoti.com/applications) with the age condition of "Over 18", you can retrieve the user information as follows:
+If you have chosen `Verify Condition` on the [Yoti Hub](https://hub.yoti.com) with the age condition of "Over 18", you can retrieve the user information as follows:
 ```python
 age_verification_attribute = profile.get_attribute("age_over:18")
 ```
@@ -173,7 +173,7 @@ Yoti will provide a boolean result on the following checks:
 * Fraud list - Verify against  US Social Security Administration Fraud (SSN Fraud) list
 * Watch list - Verify against watch lists from the Office of Foreign Assets Control
 
-To use this functionality you must ensure your application is assigned to your Organisation in the Yoti Hub - please see [here](https://www.yoti.com/developers/documentation/#1-creating-an-organisation) for further information.
+To use this functionality you must ensure your application is part of an Organisation in the Yoti Hub - please see [here](https://developers.yoti.com/yoti-app-integration/yoti-app-integration#step-1-creating-an-organisation) for further information.
 
 For the AML check you will need to provide the following:
 
@@ -222,7 +222,7 @@ Additionally an [example AML application](/examples/aml/app.py) is provided in t
 
 ## Running the Examples
 
-From the [Yoti Hub](https://hub.yoti.com/applications):
+From the [Yoti Hub](https://hub.yoti.com):
 1. Set the application domain of your app to `localhost:5000`
 1. Set the scenario callback URL to `/yoti/auth`
 
