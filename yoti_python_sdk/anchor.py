@@ -119,7 +119,7 @@ class Anchor:
     def get_values_from_extensions(
         anc, anchor_type, extensions, crypto_cert, parsed_anchors
     ):
-        if hasattr(extensions, "value"):
+        if hasattr(extensions, "value") and anchor_type != UNKNOWN_ANCHOR_TYPE:
             extension_value = ""
             if hasattr(extensions.value, "value"):
                 extension_value = Anchor.decode_asn1_value(extensions.value.value)
