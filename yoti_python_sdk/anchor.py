@@ -12,6 +12,10 @@ UNKNOWN_EXTENSION = ""
 SOURCE_EXTENSION = "1.3.6.1.4.1.47127.1.1.1"
 VERIFIER_EXTENSION = "1.3.6.1.4.1.47127.1.1.2"
 
+UNKNOWN_ANCHOR_TYPE = "Unknown"
+UNKNOWN_ANCHOR_SUB_TYPE = "TEST UNKNOWN SUB TYPE"
+UNKNOWN_ANCHOR_VALUE = ""
+
 
 class Anchor:
     def __init__(
@@ -49,7 +53,7 @@ class Anchor:
         parsed_anchors = []
         for anc in anchors:
             if hasattr(anc, "origin_server_certs"):
-                anchor_type = "UNKNOWN"
+                anchor_type = UNKNOWN_ANCHOR_TYPE
                 try:
                     origin_server_certs_list = list(anc.origin_server_certs)
                     origin_server_certs_item = origin_server_certs_list[0]
@@ -79,7 +83,7 @@ class Anchor:
                                 elif oid.dotted_string == VERIFIER_EXTENSION:
                                     anchor_type = config.ANCHOR_VERIFIER
 
-                                if anchor_type != "UNKNOWN":
+                                if anchor_type != UNKNOWN_ANCHOR_TYPE:
                                     has_found_anchor = True
                                     parsed_anchors = Anchor.get_values_from_extensions(
                                         anc,
@@ -99,8 +103,14 @@ class Anchor:
                         continue
 
                 if not has_found_anchor:
-                    parsed_anchors = Anchor.get_values_from_extensions(
-                        anc, anchor_type, extensions, crypto_cert, parsed_anchors
+                    parsed_anchors.append(
+                        Anchor(
+                            UNKNOWN_ANCHOR_TYPE,
+                            UNKNOWN_ANCHOR_SUB_TYPE,
+                            UNKNOWN_ANCHOR_VALUE,
+                            anc.signed_time_stamp,
+                            crypto_cert,
+                        )
                     )
 
         return parsed_anchors
