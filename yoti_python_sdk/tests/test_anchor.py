@@ -26,8 +26,12 @@ def test_parse_anchors_driving_license():
     assert parsed_anchor.anchor_type == config.ANCHOR_SOURCE
     assert parsed_anchor.sub_type == ""
     assert parsed_anchor.value == "DRIVING_LICENCE"
-    assert parsed_anchor.origin_server_certs.serial_number == int("46131813624213904216516051554755262812")
-    assert parsed_anchor.signed_timestamp == datetime(2018, 4, 11, 12 - get_utc_offset(), 13, 3, 923537)
+    assert parsed_anchor.origin_server_certs.serial_number == int(
+        "46131813624213904216516051554755262812"
+    )
+    assert parsed_anchor.signed_timestamp == datetime(
+        2018, 4, 11, 12 - get_utc_offset(), 13, 3, 923537
+    )
 
 
 def test_parse_anchors_passport():
@@ -36,8 +40,12 @@ def test_parse_anchors_passport():
     assert parsed_anchor.anchor_type == config.ANCHOR_SOURCE
     assert parsed_anchor.sub_type == "OCR"
     assert parsed_anchor.value == "PASSPORT"
-    assert parsed_anchor.origin_server_certs.serial_number == int("277870515583559162487099305254898397834")
-    assert parsed_anchor.signed_timestamp == datetime(2018, 4, 12, 13 - get_utc_offset(), 14, 32, 835537)
+    assert parsed_anchor.origin_server_certs.serial_number == int(
+        "277870515583559162487099305254898397834"
+    )
+    assert parsed_anchor.signed_timestamp == datetime(
+        2018, 4, 12, 13 - get_utc_offset(), 14, 32, 835537
+    )
 
 
 def test_parse_yoti_admin():
@@ -46,8 +54,12 @@ def test_parse_yoti_admin():
     assert parsed_anchor.anchor_type == config.ANCHOR_VERIFIER
     assert parsed_anchor.sub_type == ""
     assert parsed_anchor.value == "YOTI_ADMIN"
-    assert parsed_anchor.origin_server_certs.serial_number == int("256616937783084706710155170893983549581")
-    assert parsed_anchor.signed_timestamp == datetime(2018, 4, 11, 12 - get_utc_offset(), 13, 4, 95238)
+    assert parsed_anchor.origin_server_certs.serial_number == int(
+        "256616937783084706710155170893983549581"
+    )
+    assert parsed_anchor.signed_timestamp == datetime(
+        2018, 4, 11, 12 - get_utc_offset(), 13, 4, 95238
+    )
 
 
 def test_anchor_returns_correct_default_values():
@@ -61,8 +73,9 @@ def test_anchor_returns_correct_default_values():
 
 
 def test_error_parsing_anchor_certificate_carries_on_parsing():
-    driving_license_anchor = \
-        anchor_fixture_parser.get_anchor_from_base64_text(anchor_fixture_parser.ANCHOR_DRIVING_LICENSE)[0]
+    driving_license_anchor = anchor_fixture_parser.get_anchor_from_base64_text(
+        anchor_fixture_parser.ANCHOR_DRIVING_LICENSE
+    )[0]
     anchors = list()
     anchors.append(Attribute_pb2.Anchor())
     anchors.append(driving_license_anchor)
@@ -79,5 +92,21 @@ def test_error_parsing_anchor_certificate_carries_on_parsing():
     assert parsed_anchor.anchor_type == config.ANCHOR_SOURCE
     assert parsed_anchor.sub_type == ""
     assert parsed_anchor.value == "DRIVING_LICENCE"
-    assert parsed_anchor.origin_server_certs.serial_number == int("46131813624213904216516051554755262812")
-    assert parsed_anchor.signed_timestamp == datetime(2018, 4, 11, 12 - get_utc_offset(), 13, 3, 923537)
+    assert parsed_anchor.origin_server_certs.serial_number == int(
+        "46131813624213904216516051554755262812"
+    )
+    assert parsed_anchor.signed_timestamp == datetime(
+        2018, 4, 11, 12 - get_utc_offset(), 13, 3, 923537
+    )
+
+
+def test_processing_unknown_anchor_data():
+    unknown_anchor_data = anchor_fixture_parser.get_anchor_from_base64_text(
+        anchor_fixture_parser.ANCHOR_UNKNOWN_ANCHOR
+    )
+    anchors = Anchor.parse_anchors(unknown_anchor_data)
+
+    assert len(anchors) == 1
+    assert ("", "Unknown", "TEST UNKNOWN SUB TYPE") in [
+        (anchor.value, anchor.anchor_type, anchor.sub_type) for anchor in anchors
+    ]
