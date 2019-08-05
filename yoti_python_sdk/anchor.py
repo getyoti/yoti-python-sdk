@@ -13,7 +13,6 @@ SOURCE_EXTENSION = "1.3.6.1.4.1.47127.1.1.1"
 VERIFIER_EXTENSION = "1.3.6.1.4.1.47127.1.1.2"
 
 UNKNOWN_ANCHOR_TYPE = "Unknown"
-UNKNOWN_ANCHOR_SUB_TYPE = "TEST UNKNOWN SUB TYPE"
 UNKNOWN_ANCHOR_VALUE = ""
 
 
@@ -106,7 +105,7 @@ class Anchor:
                     parsed_anchors.append(
                         Anchor(
                             UNKNOWN_ANCHOR_TYPE,
-                            UNKNOWN_ANCHOR_SUB_TYPE,
+                            anc.sub_type,
                             UNKNOWN_ANCHOR_VALUE,
                             anc.signed_time_stamp,
                             crypto_cert,
