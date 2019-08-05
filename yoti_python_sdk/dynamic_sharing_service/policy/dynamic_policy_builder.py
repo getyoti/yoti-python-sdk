@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import re
+
 from yoti_python_sdk import config
 
 from .wanted_attribute_builder import WantedAttributeBuilder
@@ -62,9 +64,11 @@ class DynamicPolicyBuilder(object):
         return self.with_wanted_attribute(attribute)
 
     def with_age_over(self, age):
+        assert self.__is_number(age)
         return self.with_age_derived_attribute(config.ATTRIBUTE_AGE_OVER + str(age))
 
     def with_age_under(self, age):
+        assert self.__is_number(age)
         return self.with_age_derived_attribute(config.ATTRIBUTE_AGE_UNDER + str(age))
 
     def with_gender(self):
@@ -120,3 +124,6 @@ class DynamicPolicyBuilder(object):
             ],
             "wanted_remember_me": self.__is_wanted_remember_me,
         }
+
+    def __is_number(self, num):
+        return re.match(r"^\d+$", str(num)) is not None
