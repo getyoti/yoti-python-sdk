@@ -11,7 +11,7 @@ cffi==1.11.5              # via cryptography
 chardet==3.0.4            # via requests
 cryptography==2.5
 django-sslserver==0.20
-django==2.2.3
+django==2.2.4
 future==0.16.0            # via yoti
 idna==2.7                 # via requests
 protobuf==3.6.0           # via yoti
