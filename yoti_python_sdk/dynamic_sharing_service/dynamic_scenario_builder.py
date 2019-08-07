@@ -21,7 +21,7 @@ class DynamicScenarioBuilder(object):
         return self
 
     """
-    @param extension A Extensions to add to the scenario
+    @param extension An extension to be activated for the scenario
     """
 
     def with_extension(self, extension):
