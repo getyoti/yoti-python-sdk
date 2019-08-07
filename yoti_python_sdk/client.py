@@ -31,6 +31,9 @@ NO_KEY_FILE_SPECIFIED_ERROR = (
 )
 HTTP_SUPPORTED_METHODS = ["POST", "PUT", "PATCH", "GET", "DELETE"]
 
+UNKNOWN_HTTP_ERROR = "Unknown HTTP error occured: {0} {1}"
+DEFAULT_HTTP_CLIENT_ERRORS = {"default": UNKNOWN_HTTP_ERROR}
+
 
 class Client(object):
     def __init__(self, sdk_id=None, pem_file_path=None):
@@ -107,6 +110,22 @@ class Client(object):
     def endpoints(self):
         return self.__endpoint
 
+    @staticmethod
+    def http_error_handler(response, error_messages={}):
+        status_code = response.status_code
+        if 200 <= status_code < 300:
+            return
+        elif status_code in error_messages.keys():
+            raise RuntimeError(
+                error_messages[status_code].format(status_code, response.text)
+            )
+        elif "default" in error_messages.keys():
+            raise RuntimeError(
+                error_messages["default"].format(status_code, response.text)
+            )
+        else:
+            raise RuntimeError(UNKNOWN_HTTP_ERROR.format(status_code, response.text))
+
     def __make_activity_details_request(
         self, encrypted_request_token, http_method, content
     ):
@@ -118,8 +137,9 @@ class Client(object):
         headers = self.__get_request_headers(path, http_method, content)
         response = requests.get(url=url, headers=headers)
 
-        if not response.status_code == 200:
-            raise RuntimeError("Unsuccessful Yoti API call: {0}".format(response.text))
+        self.http_error_handler(
+            response, {"default": "Unsuccessful Yoti API call: {1}"}
+        )
 
         return response
 
@@ -132,8 +152,9 @@ class Client(object):
 
         response = requests.post(url=url, headers=headers, data=aml_profile_bytes)
 
-        if not response.status_code == 200:
-            raise RuntimeError("Unsuccessful Yoti API call: {0}".format(response.text))
+        self.http_error_handler(
+            response, {"default": "Unsuccessful Yoti API call: {1}"}
+        )
 
         return response
 
