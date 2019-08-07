@@ -2,10 +2,18 @@
 from __future__ import unicode_literals
 
 import json
+from yoti_python_sdk import client
 
 INVALID_DATA = "Json is incorrect, contains invalid data"
 APPLICATION_NOT_FOUND = "Application was not found"
 UNKNOWN_ERROR = "Unknown HTTP error occurred"
+
+
+SHARE_URL_ERRORS = {
+    400: "Json is incorrect, contains invalid data",
+    404: "Application was not found",
+}
+SHARE_URL_ERRORS.update(client.DEFAULT_HTTP_CLIENT_ERRORS)
 
 
 def create_share_url(yoti_client, dynamic_scenario):
@@ -14,23 +22,14 @@ def create_share_url(yoti_client, dynamic_scenario):
     endpoint = yoti_client.endpoints.get_dynamic_share_request_url()
     response = yoti_client.make_request(http_method, endpoint, payload)
 
-    status_code = response.status_code
-    if 200 <= status_code < 300:
-        response_json = json.loads(response.text)
+    client.Client.http_error_handler(response, SHARE_URL_ERRORS)
 
-        return ShareUrl(
-            _ShareUrl__qr_code=response_json["qrcode"],
-            _ShareUrl__ref_id=response_json["ref_id"],
-        )
+    response_json = json.loads(response.text)
 
-    elif status_code == 400:
-        raise RuntimeError(INVALID_DATA)
-    elif status_code == 404:
-        raise RuntimeError(APPLICATION_NOT_FOUND)
-    else:
-        raise RuntimeError(
-            UNKNOWN_ERROR + ": " + str(status_code) + " " + response.text
-        )
+    return ShareUrl(
+        _ShareUrl__qr_code=response_json["qrcode"],
+        _ShareUrl__ref_id=response_json["ref_id"],
+    )
 
 
 class ShareUrl(object):
