@@ -26,7 +26,7 @@ class IndexView(TemplateView):
 
 
 class DynamicShareView(TemplateView):
-    template_name = "dynamic_share.html"
+    template_name = "dynamic-share.html"
 
     def get(self, request, *args, **kwargs):
         client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)

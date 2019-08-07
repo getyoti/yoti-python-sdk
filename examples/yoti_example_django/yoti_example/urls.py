@@ -22,5 +22,5 @@ urlpatterns = [
     url(r"^$", IndexView.as_view(), name="index"),
     url(r"^yoti/auth/$", AuthView.as_view(), name="auth"),
     url(r"^admin/", admin.site.urls),
-    url(r"^dynamic_share/$", DynamicShareView.as_view(), name="dynamic_share"),
+    url(r"^dynamic-share/$", DynamicShareView.as_view(), name="dynamic-share"),
 ]

@@ -30,7 +30,7 @@ def index():
     return render_template("index.html", scenario_id=YOTI_SCENARIO_ID)
 
 
-@app.route("/dynamic_share")
+@app.route("/dynamic-share")
 def dynamic_share():
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
     policy = DynamicPolicyBuilder().with_full_name().with_age_over(18).build()
@@ -42,7 +42,7 @@ def dynamic_share():
     )
     share = create_share_url(client, scenario)
     return render_template(
-        "dynamic_share.html",
+        "dynamic-share.html",
         yoti_client_sdk_id=YOTI_CLIENT_SDK_ID,
         yoti_share_url=share.share_url,
     )
