@@ -98,7 +98,7 @@ def test_wanted_auth_types():
     assert 99 in policy["wanted_auth_types"]
 
 
-def test_build_with_auth_types_true():
+def test_build_with_auth_types_false():
     policy = DynamicPolicyBuilder().with_selfie_auth(False).build()
 
     assert len(policy["wanted_auth_types"]) == 0
