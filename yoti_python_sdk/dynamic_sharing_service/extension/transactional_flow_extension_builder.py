@@ -6,14 +6,15 @@ class TransactionalFlowExtensionBuilder(object):
     TRANSACTIONAL_FLOW = "TRANSACTIONAL_FLOW"
 
     def __init__(self):
-        super(TransactionalFlowExtensionBuilder, self).__init__()
-        self.with_extension_type(self.TRANSACTIONAL_FLOW)
+        self.__extension = {}
+        self.__extension["type"] = self.TRANSACTIONAL_FLOW
 
     def with_content(self, content):
         """
         @param content The extension content
         """
         self.__extension["content"] = content
+        return self
 
     def build(self):
         """
