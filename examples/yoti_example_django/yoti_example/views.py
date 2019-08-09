@@ -34,7 +34,7 @@ class DynamicShareView(TemplateView):
             DynamicPolicyBuilder()
             .with_full_name()
             .with_age_over(18)
-            .with_document_details()
+            .with_email()
             .build()
         )
         scenario = (
