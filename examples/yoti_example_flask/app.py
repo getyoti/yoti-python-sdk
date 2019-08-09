@@ -34,11 +34,7 @@ def index():
 def dynamic_share():
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
     policy = (
-        DynamicPolicyBuilder()
-        .with_full_name()
-        .with_age_over(18)
-        .with_document_details()
-        .build()
+        DynamicPolicyBuilder().with_full_name().with_age_over(18).with_email().build()
     )
     scenario = (
         DynamicScenarioBuilder()
