@@ -164,7 +164,7 @@ def test_requesting_activity_details_with_correct_data(
     activity_details = client.get_activity_details(encrypted_request_token)
 
     mock_get.assert_called_once_with(
-        url=expected_activity_details_url, headers=expected_get_headers
+        url=expected_activity_details_url, headers=expected_get_headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
     )
     assert isinstance(activity_details, ActivityDetails)
 
@@ -214,7 +214,7 @@ def test_requesting_activity_details_with_null_profile(
     activity_details = client.get_activity_details(encrypted_request_token)
 
     mock_get.assert_called_once_with(
-        url=expected_activity_details_url, headers=expected_get_headers
+        url=expected_activity_details_url, headers=expected_get_headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
     )
     assert (
         activity_details.user_id
@@ -243,7 +243,7 @@ def test_requesting_activity_details_with_empty_profile(
     activity_details = client.get_activity_details(encrypted_request_token)
 
     mock_get.assert_called_once_with(
-        url=expected_activity_details_url, headers=expected_get_headers
+        url=expected_activity_details_url, headers=expected_get_headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
     )
     assert (
         activity_details.user_id
@@ -272,7 +272,7 @@ def test_requesting_activity_details_with_missing_profile(
     activity_details = client.get_activity_details(encrypted_request_token)
 
     mock_get.assert_called_once_with(
-        url=expected_activity_details_url, headers=expected_get_headers
+        url=expected_activity_details_url, headers=expected_get_headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
     )
     assert (
         activity_details.user_id
@@ -345,7 +345,7 @@ def test_perform_aml_check_details_with_correct_data(
     aml_profile_bytes = aml_profile_json.encode()
 
     mock_post.assert_called_once_with(
-        url=expected_aml_url, headers=expected_post_headers, data=aml_profile_bytes
+        url=expected_aml_url, headers=expected_post_headers, data=aml_profile_bytes, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
     )
 
     assert isinstance(aml_result, aml.AmlResult)
