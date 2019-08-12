@@ -23,7 +23,6 @@ from .config import (
     X_YOTI_SDK_VERSION,
     JSON_CONTENT_TYPE,
 )
-from . import YOTI_API_VERIFY_SSL
 
 NO_KEY_FILE_SPECIFIED_ERROR = (
     "Please specify the correct private key file "
@@ -104,7 +103,7 @@ class Client(object):
 
         url = yoti_python_sdk.YOTI_API_ENDPOINT + endpoint
         headers = self.__get_request_headers(endpoint, http_method, body)
-        response = requests.request(http_method, url, headers=headers, data=body, verify=YOTI_API_VERIFY_SSL)
+        response = requests.request(http_method, url, headers=headers, data=body, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL)
         return response
 
     @property
@@ -136,7 +135,7 @@ class Client(object):
         path = self.__endpoint.get_activity_details_request_path(decrypted_token)
         url = yoti_python_sdk.YOTI_API_ENDPOINT + path
         headers = self.__get_request_headers(path, http_method, content)
-        response = requests.get(url=url, headers=headers, verify=YOTI_API_VERIFY_SSL)
+        response = requests.get(url=url, headers=headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL)
 
         self.http_error_handler(
             response, {"default": "Unsuccessful Yoti API call: {1}"}
@@ -151,7 +150,7 @@ class Client(object):
         url = yoti_python_sdk.YOTI_API_ENDPOINT + path
         headers = self.__get_request_headers(path, http_method, aml_profile_bytes)
 
-        response = requests.post(url=url, headers=headers, data=aml_profile_bytes, verify=YOTI_API_VERIFY_SSL)
+        response = requests.post(url=url, headers=headers, data=aml_profile_bytes, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL)
 
         self.http_error_handler(
             response, {"default": "Unsuccessful Yoti API call: {1}"}
