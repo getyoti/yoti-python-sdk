@@ -85,8 +85,6 @@ def test_expiration_date_is_dash():
 def test_invalid_date():
     DATA = "PASSPORT GBR 1234abc X016-05-01"
 
-    try:
+    with pytest.raises(ValueError) as exc:
         DocumentDetails(DATA)
-    except ValueError:
-        return
-    return False  # An exception should have been thrown
+        assert str(exc.value) == "Invalid value for DocumentDetails"
