@@ -14,7 +14,11 @@ class Image:
         elif image_content_type == Protobuf.CT_PNG:
             self.__content_type = CONTENT_TYPE_PNG
         else:
-            raise TypeError("Content type '{0}' is not a supported image type".format(image_content_type))
+            raise TypeError(
+                "Content type '{0}' is not a supported image type".format(
+                    image_content_type
+                )
+            )
 
         self.__data = image_bytes
 
@@ -34,5 +38,5 @@ class Image:
         return "image/{0}".format(self.__content_type)
 
     def base64_content(self):
-        data = base64.b64encode(self.__data).decode('utf-8')
-        return 'data:{0};base64,{1}'.format(self.mime_type(), data)
+        data = base64.b64encode(self.__data).decode("utf-8")
+        return "data:{0};base64,{1}".format(self.mime_type(), data)

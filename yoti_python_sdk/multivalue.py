@@ -3,7 +3,9 @@ from yoti_python_sdk.protobuf import protobuf
 
 
 def parse(multi_value_bytes):
-    from yoti_python_sdk import attribute_parser  # needed here (and not above) for Python 2.7 & 3.4 dependency handling
+    from yoti_python_sdk import (
+        attribute_parser,
+    )  # needed here (and not above) for Python 2.7 & 3.4 dependency handling
 
     proto = protobuf.Protobuf()
     multi_value_list = []
@@ -12,8 +14,9 @@ def parse(multi_value_bytes):
     for multi_value_item in parsed_multi_value.values:
         multi_value_list.append(
             attribute_parser.value_based_on_content_type(
-                multi_value_item.data,
-                multi_value_item.content_type))
+                multi_value_item.data, multi_value_item.content_type
+            )
+        )
 
     return multi_value_list
 
