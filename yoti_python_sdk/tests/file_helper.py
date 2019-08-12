@@ -2,7 +2,7 @@ import binascii
 import io
 from os.path import abspath, dirname, join
 
-FIXTURES_DIR = join(dirname(abspath(__file__)), 'fixtures')
+FIXTURES_DIR = join(dirname(abspath(__file__)), "fixtures")
 
 
 def get_file_bytes(file_path):
@@ -13,5 +13,5 @@ def get_file_bytes(file_path):
 
 
 def read_file(file_path):
-    with io.open(file_path, mode='r', encoding='utf-8') as file:
+    with io.open(file_path, mode="r", encoding="utf-8") as file:
         return file.read()

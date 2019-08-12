@@ -23,8 +23,12 @@ class Attribute:
 
     @property
     def sources(self):
-        return list(filter(lambda a: a.anchor_type == config.ANCHOR_SOURCE, self.__anchors))
+        return list(
+            filter(lambda a: a.anchor_type == config.ANCHOR_SOURCE, self.__anchors)
+        )
 
     @property
     def verifiers(self):
-        return list(filter(lambda a: a.anchor_type == config.ANCHOR_VERIFIER, self.__anchors))
+        return list(
+            filter(lambda a: a.anchor_type == config.ANCHOR_VERIFIER, self.__anchors)
+        )
