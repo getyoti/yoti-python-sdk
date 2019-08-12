@@ -3,26 +3,23 @@
 from yoti_python_sdk.document_details import DocumentDetails
 
 import datetime
+import pytest
 
 
 def test_exception_for_empty_data():
     DATA = ""
 
-    try:
+    with pytest.raises(ValueError) as exc:
         DocumentDetails(DATA)
-    except ValueError:
-        return
-    assert False  # An exception should have been thrown
+        assert str(exc.value) == "Invalid value for DocumentDetails"
 
 
 def test_exception_for_short_data():
     DATA = "PASS_CARD GBR"
 
-    try:
+    with pytest.raises(ValueError) as exc:
         DocumentDetails(DATA)
-    except ValueError:
-        return
-    assert False  # An exception should have been thrown
+        assert str(exc.value) == "Invalid value for DocumentDetails"
 
 
 def test_parse_3_words():

@@ -40,12 +40,12 @@ class DocumentDetails(object):
     def __parse_data(self, data):
         data = data.split()
 
-        self.__document_type = data.pop(0)
-        self.__issuing_country = data.pop(0)
-        self.__document_number = data.pop(0)
-        if len(data) > 0:
-            date = data.pop(0)
+        self.__document_type = data[0]
+        self.__issuing_country = data[1]
+        self.__document_number = data[2]
+        if len(data) > 3:
+            date = data[3]
             if date != "-":
                 self.__expiration_date = date_parser.from_iso_format(date)
-        if len(data) > 0:
-            self.__issuing_authority = data.pop(0)
+        if len(data) > 4:
+            self.__issuing_authority = data[4]
