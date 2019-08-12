@@ -21,6 +21,7 @@ ver_path = convert_path(version_path)
 with open(ver_path) as ver_file:
     exec(ver_file.read(), main_ns)
 
+<<<<<<< HEAD
 __version__ = main_ns["__version__"]
 YOTI_API_URL = environ.get("YOTI_API_URL", DEFAULTS["YOTI_API_URL"])
 YOTI_API_PORT = environ.get("YOTI_API_PORT", DEFAULTS["YOTI_API_PORT"])
@@ -28,6 +29,13 @@ YOTI_API_VERSION = environ.get("YOTI_API_VERSION", DEFAULTS["YOTI_API_VERSION"])
 YOTI_API_ENDPOINT = "{0}:{1}/api/{2}".format(
     YOTI_API_URL, YOTI_API_PORT, YOTI_API_VERSION
 )
+=======
+__version__ = main_ns['__version__']
+YOTI_API_URL = environ.get('YOTI_API_URL', DEFAULTS['YOTI_API_URL'])
+YOTI_API_PORT = environ.get('YOTI_API_PORT', DEFAULTS['YOTI_API_PORT'])
+YOTI_API_VERSION = environ.get('YOTI_API_VERSION', DEFAULTS['YOTI_API_VERSION'])
+YOTI_API_ENDPOINT = environ.get('YOTI_API_ENDPOINT', '{0}:{1}/api/{2}'.format(YOTI_API_URL, YOTI_API_PORT, YOTI_API_VERSION))
+>>>>>>> SDK-826: Add environment variable to allow overriding of whole endpoint
 
 YOTI_API_VERIFY_SSL = environ.get("YOTI_API_VERIFY_SSL", DEFAULTS["YOTI_API_VERIFY_SSL"])
 if YOTI_API_VERIFY_SSL == "false":
