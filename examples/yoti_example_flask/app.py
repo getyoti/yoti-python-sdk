@@ -27,7 +27,9 @@ def save_image(selfie_data):
 
 @app.route("/")
 def index():
-    return render_template("index.html", scenario_id=YOTI_SCENARIO_ID)
+    return render_template(
+        "index.html", scenario_id=YOTI_SCENARIO_ID, client_sdk_id=YOTI_CLIENT_SDK_ID
+    )
 
 
 @app.route("/dynamic-share")
