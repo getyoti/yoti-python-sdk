@@ -57,7 +57,7 @@ class BaseProfile:
 
 class Profile(BaseProfile):
     def __init__(self, profile_attributes):
-        super(Profile, self).__init__(profile_attributes)
+        BaseProfile.__init__(self, profile_attributes)
         self.ensure_postal_address()
 
     @property
@@ -182,7 +182,7 @@ class Profile(BaseProfile):
 def ApplicationProfile(BaseProfile):
 
     def __init__(self, profile_attributes):
-        super(ApplicationProfile, self).__init__(profile_attributes)
+        BaseProfile.__init__(self, profile_attributes)
         
     @property
     def application_name(self):
