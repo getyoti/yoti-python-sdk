@@ -30,7 +30,7 @@ YOTI_API_ENDPOINT = "{0}:{1}/api/{2}".format(
 )
 
 YOTI_API_VERIFY_SSL = environ.get("YOTI_API_VERIFY_SSL", DEFAULTS["YOTI_API_VERIFY_SSL"])
-if YOTI_API_VERIFY_SSL == "false":
+if YOTI_API_VERIFY_SSL.lower() == "false":
     YOTI_API_VERIFY_SSL = False
 else:
     YOTI_API_VERIFY_SSL = True
