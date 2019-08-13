@@ -22,7 +22,9 @@ class IndexView(TemplateView):
     template_name = "index.html"
 
     def get(self, request, *args, **kwargs):
-        return self.render_to_response({"scenario_id": YOTI_SCENARIO_ID})
+        return self.render_to_response(
+            {"scenario_id": YOTI_SCENARIO_ID, "client_sdk_id": YOTI_CLIENT_SDK_ID}
+        )
 
 
 class DynamicShareView(TemplateView):
