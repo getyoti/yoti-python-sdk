@@ -78,6 +78,7 @@ class Client(object):
         receipt = json.loads(response.text).get("receipt")
 
         encrypted_data = proto.current_user(receipt)
+        encrypted_application_profile = proto.current_application(receipt)
 
         if not encrypted_data:
             return ActivityDetails(receipt)
@@ -86,8 +87,12 @@ class Client(object):
         decrypted_data = self.__crypto.decipher(
             unwrapped_key, encrypted_data.iv, encrypted_data.cipher_text
         )
+        decrypted_application_data = self.__crypto.decipher(
+            unwrapped_key, encrypted_application_profile.iv, encrypted_application_profile.cipher_text
+        )
+
         attribute_list = proto.attribute_list(decrypted_data)
-        return ActivityDetails(receipt, attribute_list)
+        return ActivityDetails(receipt, attribute_list, decrypted_application_profile=decrypted_application_data)
 
     def perform_aml_check(self, aml_profile):
         if aml_profile is None:
