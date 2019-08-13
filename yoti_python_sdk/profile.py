@@ -7,8 +7,8 @@ from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.image import Image
 from yoti_python_sdk import document_details
 
+class BaseProfile:
 
-class Profile:
     def __init__(self, profile_attributes):
         self.attributes = {}
 
@@ -44,7 +44,21 @@ class Profile:
                             )
                         )
 
-            self.ensure_postal_address()
+    def get_attribute(self, attribute_name):
+        """retrieves an attribute based on its name
+        :param attribute_name:
+        :return: Attribute
+        """
+        if attribute_name in self.attributes:
+            return self.attributes.get(attribute_name)
+        else:
+            return None
+
+
+class Profile(BaseProfile):
+    def __init__(self, profile_attributes):
+        super(Profile, self).__init__(profile_attributes)
+        self.ensure_postal_address()
 
     @property
     def date_of_birth(self):
@@ -145,15 +159,6 @@ class Profile:
     def document_details(self):
         return self.get_attribute(config.ATTRIBUTE_DOCUMENT_DETAILS)
 
-    def get_attribute(self, attribute_name):
-        """retrieves an attribute based on its name
-        :param attribute_name:
-        :return: Attribute
-        """
-        if attribute_name in self.attributes:
-            return self.attributes.get(attribute_name)
-        else:
-            return None
 
     def ensure_postal_address(self):
         if (
@@ -173,3 +178,28 @@ class Profile:
                     formatted_address,
                     structured_postal_address.anchors,
                 )
+
+def ApplicationProfile(BaseProfile):
+
+    def __init__(self, profile_attributes):
+        super(ApplicationProfile, self).__init__(profile_attributes)
+        
+    @property
+    def application_name(self):
+        """
+        application_name is the name of the application set in Yoti Hub
+        :return: Attribute(str)
+        """
+        return self.get_attribute(config.ATTRIBUTE_APPLICATION_NAME)
+
+    @property
+    def application_url(self):
+        return self.get_attribute(config.ATTRIBUTE_APPLICATION_URL)
+
+    @property
+    def application_logo(self):
+        return self.get_attribute(config.ATTRIBUTE_APPLICATION_LOGO)
+
+    @property
+    def application_receipt_bg_color(self):
+        return self.get_attribute(config.ATTRIBUTE_APPLICATION_RECEIPT_BGCOLOR)

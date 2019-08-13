@@ -29,6 +29,19 @@ class Protobuf(object):
         return merged_user
 
     @staticmethod
+    def current_application(receipt):
+        if receipt.get("profile_content") is None or receipt.get("profile_content") == '':
+            return None
+
+        application_content = receipt["profile_content"]
+        decoded_application_content = base64.b64decode(application_content)
+
+        merged_application = EncryptedData_pb2.EncryptedData()
+        merged_application.MergeFromString(decoded_application_content)
+
+        return merged_application
+
+    @staticmethod
     def attribute_list(data):
         attribute_list = List_pb2.AttributeList()
         attribute_list.MergeFromString(data)

@@ -6,14 +6,15 @@ from deprecated import deprecated
 from datetime import datetime
 
 from yoti_python_sdk import attribute_parser, config
-from yoti_python_sdk.profile import Profile
+from yoti_python_sdk.profile import Profile, ApplicationProfile
 
 
 class ActivityDetails:
-    def __init__(self, receipt, decrypted_profile=None):
+    def __init__(self, receipt, decrypted_profile=None, decrypted_application_profile=None):
         self.decrypted_profile = decrypted_profile
         self.user_profile = {}  # will be removed in v3.0.0
         self.base64_selfie_uri = None
+        self.application_profile = None
 
         if decrypted_profile and hasattr(decrypted_profile, "attributes"):
             decrypted_profile_attributes = decrypted_profile.attributes
@@ -55,6 +56,11 @@ class ActivityDetails:
                         )
 
             self.ensure_postal_address()
+                    
+
+        if decrypted_application_profile and hasattr(decrypted_application_profile, "attributes"):
+            decrypted_application_profile_attributes = decrypted_application_profile.attributes
+            self.application_profile = ApplicationProfile(decrypted_application_profile_attributes)
 
         self.__remember_me_id = receipt.get("remember_me_id")
         self.parent_remember_me_id = receipt.get("parent_remember_me_id")
