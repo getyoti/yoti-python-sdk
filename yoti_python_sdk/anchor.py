@@ -19,7 +19,7 @@ UNKNOWN_ANCHOR_VALUE = ""
 class Anchor:
     def __init__(
         self,
-        anchor_type="Unknown",
+        anchor_type=UNKNOWN_ANCHOR_TYPE,
         sub_type="",
         value="",
         signed_timestamp=None,

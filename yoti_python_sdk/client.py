@@ -100,7 +100,6 @@ class Client(object):
         return aml.AmlResult(response.text)
 
     def make_request(self, http_method, endpoint, body):
-
         url = yoti_python_sdk.YOTI_API_ENDPOINT + endpoint
         headers = self.__get_request_headers(endpoint, http_method, body)
         response = requests.request(http_method, url, headers=headers, data=body, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL)
