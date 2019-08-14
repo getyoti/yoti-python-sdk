@@ -7,7 +7,7 @@ from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.image import Image
 from yoti_python_sdk import document_details
 
-class BaseProfile:
+class BaseProfile(object):
 
     def __init__(self, profile_attributes):
         self.attributes = {}
@@ -57,7 +57,7 @@ class BaseProfile:
 
 class Profile(BaseProfile):
     def __init__(self, profile_attributes):
-        BaseProfile.__init__(self, profile_attributes)
+        super(Profile, self).__init__(profile_attributes)
         self.ensure_postal_address()
 
     @property
@@ -179,10 +179,10 @@ class Profile(BaseProfile):
                     structured_postal_address.anchors,
                 )
 
-def ApplicationProfile(BaseProfile):
 
+class ApplicationProfile(BaseProfile):
     def __init__(self, profile_attributes):
-        BaseProfile.__init__(self, profile_attributes)
+        super(ApplicationProfile, self).__init__(profile_attributes)
         
     @property
     def application_name(self):

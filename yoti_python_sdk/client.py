@@ -92,7 +92,8 @@ class Client(object):
         )
 
         attribute_list = proto.attribute_list(decrypted_data)
-        return ActivityDetails(receipt, attribute_list, decrypted_application_profile=decrypted_application_data)
+        application_attribute_list = proto.attribute_list(decrypted_application_data)
+        return ActivityDetails(receipt, attribute_list, decrypted_application_profile=application_attribute_list)
 
     def perform_aml_check(self, aml_profile):
         if aml_profile is None:

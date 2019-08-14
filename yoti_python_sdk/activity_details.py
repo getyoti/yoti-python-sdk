@@ -11,10 +11,10 @@ from yoti_python_sdk.profile import Profile, ApplicationProfile
 
 class ActivityDetails:
     def __init__(self, receipt, decrypted_profile=None, decrypted_application_profile=None):
-        self.decrypted_profile = decrypted_profile
+        self.decrypted_profile = decrypted_profile # TODO: This isn't used, can we remove it?
         self.user_profile = {}  # will be removed in v3.0.0
         self.base64_selfie_uri = None
-        self.application_profile = None
+        self.decrypted_application_profile = decrypted_application_profile
 
         if decrypted_profile and hasattr(decrypted_profile, "attributes"):
             decrypted_profile_attributes = decrypted_profile.attributes
@@ -56,7 +56,6 @@ class ActivityDetails:
                         )
 
             self.ensure_postal_address()
-                    
 
         if decrypted_application_profile and hasattr(decrypted_application_profile, "attributes"):
             decrypted_application_profile_attributes = decrypted_application_profile.attributes
