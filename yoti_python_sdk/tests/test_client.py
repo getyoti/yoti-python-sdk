@@ -119,8 +119,8 @@ def test_creating_client_instance_with_invalid_key_file_arg(key_file):
     with pytest.raises(RuntimeError) as exc:
         Client(YOTI_CLIENT_SDK_ID, key_file)
     expected_error = "Could not read private key file"
-    assert expected_error in str(exc)
-    assert str(key_file) in str(exc)
+    assert expected_error in str(exc.value)
+    assert str(key_file) in str(exc.value)
 
 
 @pytest.mark.parametrize("key_file", INVALID_KEY_FILES)
@@ -130,9 +130,9 @@ def test_creating_client_instance_with_invalid_key_file_env(key_file):
         Client(YOTI_CLIENT_SDK_ID)
     expected_error = "Could not read private key file"
     expected_error_source = "specified by the YOTI_KEY_FILE_PATH env variable"
-    assert expected_error in str(exc)
-    assert expected_error_source in str(exc)
-    assert str(key_file) in str(exc)
+    assert expected_error in str(exc.value)
+    assert expected_error_source in str(exc.value)
+    assert str(key_file) in str(exc.value)
 
 
 def test_creating_client_instance_with_invalid_key_file_env_but_valid_key_file_arg():
@@ -145,8 +145,8 @@ def test_creating_client_instance_with_valid_key_file_env_but_invalid_key_file_a
     with pytest.raises(RuntimeError) as exc:
         Client(YOTI_CLIENT_SDK_ID, INVALID_KEY_FILE_PATH)
     expected_error = "Could not read private key file"
-    assert expected_error in str(exc)
-    assert str(INVALID_KEY_FILE_PATH) in str(exc)
+    assert expected_error in str(exc.value)
+    assert str(INVALID_KEY_FILE_PATH) in str(exc.value)
 
 
 @mock.patch("requests.get", side_effect=mocked_requests_get)
@@ -360,7 +360,7 @@ def test_perform_aml_check_with_null_profile(client):
     with pytest.raises(TypeError) as exc:
         client.perform_aml_check(aml_profile)
     expected_error = "aml_profile not set"
-    assert expected_error in str(exc)
+    assert expected_error in str(exc.value)
 
 
 @mock.patch("requests.post", side_effect=mocked_requests_post_aml_profile_not_found)
@@ -378,4 +378,4 @@ def test_perform_aml_check_with_unsuccessful_call(
     with pytest.raises(RuntimeError) as exc:
         client.perform_aml_check(aml_profile)
     expected_error = "Unsuccessful Yoti API call:"
-    assert expected_error in str(exc)
+    assert expected_error in str(exc.value)

@@ -98,8 +98,8 @@ def create_structured_postal_address_field(activity_details, json_address_value)
     activity_details.field.content_type = Protobuf.CT_JSON
 
 
-def test_try_parse_age_verified_both_missing_not_parsed():
-    activity_details = ActivityDetails(successful_receipt())
+def test_try_parse_age_verified_both_missing_not_parsed(successful_receipt):
+    activity_details = ActivityDetails(successful_receipt)
     field = None
 
     ActivityDetails.try_parse_age_verified_field(activity_details, field)
@@ -108,52 +108,52 @@ def test_try_parse_age_verified_both_missing_not_parsed():
     )
 
 
-def test_failure_receipt_handled():
-    activity_details = ActivityDetails(failure_receipt())
+def test_failure_receipt_handled(failure_receipt, user_id):
+    activity_details = ActivityDetails(failure_receipt)
 
-    assert activity_details.user_id == user_id()
-    assert activity_details.remember_me_id == user_id()
+    assert activity_details.user_id == user_id
+    assert activity_details.remember_me_id == user_id
     assert activity_details.outcome == "FAILURE"
     assert activity_details.timestamp == datetime(2016, 11, 14, 11, 35, 33)
 
 
-def test_missing_values_handled():
-    activity_details = ActivityDetails(no_values_receipt())
+def test_missing_values_handled(no_values_receipt):
+    activity_details = ActivityDetails(no_values_receipt)
 
     assert isinstance(activity_details, ActivityDetails)
 
 
-def test_remember_me_id_empty():
-    activity_details = ActivityDetails(empty_strings())
+def test_remember_me_id_empty(empty_strings):
+    activity_details = ActivityDetails(empty_strings)
 
     assert activity_details.user_id == ""
     assert activity_details.remember_me_id == ""
     assert isinstance(activity_details, ActivityDetails)
 
 
-def test_remember_me_id_valid():
-    activity_details = ActivityDetails(successful_receipt())
+def test_remember_me_id_valid(successful_receipt, user_id):
+    activity_details = ActivityDetails(successful_receipt)
 
-    assert activity_details.user_id == user_id()
-    assert activity_details.remember_me_id == user_id()
+    assert activity_details.user_id == user_id
+    assert activity_details.remember_me_id == user_id
 
 
-def test_parent_remember_me_id_empty():
-    activity_details = ActivityDetails(empty_strings())
+def test_parent_remember_me_id_empty(empty_strings):
+    activity_details = ActivityDetails(empty_strings)
 
     assert activity_details.user_id == ""
     assert activity_details.remember_me_id == ""
     assert isinstance(activity_details, ActivityDetails)
 
 
-def test_parent_remember_me_id_valid():
-    activity_details = ActivityDetails(successful_receipt())
+def test_parent_remember_me_id_valid(successful_receipt, parent_remember_me_id):
+    activity_details = ActivityDetails(successful_receipt)
 
-    assert activity_details.parent_remember_me_id == parent_remember_me_id()
+    assert activity_details.parent_remember_me_id == parent_remember_me_id
 
 
-def test_try_parse_age_verified_field_age_over():
-    activity_details = ActivityDetails(successful_receipt())
+def test_try_parse_age_verified_field_age_over(successful_receipt):
+    activity_details = ActivityDetails(successful_receipt)
     create_age_verified_field(activity_details, True, "true".encode(), 18)
 
     ActivityDetails.try_parse_age_verified_field(
@@ -162,8 +162,8 @@ def test_try_parse_age_verified_field_age_over():
     assert activity_details.user_profile[config.KEY_AGE_VERIFIED] is True
 
 
-def test_try_parse_age_verified_field_age_under():
-    activity_details = ActivityDetails(successful_receipt())
+def test_try_parse_age_verified_field_age_under(successful_receipt):
+    activity_details = ActivityDetails(successful_receipt)
     create_age_verified_field(activity_details, False, "false".encode(), 55)
 
     ActivityDetails.try_parse_age_verified_field(
@@ -172,8 +172,8 @@ def test_try_parse_age_verified_field_age_under():
     assert activity_details.user_profile[config.KEY_AGE_VERIFIED] is False
 
 
-def test_try_parse_age_verified_field_non_bool_value_not_parsed():
-    activity_details = ActivityDetails(successful_receipt())
+def test_try_parse_age_verified_field_non_bool_value_not_parsed(successful_receipt):
+    activity_details = ActivityDetails(successful_receipt)
     create_age_verified_field(activity_details, True, "18".encode(), 18)
     sys.stdout = open(os.devnull, "w")  # disable print
     ActivityDetails.try_parse_age_verified_field(
@@ -185,8 +185,8 @@ def test_try_parse_age_verified_field_non_bool_value_not_parsed():
     )
 
 
-def test_try_parse_structured_postal_address_uk():
-    activity_details = ActivityDetails(successful_receipt())
+def test_try_parse_structured_postal_address_uk(successful_receipt):
+    activity_details = ActivityDetails(successful_receipt)
     structured_postal_address = {
         ADDRESS_FORMAT_KEY: ADDRESS_FORMAT_VALUE,
         BUILDING_NUMBER_KEY: BUILDING_NUMBER_VALUE,
@@ -247,8 +247,8 @@ def test_try_parse_structured_postal_address_uk():
     )
 
 
-def test_try_parse_structured_postal_address_india():
-    activity_details = ActivityDetails(successful_receipt())
+def test_try_parse_structured_postal_address_india(successful_receipt):
+    activity_details = ActivityDetails(successful_receipt)
     structured_postal_address = {
         ADDRESS_FORMAT_KEY: INDIA_FORMAT_VALUE,
         CARE_OF_KEY: CARE_OF_VALUE,
@@ -322,8 +322,8 @@ def test_try_parse_structured_postal_address_india():
     )
 
 
-def test_try_parse_structured_postal_address_usa():
-    activity_details = ActivityDetails(successful_receipt())
+def test_try_parse_structured_postal_address_usa(successful_receipt):
+    activity_details = ActivityDetails(successful_receipt)
     structured_postal_address = {
         ADDRESS_FORMAT_KEY: USA_FORMAT_VALUE,
         ADDRESS_LINE_1_KEY: ADDRESS_LINE_1_VALUE,
@@ -383,13 +383,13 @@ def test_try_parse_structured_postal_address_usa():
     )
 
 
-def test_try_parse_structured_postal_address_nested_json():
+def test_try_parse_structured_postal_address_nested_json(successful_receipt):
     formatted_address_json = {
         "item1": [[1, "a1"], [2, "a2"]],
         "item2": [[3, "b3"], [4, "b4"]],
     }
 
-    activity_details = ActivityDetails(successful_receipt())
+    activity_details = ActivityDetails(successful_receipt)
     structured_postal_address = {
         ADDRESS_FORMAT_KEY: ADDRESS_FORMAT_VALUE,
         BUILDING_NUMBER_KEY: BUILDING_NUMBER_VALUE,
@@ -451,8 +451,8 @@ def test_try_parse_structured_postal_address_nested_json():
     )
 
 
-def test_set_address_to_be_formatted_address():
-    activity_details = ActivityDetails(successful_receipt())
+def test_set_address_to_be_formatted_address(successful_receipt):
+    activity_details = ActivityDetails(successful_receipt)
 
     structured_postal_address = {config.KEY_FORMATTED_ADDRESS: FORMATTED_ADDRESS_VALUE}
     structured_postal_address_json = json.dumps(structured_postal_address)

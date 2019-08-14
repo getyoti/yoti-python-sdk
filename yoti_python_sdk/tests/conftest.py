@@ -63,22 +63,22 @@ def timestamp():
 
 
 @pytest.fixture(scope="module")
-def successful_receipt():
+def successful_receipt(user_id, parent_remember_me_id, receipt_id, timestamp):
     return {
-        "remember_me_id": user_id(),
-        "parent_remember_me_id": parent_remember_me_id(),
-        "receipt_id": receipt_id(),
-        "timestamp": timestamp(),
+        "remember_me_id": user_id,
+        "parent_remember_me_id": parent_remember_me_id,
+        "receipt_id": receipt_id,
+        "timestamp": timestamp,
         "sharing_outcome": "SUCCESS",
     }
 
 
 @pytest.fixture(scope="module")
-def failure_receipt():
+def failure_receipt(user_id, timestamp):
     return {
-        "remember_me_id": user_id(),
+        "remember_me_id": user_id,
         "sharing_outcome": "FAILURE",
-        "timestamp": timestamp(),
+        "timestamp": timestamp,
     }
 
 

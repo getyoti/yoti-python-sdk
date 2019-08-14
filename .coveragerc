@@ -1,2 +1,4 @@
 [run]
-omit=yoti/tests/*
+omit =
+    yoti_python_sdk/tests/**
+    examples/**

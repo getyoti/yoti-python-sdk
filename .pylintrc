@@ -1,0 +1,2 @@
+[MASTER]
+ignore=yoti_python_sdk/tests/**,examples/**
