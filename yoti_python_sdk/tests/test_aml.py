@@ -20,7 +20,7 @@ def test_getting_aml_result_with_invalid_format_response():
     with pytest.raises(RuntimeError) as exc:
         aml.AmlResult(INVALID_FORMAT_RESPONSE)
     expected_error = "Could not parse AML result from response"
-    assert expected_error in str(exc)
+    assert expected_error in str(exc.value)
 
 
 def test_getting_aml_result_with_missing_value():

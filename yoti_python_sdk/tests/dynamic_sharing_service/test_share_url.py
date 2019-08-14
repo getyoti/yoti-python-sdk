@@ -48,7 +48,7 @@ def test_create_share_url_invalid_json(mock_uuid4, mock_time, mock_get):
 
     with pytest.raises(RuntimeError) as err:
         share_url.create_share_url(yoti_client, dynamic_scenario)
-    assert share_url.INVALID_DATA in str(err)
+    assert share_url.INVALID_DATA in str(err.value)
 
 
 @mock.patch(
@@ -62,4 +62,4 @@ def test_create_share_url_app_not_found(mock_uuid4, mock_time, mock_get):
 
     with pytest.raises(RuntimeError) as err:
         share_url.create_share_url(yoti_client, dynamic_scenario)
-    assert share_url.APPLICATION_NOT_FOUND in str(err)
+    assert share_url.APPLICATION_NOT_FOUND in str(err.value)
