@@ -39,7 +39,7 @@ class DynamicPolicyBuilder(object):
     """
 
     def with_wanted_attribute_by_name(self, wanted_name):
-        attribute = WantedAttributeBuilder().withName(wanted_name).build()
+        attribute = WantedAttributeBuilder().with_name(wanted_name).build()
         return self.with_wanted_attribute(attribute)
 
     def with_family_name(self):
@@ -57,8 +57,8 @@ class DynamicPolicyBuilder(object):
     def with_age_derived_attribute(self, derivation):
         attribute = (
             WantedAttributeBuilder()
-            .withName(config.ATTRIBUTE_DATE_OF_BIRTH)
-            .withDerivation(derivation)
+            .with_name(config.ATTRIBUTE_DATE_OF_BIRTH)
+            .with_derivation(derivation)
             .build()
         )
         return self.with_wanted_attribute(attribute)
