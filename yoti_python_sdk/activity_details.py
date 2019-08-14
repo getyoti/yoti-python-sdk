@@ -11,7 +11,7 @@ from yoti_python_sdk.profile import Profile, ApplicationProfile
 
 class ActivityDetails:
     def __init__(self, receipt, decrypted_profile=None, decrypted_application_profile=None):
-        self.decrypted_profile = decrypted_profile # TODO: This isn't used, can we remove it?
+        self.decrypted_profile = decrypted_profile
         self.user_profile = {}  # will be removed in v3.0.0
         self.base64_selfie_uri = None
         self.decrypted_application_profile = decrypted_application_profile
