@@ -7,10 +7,11 @@ import pytest
 
 from yoti_python_sdk import config
 from yoti_python_sdk.attribute import Attribute
-from yoti_python_sdk.profile import Profile
+from yoti_python_sdk.profile import Profile, ApplicationProfile
 from yoti_python_sdk.protobuf.protobuf import Protobuf
 from yoti_python_sdk.tests import attribute_fixture_parser, image_helper
 from yoti_python_sdk.tests.protobuf_attribute import ProtobufAttribute
+from yoti_python_sdk.image import Image
 
 ADDRESS_FORMAT_KEY = "address_format"
 ADDRESS_FORMAT_VALUE = 1
@@ -87,6 +88,15 @@ def create_attribute_list_with_selfie_field():
     return create_single_attribute_list(
         name=config.ATTRIBUTE_SELFIE,
         value="base64(ง •̀_•́)ง",
+        anchors=None,
+        content_type=Protobuf.CT_JPEG,
+    )
+
+
+def create_attribute_list_with_application_logo():
+    return create_single_attribute_list(
+        name=config.ATTRIBUTE_APPLICATION_LOGO,
+        value="base64(┛ಠ_ಠ)┛彡┻━┻",
         anchors=None,
         content_type=Protobuf.CT_JPEG,
     )
@@ -587,3 +597,58 @@ def test_get_document_details_india():
     assert document.issuing_country == INDIA_COUNTRY_ISO_VALUE
     assert document.document_number == IND_DRIVING_LICENCE_NUMBER
     assert document.expiration_date.isoformat() == EXPIRY_DATE
+
+
+def test_create_application_profile_with_name():
+    attribute_list = create_single_attribute_list(
+        name=config.ATTRIBUTE_APPLICATION_NAME,
+        value="yoti-sdk-test",
+        anchors=None,
+        content_type=Protobuf.CT_STRING
+    )
+
+    app_profile = ApplicationProfile(attribute_list)
+
+    assert (app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_NAME) == app_profile.application_name)
+    assert isinstance(app_profile, ApplicationProfile)
+
+
+def test_create_application_profile_with_url():
+    attribute_list = create_single_attribute_list(
+        name=config.ATTRIBUTE_APPLICATION_URL,
+        value="https://yoti.com",
+        anchors=None,
+        content_type=Protobuf.CT_STRING
+    )
+
+    app_profile = ApplicationProfile(attribute_list)
+
+    assert (app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_URL) == app_profile.application_url)
+    assert isinstance(app_profile, ApplicationProfile)
+
+
+def test_create_application_profile_with_receipt_bgcolor():
+    attribute_list = create_single_attribute_list(
+        name=config.ATTRIBUTE_APPLICATION_RECEIPT_BGCOLOR,
+        value="#FFFFFF",
+        anchors=None,
+        content_type=Protobuf.CT_STRING
+    )
+
+    app_profile = ApplicationProfile(attribute_list)
+
+    assert (app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_RECEIPT_BGCOLOR) ==  app_profile.application_receipt_bg_color)
+    assert isinstance(app_profile, ApplicationProfile)
+
+
+def test_create_application_profile_with_logo():
+    attribute_list = create_attribute_list_with_application_logo()
+
+    app_profile = ApplicationProfile(attribute_list)
+    app_logo = app_profile.application_logo
+
+    assert isinstance(app_logo.value, Image)
+    assert (app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_LOGO) == app_profile.application_logo)
+    assert isinstance(app_profile, ApplicationProfile)
+
+
