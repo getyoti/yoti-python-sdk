@@ -10,25 +10,22 @@ class WantedAttributeBuilder(object):
     def __init__(self):
         self.__attribute = {}
 
-    """
-    @param name Sets name
-    """
-
-    def withName(self, name):
+    def with_name(self, name):
+        """
+        :param name: Sets name
+        """
         self.__attribute["name"] = name
         return self
 
-    """
-    @param derivation Sets derivation
-    """
-
-    def withDerivation(self, derivation):
+    def with_derivation(self, derivation):
+        """
+        :param derivation: Sets derivation
+        """
         self.__attribute["derivation"] = derivation
         return self
 
-    """
-    @return The wanted attribute object
-    """
-
     def build(self):
+        """
+        :return: The wanted attribute object
+        """
         return self.__attribute.copy()

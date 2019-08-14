@@ -9,7 +9,7 @@ def test_build():
 
     builder = WantedAttributeBuilder()
 
-    attribute = builder.withName(NAME).withDerivation(DERIVATION).build()
+    attribute = builder.with_name(NAME).with_derivation(DERIVATION).build()
 
     assert attribute["name"] == NAME
     assert attribute["derivation"] == DERIVATION

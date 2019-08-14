@@ -11,7 +11,7 @@ from yoti_python_sdk import config
 def test_an_attribute_can_only_exist_once():
     NAME = "Test name"
 
-    wanted_attribute = WantedAttributeBuilder().withName(NAME).build()
+    wanted_attribute = WantedAttributeBuilder().with_name(NAME).build()
 
     policy = (
         DynamicPolicyBuilder()
