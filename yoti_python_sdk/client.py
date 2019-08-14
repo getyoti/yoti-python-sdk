@@ -84,16 +84,20 @@ class Client(object):
             return ActivityDetails(receipt)
 
         unwrapped_key = self.__crypto.decrypt_token(receipt["wrapped_receipt_key"])
-        decrypted_data = self.__crypto.decipher(
+
+        decrypted_profile_data = self.__crypto.decipher(
             unwrapped_key, encrypted_data.iv, encrypted_data.cipher_text
         )
         decrypted_application_data = self.__crypto.decipher(
             unwrapped_key, encrypted_application_profile.iv, encrypted_application_profile.cipher_text
         )
 
-        attribute_list = proto.attribute_list(decrypted_data)
-        application_attribute_list = proto.attribute_list(decrypted_application_data)
-        return ActivityDetails(receipt, attribute_list, decrypted_application_profile=application_attribute_list)
+        user_profile_attribute_list = proto.attribute_list(decrypted_profile_data)
+        application_profile_attribute_list = proto.attribute_list(decrypted_application_data)
+
+        return ActivityDetails(
+            receipt, user_profile_attribute_list, decrypted_application_profile=application_profile_attribute_list
+        )
 
     def perform_aml_check(self, aml_profile):
         if aml_profile is None:

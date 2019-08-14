@@ -7,6 +7,7 @@ from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.image import Image
 from yoti_python_sdk import document_details
 
+
 class BaseProfile(object):
 
     def __init__(self, profile_attributes):
@@ -45,7 +46,8 @@ class BaseProfile(object):
                         )
 
     def get_attribute(self, attribute_name):
-        """retrieves an attribute based on its name
+        """
+        retrieves an attribute based on its name
         :param attribute_name:
         :return: Attribute
         """
@@ -194,12 +196,24 @@ class ApplicationProfile(BaseProfile):
 
     @property
     def application_url(self):
+        """
+        application_url is the url of the application set in Yoti Hub
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_APPLICATION_URL)
 
     @property
     def application_logo(self):
+        """
+        application_logo is the Image of the application logo set in Yoti Hub
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_APPLICATION_LOGO)
 
     @property
     def application_receipt_bg_color(self):
+        """
+        application_receipt_bg_color is the background color of the application set in Yoti Hub
+        :return: Attribute(str)
+        """
         return self.get_attribute(config.ATTRIBUTE_APPLICATION_RECEIPT_BGCOLOR)
