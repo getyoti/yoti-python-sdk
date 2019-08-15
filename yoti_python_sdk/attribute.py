@@ -2,7 +2,11 @@ from yoti_python_sdk import config
 
 
 class Attribute:
-    def __init__(self, name="", value="", anchors=None):
+    def __init__(self, name=None, value=None, anchors=None):
+        if name is None:
+            name = ""
+        if value is None:
+            value = ""
         if anchors is None:
             anchors = {}
         self.__name = name
