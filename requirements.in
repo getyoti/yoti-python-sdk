@@ -7,7 +7,7 @@ mock==2.0.0
 pbr==1.10.0
 protobuf==3.7.0
 pyopenssl==18.0.0
-pytest==5.0.1
+pytest==3.6
 pytest-cov==2.7.1
 pylint==2.3.1
 pytz==2018.9
