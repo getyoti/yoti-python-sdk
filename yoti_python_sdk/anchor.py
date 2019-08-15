@@ -19,12 +19,21 @@ UNKNOWN_ANCHOR_VALUE = ""
 class Anchor:
     def __init__(
         self,
-        anchor_type=UNKNOWN_ANCHOR_TYPE,
-        sub_type="",
-        value="",
+        anchor_type=None,
+        sub_type=None,
+        value=None,
         signed_timestamp=None,
         origin_server_certs=None,
     ):
+        if sub_type is None:
+            sub_type = ""
+
+        if value is None:
+            value = ""
+
+        if anchor_type is None:
+            anchor_type = UNKNOWN_ANCHOR_TYPE
+
         self.__anchor_type = anchor_type
         self.__sub_type = sub_type
         self.__value = value
