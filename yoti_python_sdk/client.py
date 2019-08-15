@@ -96,7 +96,7 @@ class Client(object):
         application_profile_attribute_list = proto.attribute_list(decrypted_application_data)
 
         return ActivityDetails(
-            receipt, user_profile_attribute_list, decrypted_application_profile=application_profile_attribute_list
+            receipt=receipt, decrypted_profile=user_profile_attribute_list, decrypted_application_profile=application_profile_attribute_list
         )
 
     def perform_aml_check(self, aml_profile):
