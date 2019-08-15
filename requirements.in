@@ -7,7 +7,9 @@ mock==2.0.0
 pbr==1.10.0
 protobuf==3.7.0
 pyopenssl==18.0.0
-pytest==3.3.2
+pytest==5.0.1
+pytest-cov==2.7.1
+pylint==2.3.1
 pytz==2018.9
 requests>=2.20.0
 urllib3>=1.24.2
