@@ -1,5 +1,4 @@
 from yoti_python_sdk.sandbox.endpoint import SandboxEndpoint
-from yoti_python_sdk.sandbox.token import YotiTokenRequest
 from cryptography.fernet import base64
 from os.path import expanduser, isfile
 from past.builtins import basestring
@@ -28,7 +27,7 @@ class SandboxClient(object):
             pem_file, "failed in SandboxClient __init__"
         )
 
-    def setup_sharing_profile(self, request_token: YotiTokenRequest):
+    def setup_sharing_profile(self, request_token):
         request_path = self.__endpoint.get_sandbox_path()
         payload = json.dumps(request_token.__dict__)
         response = SandboxClient.post(request_path, self.__crypto, payload)
