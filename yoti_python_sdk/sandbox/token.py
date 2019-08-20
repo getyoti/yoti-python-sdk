@@ -3,6 +3,15 @@ from yoti_python_sdk import config
 from cryptography.fernet import base64
 
 
+class YotiTokenResponse(object):
+    def __init__(self, token):
+        self.__token = token
+
+    @property
+    def token(self):
+        return self.__token
+
+
 class YotiTokenRequest(object):
     def __init__(self, remember_me_id, sandbox_attributes=None):
 
