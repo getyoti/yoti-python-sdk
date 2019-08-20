@@ -29,9 +29,10 @@ class SandboxClient(object):
         )
 
     def setup_sharing_profile(self, request_token: YotiTokenRequest):
-        # request_path = self.__endpoint.get_sandbox_path()
+        request_path = self.__endpoint.get_sandbox_path()
         payload = json.dumps(request_token.__dict__)
-        print(payload)
+        response = SandboxClient.post(request_path, self.__crypto, payload)
+        return response.status_code
 
     @staticmethod
     def builder():
