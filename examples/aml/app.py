@@ -7,11 +7,11 @@ from dotenv import load_dotenv
 from yoti_python_sdk import Client
 from yoti_python_sdk import aml
 
-dotenv_path = join(dirname(__file__), '.env')
+dotenv_path = join(dirname(__file__), ".env")
 load_dotenv(dotenv_path)
 
-YOTI_CLIENT_SDK_ID = environ.get('YOTI_CLIENT_SDK_ID')
-YOTI_KEY_FILE_PATH = environ.get('YOTI_KEY_FILE_PATH')
+YOTI_CLIENT_SDK_ID = environ.get("YOTI_CLIENT_SDK_ID")
+YOTI_KEY_FILE_PATH = environ.get("YOTI_KEY_FILE_PATH")
 
 
 # The following exits cleanly on Ctrl-C,
@@ -25,11 +25,7 @@ given_names = "Edward Richard George"
 family_name = "Heath"
 
 aml_address = aml.AmlAddress(country="GBR")
-aml_profile = aml.AmlProfile(
-    given_names,
-    family_name,
-    aml_address
-)
+aml_profile = aml.AmlProfile(given_names, family_name, aml_address)
 
 if sys.stdin.isatty():
     sys.excepthook = cli_exception

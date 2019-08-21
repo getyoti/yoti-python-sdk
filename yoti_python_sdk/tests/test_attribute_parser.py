@@ -11,16 +11,19 @@ BYTE_VALUE = str.encode(STRING_VALUE)
 INT_VALUE = int(STRING_VALUE)
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def proto():
     return protobuf.Protobuf()
 
 
 @pytest.mark.parametrize(
     "content_type, expected_value",
-    [(proto().CT_STRING, STRING_VALUE),
-     (proto().CT_DATE, STRING_VALUE),
-     (proto().CT_INT, INT_VALUE)])
+    [
+        (proto().CT_STRING, STRING_VALUE),
+        (proto().CT_DATE, STRING_VALUE),
+        (proto().CT_INT, INT_VALUE),
+    ],
+)
 def test_attribute_parser_values_based_on_content_type(content_type, expected_value):
     result = attribute_parser.value_based_on_content_type(BYTE_VALUE, content_type)
     assert result == expected_value
@@ -31,7 +34,9 @@ def test_attribute_parser_values_based_on_other_content_types(proto):
     logger = logging.getLogger()
     logger.propagate = False
 
-    result = attribute_parser.value_based_on_content_type(BYTE_VALUE, proto.CT_UNDEFINED)
+    result = attribute_parser.value_based_on_content_type(
+        BYTE_VALUE, proto.CT_UNDEFINED
+    )
     assert result == STRING_VALUE
 
     result = attribute_parser.value_based_on_content_type(BYTE_VALUE)

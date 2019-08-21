@@ -15,6 +15,20 @@
   </table>
 {% endmacro %}
 
+{% macro parse_document_details(prop) %}
+  <table>
+    <tr><td>Type</td><td>{{ prop.value.document_type }}</td></tr>
+    <tr><td>Issuing Country</td><td>{{ prop.value.issuing_country }}</td></tr>
+    <tr><td>Document Number</td><td>{{ prop.value.document_number }}</td></tr>
+  {% if prop.value.expiration_date %}
+    <tr><td>Expiration Date</td><td>{{ prop.value.expiration_date }}</td></tr>
+  {% endif %}
+  {% if prop.value.issuing_authority %}
+    <tr><td>Issuing Authority</td><td>{{ prop.value.issuing_authority }}</td></tr>
+  {% endif %}
+  </table>
+{% endmacro %}
+
 {% macro attribute(name, icon, prop, prevalue="") %}
   {% if prop %}
     {% if prop.value %}
@@ -32,6 +46,8 @@
               {{ parse_document_images(prop) }}
             {% elif prop.name == "structured_postal_address" %}
               {{ parse_structured_address(prop) }}
+            {% elif prop.name == "document_details" %}
+              {{ parse_document_details(prop) }}
             {% else %}
               {{ prevalue }}
               {{ prop.value }}
@@ -115,6 +131,7 @@
       {% if structured_postal_address %}{{ attribute("Structured Address", "yoti-icon-address", structured_postal_address) }}{% endif %}
       {% if gender %}{{ attribute("Gender", "yoti-icon-gender", gender) }}{% endif %}
       {% if document_images %}{{ attribute("Document Images", "yoti-icon-profile", document_images) }}{% endif %}
+      {% if document_details %}{{ attribute("Document Details", "yoti-icon-profile", document_details) }} {% endif %}
       </div>
 
     </section>

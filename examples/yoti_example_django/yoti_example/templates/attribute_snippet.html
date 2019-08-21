@@ -13,6 +13,18 @@
           {% for image in prop.value %}
             <img src="{image.value.base64_content() }" />
           {% endfor %}
+        {% elif prop.name == "document_details" %}
+          <table>
+            <tr><td>Type</td><td>{{ prop.value.document_type }}</td></tr>
+            <tr><td>Issuing Country</td><td>{{ prop.value.issuing_country }}</td></tr>
+            <tr><td>Document Number</td><td>{{ prop.value.document_number }}</td></tr>
+            {% if prop.value.expiration_date %}
+              <tr><td>Expiration Date</td><td>{{ prop.value.expiration_date }}</td></tr>
+            {% endif %}
+            {% if prop.value.issuing_authority %}
+              <tr><td>Issuing Authority</td><td>{{ prop.value.issuing_authority }}</td></tr>
+            {% endif %}
+          </table>
         {% elif prop.name == "structured_postal_address" %}
           <table>
             {% for key, value in prop.value.items %}

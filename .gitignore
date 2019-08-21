@@ -41,7 +41,7 @@ htmlcov/
 .coverage.*
 .cache
 nosetests.xml
-coverage.xml
+coverage.*
 *,cover
 .hypothesis/
 
@@ -102,3 +102,5 @@ examples/yoti_example_flask/static/YotiSelfie.jpg
 #.pem files for examples
 examples/yoti_example_django/*.pem
 examples/yoti_example_flask/*.pem
+
+.scannerwork

@@ -8,13 +8,13 @@ class MockResponse:
 
 
 def mocked_requests_get(*args, **kwargs):
-    with open('yoti_python_sdk/tests/fixtures/response.txt', 'r') as f:
+    with open("yoti_python_sdk/tests/fixtures/response.txt", "r") as f:
         response = f.read()
     return MockResponse(status_code=200, text=response)
 
 
 def mocked_requests_post_aml_profile(*args, **kwargs):
-    with open('yoti_python_sdk/tests/fixtures/aml_response.txt', 'r') as f:
+    with open("yoti_python_sdk/tests/fixtures/aml_response.txt", "r") as f:
         response = f.read()
     return MockResponse(status_code=200, text=response)
 
@@ -24,19 +24,19 @@ def mocked_requests_post_aml_profile_not_found(*args, **kwargs):
 
 
 def mocked_requests_get_null_profile(*args, **kwargs):
-    with open('yoti_python_sdk/tests/fixtures/response_null_profile.txt', 'r') as f:
+    with open("yoti_python_sdk/tests/fixtures/response_null_profile.txt", "r") as f:
         response = f.read()
     return MockResponse(status_code=200, text=response)
 
 
 def mocked_requests_get_empty_profile(*args, **kwargs):
-    with open('yoti_python_sdk/tests/fixtures/response_empty_profile.txt', 'r') as f:
+    with open("yoti_python_sdk/tests/fixtures/response_empty_profile.txt", "r") as f:
         response = f.read()
     return MockResponse(status_code=200, text=response)
 
 
 def mocked_requests_get_missing_profile(*args, **kwargs):
-    with open('yoti_python_sdk/tests/fixtures/response_missing_profile.txt', 'r') as f:
+    with open("yoti_python_sdk/tests/fixtures/response_missing_profile.txt", "r") as f:
         response = f.read()
     return MockResponse(status_code=200, text=response)
 
@@ -46,4 +46,18 @@ def mocked_timestamp():
 
 
 def mocked_uuid4():
-    return UUID('35351ced-96a4-4fc8-994e-98f98045ff7e')
+    return UUID("35351ced-96a4-4fc8-994e-98f98045ff7e")
+
+
+def mocked_requests_post_share_url(*args, **kwargs):
+    with open("yoti_python_sdk/tests/fixtures/response_share_url.txt", "r") as f:
+        response = f.read()
+    return MockResponse(status_code=200, text=response)
+
+
+def mocked_requests_post_share_url_invalid_json(*args, **kwargs):
+    return MockResponse(status_code=400, text="Invalid json")
+
+
+def mocked_requests_post_share_url_app_not_found(*args, **kwargs):
+    return MockResponse(status_code=404, text="Application not found")

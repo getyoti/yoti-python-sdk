@@ -12,9 +12,19 @@ UNKNOWN_EXTENSION = ""
 SOURCE_EXTENSION = "1.3.6.1.4.1.47127.1.1.1"
 VERIFIER_EXTENSION = "1.3.6.1.4.1.47127.1.1.2"
 
+UNKNOWN_ANCHOR_TYPE = "Unknown"
+UNKNOWN_ANCHOR_VALUE = ""
+
 
 class Anchor:
-    def __init__(self, anchor_type="Unknown", sub_type="", value="", signed_timestamp=None, origin_server_certs=None):
+    def __init__(
+        self,
+        anchor_type=UNKNOWN_ANCHOR_TYPE,
+        sub_type="",
+        value="",
+        signed_timestamp=None,
+        origin_server_certs=None,
+    ):
         self.__anchor_type = anchor_type
         self.__sub_type = sub_type
         self.__value = value
@@ -36,60 +46,91 @@ class Anchor:
 
     @staticmethod
     def parse_anchors(anchors):
-
         if anchors is None:
             return None
 
         parsed_anchors = []
         for anc in anchors:
-            if hasattr(anc, 'origin_server_certs'):
-                anchor_type = "Unknown"
+            if hasattr(anc, "origin_server_certs"):
+                anchor_type = UNKNOWN_ANCHOR_TYPE
                 try:
                     origin_server_certs_list = list(anc.origin_server_certs)
                     origin_server_certs_item = origin_server_certs_list[0]
 
-                    crypto_cert = crypto.load_certificate(OpenSSL.crypto.FILETYPE_ASN1,
-                                                          origin_server_certs_item).to_cryptography()
+                    crypto_cert = crypto.load_certificate(
+                        OpenSSL.crypto.FILETYPE_ASN1, origin_server_certs_item
+                    ).to_cryptography()
 
                 except Exception as exc:
                     if logging.getLogger().propagate:
                         logging.warning(
-                            'Error loading anchor certificate, exception: {0} - {1}'.format(type(exc).__name__, exc))
+                            "Error loading anchor certificate, exception: {0} - {1}".format(
+                                type(exc).__name__, exc
+                            )
+                        )
                     continue
 
+                has_found_anchor = False
                 for i in range(len(crypto_cert.extensions)):
                     try:
                         extensions = crypto_cert.extensions[i]
-                        if hasattr(extensions, 'oid'):
+                        if hasattr(extensions, "oid"):
                             oid = extensions.oid
-                            if hasattr(oid, 'dotted_string'):
+                            if hasattr(oid, "dotted_string"):
                                 if oid.dotted_string == SOURCE_EXTENSION:
                                     anchor_type = config.ANCHOR_SOURCE
                                 elif oid.dotted_string == VERIFIER_EXTENSION:
                                     anchor_type = config.ANCHOR_VERIFIER
 
-                                if anchor_type != "Unknown":
-                                    parsed_anchors = Anchor.get_values_from_extensions(anc, anchor_type, extensions,
-                                                                                       crypto_cert, parsed_anchors)
+                                if anchor_type != UNKNOWN_ANCHOR_TYPE:
+                                    has_found_anchor = True
+                                    parsed_anchors = Anchor.get_values_from_extensions(
+                                        anc,
+                                        anchor_type,
+                                        extensions,
+                                        crypto_cert,
+                                        parsed_anchors,
+                                    )
+
                     except Exception as exc:
                         if logging.getLogger().propagate:
-                            logging.warning('Error parsing anchor certificate extension, exception: {0} - {1}'.format(
-                                type(exc).__name__, exc))
+                            logging.warning(
+                                "Error parsing anchor certificate extension, exception: {0} - {1}".format(
+                                    type(exc).__name__, exc
+                                )
+                            )
                         continue
+
+                if not has_found_anchor:
+                    parsed_anchors.append(
+                        Anchor(
+                            UNKNOWN_ANCHOR_TYPE,
+                            anc.sub_type,
+                            UNKNOWN_ANCHOR_VALUE,
+                            anc.signed_time_stamp,
+                            crypto_cert,
+                        )
+                    )
 
         return parsed_anchors
 
     @staticmethod
-    def get_values_from_extensions(anc, anchor_type, extensions, crypto_cert, parsed_anchors):
-        if hasattr(extensions, 'value'):
-            extension_value = extensions.value
-            if hasattr(extension_value, 'value'):
-                parsed_anchors.append(Anchor(
+    def get_values_from_extensions(
+        anc, anchor_type, extensions, crypto_cert, parsed_anchors
+    ):
+        if hasattr(extensions, "value") and anchor_type != UNKNOWN_ANCHOR_TYPE:
+            extension_value = ""
+            if hasattr(extensions.value, "value"):
+                extension_value = Anchor.decode_asn1_value(extensions.value.value)
+            parsed_anchors.append(
+                Anchor(
                     anchor_type,
                     anc.sub_type,
-                    Anchor.decode_asn1_value(extension_value.value),
+                    extension_value,
                     anc.signed_time_stamp,
-                    crypto_cert))
+                    crypto_cert,
+                )
+            )
 
         return parsed_anchors
 
@@ -104,7 +145,7 @@ class Anchor:
         decoder.start(once_decoded_value)
         tag, twice_decoded_value = decoder.read()
 
-        utf8_value = twice_decoded_value.decode('utf-8')
+        utf8_value = twice_decoded_value.decode("utf-8")
         return utf8_value
 
     @property
@@ -129,9 +170,14 @@ class Anchor:
 
         try:
             signed_timestamp_parsed = datetime.datetime.fromtimestamp(
-                signed_timestamp_object.timestamp / float(1000000))
+                signed_timestamp_object.timestamp / float(1000000)
+            )
         except OSError:
-            print("Unable to parse timestamp from integer: '{0}'".format(signed_timestamp_object.timestamp))
+            print(
+                "Unable to parse timestamp from integer: '{0}'".format(
+                    signed_timestamp_object.timestamp
+                )
+            )
             return ""
 
         return signed_timestamp_parsed

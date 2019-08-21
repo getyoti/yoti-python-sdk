@@ -25,4 +25,7 @@ requests==2.21.0
 six==1.11.0               # via cryptography, protobuf, pyopenssl
 urllib3==1.24.2
 werkzeug==0.14.1          # via flask
-yoti==2.7.0
+yoti==2.8.0
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools==41.1.0        # via protobuf
