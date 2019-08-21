@@ -6,7 +6,10 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request
 
 from yoti_python_sdk import Client
-from yoti_python_sdk.dynamic_sharing_service.policy import DynamicPolicyBuilder
+from yoti_python_sdk.dynamic_sharing_service.policy import (
+    DynamicPolicyBuilder,
+    SourceConstraintBuilder,
+)
 from yoti_python_sdk.dynamic_sharing_service import DynamicScenarioBuilder
 from yoti_python_sdk.dynamic_sharing_service import create_share_url
 
@@ -37,6 +40,32 @@ def dynamic_share():
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
     policy = (
         DynamicPolicyBuilder().with_full_name().with_age_over(18).with_email().build()
+    )
+    scenario = (
+        DynamicScenarioBuilder()
+        .with_policy(policy)
+        .with_callback_endpoint("/yoti/auth")
+        .build()
+    )
+    share = create_share_url(client, scenario)
+    return render_template(
+        "dynamic-share.html",
+        yoti_client_sdk_id=YOTI_CLIENT_SDK_ID,
+        yoti_share_url=share.share_url,
+    )
+
+
+@app.route("/source-constraints")
+def source_constraints():
+    client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
+    constraint = (
+        SourceConstraintBuilder().with_driving_licence().with_passport().build()
+    )
+    policy = (
+        DynamicPolicyBuilder()
+        .with_full_name(constraints=constraint)
+        .with_structured_postal_address(constraints=constraint)
+        .build()
     )
     scenario = (
         DynamicScenarioBuilder()
