@@ -89,14 +89,20 @@ class Client(object):
             unwrapped_key, encrypted_data.iv, encrypted_data.cipher_text
         )
         decrypted_application_data = self.__crypto.decipher(
-            unwrapped_key, encrypted_application_profile.iv, encrypted_application_profile.cipher_text
+            unwrapped_key,
+            encrypted_application_profile.iv,
+            encrypted_application_profile.cipher_text,
         )
 
         user_profile_attribute_list = proto.attribute_list(decrypted_profile_data)
-        application_profile_attribute_list = proto.attribute_list(decrypted_application_data)
+        application_profile_attribute_list = proto.attribute_list(
+            decrypted_application_data
+        )
 
         return ActivityDetails(
-            receipt=receipt, decrypted_profile=user_profile_attribute_list, decrypted_application_profile=application_profile_attribute_list
+            receipt=receipt,
+            decrypted_profile=user_profile_attribute_list,
+            decrypted_application_profile=application_profile_attribute_list,
         )
 
     def perform_aml_check(self, aml_profile):
@@ -112,7 +118,13 @@ class Client(object):
     def make_request(self, http_method, endpoint, body):
         url = yoti_python_sdk.YOTI_API_ENDPOINT + endpoint
         headers = self.__get_request_headers(endpoint, http_method, body)
-        response = requests.request(http_method, url, headers=headers, data=body, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL)
+        response = requests.request(
+            http_method,
+            url,
+            headers=headers,
+            data=body,
+            verify=yoti_python_sdk.YOTI_API_VERIFY_SSL,
+        )
         return response
 
     @property
@@ -144,10 +156,12 @@ class Client(object):
         path = self.__endpoint.get_activity_details_request_path(decrypted_token)
         url = yoti_python_sdk.YOTI_API_ENDPOINT + path
         headers = self.__get_request_headers(path, http_method, content)
-        response = requests.get(url=url, headers=headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL)
+        response = requests.get(
+            url=url, headers=headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
+        )
 
         self.http_error_handler(
-            response, {"default": "Unsuccessful Yoti API call: {1}"}
+            response, {"default": "Unsuccessful Yoti API call: {} {}"}
         )
 
         return response
@@ -159,10 +173,15 @@ class Client(object):
         url = yoti_python_sdk.YOTI_API_ENDPOINT + path
         headers = self.__get_request_headers(path, http_method, aml_profile_bytes)
 
-        response = requests.post(url=url, headers=headers, data=aml_profile_bytes, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL)
+        response = requests.post(
+            url=url,
+            headers=headers,
+            data=aml_profile_bytes,
+            verify=yoti_python_sdk.YOTI_API_VERIFY_SSL,
+        )
 
         self.http_error_handler(
-            response, {"default": "Unsuccessful Yoti API call: {1}"}
+            response, {"default": "Unsuccessful Yoti API call: {} {}"}
         )
 
         return response
