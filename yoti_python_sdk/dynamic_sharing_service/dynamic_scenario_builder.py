@@ -43,5 +43,5 @@ class DynamicScenarioBuilder(object):
         :returns: Dictionary representation of dynamic scenario
         """
         scenario = self.__scenario.copy()
-        scenario["extensions"] = scenario["extensions"].copy()
+        scenario["extensions"] = scenario["extensions"][:]
         return scenario
