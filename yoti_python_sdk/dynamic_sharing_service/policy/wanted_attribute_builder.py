@@ -55,5 +55,5 @@ class WantedAttributeBuilder(object):
         :return: The wanted attribute object
         """
         attribute = self.__attribute.copy()
-        attribute["constraints"] = self.__constraints.copy()
+        attribute["constraints"] = self.__constraints[:]
         return attribute
