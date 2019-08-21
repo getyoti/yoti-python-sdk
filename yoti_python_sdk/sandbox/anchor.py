@@ -36,8 +36,16 @@ class SandboxAnchor(object):
     def timestamp(self):
         return self.__timestamp
 
+    def __dict__(self):
+        return {
+            "type": self.anchor_type,
+            "value": self.value,
+            "sub_type": self.sub_type,
+            "timestamp": self.timestamp,
+        }
+
     @staticmethod
-    def builder(self):
+    def builder():
         return SandboxAnchorBuilder()
 
 
