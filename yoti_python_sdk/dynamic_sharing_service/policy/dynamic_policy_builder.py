@@ -7,12 +7,12 @@ from yoti_python_sdk import config
 
 from .wanted_attribute_builder import WantedAttributeBuilder
 
-"""
-Builder for DynamicPolicy
-"""
-
 
 class DynamicPolicyBuilder(object):
+    """
+    Builder for DynamicPolicy
+    """
+
     SELFIE_AUTH_TYPE = 1
     PIN_AUTH_TYPE = 2
 
@@ -21,11 +21,10 @@ class DynamicPolicyBuilder(object):
         self.__wanted_auth_types = {}
         self.__is_wanted_remember_me = False
 
-    """
-    @param wanted_attribute
-    """
-
     def with_wanted_attribute(self, wanted_attribute):
+        """
+        @param wanted_attribute
+        """
         key = (
             wanted_attribute["derivation"]
             if wanted_attribute.get("derivation", False)
@@ -34,68 +33,94 @@ class DynamicPolicyBuilder(object):
         self.__wanted_attributes[key] = wanted_attribute
         return self
 
-    """
-    @param wanted_name The name of the attribute to include
-    """
+    def __attribute_keyword_parser(self, attributeBuilder, **kwargs):
+        constraints = kwargs.get("constraints", False)
+        if constraints:
+            attributeBuilder.with_constraint(constraints)
 
-    def with_wanted_attribute_by_name(self, wanted_name):
-        attribute = WantedAttributeBuilder().with_name(wanted_name).build()
-        return self.with_wanted_attribute(attribute)
+    def with_wanted_attribute_by_name(self, wanted_name, **kwargs):
+        """
+        @param wanted_name The name of the attribute to include
+        """
+        attributeBuilder = WantedAttributeBuilder().with_name(wanted_name)
+        self.__attribute_keyword_parser(attributeBuilder, **kwargs)
 
-    def with_family_name(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_FAMILY_NAME)
+        return self.with_wanted_attribute(attributeBuilder.build())
 
-    def with_given_names(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_GIVEN_NAMES)
+    def with_family_name(self, **kwargs):
+        return self.with_wanted_attribute_by_name(
+            config.ATTRIBUTE_FAMILY_NAME, **kwargs
+        )
 
-    def with_full_name(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_FULL_NAME)
+    def with_given_names(self, **kwargs):
+        return self.with_wanted_attribute_by_name(
+            config.ATTRIBUTE_GIVEN_NAMES, **kwargs
+        )
 
-    def with_date_of_birth(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_DATE_OF_BIRTH)
+    def with_full_name(self, **kwargs):
+        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_FULL_NAME, **kwargs)
 
-    def with_age_derived_attribute(self, derivation):
-        attribute = (
+    def with_date_of_birth(self, **kwargs):
+        return self.with_wanted_attribute_by_name(
+            config.ATTRIBUTE_DATE_OF_BIRTH, **kwargs
+        )
+
+    def with_age_derived_attribute(self, derivation, **kwargs):
+        attributeBuilder = (
             WantedAttributeBuilder()
             .with_name(config.ATTRIBUTE_DATE_OF_BIRTH)
             .with_derivation(derivation)
-            .build()
         )
-        return self.with_wanted_attribute(attribute)
+        self.__attribute_keyword_parser(attributeBuilder, **kwargs)
+        return self.with_wanted_attribute(attributeBuilder.build())
 
-    def with_age_over(self, age):
+    def with_age_over(self, age, **kwargs):
         assert self.__is_number(age)
-        return self.with_age_derived_attribute(config.ATTRIBUTE_AGE_OVER + str(age))
+        return self.with_age_derived_attribute(
+            config.ATTRIBUTE_AGE_OVER + str(age), **kwargs
+        )
 
-    def with_age_under(self, age):
+    def with_age_under(self, age, **kwargs):
         assert self.__is_number(age)
-        return self.with_age_derived_attribute(config.ATTRIBUTE_AGE_UNDER + str(age))
+        return self.with_age_derived_attribute(
+            config.ATTRIBUTE_AGE_UNDER + str(age), **kwargs
+        )
 
-    def with_gender(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_GENDER)
+    def with_gender(self, **kwargs):
+        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_GENDER, **kwargs)
 
-    def with_postal_address(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_POSTAL_ADDRESS)
-
-    def with_structured_postal_address(self):
+    def with_postal_address(self, **kwargs):
         return self.with_wanted_attribute_by_name(
-            config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS
+            config.ATTRIBUTE_POSTAL_ADDRESS, **kwargs
         )
 
-    def with_nationality(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_NATIONALITY)
+    def with_structured_postal_address(self, **kwargs):
+        return self.with_wanted_attribute_by_name(
+            config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS, **kwargs
+        )
 
-    def with_phone_number(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_PHONE_NUMBER)
+    def with_nationality(self, **kwargs):
+        return self.with_wanted_attribute_by_name(
+            config.ATTRIBUTE_NATIONALITY, **kwargs
+        )
 
-    def with_selfie(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_SELFIE)
+    def with_phone_number(self, **kwargs):
+        return self.with_wanted_attribute_by_name(
+            config.ATTRIBUTE_PHONE_NUMBER, **kwargs
+        )
 
-    def with_email(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_EMAIL_ADDRESS)
+    def with_selfie(self, **kwargs):
+        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_SELFIE, **kwargs)
 
-    def with_document_details(self):
-        return self.with_wanted_attribute_by_name(config.ATTRIBUTE_DOCUMENT_DETAILS)
+    def with_email(self, **kwargs):
+        return self.with_wanted_attribute_by_name(
+            config.ATTRIBUTE_EMAIL_ADDRESS, **kwargs
+        )
+
+    def with_document_details(self, **kwargs):
+        return self.with_wanted_attribute_by_name(
+            config.ATTRIBUTE_DOCUMENT_DETAILS, **kwargs
+        )
 
     """
     @param wanted_auth_type

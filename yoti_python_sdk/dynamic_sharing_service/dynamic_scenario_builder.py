@@ -10,35 +10,38 @@ class DynamicScenarioBuilder(object):
             "policy": DynamicPolicyBuilder().build(),
             "extensions": [],
             "callback_endpoint": "",
+            "auto_allow": False,
         }
 
-    """
-    @param policy A DynamicPolicy defining the attributes to be shared
-    """
-
     def with_policy(self, policy):
+        """
+        :param policy: A DynamicPolicy defining the attributes to be shared
+        """
         self.__scenario["policy"] = policy
         return self
 
-    """
-    @param extension An extension to be activated for the scenario
-    """
-
     def with_extension(self, extension):
+        """
+        :param extension: An extension to be activated for the scenario
+        """
         self.__scenario["extensions"].append(extension)
         return self
 
-    """
-    @param callback_endpoint A string with the callback endpoint
-    """
-
     def with_callback_endpoint(self, callback_endpoint):
+        """
+        :param callback_endpoint: A string with the callback endpoint
+        """
         self.__scenario["callback_endpoint"] = callback_endpoint
         return self
 
-    """
-    @return Dictionary representation of dynamic scenario
-    """
+    def with_auto_allow(self, value=True):
+        self.__scenario["auto_allow"] = value
+        return self
 
     def build(self):
-        return self.__scenario.copy()
+        """
+        :returns: Dictionary representation of dynamic scenario
+        """
+        scenario = self.__scenario.copy()
+        scenario["extensions"] = scenario["extensions"].copy()
+        return scenario
