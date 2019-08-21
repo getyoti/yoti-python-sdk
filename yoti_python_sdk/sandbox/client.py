@@ -14,6 +14,7 @@ from yoti_python_sdk.config import (
     X_YOTI_SDK_VERSION,
     JSON_CONTENT_TYPE,
 )
+from yoti_python_sdk.sandbox.token import YotiTokenResponse
 
 
 class SandboxClient(object):
@@ -31,7 +32,8 @@ class SandboxClient(object):
         request_path = self.__endpoint.get_sandbox_path()
         payload = json.dumps(request_token.__dict__)
         response = SandboxClient.post(request_path, self.__crypto, payload)
-        return response.status_code
+        response_payload = response.json()
+        return YotiTokenResponse(response_payload["token"])
 
     @staticmethod
     def builder():
