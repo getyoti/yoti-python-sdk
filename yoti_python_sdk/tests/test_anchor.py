@@ -20,6 +20,12 @@ def get_utc_offset():
     return utc_offset
 
 
+def test_parse_anchor_non_critical_only():
+    parsed_anchor_list = anchor_fixture_parser.get_parsed_anchor_critical_last()
+
+    assert len(parsed_anchor_list) == 1
+
+
 def test_parse_anchors_driving_license():
     parsed_anchor = anchor_fixture_parser.get_parsed_driving_license_anchor()
 
@@ -83,6 +89,7 @@ def test_error_parsing_anchor_certificate_carries_on_parsing():
     # 1st anchor will log a warning when being parsed
     logger = logging.getLogger()
     logger.propagate = False
+
     parsed_anchors = Anchor.parse_anchors(anchors)
     logger.propagate = True
 
