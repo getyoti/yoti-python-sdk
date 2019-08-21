@@ -10,7 +10,7 @@ class SandboxAttribute(object):
             value = ""
 
         if anchors is None:
-            anchors = {}
+            anchors = []
 
         self.__name = name
         self.__value = value
@@ -39,6 +39,9 @@ class SandboxAttribute(object):
         return list(
             filter(lambda a: a.anchor_type == config.ANCHOR_VERIFIER, self.__anchors)
         )
+
+    def __dict__(self):
+        return {"name": self.name, "value": self.value, "anchors": self.anchors}
 
     @staticmethod
     def builder():

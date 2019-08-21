@@ -15,6 +15,8 @@ from yoti_python_sdk.config import (
     JSON_CONTENT_TYPE,
 )
 from yoti_python_sdk.sandbox.token import YotiTokenRequest, YotiTokenResponse
+from yoti_python_sdk.sandbox.attribute import SandboxAttribute
+from yoti_python_sdk.sandbox.anchor import SandboxAnchor
 from yoti_python_sdk.crypto import Crypto
 from json import JSONEncoder
 
@@ -22,6 +24,10 @@ from json import JSONEncoder
 class SandboxEncoder(JSONEncoder):
     def default(self, o):
         if isinstance(o, YotiTokenRequest):
+            return o.__dict__()
+        if isinstance(o, SandboxAttribute):
+            return o.__dict__()
+        if isinstance(o, SandboxAnchor):
             return o.__dict__()
 
         return json.JSONEncoder.default(self, o)
@@ -31,9 +37,10 @@ class SandboxClient(object):
 
     HTTP_SUPPORTED_METHODS = ["POST", "PUT", "PATCH", "GET", "DELETE"]
 
-    def __init__(self, sdk_id, pem_file):
+    def __init__(self, sdk_id, pem_file, sandbox_url):
         self.sdk_id = sdk_id
         self.__endpoint = SandboxEndpoint(sdk_id)
+        self.__sandbox_url = sandbox_url
 
         pem_data = SandboxClient.__read_pem_file(
             pem_file, "failed in SandboxClient __init__"
@@ -43,8 +50,9 @@ class SandboxClient(object):
 
     def setup_sharing_profile(self, request_token):
         request_path = self.__endpoint.get_sandbox_path()
-        response = SandboxClient.post(request_path, self.__crypto, request_token)
-        print(response.text)
+        response = SandboxClient.post(
+            self.__sandbox_url, request_path, self.__crypto, request_token
+        )
         response_payload = response.json()
         return YotiTokenResponse(response_payload["token"])
 
@@ -53,16 +61,12 @@ class SandboxClient(object):
         return SandboxClientBuilder()
 
     @staticmethod
-    def post(url, key, content):
+    def post(host, path, key, content):
         payload = json.dumps(content, cls=SandboxEncoder)
+        print(payload)
         payload_bytes = payload.encode()
-        headers = SandboxClient.__get_request_headers(url, "POST", payload_bytes, key)
-        return requests.post(
-            yoti_python_sdk.YOTI_API_ENDPOINT + url,
-            payload_bytes,
-            headers=headers,
-            verify=False,
-        )
+        headers = SandboxClient.__get_request_headers(path, "POST", payload_bytes, key)
+        return requests.post(host + path, payload_bytes, headers=headers, verify=False)
 
     @staticmethod
     def __get_request_headers(path, http_method, content, crypto):
