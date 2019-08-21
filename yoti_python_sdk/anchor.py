@@ -72,6 +72,8 @@ class Anchor:
 
                 has_found_anchor = False
                 for i in range(len(crypto_cert.extensions)):
+                    anchor_type = UNKNOWN_ANCHOR_TYPE
+
                     try:
                         extensions = crypto_cert.extensions[i]
                         if hasattr(extensions, "oid"):
