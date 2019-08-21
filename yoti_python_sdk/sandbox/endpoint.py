@@ -1,4 +1,6 @@
 from yoti_python_sdk.endpoint import Endpoint
+import time
+import uuid
 
 
 class SandboxEndpoint(Endpoint):
@@ -11,3 +13,11 @@ class SandboxEndpoint(Endpoint):
             nonce=self.__create_nonce(),
             timestamp=self.__create_timestamp(),
         )
+
+    @staticmethod
+    def __create_nonce():
+        return uuid.uuid4()
+
+    @staticmethod
+    def __create_timestamp():
+        return int(time.time() * 1000)
