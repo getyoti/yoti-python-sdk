@@ -14,7 +14,17 @@ from yoti_python_sdk.config import (
     X_YOTI_SDK_VERSION,
     JSON_CONTENT_TYPE,
 )
-from yoti_python_sdk.sandbox.token import YotiTokenResponse
+from yoti_python_sdk.sandbox.token import YotiTokenRequest, YotiTokenResponse
+from yoti_python_sdk.crypto import Crypto
+from json import JSONEncoder
+
+
+class SandboxEncoder(JSONEncoder):
+    def default(self, o):
+        if isinstance(o, YotiTokenRequest):
+            return o.__dict__()
+
+        return json.JSONEncoder.default(self, o)
 
 
 class SandboxClient(object):
@@ -24,14 +34,17 @@ class SandboxClient(object):
     def __init__(self, sdk_id, pem_file):
         self.sdk_id = sdk_id
         self.__endpoint = SandboxEndpoint(sdk_id)
-        self.__crypto = SandboxClient.__read_pem_file(
+
+        pem_data = SandboxClient.__read_pem_file(
             pem_file, "failed in SandboxClient __init__"
         )
 
+        self.__crypto = Crypto(pem_data)
+
     def setup_sharing_profile(self, request_token):
         request_path = self.__endpoint.get_sandbox_path()
-        payload = json.dumps(request_token.__dict__)
-        response = SandboxClient.post(request_path, self.__crypto, payload)
+        response = SandboxClient.post(request_path, self.__crypto, request_token)
+        print(response.text)
         response_payload = response.json()
         return YotiTokenResponse(response_payload["token"])
 
@@ -41,7 +54,7 @@ class SandboxClient(object):
 
     @staticmethod
     def post(url, key, content):
-        payload = json.dumps(content)
+        payload = json.dumps(content, cls=SandboxEncoder)
         payload_bytes = payload.encode()
         headers = SandboxClient.__get_request_headers(url, "POST", payload_bytes, key)
         return requests.post(
