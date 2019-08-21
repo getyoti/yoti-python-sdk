@@ -25,11 +25,11 @@ class WantedAttributeBuilder(object):
         self.__attribute["derivation"] = derivation
         return self
 
-    def with_self_asserted(self, value=True):
+    def with_accept_self_asserted(self, value=True):
         """
         :param value: True if self-asserted details are allowed
         """
-        self.__attribute["accept_self_asserted"]
+        self.__attribute["accept_self_asserted"] = value
         return self
 
     def with_optional(self, value=True):

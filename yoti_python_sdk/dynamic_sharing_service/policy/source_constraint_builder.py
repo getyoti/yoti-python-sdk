@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from wanted_anchor_builder import (
+from .wanted_anchor_builder import (
     WantedAnchorBuilder,
     PASSPORT,
     PASS_CARD,
