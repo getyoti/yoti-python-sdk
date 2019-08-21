@@ -1,10 +1,15 @@
-from yoti_python_sdk import config
+UNKNOWN_EXTENSION = ""
+SOURCE_EXTENSION = "1.3.6.1.4.1.47127.1.1.1"
+VERIFIER_EXTENSION = "1.3.6.1.4.1.47127.1.1.2"
+
+UNKNOWN_ANCHOR_TYPE = "Unknown"
+UNKNOWN_ANCHOR_VALUE = ""
 
 
 class SandboxAnchor(object):
     def __init__(self, anchor_type=None, sub_type=None, value=None, timestamp=None):
         if anchor_type is None:
-            anchor_type = config.UNKNOWN_ANCHOR_TYPE
+            anchor_type = UNKNOWN_ANCHOR_TYPE
         if sub_type is None:
             sub_type = ""
         if value is None:
