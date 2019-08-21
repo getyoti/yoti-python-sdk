@@ -1,7 +1,11 @@
 from yoti_python_sdk.sandbox.client import SandboxClient
 from yoti_python_sdk.sandbox.token import YotiTokenRequest, YotiTokenResponse
 from yoti_python_sdk.tests.conftest import PEM_FILE_PATH
-from unittest.mock import patch
+
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
 
 import pytest
 
