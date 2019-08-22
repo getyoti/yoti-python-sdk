@@ -1,6 +1,6 @@
 from yoti_python_sdk.sandbox.attribute import SandboxAttribute
 from yoti_python_sdk import config
-from cryptography.fernet import base64
+import base64
 
 
 class YotiTokenResponse(object):
@@ -107,7 +107,7 @@ class YotiTokenRequestBuilder(object):
         return self.with_attribute(attribute)
 
     def with_selfie(self, value, anchors=None):
-        base64_selfie = base64.b64decode(value).decode("utf-8")
+        base64_selfie = base64.b64encode(value).decode("utf-8")
         return self.with_base64_selfie(base64_selfie, anchors)
 
     def with_base64_selfie(self, value, anchors=None):
