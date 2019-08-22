@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from yoti_python_sdk import attribute_parser, config, multivalue
+from yoti_python_sdk import attribute_parser, config, multivalue, document_details
 from yoti_python_sdk.anchor import Anchor
 from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.image import Image
-from yoti_python_sdk import document_details
+from yoti_python_sdk.age_verification import AgeVerification
 
 
 class BaseProfile(object):
-
     def __init__(self, profile_attributes):
         self.attributes = {}
+        self.verifications = None
 
         if profile_attributes:
             for field in profile_attributes:
@@ -161,6 +161,27 @@ class Profile(BaseProfile):
     def document_details(self):
         return self.get_attribute(config.ATTRIBUTE_DOCUMENT_DETAILS)
 
+    def get_age_verifications(self):
+        self.__find_all_age_verifications()
+        return [self.verifications[key] for key in self.verifications.keys()]
+
+    def find_age_over_verification(self, age):
+        self.__find_all_age_verifications()
+        return self.verifications[config.ATTRIBUTE_AGE_OVER + str(age)]
+
+    def find_age_under_verification(self, age):
+        self.__find_all_age_verifications()
+        return self.verifications[config.ATTRIBUTE_AGE_UNDER + str(age)]
+
+    def __find_all_age_verifications(self):
+        if self.verifications is None:
+            self.verifications = {}
+            for attribute in self.attributes:
+                if (
+                    config.ATTRIBUTE_AGE_OVER in attribute.name
+                    or config.ATTRIBUTE_AGE_UNDER in attribute.name
+                ):
+                    self.verifications[attribute.name] = AgeVerification(attribute)
 
     def ensure_postal_address(self):
         if (
@@ -185,7 +206,7 @@ class Profile(BaseProfile):
 class ApplicationProfile(BaseProfile):
     def __init__(self, profile_attributes):
         super(ApplicationProfile, self).__init__(profile_attributes)
-        
+
     @property
     def application_name(self):
         """
