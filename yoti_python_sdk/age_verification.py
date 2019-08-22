@@ -1,8 +1,5 @@
-from yoti_python_sdk.attribute import Attribute
-
-
 class AgeVerification(object):
-    def __init__(self, derived_attribute: Attribute):
+    def __init__(self, derived_attribute):
         self.__derived_attribute = derived_attribute
 
         split = derived_attribute.name.split(":")
