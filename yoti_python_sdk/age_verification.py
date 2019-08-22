@@ -8,7 +8,11 @@ class AgeVerification(object):
         split = derived_attribute.name.split(":")
         self.__check_type = split[0]
         self.__age_verified = int(split[1])
-        self.__result = bool(derived_attribute.value)
+
+        if derived_attribute.value == "true":
+            self.__result = True
+        elif derived_attribute.value == "false":
+            self.__result = False
 
     @property
     def age(self):
