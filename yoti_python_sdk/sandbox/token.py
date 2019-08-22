@@ -70,13 +70,8 @@ class YotiTokenRequestBuilder(object):
         )
         return self.with_attribute(attribute)
 
-    def with_age_over(self, value, anchors=None):
-        attribute = self.__create_attribute(config.ATTRIBUTE_AGE_OVER, value, anchors)
-        return self.with_attribute(attribute)
-
-    def with_age_under(self, value, anchors=None):
-        attribute = self.__create_attribute(config.ATTRIBUTE_AGE_UNDER, value, anchors)
-        return self.with_attribute(attribute)
+    def with_age_verification(self, age_verification):
+        return self.with_attribute(age_verification.to_attribute())
 
     def with_gender(self, value, anchors=None):
         attribute = self.__create_attribute(config.ATTRIBUTE_GENDER, value, anchors)
