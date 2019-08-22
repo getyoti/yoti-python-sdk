@@ -1,2 +1,2 @@
-yoti>=2.8.0
+yoti>=2.8.2
 python-dotenv>=0.7.1
