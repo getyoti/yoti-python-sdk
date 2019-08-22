@@ -14,6 +14,16 @@ def age_under_attribute():
     return Attribute(config.ATTRIBUTE_AGE_UNDER + "18", "false", None)
 
 
+@pytest.mark.parametrize(
+    "age_verification_name",
+    [":age_over:18", "age_over:18:", "ageover:18", "age_over:", "age_over::18"],
+)
+def test_malformed_age_verification_attributes(age_verification_name):
+    with pytest.raises(Exception):
+        attribute = Attribute(age_verification_name, "true", None)
+        age_verification_name = AgeVerification(attribute)
+
+
 def test_create_age_verification_from_age_over_attribute(age_over_attribute):
     age_verification = AgeVerification(age_over_attribute)
 

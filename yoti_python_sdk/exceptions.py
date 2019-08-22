@@ -1,0 +1,2 @@
+class MalformedAgeVerificationException(Exception):
+    pass
