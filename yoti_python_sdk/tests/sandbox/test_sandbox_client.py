@@ -27,6 +27,7 @@ def test_builder_should_build_client():
         SandboxClient.builder()
         .for_application("some_app")
         .with_pem_file(PEM_FILE_PATH)
+        .with_sandbox_url("https://localhost")
         .build()
     )
 
