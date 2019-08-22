@@ -119,19 +119,28 @@ class SandboxClient(object):
 
 class SandboxClientBuilder(object):
     def __init__(self):
-        self.__sdkId = None
+        self.__sdk_id = None
         self.__pem_file = None
+        self.__sandbox_url = None
 
-    def for_application(self, sdkId):
-        self.__sdkId = sdkId
+    def for_application(self, sdk_id):
+        self.__sdk_id = sdk_id
         return self
 
     def with_pem_file(self, pem_file):
         self.__pem_file = pem_file
         return self
 
-    def build(self):
-        if self.__sdkId is None or self.__pem_file is None:
-            raise ValueError("SDK ID and/or pem file must not be None")
+    def with_sandbox_url(self, sandbox_url):
+        self.__sandbox_url = sandbox_url
+        return self
 
-        return SandboxClient(self.__sdkId, self.__pem_file)
+    def build(self):
+        if (
+            self.__sdk_id is None
+            or self.__pem_file is None
+            or self.__sandbox_url is None
+        ):
+            raise ValueError("SDK ID/PEM file/sandbox url must not be None")
+
+        return SandboxClient(self.__sdk_id, self.__pem_file, self.__sandbox_url)
