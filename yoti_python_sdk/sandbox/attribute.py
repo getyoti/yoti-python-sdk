@@ -2,7 +2,7 @@ from yoti_python_sdk import config
 
 
 class SandboxAttribute(object):
-    def __init__(self, name=None, value=None, anchors=None):
+    def __init__(self, name=None, value=None, anchors=None, derivation=None):
         if name is None:
             name = ""
 
@@ -12,9 +12,13 @@ class SandboxAttribute(object):
         if anchors is None:
             anchors = []
 
+        if derivation is None:
+            derivation = ""
+
         self.__name = name
         self.__value = value
         self.__anchors = anchors
+        self.__derivation = derivation
 
     @property
     def name(self):
@@ -40,12 +44,21 @@ class SandboxAttribute(object):
             filter(lambda a: a.anchor_type == config.ANCHOR_VERIFIER, self.__anchors)
         )
 
+    @property
+    def derivation(self):
+        return self.__derivation
+
     def __dict__(self):
-        return {"name": self.name, "value": self.value, "anchors": self.anchors}
+        return {
+            "name": self.name,
+            "value": self.value,
+            "anchors": self.anchors,
+            "derivation": self.derivation,
+        }
 
     @staticmethod
     def builder():
-        return SandboxAttribute()
+        return SandboxAttributeBuilder()
 
 
 class SandboxAttributeBuilder(object):
@@ -53,6 +66,7 @@ class SandboxAttributeBuilder(object):
         self.__name = None
         self.__value = None
         self.__anchors = None
+        self.__derivation = None
 
     def with_name(self, name):
         self.__name = name
@@ -66,5 +80,11 @@ class SandboxAttributeBuilder(object):
         self.__anchors = anchors
         return self
 
+    def with_derivation(self, derivation):
+        self.__derivation = derivation
+        return self
+
     def build(self):
-        return SandboxAttribute(self.__name, self.__value, self.__anchors)
+        return SandboxAttribute(
+            self.__name, self.__value, self.__anchors, self.__derivation
+        )
