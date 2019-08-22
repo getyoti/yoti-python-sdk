@@ -1,5 +1,5 @@
 cryptography>=2.3
-Flask>=0.12.3
+Flask>=1.0.4
 jinja2>=2.8.1
 pyopenssl>=19.0.0
 python-dotenv>=0.7.1
