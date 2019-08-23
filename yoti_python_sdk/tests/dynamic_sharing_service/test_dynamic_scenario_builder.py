@@ -31,14 +31,3 @@ def test_build_scenario():
     assert EXTENSION1 in scenario["extensions"]
     assert EXTENSION2 in scenario["extensions"]
     assert scenario["callback_endpoint"] == CALLBACK_ENDPOINT
-
-
-def test_auto_allow():
-    scenario = (
-        DynamicScenarioBuilder()
-        .with_policy(DynamicPolicyBuilder().with_full_name().build())
-        .with_auto_allow()
-        .build()
-    )
-
-    assert scenario["auto_allow"]
