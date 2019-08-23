@@ -10,7 +10,6 @@ class DynamicScenarioBuilder(object):
             "policy": DynamicPolicyBuilder().build(),
             "extensions": [],
             "callback_endpoint": "",
-            "auto_allow": False,
         }
 
     def with_policy(self, policy):
@@ -32,10 +31,6 @@ class DynamicScenarioBuilder(object):
         :param callback_endpoint: A string with the callback endpoint
         """
         self.__scenario["callback_endpoint"] = callback_endpoint
-        return self
-
-    def with_auto_allow(self, value=True):
-        self.__scenario["auto_allow"] = value
         return self
 
     def build(self):
