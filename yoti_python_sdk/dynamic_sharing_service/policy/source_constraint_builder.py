@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from .wanted_anchor_builder import (
-    WantedAnchorBuilder,
-    PASSPORT,
-    PASS_CARD,
-    NATIONAL_ID,
-    DRIVING_LICENCE,
-)
+from yoti_python_sdk.config import PASSPORT, PASS_CARD, NATIONAL_ID, DRIVING_LICENCE
+
+from .wanted_anchor_builder import WantedAnchorBuilder
 
 
 class SourceConstraintBuilder(object):
