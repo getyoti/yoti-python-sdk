@@ -8,12 +8,16 @@ from yoti_python_sdk.config import (
     JSON_CONTENT_TYPE,
 )
 from cryptography.fernet import base64
-from urllib.parse import urlencode
 
 import yoti_python_sdk
 import requests
 import uuid
 import time
+
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urlparse import urlencode
 
 HTTP_POST = "POST"
 HTTP_GET = "GET"
