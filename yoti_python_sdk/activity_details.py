@@ -10,7 +10,9 @@ from yoti_python_sdk.profile import Profile, ApplicationProfile
 
 
 class ActivityDetails:
-    def __init__(self, receipt, decrypted_profile=None, decrypted_application_profile=None):
+    def __init__(
+        self, receipt, decrypted_profile=None, decrypted_application_profile=None
+    ):
         self.decrypted_profile = decrypted_profile
         self.user_profile = {}  # will be removed in v3.0.0
         self.base64_selfie_uri = None
@@ -57,9 +59,15 @@ class ActivityDetails:
 
             self.ensure_postal_address()
 
-        if decrypted_application_profile and hasattr(decrypted_application_profile, "attributes"):
-            decrypted_application_profile_attributes = decrypted_application_profile.attributes
-            self.application_profile = ApplicationProfile(decrypted_application_profile_attributes)
+        if decrypted_application_profile and hasattr(
+            decrypted_application_profile, "attributes"
+        ):
+            decrypted_application_profile_attributes = (
+                decrypted_application_profile.attributes
+            )
+            self.application_profile = ApplicationProfile(
+                decrypted_application_profile_attributes
+            )
 
         self.__remember_me_id = receipt.get("remember_me_id")
         self.parent_remember_me_id = receipt.get("parent_remember_me_id")
@@ -84,6 +92,7 @@ class ActivityDetails:
     def user_id(self, value):
         self.__remember_me_id = value
 
+    @deprecated
     def try_parse_age_verified_field(self, field):
         if field is not None:
             age_verified = attribute_parser.value_based_on_content_type(
