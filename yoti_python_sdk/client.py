@@ -41,10 +41,7 @@ class Client(object):
         self.__endpoint = Endpoint(sdk_id)
 
     def get_activity_details(self, encrypted_request_token):
-        content = None
-        response = self.__make_activity_details_request(
-            encrypted_request_token, content
-        )
+        response = self.__make_activity_details_request(encrypted_request_token)
         receipt = json.loads(response.text).get("receipt")
 
         proto = protobuf.Protobuf()
