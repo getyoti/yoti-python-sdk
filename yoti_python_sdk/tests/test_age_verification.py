@@ -1,5 +1,6 @@
 from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.age_verification import AgeVerification
+from yoti_python_sdk.exceptions import MalformedAgeVerificationException
 from yoti_python_sdk import config
 import pytest
 
@@ -19,7 +20,7 @@ def age_under_attribute():
     [":age_over:18", "age_over:18:", "ageover:18", "age_over:", "age_over::18"],
 )
 def test_malformed_age_verification_attributes(age_verification_name):
-    with pytest.raises(Exception):
+    with pytest.raises(MalformedAgeVerificationException):
         attribute = Attribute(age_verification_name, "true", None)
         age_verification_name = AgeVerification(attribute)
 
