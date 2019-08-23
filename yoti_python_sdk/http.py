@@ -60,7 +60,7 @@ class SignedRequest(object):
         if query_params is None:
             return required
 
-        merged = query_params.copy(query_params)
+        merged = query_params.copy()
         merged.update(required)
         return merged
 
