@@ -176,7 +176,8 @@ class Profile(BaseProfile):
     def __find_all_age_verifications(self):
         if self.verifications is None:
             self.verifications = {}
-            for attribute in self.attributes:
+            for key in self.attributes:
+                attribute = self.attributes[key]
                 if (
                     config.ATTRIBUTE_AGE_OVER in attribute.name
                     or config.ATTRIBUTE_AGE_UNDER in attribute.name
