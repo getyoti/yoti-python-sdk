@@ -1,10 +1,7 @@
 from yoti_python_sdk.dynamic_sharing_service.policy.source_constraint_builder import (
     SourceConstraintBuilder,
 )
-from yoti_python_sdk.dynamic_sharing_service.policy.wanted_anchor_builder import (
-    DRIVING_LICENCE,
-    PASSPORT,
-)
+from yoti_python_sdk.config import DRIVING_LICENCE, PASSPORT
 
 
 def test_build():

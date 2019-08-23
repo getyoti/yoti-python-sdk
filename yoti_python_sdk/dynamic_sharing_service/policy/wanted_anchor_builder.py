@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-PASSPORT = "PASSPORT"
-NATIONAL_ID = "NATIONAL_ID"
-PASS_CARD = "PASS_CARD"
-DRIVING_LICENCE = "DRIVING_LICENCE"
-
 
 class WantedAnchorBuilder(object):
     def __init__(self):
