@@ -8,6 +8,7 @@ import pytest
 from yoti_python_sdk import config
 from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.profile import Profile, ApplicationProfile
+from yoti_python_sdk.age_verification import AgeVerification
 from yoti_python_sdk.protobuf.protobuf import Protobuf
 from yoti_python_sdk.tests import attribute_fixture_parser, image_helper
 from yoti_python_sdk.tests.protobuf_attribute import ProtobufAttribute
@@ -602,42 +603,51 @@ def test_get_document_details_india():
 def test_create_application_profile_with_name():
     attribute_list = create_single_attribute_list(
         name=config.ATTRIBUTE_APPLICATION_NAME,
-        value="yoti-sdk-test",
+        value="yoti-sdk-test".encode(),
         anchors=None,
-        content_type=Protobuf.CT_STRING
+        content_type=Protobuf.CT_STRING,
     )
 
     app_profile = ApplicationProfile(attribute_list)
 
-    assert (app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_NAME) == app_profile.application_name)
+    assert (
+        app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_NAME)
+        == app_profile.application_name
+    )
     assert isinstance(app_profile, ApplicationProfile)
 
 
 def test_create_application_profile_with_url():
     attribute_list = create_single_attribute_list(
         name=config.ATTRIBUTE_APPLICATION_URL,
-        value="https://yoti.com",
+        value="https://yoti.com".encode(),
         anchors=None,
-        content_type=Protobuf.CT_STRING
+        content_type=Protobuf.CT_STRING,
     )
 
     app_profile = ApplicationProfile(attribute_list)
 
-    assert (app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_URL) == app_profile.application_url)
+    assert (
+        app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_URL)
+        == app_profile.application_url
+    )
     assert isinstance(app_profile, ApplicationProfile)
 
 
 def test_create_application_profile_with_receipt_bgcolor():
     attribute_list = create_single_attribute_list(
         name=config.ATTRIBUTE_APPLICATION_RECEIPT_BGCOLOR,
-        value="#FFFFFF",
+        value="#FFFFFF".encode(),
         anchors=None,
-        content_type=Protobuf.CT_STRING
+        content_type=Protobuf.CT_STRING,
     )
 
     app_profile = ApplicationProfile(attribute_list)
 
-    assert (app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_RECEIPT_BGCOLOR) ==  app_profile.application_receipt_bg_color)
+    assert (
+        app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_RECEIPT_BGCOLOR)
+        == app_profile.application_receipt_bg_color
+    )
     assert isinstance(app_profile, ApplicationProfile)
 
 
@@ -648,7 +658,70 @@ def test_create_application_profile_with_logo():
     app_logo = app_profile.application_logo
 
     assert isinstance(app_logo.value, Image)
-    assert (app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_LOGO) == app_profile.application_logo)
+    assert (
+        app_profile.get_attribute(config.ATTRIBUTE_APPLICATION_LOGO)
+        == app_profile.application_logo
+    )
     assert isinstance(app_profile, ApplicationProfile)
 
 
+@pytest.mark.parametrize(
+    "attribute_value,expected_age_over,expected_value",
+    [("true", 18, True), ("true", 21, True), ("false", 18, False)],
+)
+def test_get_age_over_verification(attribute_value, expected_age_over, expected_value):
+    attribute_list = create_single_attribute_list(
+        name=config.ATTRIBUTE_AGE_OVER + str(expected_age_over),
+        value=attribute_value.encode(),
+        anchors=None,
+        content_type=Protobuf.CT_STRING,
+    )
+
+    human_profile = Profile(attribute_list)
+    print(human_profile.attributes)
+
+    age_verifications = human_profile.get_age_verifications()
+    age_verification = human_profile.find_age_over_verification(expected_age_over)
+
+    assert len(age_verifications) == 1
+    assert isinstance(age_verification, AgeVerification)
+    assert age_verification.result is expected_value
+
+
+@pytest.mark.parametrize(
+    "attribute_value,expected_age_under,expected_value",
+    [("true", 18, True), ("true", 21, True), ("false", 18, False)],
+)
+def test_get_age_under_verification(
+    attribute_value, expected_age_under, expected_value
+):
+    attribute_list = create_single_attribute_list(
+        name=config.ATTRIBUTE_AGE_UNDER + str(expected_age_under),
+        value=attribute_value.encode(),
+        anchors=None,
+        content_type=Protobuf.CT_STRING,
+    )
+
+    human_profile = Profile(attribute_list)
+    print(human_profile.attributes)
+
+    age_verifications = human_profile.get_age_verifications()
+    age_verification = human_profile.find_age_under_verification(expected_age_under)
+
+    assert len(age_verifications) == 1
+    assert isinstance(age_verification, AgeVerification)
+    assert age_verification.result is expected_value
+
+
+def test_get_age_verifications():
+    attribute_list = create_single_attribute_list(
+        name=config.ATTRIBUTE_AGE_UNDER + str(18),
+        value="true".encode(),
+        anchors=None,
+        content_type=Protobuf.CT_STRING,
+    )
+
+    human_profile = Profile(attribute_list)
+    age_verifications = human_profile.get_age_verifications()
+
+    assert len(age_verifications) == 1
