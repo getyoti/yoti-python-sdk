@@ -113,8 +113,12 @@ class SignedRequestBuilder(object):
         self.__crypto = None
         self.__base_url = None
 
-    def with_pem_file(self, pem_file_path):
-        self.__crypto = Crypto.read_pem_file(pem_file_path)
+    def with_pem_file(self, pem_file):
+        if isinstance(pem_file, Crypto):
+            self.__crypto = pem_file
+        else:
+            self.__crypto = Crypto.read_pem_file(pem_file)
+
         return self
 
     def with_base_url(self, base_url):
