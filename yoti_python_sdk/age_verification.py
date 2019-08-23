@@ -18,12 +18,14 @@ class AgeVerification(object):
         else:
             raise MalformedAgeVerificationException
 
-        self.__age_verified = int(split[1])
-
-        if derived_attribute.value == "true":
-            self.__result = True
-        elif derived_attribute.value == "false":
-            self.__result = False
+        try:
+            self.__age_verified = int(split[1])
+            if derived_attribute.value == "true":
+                self.__result = True
+            elif derived_attribute.value == "false":
+                self.__result = False
+        except Exception:
+            raise MalformedAgeVerificationException
 
     @property
     def age(self):
