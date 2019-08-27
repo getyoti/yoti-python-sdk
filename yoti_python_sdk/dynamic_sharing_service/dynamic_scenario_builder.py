@@ -14,7 +14,7 @@ class DynamicScenarioBuilder(object):
 
     def with_policy(self, policy):
         """
-        :param policy: A DynamicPolicy defining the attributes to be shared
+        :param policy: A DynamicPolicy defining the attributes to be requested
         """
         self.__scenario["policy"] = policy
         return self
