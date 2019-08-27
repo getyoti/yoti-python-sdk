@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from yoti_python_sdk.config import PASSPORT, PASS_CARD, NATIONAL_ID, DRIVING_LICENCE
+from yoti_python_sdk.config import (
+    ANCHOR_VALUE_PASSPORT,
+    ANCHOR_VALUE_PASS_CARD,
+    ANCHOR_VALUE_NATIONAL_ID,
+    ANCHOR_VALUE_DRIVING_LICENCE,
+)
 
 from .wanted_anchor_builder import WantedAnchorBuilder
 
@@ -21,8 +26,8 @@ class SourceConstraintBuilder(object):
 
     def with_anchor(self, anchor):
         """
-        :param anchor: Add an anchor to the source constraint. You should prefer
-                       use one of the other helper methods instead of this one.
+        :param anchor: Add an anchor to the source constraint.
+        It is recommended to use the other helper methods isntead of this one
         """
         self.__anchors.append(anchor)
         return self
@@ -39,25 +44,25 @@ class SourceConstraintBuilder(object):
         """
         :param subtype: Subtype information as a string
         """
-        return self.with_anchor_by_name(PASSPORT, subtype)
+        return self.with_anchor_by_name(ANCHOR_VALUE_PASSPORT, subtype)
 
     def with_national_id(self, subtype=""):
         """
         :param subtype: Subtype information as a string
         """
-        return self.with_anchor_by_name(NATIONAL_ID, subtype)
+        return self.with_anchor_by_name(ANCHOR_VALUE_NATIONAL_ID, subtype)
 
     def with_passcard(self, subtype=""):
         """
         :param subtype: Subtype information as a string
         """
-        return self.with_anchor_by_name(PASS_CARD, subtype)
+        return self.with_anchor_by_name(ANCHOR_VALUE_PASS_CARD, subtype)
 
     def with_driving_licence(self, subtype=""):
         """
         :param subtype: Subtype information as a string
         """
-        return self.with_anchor_by_name(DRIVING_LICENCE, subtype)
+        return self.with_anchor_by_name(ANCHOR_VALUE_DRIVING_LICENCE, subtype)
 
     def build(self):
         """
