@@ -32,13 +32,6 @@ class WantedAttributeBuilder(object):
         self.__attribute["accept_self_asserted"] = value
         return self
 
-    def with_optional(self, value=True):
-        """
-        :param value: True if this user attribute is optional in the returned receipt
-        """
-        self.__attribute["optional"] = value
-        return self
-
     def with_constraint(self, constraint):
         """
         :param constraint: Adds a constraint (e.g. a source constraint) to the
