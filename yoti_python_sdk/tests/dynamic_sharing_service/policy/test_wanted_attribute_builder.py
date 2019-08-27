@@ -47,11 +47,6 @@ def test_with_multiple_constraints():
     assert len(constraints) == 2
 
 
-def test_optional():
-    attribute = WantedAttributeBuilder().with_name("test name").with_optional().build()
-    assert attribute["optional"]
-
-
 def test_acccept_self_assert():
     attribute = (
         WantedAttributeBuilder()
