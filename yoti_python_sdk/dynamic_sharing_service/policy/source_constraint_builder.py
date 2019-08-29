@@ -27,7 +27,7 @@ class SourceConstraintBuilder(object):
     def with_anchor(self, anchor):
         """
         :param anchor: Add an anchor to the source constraint.
-        It is recommended to use the other helper methods isntead of this one
+        It is recommended to use the other helper methods instead of this one
         """
         self.__anchors.append(anchor)
         return self
