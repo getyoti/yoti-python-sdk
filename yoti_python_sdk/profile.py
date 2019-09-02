@@ -178,11 +178,14 @@ class Profile(BaseProfile):
             self.verifications = {}
             for key in self.attributes:
                 attribute = self.attributes[key]
-                if (
-                    config.ATTRIBUTE_AGE_OVER in attribute.name
-                    or config.ATTRIBUTE_AGE_UNDER in attribute.name
-                ):
-                    self.verifications[attribute.name] = AgeVerification(attribute)
+                if hasattr(
+                    attribute, "name"
+                ):  # This will be changed in v3 as selfie will be an object rather than a string
+                    if (
+                        config.ATTRIBUTE_AGE_OVER in attribute.name
+                        or config.ATTRIBUTE_AGE_UNDER in attribute.name
+                    ):
+                        self.verifications[attribute.name] = AgeVerification(attribute)
 
     def ensure_postal_address(self):
         if (
