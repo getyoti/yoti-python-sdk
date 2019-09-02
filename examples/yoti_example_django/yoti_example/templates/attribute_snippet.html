@@ -6,7 +6,7 @@
         <span class="yoti-attribute-name-cell-text">{{ name }}</span>
       </div>
     </div>
-      
+
     <div class="yoti-attribute-value">
       <div class="yoti-attribute-value-text">
         {% if prop.name == "document_images" %}
@@ -33,6 +33,21 @@
                 <td>{{ value }}</td>
               </tr>
             {% endfor %}
+          </table>
+        {% elif prop.name == "age_verified" %}
+          <table>
+            <tr>
+              <td>Check Type</td>
+              <td>{{ prop.value.check_type }}</td>
+            </tr>
+            <tr>
+              <td>Age</td>
+              <td>{{ prop.value.age }}</td>
+            </tr>
+            <tr>
+              <td>Result</td>
+              <td>{{ prop.value.result }}</td>
+            </tr>
           </table>
         {% else %}
           {{ prevalue }}
