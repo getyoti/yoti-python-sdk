@@ -29,6 +29,23 @@
   </table>
 {% endmacro %}
 
+{% macro parse_age_verification(prop) %}
+  <table>
+    <tr>
+      <td>Check Type</td>
+      <td>{{ prop.value.check_type }}</td>
+    </tr>
+    <tr>
+      <td>Age</td>
+      <td>{{ prop.value.age }}</td>
+    </tr>
+    <tr>
+      <td>Result</td>
+      <td>{{ prop.value.result }}</td>
+    </tr>
+  </table>
+{% endmacro %}
+
 {% macro attribute(name, icon, prop, prevalue="") %}
   {% if prop %}
     {% if prop.value %}
@@ -48,6 +65,8 @@
               {{ parse_structured_address(prop) }}
             {% elif prop.name == "document_details" %}
               {{ parse_document_details(prop) }}
+            {% elif prop.name == "age_verified" %}
+              {{ parse_age_verification(prop) }}
             {% else %}
               {{ prevalue }}
               {{ prop.value }}
