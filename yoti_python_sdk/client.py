@@ -31,13 +31,6 @@ class Client(object):
         pem_file_path_env = environ.get("YOTI_KEY_FILE_PATH", pem_file_path)
 
         self.__crypto = Crypto.read_pem_file(pem_file_path_env)
-
-        self.__signed_request = (
-            SignedRequest.builder()
-            .with_pem_file(self.__crypto)
-            .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
-            .build()
-        )
         self.__endpoint = Endpoint(sdk_id)
 
     def get_activity_details(self, encrypted_request_token):
@@ -119,12 +112,21 @@ class Client(object):
         decrypted_token = self.__crypto.decrypt_token(encrypted_request_token).decode(
             "utf-8"
         )
-        query_params = {"appId": self.sdk_id}
         path = self.__endpoint.get_activity_details_request_path(
             decrypted_token, no_params=True
         )
 
-        response = self.__signed_request.get(path, query_params)
+        signed_request = (
+            SignedRequest.builder()
+            .with_get()
+            .with_pem_file(self.__crypto)
+            .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
+            .with_endpoint(path)
+            .with_param("appId", self.sdk_id)
+            .build()
+        )
+
+        response = signed_request.execute()
 
         self.http_error_handler(
             response, {"default": "Unsuccessful Yoti API call: {} {}"}
