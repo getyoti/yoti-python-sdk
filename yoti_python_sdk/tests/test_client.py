@@ -299,7 +299,7 @@ def test_perform_aml_check_details_with_correct_data(
 
     aml_result = client.perform_aml_check(aml_profile)
 
-    mock_post.assert_called_once()
+    mock_post.assert_called_once_with()
 
     assert isinstance(aml_result, aml.AmlResult)
     assert isinstance(aml_result.on_watch_list, bool)
