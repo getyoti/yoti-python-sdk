@@ -98,7 +98,6 @@ class SignedRequest(object):
         Send the signed request, using the default RequestHandler if one has not be supplied
         """
         if self.__request_handler is None:
-            print("Using default request handler")
             return DefaultRequestHandler.execute(self)
 
         return self.__request_handler.execute(self)
