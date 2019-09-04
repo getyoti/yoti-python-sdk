@@ -19,7 +19,7 @@ SHARE_URL_ERRORS.update(client.DEFAULT_HTTP_CLIENT_ERRORS)
 def create_share_url(yoti_client, dynamic_scenario):
     http_method = "POST"
     payload = json.dumps(dynamic_scenario, sort_keys=True).encode()
-    endpoint = yoti_client.endpoints.get_dynamic_share_request_url()
+    endpoint = yoti_client.endpoints.get_dynamic_share_request_url(no_params=True)
     response = yoti_client.make_request(http_method, endpoint, payload)
 
     client.Client.http_error_handler(response, SHARE_URL_ERRORS)

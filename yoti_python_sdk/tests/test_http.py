@@ -3,10 +3,9 @@ try:
 except ImportError:
     import mock
 
-from yoti_python_sdk.http import SignedRequest
+from yoti_python_sdk.http import SignedRequest, DefaultRequestHandler
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.tests import conftest
-from requests import PreparedRequest
 
 from yoti_python_sdk.tests.mocks import mocked_requests_get
 
@@ -218,20 +217,6 @@ def test_create_signed_request_with_post_convenience_method(
     )
 
 
-def test_create_prepared_request_from_signed_request(valid_base_url, valid_endpoint):
-    signed_request = (
-        SignedRequest.builder()
-        .with_pem_file(conftest.PEM_FILE_PATH)
-        .with_base_url(valid_base_url)
-        .with_endpoint(valid_endpoint)
-        .with_post()
-        .build()
-    )
-
-    prepared_request = signed_request.prepare()
-    assert isinstance(prepared_request, PreparedRequest)
-
-
 @mock.patch("requests.request", side_effect=mocked_requests_get)
 def test_execute_signed_request(valid_base_url, valid_endpoint):
     signed_request = (
@@ -247,3 +232,67 @@ def test_execute_signed_request(valid_base_url, valid_endpoint):
 
     assert response.status_code == 200
     assert response.text is not None
+
+
+def test_signed_request_with_custom_request_handler(
+    valid_base_url, valid_endpoint, mock_request_handler
+):
+    signed_request = (
+        SignedRequest.builder()
+        .with_pem_file(conftest.PEM_FILE_PATH)
+        .with_base_url(valid_base_url)
+        .with_endpoint(valid_endpoint)
+        .with_request_handler(mock_request_handler)
+        .with_post()
+        .build()
+    )
+
+    response = signed_request.execute()
+
+    assert response.status_code == 200
+    assert response.text is not None
+
+
+@mock.patch("requests.request", side_effect=mocked_requests_get)
+def test_signed_request_passing_request_handler_as_none(valid_base_url, valid_endpoint):
+    signed_request = (
+        SignedRequest.builder()
+        .with_pem_file(conftest.PEM_FILE_PATH)
+        .with_base_url(valid_base_url)
+        .with_endpoint(valid_endpoint)
+        .with_request_handler(None)
+        .with_post()
+        .build()
+    )
+
+    response = signed_request.execute()
+
+    assert response.status_code == 200
+    assert response.text is not None
+
+
+def test_signed_request_should_throw_error_when_request_handler_wrong_type(
+    valid_base_url, valid_endpoint
+):
+
+    with pytest.raises(TypeError) as ex:
+        (
+            SignedRequest.builder()
+            .with_pem_file(conftest.PEM_FILE_PATH)
+            .with_base_url(valid_base_url)
+            .with_endpoint(valid_endpoint)
+            .with_request_handler("myRequestHandler")
+            .with_post()
+            .build()
+        )
+
+    assert "yoti_python_sdk.http.RequestHandler" in str(ex.value)
+
+
+def test_default_request_handler_should_raise_exception_when_passed_non_signed_request(
+    valid_base_url, valid_endpoint
+):
+    with pytest.raises(TypeError) as ex:
+        DefaultRequestHandler.execute("someBadValue")
+
+    assert "RequestHandler expects instance of SignedRequest" == str(ex.value)
