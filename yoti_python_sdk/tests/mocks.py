@@ -1,10 +1,23 @@
 from uuid import UUID
+from yoti_python_sdk.http import RequestHandler, SignedRequest
 
 
 class MockResponse:
     def __init__(self, status_code, text):
         self.status_code = status_code
         self.text = text
+
+
+class MockRequestHandler(RequestHandler):
+    @staticmethod
+    def execute(request):
+        """
+        Execute the HTTP request supplied
+        """
+        if not isinstance(request, SignedRequest):
+            raise RuntimeError("RequestHandler expects instance of SignedRequest")
+
+        return mocked_requests_get()
 
 
 def mocked_requests_get(*args, **kwargs):

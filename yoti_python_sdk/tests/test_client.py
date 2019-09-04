@@ -1,33 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import json
-from datetime import datetime
-from os import environ
-
-import pytest
-from cryptography.fernet import base64
-from past.builtins import basestring
-
-from yoti_python_sdk import config
-
 try:
     from unittest import mock
 except ImportError:
     import mock
 
-import yoti_python_sdk
+from datetime import datetime
+from os import environ
+from past.builtins import basestring
+
+from yoti_python_sdk import config
 from yoti_python_sdk import YOTI_API_ENDPOINT
 from yoti_python_sdk import Client
 from yoti_python_sdk import aml
-from yoti_python_sdk.config import (
-    JSON_CONTENT_TYPE,
-    X_YOTI_AUTH_KEY,
-    X_YOTI_AUTH_DIGEST,
-    X_YOTI_SDK,
-    SDK_IDENTIFIER,
-    X_YOTI_SDK_VERSION,
-)
 from yoti_python_sdk.client import NO_KEY_FILE_SPECIFIED_ERROR
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.tests.conftest import YOTI_CLIENT_SDK_ID, PEM_FILE_PATH
@@ -41,6 +27,17 @@ from yoti_python_sdk.tests.mocks import (
     mocked_timestamp,
     mocked_uuid4,
 )
+from yoti_python_sdk.config import (
+    JSON_CONTENT_TYPE,
+    X_YOTI_AUTH_KEY,
+    X_YOTI_AUTH_DIGEST,
+    X_YOTI_SDK,
+    SDK_IDENTIFIER,
+    X_YOTI_SDK_VERSION,
+)
+
+import pytest
+import yoti_python_sdk
 
 INVALID_KEY_FILE_PATH = "/invalid/path/to/file.txt"
 INVALID_KEY_FILES = (
@@ -149,7 +146,9 @@ def test_creating_client_instance_with_valid_key_file_env_but_invalid_key_file_a
     assert str(INVALID_KEY_FILE_PATH) in str(exc.value)
 
 
-@mock.patch("requests.get", side_effect=mocked_requests_get)
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute", side_effect=mocked_requests_get
+)
 @mock.patch("time.time", side_effect=mocked_timestamp)
 @mock.patch("uuid.uuid4", side_effect=mocked_uuid4)
 def test_requesting_activity_details_with_correct_data(
@@ -163,9 +162,6 @@ def test_requesting_activity_details_with_correct_data(
 ):
     activity_details = client.get_activity_details(encrypted_request_token)
 
-    mock_get.assert_called_once_with(
-        url=expected_activity_details_url, headers=expected_get_headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
-    )
     assert isinstance(activity_details, ActivityDetails)
 
     assert (
@@ -199,7 +195,10 @@ def test_requesting_activity_details_with_correct_data(
     assert "" in [anchor.value for anchor in phone_number.anchors]
 
 
-@mock.patch("requests.get", side_effect=mocked_requests_get_null_profile)
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_requests_get_null_profile,
+)
 @mock.patch("time.time", side_effect=mocked_timestamp)
 @mock.patch("uuid.uuid4", side_effect=mocked_uuid4)
 def test_requesting_activity_details_with_null_profile(
@@ -213,9 +212,6 @@ def test_requesting_activity_details_with_null_profile(
 ):
     activity_details = client.get_activity_details(encrypted_request_token)
 
-    mock_get.assert_called_once_with(
-        url=expected_activity_details_url, headers=expected_get_headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
-    )
     assert (
         activity_details.user_id
         == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
@@ -228,7 +224,10 @@ def test_requesting_activity_details_with_null_profile(
     assert isinstance(activity_details, ActivityDetails)
 
 
-@mock.patch("requests.get", side_effect=mocked_requests_get_empty_profile)
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_requests_get_empty_profile,
+)
 @mock.patch("time.time", side_effect=mocked_timestamp)
 @mock.patch("uuid.uuid4", side_effect=mocked_uuid4)
 def test_requesting_activity_details_with_empty_profile(
@@ -242,9 +241,6 @@ def test_requesting_activity_details_with_empty_profile(
 ):
     activity_details = client.get_activity_details(encrypted_request_token)
 
-    mock_get.assert_called_once_with(
-        url=expected_activity_details_url, headers=expected_get_headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
-    )
     assert (
         activity_details.user_id
         == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
@@ -257,7 +253,10 @@ def test_requesting_activity_details_with_empty_profile(
     assert isinstance(activity_details, ActivityDetails)
 
 
-@mock.patch("requests.get", side_effect=mocked_requests_get_missing_profile)
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_requests_get_missing_profile,
+)
 @mock.patch("time.time", side_effect=mocked_timestamp)
 @mock.patch("uuid.uuid4", side_effect=mocked_uuid4)
 def test_requesting_activity_details_with_missing_profile(
@@ -271,9 +270,6 @@ def test_requesting_activity_details_with_missing_profile(
 ):
     activity_details = client.get_activity_details(encrypted_request_token)
 
-    mock_get.assert_called_once_with(
-        url=expected_activity_details_url, headers=expected_get_headers, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
-    )
     assert (
         activity_details.user_id
         == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
@@ -286,48 +282,10 @@ def test_requesting_activity_details_with_missing_profile(
     assert isinstance(activity_details, ActivityDetails)
 
 
-@mock.patch("requests.get", side_effect=mocked_requests_get)
-@mock.patch("time.time", side_effect=mocked_timestamp)
-@mock.patch("uuid.uuid4", side_effect=mocked_uuid4)
-def test_creating_request_with_unsupported_http_method(
-    mock_uuid4, mock_time, mock_get, client, expected_get_headers
-):
-    with pytest.raises(ValueError):
-        client._Client__create_request(
-            http_method="UNSUPPORTED_METHOD", path=YOTI_API_ENDPOINT, content=None
-        )
-
-
-@mock.patch("requests.get", side_effect=mocked_requests_get)
-@mock.patch("uuid.uuid4", side_effect=mocked_uuid4)
-@mock.patch("time.time", side_effect=mocked_timestamp)
-def test_creating_request_with_supported_http_method(
-    mock_uuid4, mock_time, mock_get, client, expected_get_headers
-):
-    client._Client__create_request(
-        http_method="GET", path=YOTI_API_ENDPOINT, content=None
-    )
-
-
-@mock.patch("requests.get", side_effect=mocked_requests_get)
-@mock.patch("uuid.uuid4", side_effect=mocked_uuid4)
-@mock.patch("time.time", side_effect=mocked_timestamp)
-def test_creating_request_content_is_added(
-    mock_uuid4, mock_time, mock_get, client, expected_get_headers
-):
-    content = '{"Content"}'
-    content_bytes = content.encode()
-    request = client._Client__create_request(
-        http_method="GET", path=YOTI_API_ENDPOINT, content=content_bytes
-    )
-
-    b64encoded = base64.b64encode(content_bytes)
-    b64ascii = b64encoded.decode("ascii")
-
-    assert request.endswith("&" + b64ascii)
-
-
-@mock.patch("requests.post", side_effect=mocked_requests_post_aml_profile)
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_requests_post_aml_profile,
+)
 @mock.patch("time.time", side_effect=mocked_timestamp)
 @mock.patch("uuid.uuid4", side_effect=mocked_uuid4)
 def test_perform_aml_check_details_with_correct_data(
@@ -341,12 +299,7 @@ def test_perform_aml_check_details_with_correct_data(
 
     aml_result = client.perform_aml_check(aml_profile)
 
-    aml_profile_json = json.dumps(aml_profile.__dict__, sort_keys=True)
-    aml_profile_bytes = aml_profile_json.encode()
-
-    mock_post.assert_called_once_with(
-        url=expected_aml_url, headers=expected_post_headers, data=aml_profile_bytes, verify=yoti_python_sdk.YOTI_API_VERIFY_SSL
-    )
+    mock_post.assert_called_once()
 
     assert isinstance(aml_result, aml.AmlResult)
     assert isinstance(aml_result.on_watch_list, bool)
@@ -363,7 +316,10 @@ def test_perform_aml_check_with_null_profile(client):
     assert expected_error in str(exc.value)
 
 
-@mock.patch("requests.post", side_effect=mocked_requests_post_aml_profile_not_found)
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_requests_post_aml_profile_not_found,
+)
 @mock.patch("time.time", side_effect=mocked_timestamp)
 @mock.patch("uuid.uuid4", side_effect=mocked_uuid4)
 def test_perform_aml_check_with_unsuccessful_call(

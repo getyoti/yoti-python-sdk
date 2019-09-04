@@ -4,8 +4,6 @@ from __future__ import unicode_literals
 import json
 from os import environ
 
-import requests
-
 import yoti_python_sdk
 from yoti_python_sdk import aml
 from yoti_python_sdk.activity_details import ActivityDetails
@@ -26,12 +24,36 @@ DEFAULT_HTTP_CLIENT_ERRORS = {"default": UNKNOWN_HTTP_ERROR}
 
 
 class Client(object):
-    def __init__(self, sdk_id=None, pem_file_path=None):
+    def __init__(self, sdk_id=None, pem_file_path=None, request_handler=None):
         self.sdk_id = sdk_id or environ.get("YOTI_CLIENT_SDK_ID")
         pem_file_path_env = environ.get("YOTI_KEY_FILE_PATH", pem_file_path)
 
-        self.__crypto = Crypto.read_pem_file(pem_file_path_env)
+        if pem_file_path is not None:
+            error_source = "argument specified in Client()"
+            self.__crypto = Crypto.read_pem_file(pem_file_path, error_source)
+        elif pem_file_path_env is not None:
+            error_source = "specified by the YOTI_KEY_FILE_PATH env variable"
+            self.__crypto = Crypto.read_pem_file(pem_file_path_env, error_source)
+        else:
+            raise RuntimeError(NO_KEY_FILE_SPECIFIED_ERROR)
+
         self.__endpoint = Endpoint(sdk_id)
+        self.__request_handler = request_handler
+
+    def make_request(self, http_method, endpoint, body):
+        signed_request = (
+            SignedRequest.builder()
+            .with_pem_file(self.__crypto)
+            .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
+            .with_endpoint(endpoint)
+            .with_http_method(http_method)
+            .with_payload(body)
+            .with_request_handler(self.__request_handler)
+            .build()
+        )
+
+        response = signed_request.execute()
+        return response
 
     def get_activity_details(self, encrypted_request_token):
         response = self.__make_activity_details_request(encrypted_request_token)
@@ -70,23 +92,9 @@ class Client(object):
         if aml_profile is None:
             raise TypeError("aml_profile not set")
 
-        http_method = "POST"
-
-        response = self.__make_aml_check_request(http_method, aml_profile)
+        response = self.__make_aml_check_request(aml_profile)
 
         return aml.AmlResult(response.text)
-
-    def make_request(self, http_method, endpoint, body):
-        url = yoti_python_sdk.YOTI_API_ENDPOINT + endpoint
-        headers = self.__get_request_headers(endpoint, http_method, body)
-        response = requests.request(
-            http_method,
-            url,
-            headers=headers,
-            data=body,
-            verify=yoti_python_sdk.YOTI_API_VERIFY_SSL,
-        )
-        return response
 
     @property
     def endpoints(self):
@@ -123,6 +131,7 @@ class Client(object):
             .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
             .with_endpoint(path)
             .with_param("appId", self.sdk_id)
+            .with_request_handler(self.__request_handler)
             .build()
         )
 
@@ -134,19 +143,24 @@ class Client(object):
 
         return response
 
-    def __make_aml_check_request(self, http_method, aml_profile):
+    def __make_aml_check_request(self, aml_profile):
         aml_profile_json = json.dumps(aml_profile.__dict__, sort_keys=True)
         aml_profile_bytes = aml_profile_json.encode()
-        path = self.__endpoint.get_aml_request_url()
-        url = yoti_python_sdk.YOTI_API_ENDPOINT + path
-        headers = self.__get_request_headers(path, http_method, aml_profile_bytes)
+        path = self.__endpoint.get_aml_request_url(no_params=True)
 
-        response = requests.post(
-            url=url,
-            headers=headers,
-            data=aml_profile_bytes,
-            verify=yoti_python_sdk.YOTI_API_VERIFY_SSL,
+        signed_request = (
+            SignedRequest.builder()
+            .with_pem_file(self.__crypto)
+            .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
+            .with_endpoint(path)
+            .with_payload(aml_profile_bytes)
+            .with_param("appId", self.sdk_id)
+            .with_post()
+            .with_request_handler(self.__request_handler)
+            .build()
         )
+
+        response = signed_request.execute()
 
         self.http_error_handler(
             response, {"default": "Unsuccessful Yoti API call: {} {}"}

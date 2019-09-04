@@ -8,6 +8,7 @@ from yoti_python_sdk.config import (
     JSON_CONTENT_TYPE,
 )
 from cryptography.fernet import base64
+from abc import ABCMeta, abstractmethod
 
 import yoti_python_sdk
 import requests
@@ -17,19 +18,52 @@ import time
 try:  # pragma: no cover
     from urllib.parse import urlencode
 except ImportError:  # pragma: no cover
-    from urlparse import urlencode
+    from urllib import urlencode
 
 HTTP_POST = "POST"
 HTTP_GET = "GET"
 HTTP_SUPPORTED_METHODS = ["POST", "PUT", "PATCH", "GET", "DELETE"]
 
 
+class RequestHandler:
+    """
+    Default request handler for signing requests using the requests library.
+    This type can be inherited and the execute method overridden to use any
+    preferred HTTP library.
+    """
+
+    __metaclass__ = ABCMeta  # Python 2 compatability
+
+    @staticmethod
+    @abstractmethod
+    def execute(request):
+        return NotImplemented
+
+
+class DefaultRequestHandler(RequestHandler):
+    @staticmethod
+    def execute(request):
+        """
+        Execute the HTTP request supplied
+        """
+        if not isinstance(request, SignedRequest):
+            raise TypeError("RequestHandler expects instance of SignedRequest")
+
+        return requests.request(
+            url=request.url,
+            method=request.method,
+            data=request.data,
+            headers=request.headers,
+        )
+
+
 class SignedRequest(object):
-    def __init__(self, url, http_method, payload, headers):
+    def __init__(self, url, http_method, payload, headers, request_handler=None):
         self.__url = url
         self.__http_method = http_method
         self.__payload = payload
         self.__headers = headers
+        self.__request_handler = request_handler
 
     @property
     def url(self):
@@ -59,22 +93,15 @@ class SignedRequest(object):
         """
         return self.__headers
 
-    def prepare(self):
-        """
-        Creates a PreparedRequest object for use in a requests Session
-        """
-        r = requests.Request(
-            method=self.method, url=self.url, headers=self.headers, data=self.data
-        )
-        return r.prepare()
-
     def execute(self):
         """
-        Send the signed request, returning the requests Response object
+        Send the signed request, using the default RequestHandler if one has not be supplied
         """
-        return requests.request(
-            url=self.url, method=self.method, data=self.data, headers=self.headers
-        )
+        if self.__request_handler is None:
+            print("Using default request handler")
+            return DefaultRequestHandler.execute(self)
+
+        return self.__request_handler.execute(self)
 
     @staticmethod
     def builder():
@@ -93,6 +120,7 @@ class SignedRequestBuilder(object):
         self.__params = None
         self.__headers = None
         self.__payload = None
+        self.__request_handler = None
 
     def with_pem_file(self, pem_file):
         """
@@ -155,6 +183,25 @@ class SignedRequestBuilder(object):
             raise ValueError("{} is an unsupported HTTP method".format(http_method))
 
         self.__http_method = http_method
+        return self
+
+    def with_request_handler(self, handler):
+        # If no handler is passed, just return as the default will be used
+        if handler is None:
+            return self
+
+        try:
+            if not issubclass(handler, RequestHandler):
+                raise TypeError(
+                    "Handler must be instance of yoti_python_sdk.http.RequestHandler"
+                )
+        except Exception:
+            # ABC
+            raise TypeError(
+                "Handler must be instance of yoti_python_sdk.http.RequestHandler"
+            )
+
+        self.__request_handler = handler
         return self
 
     def with_post(self):
@@ -270,4 +317,6 @@ class SignedRequestBuilder(object):
         )
         url = self.__base_url + endpoint
 
-        return SignedRequest(url, self.__http_method, self.__payload, headers)
+        return SignedRequest(
+            url, self.__http_method, self.__payload, headers, self.__request_handler
+        )
