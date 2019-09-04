@@ -14,9 +14,9 @@ import requests
 import uuid
 import time
 
-try:
+try:  # pragma: no cover
     from urllib.parse import urlencode
-except ImportError:
+except ImportError:  # pragma: no cover
     from urlparse import urlencode
 
 HTTP_POST = "POST"
@@ -70,11 +70,11 @@ class SignedRequest(object):
 
     def execute(self):
         """
-        Creates and sends a PreparedRequest in a requests Session, returning the requests Response object
+        Send the signed request, returning the requests Response object
         """
-        prepared = self.prepare()
-        with requests.Session() as s:
-            return s.send(prepared)
+        return requests.request(
+            url=self.url, method=self.method, data=self.data, headers=self.headers
+        )
 
     @staticmethod
     def builder():
@@ -120,6 +120,13 @@ class SignedRequestBuilder(object):
         self.__endpoint = endpoint
         return self
 
+    def with_payload(self, payload):
+        """
+        Sets the payload for the signed request.  Must be a valid JSON string
+        """
+        self.__payload = payload
+        return self
+
     def with_param(self, name, value):
         """
         Sets a query param to be used with the endpoint
@@ -144,6 +151,9 @@ class SignedRequestBuilder(object):
         """
         Sets the HTTP method to be used in the request
         """
+        if http_method not in HTTP_SUPPORTED_METHODS:
+            raise ValueError("{} is an unsupported HTTP method".format(http_method))
+
         self.__http_method = http_method
         return self
 
@@ -158,7 +168,7 @@ class SignedRequestBuilder(object):
         """
         Sets the HTTP method for a GET request
         """
-        self.__http_method = HTTP_GET
+        self.with_http_method(HTTP_GET)
         return self
 
     def __append_query_params(self, query_params=None):
@@ -216,12 +226,6 @@ class SignedRequestBuilder(object):
         :param content:
         :return:
         """
-        if http_method not in HTTP_SUPPORTED_METHODS:
-            raise ValueError(
-                "{} is not in the list of supported methods: {}".format(
-                    http_method, HTTP_SUPPORTED_METHODS
-                )
-            )
 
         request = "{}&{}".format(http_method, path)
 
