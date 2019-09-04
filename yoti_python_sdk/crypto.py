@@ -70,7 +70,7 @@ class Crypto:
         return stripped
 
     @staticmethod
-    def read_pem_file(key_file_path):
+    def read_pem_file(key_file_path, error_source=None):
         try:
             key_file_path = expanduser(key_file_path)
 
@@ -80,6 +80,8 @@ class Crypto:
             with open(key_file_path, "rb") as pem_file:
                 return Crypto(pem_file.read().strip())
         except (AttributeError, IOError, TypeError, OSError) as exc:
-            error = "Could not read private key file: '{0}'".format(key_file_path)
+            error = "Could not read private key file: '{0}', passed as: {1}".format(
+                key_file_path, error_source
+            )
             exception = "{0}: {1}".format(type(exc).__name__, exc)
             raise RuntimeError("{0}: {1}".format(error, exception))
