@@ -25,11 +25,17 @@ HTTP_GET = "GET"
 HTTP_SUPPORTED_METHODS = ["POST", "PUT", "PATCH", "GET", "DELETE"]
 
 
+class YotiResponse(object):
+    def __init__(self, status_code, text):
+        self.status_code = status_code
+        self.text = text
+
+
 class RequestHandler:
     """
     Default request handler for signing requests using the requests library.
     This type can be inherited and the execute method overridden to use any
-    preferred HTTP library.
+    preferred HTTP library.  Must return type YotiResponse for use in the SDK.
     """
 
     __metaclass__ = ABCMeta  # Python 2 compatability
@@ -49,12 +55,14 @@ class DefaultRequestHandler(RequestHandler):
         if not isinstance(request, SignedRequest):
             raise TypeError("RequestHandler expects instance of SignedRequest")
 
-        return requests.request(
+        response = requests.request(
             url=request.url,
             method=request.method,
             data=request.data,
             headers=request.headers,
         )
+
+        return YotiResponse(status_code=response.status_code, text=response.text)
 
 
 class SignedRequest(object):
