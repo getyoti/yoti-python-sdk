@@ -10,8 +10,6 @@ class Endpoint(object):
     def get_activity_details_request_path(
         self, decrypted_request_token, no_params=False
     ):
-        # TODO: Remove no_params in 3.0.0 and get rid of the query parameters in the formatted
-        # TODO: string
         if no_params:
             return "/profile/{0}".format(decrypted_request_token)
 
