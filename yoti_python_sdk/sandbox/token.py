@@ -248,5 +248,5 @@ class YotiTokenRequestBuilder(object):
         return YotiTokenRequest(self.remember_me_id, self.attributes)
 
     @staticmethod
-    def __create_attribute(self, name, value, anchors=None):
+    def __create_attribute(name, value, anchors=None):
         return SandboxAttribute(name, value, anchors)
