@@ -49,6 +49,15 @@ class SandboxClient(object):
         self.__crypto = Crypto(pem_data)
 
     def setup_sharing_profile(self, request_token):
+        """
+        Using the supplied YotiTokenRequest, this function will make a request
+        to the defined sandbox environment to create a profile with the supplied values.
+        The returned token can be used against the sandbox environment to retrieve the profile
+        using the standard YotiClient.
+
+        :param YotiTokenRequest request_token:
+        :return: the token for accessing a profile
+        """
         request_path = self.__endpoint.get_sandbox_path()
         response = SandboxClient.post(
             self.__sandbox_url, request_path, self.__crypto, request_token
@@ -58,6 +67,11 @@ class SandboxClient(object):
 
     @staticmethod
     def builder():
+        """
+        Creates an instance of the sandbox client builder
+
+        :return: instance of SandboxClientBuilder
+        """
         return SandboxClientBuilder()
 
     @staticmethod
@@ -124,18 +138,42 @@ class SandboxClientBuilder(object):
         self.__sandbox_url = None
 
     def for_application(self, sdk_id):
+        """
+        Sets the application ID on the builder
+
+        :param str sdk_id: the SDK ID supplied from Yoti Hub
+        :return: the updated builder
+        """
         self.__sdk_id = sdk_id
         return self
 
     def with_pem_file(self, pem_file):
+        """
+        Sets the pem file to be used on the builder
+
+        :param str pem_file: path to the PEM file
+        :return: the updated builder
+        """
         self.__pem_file = pem_file
         return self
 
     def with_sandbox_url(self, sandbox_url):
+        """
+        Sets the URL of the sandbox environment on the builder
+
+        :param str sandbox_url: the sandbox environment URL
+        :return: the updated builder
+        """
         self.__sandbox_url = sandbox_url
         return self
 
     def build(self):
+        """
+        Using all supplied values, create an instance of the SandboxClient.
+
+        :raises ValueError: one or more of the values is None
+        :return: instance of SandboxClient
+        """
         if (
             self.__sdk_id is None
             or self.__pem_file is None

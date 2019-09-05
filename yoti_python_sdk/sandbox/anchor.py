@@ -22,18 +22,38 @@ class SandboxAnchor(object):
 
     @property
     def anchor_type(self):
+        """
+        Returns the anchor type
+
+        :return: the type
+        """
         return self.__anchor_type
 
     @property
     def sub_type(self):
+        """
+        Returns the anchor sub-type
+
+        :return: the sub-type
+        """
         return self.__sub_type
 
     @property
     def value(self):
+        """
+        Returns the anchor value
+
+        :return: the value
+        """
         return self.__value
 
     @property
     def timestamp(self):
+        """
+        Returns the anchor timestamp
+
+        :return: the timestamp
+        """
         return self.__timestamp
 
     def __dict__(self):
@@ -46,6 +66,11 @@ class SandboxAnchor(object):
 
     @staticmethod
     def builder():
+        """
+        Creates an instance of the sandbox anchor builder
+
+        :return: instance of SandboxAnchorBuilder
+        """
         return SandboxAnchorBuilder()
 
 
@@ -57,22 +82,51 @@ class SandboxAnchorBuilder(object):
         self.__timestamp = None
 
     def with_type(self, type):
+        """
+        Sets the type of the anchor on the builder
+
+        :param str type: the anchor type
+        :return: the updated builder
+        """
         self.__type = type
         return self
 
     def with_value(self, value):
+        """
+        Sets the value of the anchor on the builder
+
+        :param str value: the anchor value
+        :return: the updated builder
+        """
         self.__value = value
         return self
 
     def with_sub_type(self, sub_type):
+        """
+        Sets the sub type of the anchor on the builder
+
+        :param str sub_type: the anchor sub type
+        :return: the updated builder
+        """
         self.__sub_type = sub_type
         return self
 
     def with_timestamp(self, timestamp):
+        """
+        Sets the timestamp of the anchor on the builder
+
+        :param int timestamp: the anchor timestamp
+        :return: the updated builder
+        """
         self.__timestamp = timestamp
         return self
 
     def build(self):
+        """
+        Creates a SandboxAnchor using values supplied to the builder
+
+        :return: the sandbox anchor
+        """
         return SandboxAnchor(
             self.__type, self.__sub_type, self.__value, self.__timestamp
         )
