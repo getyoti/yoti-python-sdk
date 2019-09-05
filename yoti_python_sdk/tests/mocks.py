@@ -1,11 +1,11 @@
 from uuid import UUID
 from yoti_python_sdk.http import RequestHandler, SignedRequest
+from yoti_python_sdk.http import YotiResponse
 
 
-class MockResponse:
+class MockResponse(YotiResponse):
     def __init__(self, status_code, text):
-        self.status_code = status_code
-        self.text = text
+        super(MockResponse, self).__init__(status_code, text)
 
 
 class MockRequestHandler(RequestHandler):
