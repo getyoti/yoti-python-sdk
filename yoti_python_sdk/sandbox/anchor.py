@@ -1,9 +1,4 @@
-UNKNOWN_EXTENSION = ""
-SOURCE_EXTENSION = "1.3.6.1.4.1.47127.1.1.1"
-VERIFIER_EXTENSION = "1.3.6.1.4.1.47127.1.1.2"
-
-UNKNOWN_ANCHOR_TYPE = "Unknown"
-UNKNOWN_ANCHOR_VALUE = ""
+from yoti_python_sdk.anchor import UNKNOWN_ANCHOR_TYPE
 
 
 class SandboxAnchor(object):

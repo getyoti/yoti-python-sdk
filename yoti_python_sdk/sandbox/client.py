@@ -14,6 +14,7 @@ from yoti_python_sdk.config import (
     X_YOTI_SDK_VERSION,
     JSON_CONTENT_TYPE,
 )
+from yoti_python_sdk.client import HTTP_SUPPORTED_METHODS
 from yoti_python_sdk.sandbox.token import YotiTokenRequest, YotiTokenResponse
 from yoti_python_sdk.sandbox.attribute import SandboxAttribute
 from yoti_python_sdk.sandbox.anchor import SandboxAnchor
@@ -34,9 +35,6 @@ class SandboxEncoder(JSONEncoder):
 
 
 class SandboxClient(object):
-
-    HTTP_SUPPORTED_METHODS = ["POST", "PUT", "PATCH", "GET", "DELETE"]
-
     def __init__(self, sdk_id, pem_file, sandbox_url):
         self.sdk_id = sdk_id
         self.__endpoint = SandboxEndpoint(sdk_id)
@@ -114,10 +112,10 @@ class SandboxClient(object):
 
     @staticmethod
     def __create_request(http_method, path, content):
-        if http_method not in SandboxClient.HTTP_SUPPORTED_METHODS:
+        if http_method not in HTTP_SUPPORTED_METHODS:
             raise ValueError(
                 "{} is not in the list of supported methods: {}".format(
-                    http_method, SandboxClient.HTTP_SUPPORTED_METHODS
+                    http_method, HTTP_SUPPORTED_METHODS
                 )
             )
 
