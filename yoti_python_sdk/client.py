@@ -9,7 +9,7 @@ from yoti_python_sdk import aml
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.endpoint import Endpoint
-from yoti_python_sdk.http import SignedRequest
+from yoti_python_sdk.http import SignedRequest, YotiResponse
 from yoti_python_sdk.protobuf import protobuf
 
 NO_KEY_FILE_SPECIFIED_ERROR = (
@@ -53,6 +53,10 @@ class Client(object):
         )
 
         response = signed_request.execute()
+
+        if not isinstance(response, YotiResponse):
+            raise TypeError("Response must be of type YotiResponse")
+
         return response
 
     def get_activity_details(self, encrypted_request_token):
@@ -93,6 +97,9 @@ class Client(object):
             raise TypeError("aml_profile not set")
 
         response = self.__make_aml_check_request(aml_profile)
+
+        if not isinstance(response, YotiResponse):
+            raise TypeError("Response must be of type YotiResponse")
 
         return aml.AmlResult(response.text)
 
@@ -161,6 +168,8 @@ class Client(object):
         )
 
         response = signed_request.execute()
+        if not isinstance(response, YotiResponse):
+            raise TypeError("Response must be of type YotiResponse")
 
         self.http_error_handler(
             response, {"default": "Unsuccessful Yoti API call: {} {}"}
