@@ -1,6 +1,5 @@
 from yoti_python_sdk.endpoint import Endpoint
-import time
-import uuid
+from yoti_python_sdk.utils import create_timestamp, create_nonce
 
 
 class SandboxEndpoint(Endpoint):
@@ -9,15 +8,5 @@ class SandboxEndpoint(Endpoint):
 
     def get_sandbox_path(self):
         return "/apps/{sdk_id}/tokens?timestamp={timestamp}&nonce={nonce}".format(
-            sdk_id=self.sdk_id,
-            nonce=self.__create_nonce(),
-            timestamp=self.__create_timestamp(),
+            sdk_id=self.sdk_id, nonce=create_nonce(), timestamp=create_timestamp()
         )
-
-    @staticmethod
-    def __create_nonce():
-        return uuid.uuid4()
-
-    @staticmethod
-    def __create_timestamp():
-        return int(time.time() * 1000)
