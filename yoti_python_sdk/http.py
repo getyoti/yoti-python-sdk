@@ -1,4 +1,5 @@
 from yoti_python_sdk.crypto import Crypto
+from yoti_python_sdk.utils import create_nonce, create_timestamp
 from yoti_python_sdk.config import (
     X_YOTI_AUTH_KEY,
     X_YOTI_AUTH_DIGEST,
@@ -12,8 +13,6 @@ from abc import ABCMeta, abstractmethod
 
 import yoti_python_sdk
 import requests
-import uuid
-import time
 
 try:  # pragma: no cover
     from urllib.parse import urlencode
@@ -230,10 +229,7 @@ class SignedRequestBuilder(object):
         Appends supplied query params in a dict to default query params.
         Returns a url encoded query param string
         """
-        required = {
-            "nonce": self.__create_nonce(),
-            "timestamp": self.__create_timestamp(),
-        }
+        required = {"nonce": create_nonce(), "timestamp": create_timestamp()}
 
         query_params = self.__merge_dictionary(query_params, required)
         return "?{}".format(urlencode(query_params))
@@ -303,14 +299,6 @@ class SignedRequestBuilder(object):
             raise ValueError("PEM file must not be None")
         if self.__http_method is None:
             raise ValueError("HTTP method must be specified")
-
-    @staticmethod
-    def __create_nonce():
-        return uuid.uuid4()
-
-    @staticmethod
-    def __create_timestamp():
-        return int(time.time() * 1000)
 
     def build(self):
         """
