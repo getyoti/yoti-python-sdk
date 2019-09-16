@@ -6,6 +6,7 @@ import pytest
 
 from yoti_python_sdk import Client
 from yoti_python_sdk.crypto import Crypto
+from yoti_python_sdk.tests.mocks import MockRequestHandler
 
 FIXTURES_DIR = join(dirname(abspath(__file__)), "fixtures")
 PEM_FILE_PATH = join(FIXTURES_DIR, "sdk-test.pem")
@@ -15,6 +16,11 @@ AUTH_DIGEST_GET_FILE_PATH = join(FIXTURES_DIR, "auth_digest_get.txt")
 AUTH_DIGEST_POST_FILE_PATH = join(FIXTURES_DIR, "auth_digest_post.txt")
 
 YOTI_CLIENT_SDK_ID = "737204aa-d54e-49a4-8bde-26ddbe6d880c"
+
+
+@pytest.fixture(scope="module")
+def mock_request_handler():
+    return MockRequestHandler
 
 
 @pytest.fixture(scope="module")
@@ -63,22 +69,22 @@ def timestamp():
 
 
 @pytest.fixture(scope="module")
-def successful_receipt():
+def successful_receipt(user_id, parent_remember_me_id, receipt_id, timestamp):
     return {
-        "remember_me_id": user_id(),
-        "parent_remember_me_id": parent_remember_me_id(),
-        "receipt_id": receipt_id(),
-        "timestamp": timestamp(),
+        "remember_me_id": user_id,
+        "parent_remember_me_id": parent_remember_me_id,
+        "receipt_id": receipt_id,
+        "timestamp": timestamp,
         "sharing_outcome": "SUCCESS",
     }
 
 
 @pytest.fixture(scope="module")
-def failure_receipt():
+def failure_receipt(user_id, timestamp):
     return {
-        "remember_me_id": user_id(),
+        "remember_me_id": user_id,
         "sharing_outcome": "FAILURE",
-        "timestamp": timestamp(),
+        "timestamp": timestamp,
     }
 
 

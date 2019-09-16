@@ -4,6 +4,9 @@ from yoti_python_sdk.dynamic_sharing_service.policy.dynamic_policy_builder impor
 from yoti_python_sdk.dynamic_sharing_service.policy.wanted_attribute_builder import (
     WantedAttributeBuilder,
 )
+from yoti_python_sdk.dynamic_sharing_service.policy.source_constraint_builder import (
+    SourceConstraintBuilder,
+)
 
 from yoti_python_sdk import config
 
@@ -119,3 +122,9 @@ def test_auth_types_can_exist_only_once():
     assert len(policy["wanted_auth_types"]) == 1
     assert DynamicPolicyBuilder.SELFIE_AUTH_TYPE not in policy["wanted_auth_types"]
     assert DynamicPolicyBuilder.PIN_AUTH_TYPE in policy["wanted_auth_types"]
+
+
+def test_attributes_with_constraints():
+    constraint = SourceConstraintBuilder().with_national_id().build()
+    policy = DynamicPolicyBuilder().with_nationality(constraints=constraint).build()
+    assert len(policy["wanted"][0]["constraints"]) == 1

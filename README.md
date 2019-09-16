@@ -295,6 +295,11 @@ Running the tests is done by the following process, ensuring you are using Pytho
         * [X] Address `postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
+    * [X] Application Profile `application_profile`
+        * [X] Name `application_name`
+        * [X] URL `application_url`
+        * [X] Logo `application_logo`
+        * [X] Receipt Background Color `application_receipt_bg_color`
     * [X] Base64 Selfie URI `base64_selfie_uri`
 
 ## Support

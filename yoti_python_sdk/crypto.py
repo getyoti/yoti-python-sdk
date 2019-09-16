@@ -5,6 +5,9 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
+from os.path import isfile, expanduser
+from past.builtins import basestring
+
 
 class Crypto:
     def __init__(self, pem_container):
@@ -65,3 +68,20 @@ class Crypto:
         if isinstance(stripped, bytearray):
             stripped = str(stripped)
         return stripped
+
+    @staticmethod
+    def read_pem_file(key_file_path, error_source=None):
+        try:
+            key_file_path = expanduser(key_file_path)
+
+            if not isinstance(key_file_path, basestring) or not isfile(key_file_path):
+                raise IOError("File not found: {0}".format(key_file_path))
+
+            with open(key_file_path, "rb") as pem_file:
+                return Crypto(pem_file.read().strip())
+        except (AttributeError, IOError, TypeError, OSError) as exc:
+            error = "Could not read private key file: '{0}', passed as: {1}".format(
+                key_file_path, error_source
+            )
+            exception = "{0}: {1}".format(type(exc).__name__, exc)
+            raise RuntimeError("{0}: {1}".format(error, exception))
