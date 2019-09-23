@@ -725,3 +725,31 @@ def test_get_age_verifications():
     age_verifications = human_profile.get_age_verifications()
 
     assert len(age_verifications) == 1
+
+
+def test_expect_none_when_no_age_over_verification_exists():
+    attribute_list = create_single_attribute_list(
+        name=config.ATTRIBUTE_GIVEN_NAMES,
+        value="Jenny",
+        anchors=None,
+        content_type=Protobuf.CT_STRING,
+    )
+
+    human_profile = Profile(attribute_list)
+
+    age_over_verification = human_profile.find_age_over_verification(18)
+    assert age_over_verification is None
+
+
+def test_expect_none_when_no_age_under_verification_exists():
+    attribute_list = create_single_attribute_list(
+        name=config.ATTRIBUTE_GIVEN_NAMES,
+        value="Jenny",
+        anchors=None,
+        content_type=Protobuf.CT_STRING,
+    )
+
+    human_profile = Profile(attribute_list)
+
+    age_under_verification = human_profile.find_age_under_verification(18)
+    assert age_under_verification is None
