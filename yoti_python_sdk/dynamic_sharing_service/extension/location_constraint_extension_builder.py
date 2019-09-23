@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from deprecated import deprecated
+
 
 class LocationConstraintExtensionBuilder(object):
     LOCATION_CONSTRAINT = "LOCATION_CONSTRAINT"
@@ -11,7 +13,7 @@ class LocationConstraintExtensionBuilder(object):
         self.__extension["content"] = {}
         self.__device_location = {
             "latitude": None,
-            "longtitude": None,
+            "longitude": None,
             "radius": None,
             "max_uncertainty_radius": None,
         }
@@ -21,8 +23,16 @@ class LocationConstraintExtensionBuilder(object):
         self.__device_location["latitude"] = latitude
         return self
 
+    @deprecated
     def with_longtitude(self, longtitude):
-        self.__device_location["longtitude"] = longtitude
+        """
+        To be removed in v3.0.0
+        Use with_longitude instead
+        """
+        return self.with_longitude(longtitude)
+
+    def with_longitude(self, longitude):
+        self.__device_location["longitude"] = longitude
         return self
 
     def with_radius(self, radius):
