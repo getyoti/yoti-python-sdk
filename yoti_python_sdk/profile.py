@@ -167,11 +167,15 @@ class Profile(BaseProfile):
 
     def find_age_over_verification(self, age):
         self.__find_all_age_verifications()
-        return self.verifications[config.ATTRIBUTE_AGE_OVER + str(age)]
+        if config.ATTRIBUTE_AGE_OVER + str(age) in self.verifications:
+            return self.verifications[config.ATTRIBUTE_AGE_OVER + str(age)]
+        return None
 
     def find_age_under_verification(self, age):
         self.__find_all_age_verifications()
-        return self.verifications[config.ATTRIBUTE_AGE_UNDER + str(age)]
+        if (config.ATTRIBUTE_AGE_UNDER + str(age)) in self.verifications:
+            return self.verifications[config.ATTRIBUTE_AGE_UNDER + str(age)]
+        return None
 
     def __find_all_age_verifications(self):
         if self.verifications is None:

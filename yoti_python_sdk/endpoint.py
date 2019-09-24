@@ -25,7 +25,7 @@ class Endpoint(object):
 
     def get_dynamic_share_request_url(self, no_params=False):
         if no_params:
-            return "/qrcodes/app/{appid}".format(appid=self.sdk_id)
+            return "/qrcodes/apps/{appid}".format(appid=self.sdk_id)
 
         return "/qrcodes/apps/{appid}?nonce={nonce}&timestamp={timestamp}".format(
             appid=self.sdk_id, nonce=create_nonce(), timestamp=create_timestamp()
