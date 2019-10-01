@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from deprecated import deprecated
-
 
 class LocationConstraintExtensionBuilder(object):
     LOCATION_CONSTRAINT = "LOCATION_CONSTRAINT"
@@ -26,14 +24,6 @@ class LocationConstraintExtensionBuilder(object):
             raise ValueError("Latitude must be between -90 and 90 degrees")
         self.__device_location["latitude"] = latitude
         return self
-
-    @deprecated
-    def with_longtitude(self, longtitude):
-        """
-        To be removed in v3.0.0
-        Use with_longitude instead
-        """
-        return self.with_longitude(longtitude)
 
     def with_longitude(self, longitude):
         if not isinstance(longitude, float) and not isinstance(longitude, int):

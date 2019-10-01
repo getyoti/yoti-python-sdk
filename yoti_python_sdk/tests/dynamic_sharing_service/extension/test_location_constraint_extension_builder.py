@@ -7,58 +7,56 @@ from yoti_python_sdk.dynamic_sharing_service.extension.location_constraint_exten
 import pytest
 
 
-def test_longitude_validation():
+@pytest.mark.parametrize("longitude", [270.00, -181, "27.00"])
+def test_longitude_validation_should_reject_invalid(longitude):
     extension = LocationConstraintExtensionBuilder()
     with pytest.raises(ValueError):
-        extension.with_longitude(270.00)
-    with pytest.raises(ValueError):
-        extension.with_longitude(-181)
-    with pytest.raises(ValueError):
-        extension.with_longitude("27.00")
-    extension.with_longitude(180.0)
-    extension.with_longitude(-90)
+        extension.with_longitude(longitude)
 
 
-def test_latitude_validation():
+@pytest.mark.parametrize("longitude", [180.0, -90])
+def test_longitude_vaidation_should_accept_valid(longitude):
+    extension = LocationConstraintExtensionBuilder()
+    extension.with_longitude(longitude)
+
+
+@pytest.mark.parametrize("latitude", [270.00, -181, "27.00", 91, -180])
+def test_latitude_validation_should_reject_invalid(latitude):
     extension = LocationConstraintExtensionBuilder()
     with pytest.raises(ValueError):
-        extension.with_latitude(270.00)
-    with pytest.raises(ValueError):
-        extension.with_latitude(-181)
-    with pytest.raises(ValueError):
-        extension.with_latitude("27.00")
-    with pytest.raises(ValueError):
-        extension.with_latitude(91)
-    with pytest.raises(ValueError):
-        extension.with_latitude(-180)
-    extension.with_latitude(18.0)
-    extension.with_latitude(-90)
+        extension.with_latitude(latitude)
 
 
-def test_uncertainty_validation():
+@pytest.mark.parametrize("latitude", [18.0, -90])
+def test_latitude_validation_should_accept_valid(latitude):
+    extension = LocationConstraintExtensionBuilder()
+    extension.with_latitude(latitude)
+
+
+@pytest.mark.parametrize("uncertainty", [-1, -0.01, "3"])
+def test_uncertainty_validation_should_reject_invalid(uncertainty):
     extension = LocationConstraintExtensionBuilder()
     with pytest.raises(ValueError):
-        extension.with_uncertainty(-1)
-    with pytest.raises(ValueError):
-        extension.with_uncertainty(-0.01)
-    with pytest.raises(ValueError):
-        extension.with_uncertainty("3")
-    extension.with_uncertainty(0)
-    extension.with_uncertainty(1)
-    extension.with_uncertainty(1e3)
+        extension.with_uncertainty(uncertainty)
 
 
-def test_radius_validation():
+@pytest.mark.parametrize("uncertainty", [0, 1, 1e3])
+def test_uncertainty_validation_should_accept_valid(uncertainty):
+    extension = LocationConstraintExtensionBuilder()
+    extension.with_uncertainty(uncertainty)
+
+
+@pytest.mark.parametrize("radius", [-1, -0.01, "3"])
+def test_radius_validation_should_reject_invalid(radius):
     extension = LocationConstraintExtensionBuilder()
     with pytest.raises(ValueError):
-        extension.with_radius(-1)
-    with pytest.raises(ValueError):
-        extension.with_radius(-0.01)
-    with pytest.raises(ValueError):
-        extension.with_radius("3")
-    extension.with_radius(0)
-    extension.with_radius(1)
-    extension.with_radius(1e3)
+        extension.with_radius(radius)
+
+
+@pytest.mark.parametrize("radius", [0, 1, 1e3])
+def test_radius_validation_should_accept_valid(radius):
+    extension = LocationConstraintExtensionBuilder()
+    extension.with_radius(radius)
 
 
 def test_builds_with_given_values():
