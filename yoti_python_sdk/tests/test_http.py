@@ -31,7 +31,7 @@ def valid_endpoint():
 
 @pytest.fixture(scope="module")
 def expected_request_headers():
-    return ["X-Yoti-Auth-Key", "X-Yoti-Auth-Digest", "X-Yoti-SDK", "X-Yoti-SDK-Version"]
+    return ["X-Yoti-Auth-Digest", "X-Yoti-SDK", "X-Yoti-SDK-Version"]
 
 
 def test_create_signed_request_get_required_properties(

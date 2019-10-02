@@ -11,6 +11,7 @@ from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.endpoint import Endpoint
 from yoti_python_sdk.http import SignedRequest, YotiResponse
 from yoti_python_sdk.protobuf import protobuf
+from yoti_python_sdk.config import X_YOTI_AUTH_KEY
 
 NO_KEY_FILE_SPECIFIED_ERROR = (
     "Please specify the correct private key file "
@@ -138,6 +139,7 @@ class Client(object):
             .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
             .with_endpoint(path)
             .with_param("appId", self.sdk_id)
+            .with_header(X_YOTI_AUTH_KEY, self.__crypto.get_public_key())
             .with_request_handler(self.__request_handler)
             .build()
         )
