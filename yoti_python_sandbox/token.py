@@ -1,4 +1,4 @@
-from yoti_python_sdk.sandbox.attribute import SandboxAttribute
+from yoti_python_sandbox.attribute import SandboxAttribute
 from yoti_python_sdk import config
 import base64
 
