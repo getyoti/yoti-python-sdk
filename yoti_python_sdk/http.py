@@ -1,7 +1,6 @@
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.utils import create_nonce, create_timestamp
 from yoti_python_sdk.config import (
-    X_YOTI_AUTH_KEY,
     X_YOTI_AUTH_DIGEST,
     X_YOTI_SDK,
     SDK_IDENTIFIER,
@@ -254,7 +253,6 @@ class SignedRequestBuilder(object):
         sdk_version = yoti_python_sdk.__version__
 
         default = {
-            X_YOTI_AUTH_KEY: self.__crypto.get_public_key(),
             X_YOTI_AUTH_DIGEST: self.__crypto.sign(request),
             X_YOTI_SDK: SDK_IDENTIFIER,
             X_YOTI_SDK_VERSION: "{0}-{1}".format(SDK_IDENTIFIER, sdk_version),
