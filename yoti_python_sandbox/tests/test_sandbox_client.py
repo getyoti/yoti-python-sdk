@@ -1,5 +1,5 @@
-from yoti_python_sdk.sandbox.client import SandboxClient
-from yoti_python_sdk.sandbox.token import YotiTokenRequest, YotiTokenResponse
+from yoti_python_sandbox.client import SandboxClient
+from yoti_python_sandbox.token import YotiTokenRequest, YotiTokenResponse
 from yoti_python_sdk.tests.conftest import PEM_FILE_PATH
 
 try:

@@ -1,4 +1,4 @@
-from yoti_python_sdk.sandbox.endpoint import SandboxEndpoint
+from yoti_python_sandbox.endpoint import SandboxEndpoint
 from cryptography.fernet import base64
 from os.path import expanduser, isfile
 from past.builtins import basestring
@@ -15,9 +15,9 @@ from yoti_python_sdk.config import (
     JSON_CONTENT_TYPE,
 )
 from yoti_python_sdk.client import HTTP_SUPPORTED_METHODS
-from yoti_python_sdk.sandbox.token import YotiTokenRequest, YotiTokenResponse
-from yoti_python_sdk.sandbox.attribute import SandboxAttribute
-from yoti_python_sdk.sandbox.anchor import SandboxAnchor
+from yoti_python_sandbox.token import YotiTokenRequest, YotiTokenResponse
+from yoti_python_sandbox.attribute import SandboxAttribute
+from yoti_python_sandbox.anchor import SandboxAnchor
 from yoti_python_sdk.crypto import Crypto
 from json import JSONEncoder
 
@@ -75,7 +75,6 @@ class SandboxClient(object):
     @staticmethod
     def post(host, path, key, content):
         payload = json.dumps(content, cls=SandboxEncoder)
-        print(payload)
         payload_bytes = payload.encode()
         headers = SandboxClient.__get_request_headers(path, "POST", payload_bytes, key)
         return requests.post(host + path, payload_bytes, headers=headers, verify=False)
