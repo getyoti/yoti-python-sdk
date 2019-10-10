@@ -5,29 +5,49 @@ dist: xenial
 # Only clone the most recent commit.
 git:
   depth: 1
-  
-python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.5-dev"
-  - "3.6"
-  - "3.6-dev"
-  - "3.7"
-  - "3.7-dev"
-  - "3.8-dev"
 
-cache: pip
-
-before_install:
-  - pip install -U setuptools
-  
-install:
-  - pip install -r requirements.txt
-  - python setup.py develop
-  
-script:
-  - py.test -v
+jobs:
+  include:
+    - &test
+      stage: Test
+      python: "2.7"
+      cache: pip
+      before_install:
+        - pip install -U setuptools
+      install:
+        - pip install -r requirements.txt
+        - python setup.py develop
+      script:
+        - py.test -v
+    - <<: *test
+      python: "3.4"
+    - <<: *test
+      python: "3.5"
+    - <<: *test
+      python: "3.5-dev"
+    - <<: *test
+      python: "3.6"
+    - <<: *test
+      python: "3.6-dev"
+    - <<: *test
+      python: "3.7"
+    - <<: *test
+      python: "3.7-dev"
+    - <<: *test
+      python: "3.8-dev"
+    - <<: *test
+      stage: Coverage
+      name: Coveralls
+      python: "3.7"
+      install:
+        - pip install -r requirements.txt
+        - pip install pytest-cov
+        - python setup.py develop
+      script:
+        - pytest --cov=yoti_python_sdk yoti_python_sdk/tests
+      if: type = pull_request OR branch = master
+      after_success:
+        - coveralls
 
 matrix:
   allow_failures:
