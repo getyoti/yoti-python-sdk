@@ -13,6 +13,7 @@ cffi==1.11.5              # via cryptography
 cfgv==2.0.0               # via pre-commit
 chardet==3.0.4            # via requests
 click==6.6
+coverage==4.5.4           # via python-coveralls
 cryptography==2.4.1
 deprecated==1.2.6
 future==0.15.2
@@ -31,10 +32,11 @@ py==1.5.3                 # via pytest
 pycparser==2.18           # via cffi
 pyopenssl==18.0.0
 pytest==3.3.2
+python-coveralls==2.9.3
 pytz==2018.9
-pyyaml==5.1.1             # via aspy.yaml, pre-commit
+pyyaml==5.1.1             # via aspy.yaml, pre-commit, python-coveralls
 requests==2.21.0
-six==1.10.0               # via cfgv, cryptography, mock, pre-commit, protobuf, pyopenssl, pytest
+six==1.10.0               # via cfgv, cryptography, mock, pre-commit, protobuf, pyopenssl, pytest, python-coveralls
 toml==0.10.0              # via pre-commit
 urllib3==1.24.2
 virtualenv==15.2.0
@@ -43,4 +45,4 @@ wrapt==1.11.2             # via deprecated
 zipp==0.5.2               # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.1.0        # via protobuf, pytest
+# setuptools==41.4.0        # via protobuf, pytest
