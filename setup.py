@@ -38,9 +38,10 @@ setup(
             "Werkzeug==0.11.15",
         ],
         "dev": [
-            "python-coveralls==2.9.3",
             "pre-commit==1.17.0",
             "pytest>=3.6.0",
+            "pytest-cov>=2.7.1",
+            "python-coveralls==2.9.3",
             "mock==2.0.0",
             "virtualenv==15.2",
             "wheel==0.24.0",
