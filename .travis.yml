@@ -41,8 +41,7 @@ jobs:
       python: "3.7"
       install:
         - pip install -r requirements.txt
-        - pip install pytest-cov
-        - python setup.py develop
+        - pip install -e .[dev]
       script:
         - pytest --cov=yoti_python_sdk yoti_python_sdk/tests
       if: type = pull_request OR branch = master
