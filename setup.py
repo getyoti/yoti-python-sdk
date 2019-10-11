@@ -27,6 +27,7 @@ setup(
         "future>=0.11.0",
         "asn1==2.2.0",
         "pyopenssl>=18.0.0",
+        "deprecated==1.2.6",
     ],
     extras_require={
         "examples": [
@@ -35,7 +36,15 @@ setup(
             "python-dotenv>=0.7.1",
             "django-sslserver>=0.2",
             "Werkzeug==0.11.15",
-        ]
+        ],
+        "dev": [
+            "python-coveralls==2.9.3",
+            "pre-commit==1.17.0",
+            "pytest>=3.6.0",
+            "mock==2.0.0",
+            "virtualenv==15.2",
+            "wheel==0.24.0",
+        ],
     },
     classifiers=[
         "Development Status :: 5 - Production/Stable",

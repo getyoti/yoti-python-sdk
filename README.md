@@ -277,7 +277,7 @@ To run the Flask or Django container:
 Running the tests is done by the following process, ensuring you are using Python 3.0+:
 
 1. Install dependencies: `pip install -r requirements.txt`
-1. Install the SDK: `python setup.py develop`
+1. Install the SDK and development dependencies: `pip install .[dev]`
 1. Execute in the main project dir: `py.test`
 
 ## API Coverage
