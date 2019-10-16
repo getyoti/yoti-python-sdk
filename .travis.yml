@@ -36,6 +36,8 @@ jobs:
     - <<: *test
       python: "3.8-dev"
     - <<: *test
+      python: "3.8"
+    - <<: *test
       stage: Coverage
       name: Coveralls
       python: "3.7"
