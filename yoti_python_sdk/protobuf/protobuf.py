@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from cryptography.fernet import base64
 from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2, List_pb2
 from yoti_python_sdk.protobuf.common_public_api import EncryptedData_pb2
+from yoti_python_sdk.protobuf.share_public_api import ExtraData_pb2
 from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
 
 class Protobuf(object):
@@ -67,8 +68,12 @@ class Protobuf(object):
 
     @staticmethod
     def extra_data(data):
-        decoded_content = base64.b64decode(data)
         extra_data = ExtraData_pb2.ExtraData()
-        attribute.MergeFromString(decoded_content)
+        extra_data.MergeFromString(data)
         return extra_data
 
+    @staticmethod
+    def thirdparty_attribute(data):
+        thirdparty_attribute = ThirdPartyAttribute_pb2.ThirdPartyAttribute()
+        thirdparty_attribute.MergeFromString(data)
+        return thirdparty_attribute
