@@ -10,7 +10,13 @@ class IssuanceDetails(object):
         else:
             value = data_entry.value
         self.__token = value.issuance_token.decode()
-        self.__expiry_date = value.issuing_attributes.expiry_date
+        if (
+            value.issuing_attributes.expiry_date != ""
+            and value.issuing_attributes.expiry_date is not None
+        ):
+            self.__expiry_date = value.issuing_attributes.expiry_date
+        else:
+            self.__expiry_date = None
         self.__attributes = value.issuing_attributes.definitions
 
     @property

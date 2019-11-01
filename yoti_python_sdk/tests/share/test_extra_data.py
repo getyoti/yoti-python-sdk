@@ -3,6 +3,7 @@
 from datetime import datetime
 from types import SimpleNamespace
 import os.path
+import pytest
 
 from yoti_python_sdk.share.extra_data import ExtraData
 from yoti_python_sdk.tests import file_helper
@@ -64,3 +65,37 @@ def test_should_parse_multiple_issuing_attributes():
     assert result.expiry_date == "2019-10-15T22:04:05.123Z"
     assert result.attributes[0].name == "com.thirdparty.id"
     assert result.attributes[1].name == "com.thirdparty.other_id"
+
+
+@pytest.mark.parametrize("no_expiry", ["", None])
+def test_should_handle_no_expiry_date(no_expiry):
+    tokenValue = "tokenValue"
+    thirdparty_attribute = create_third_party_test_data(
+        tokenValue, no_expiry, "attribute.name"
+    )
+    extra_data = ExtraData([thirdparty_attribute])
+
+    result = extra_data.attribute_issuance_details
+
+    assert result.expiry_date is None
+
+
+def test_should_handle_no_issuing_attributes():
+    tokenValue = "tokenValue"
+    thirdparty_attribute = create_third_party_test_data(tokenValue, None)
+    extra_data = ExtraData([thirdparty_attribute])
+    result = extra_data.attribute_issuance_details
+    assert result.token == "tokenValue"
+    assert len(result.attributes) == 0
+
+
+def test_should_handle_no_issuing_attribute_definitions():
+    tokenValue = "tokenValue"
+    expiry_date = datetime.now().isoformat()
+    thirdparty_attribute = create_third_party_test_data(tokenValue, expiry_date)
+
+    extra_data = ExtraData([thirdparty_attribute])
+    result = extra_data.attribute_issuance_details
+    assert result.token == tokenValue
+    assert result.expiry_date == expiry_date
+    assert len(result.attributes) == 0
