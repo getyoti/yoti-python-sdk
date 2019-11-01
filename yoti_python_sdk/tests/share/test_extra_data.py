@@ -54,13 +54,13 @@ def test_attribute_issuance_details_should_return_nil_when_no_data_entries():
 
 
 def test_should_return_first_matching_third_party_attribute():
-    expiry_date = datetime.now().isoformat()
+    expiry_date = datetime.now()
 
     thirdparty_attribute1 = create_third_party_test_data(
-        "tokenValue1", expiry_date, "attributeName1"
+        "tokenValue1", expiry_date.isoformat(), "attributeName1"
     )
     thirdparty_attribute2 = create_third_party_test_data(
-        "tokenValue2", expiry_date, "attributeName2"
+        "tokenValue2", expiry_date.isoformat(), "attributeName2"
     )
 
     parsed_extra_data = ExtraData(
@@ -81,7 +81,7 @@ def test_should_parse_multiple_issuing_attributes():
     result = extra_data.attribute_issuance_details
     assert result is not None
     assert result.token == "someIssuanceToken"
-    assert result.expiry_date == "2019-10-15T22:04:05.123Z"
+    assert result.expiry_date == datetime(2019, 10, 15, 22, 4, 5, 123000)
     assert result.attributes[0].name == "com.thirdparty.id"
     assert result.attributes[1].name == "com.thirdparty.other_id"
 
@@ -110,8 +110,10 @@ def test_should_handle_no_issuing_attributes():
 
 def test_should_handle_no_issuing_attribute_definitions():
     tokenValue = "tokenValue"
-    expiry_date = datetime.now().isoformat()
-    thirdparty_attribute = create_third_party_test_data(tokenValue, expiry_date)
+    expiry_date = datetime.now()
+    thirdparty_attribute = create_third_party_test_data(
+        tokenValue, expiry_date.isoformat()
+    )
     extra_data = ExtraData(create_extra_data([thirdparty_attribute]))
 
     result = extra_data.attribute_issuance_details
