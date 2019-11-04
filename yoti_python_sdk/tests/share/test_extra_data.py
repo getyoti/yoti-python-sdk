@@ -25,7 +25,7 @@ def create_third_party_test_data(token_value, expiry_date, *definitions):
         issuing_attributes.definitions.extend([name])
 
     attribute = ThirdPartyAttribute_pb2.ThirdPartyAttribute()
-    attribute.issuance_token = bytes(token_value, "utf-8")
+    attribute.issuance_token = str(token_value).encode("utf-8")
     attribute.issuing_attributes.MergeFrom(issuing_attributes)
 
     data_entry = DataEntry_pb2.DataEntry()
