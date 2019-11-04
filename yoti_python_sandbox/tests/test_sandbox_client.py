@@ -35,7 +35,7 @@ def test_builder_should_build_client():
     assert isinstance(client, SandboxClient)
 
 
-@patch("yoti_python_sdk.sandbox.client.SandboxClient")
+@patch("yoti_python_sandbox.client.SandboxClient")
 def test_client_should_return_token_from_sandbox(sandbox_client_mock):
     sandbox_client_mock.setup_profile_share.return_value = YotiTokenResponse(
         "some-token"

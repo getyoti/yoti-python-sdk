@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import re
+import json
 
 from yoti_python_sdk import config
 
@@ -30,6 +31,10 @@ class DynamicPolicyBuilder(object):
             if wanted_attribute.get("derivation", False)
             else wanted_attribute["name"]
         )
+
+        if len(wanted_attribute.get("constraints", [])) > 0:
+            key += "-" + str(hash(json.dumps(wanted_attribute.get("constraints"))))
+
         self.__wanted_attributes[key] = wanted_attribute
         return self
 
