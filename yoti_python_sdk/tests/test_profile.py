@@ -513,8 +513,8 @@ def test_nested_multi_value():
     outer_tuple = (inner_multi_value,)
 
     profile = Profile(profile_attributes=None)
-    profile.attributes[attribute_name] = Attribute(
-        name=attribute_name, value=outer_tuple, anchors=None
+    profile.attribute_list.append(
+        Attribute(name=attribute_name, value=outer_tuple, anchors=None)
     )
 
     retrieved_multi_value = profile.get_attribute(attribute_name)
@@ -753,3 +753,52 @@ def test_expect_none_when_no_age_under_verification_exists():
 
     age_under_verification = human_profile.find_age_under_verification(18)
     assert age_under_verification is None
+
+
+def test_profile_should_parse_multiple_attributes_with_the_same_name():
+    first_attr = ProtobufAttribute(
+        "full_name", "some_value".encode(), None, Protobuf.CT_STRING
+    )
+    second_attr = ProtobufAttribute(
+        "full_name", "some_other_value".encode(), None, Protobuf.CT_STRING
+    )
+    attr_list = [first_attr, second_attr]
+
+    human_profile = Profile(attr_list)
+
+    assert len(human_profile.attribute_list) == 2
+    assert human_profile.attribute_list[0].value == "some_value"
+    assert human_profile.attribute_list[1].value == "some_other_value"
+
+
+def test_get_attribute_should_return_first_match_when_multiple_attributes_of_same_name():
+    first_attr = ProtobufAttribute(
+        "full_name", "some_value".encode(), None, Protobuf.CT_STRING
+    )
+    second_attr = ProtobufAttribute(
+        "full_name", "some_other_value".encode(), None, Protobuf.CT_STRING
+    )
+    attr_list = [first_attr, second_attr]
+
+    human_profile = Profile(attr_list)
+
+    attribute = human_profile.get_attribute("full_name")
+    assert attribute is not None
+    assert attribute.value == "some_value"
+
+
+def test_get_attributes_should_return_list_of_matching_attributes():
+    first_attr = ProtobufAttribute(
+        "full_name", "some_value".encode(), None, Protobuf.CT_STRING
+    )
+    second_attr = ProtobufAttribute(
+        "full_name", "some_other_value".encode(), None, Protobuf.CT_STRING
+    )
+    attr_list = [first_attr, second_attr]
+
+    human_profile = Profile(attr_list)
+
+    parsed_list = human_profile.get_attributes("full_name")
+    assert len(parsed_list) == 2
+    assert parsed_list[0].value == "some_value"
+    assert parsed_list[1].value == "some_other_value"
