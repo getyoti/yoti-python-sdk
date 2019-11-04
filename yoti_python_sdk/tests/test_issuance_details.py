@@ -40,7 +40,7 @@ def test_should_parse_third_party_attribute_correctly():
 
 
 @pytest.mark.parametrize(
-    "expiry_date", ["2006-13-02T15:04:05.000Z", "", "2006-13-02T15:04:05"]
+    "expiry_date", ["2006-13-02T15:04:05.000Z", "", "2006-11-02T15:04:05"]
 )
 def test_should_return_none_if_error_in_parsing_date(expiry_date):
     proto = create_issuance_test_proto("someToken", expiry_date)
