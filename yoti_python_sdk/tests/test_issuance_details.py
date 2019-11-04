@@ -21,7 +21,7 @@ def create_issuance_test_proto(issuance_token, expiry_date, *definitions):
         issuing_attributes.definitions.extend([name])
 
     attribute = ThirdPartyAttribute_pb2.ThirdPartyAttribute()
-    attribute.issuance_token = bytes(issuance_token, "utf-8")
+    attribute.issuance_token = str(issuance_token).encode("utf-8")
     attribute.issuing_attributes.MergeFrom(issuing_attributes)
     return attribute
 
