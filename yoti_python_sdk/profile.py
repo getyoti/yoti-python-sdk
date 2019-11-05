@@ -68,12 +68,11 @@ class BaseProfile(object):
         :param attribute_name:
         :return: Attribute[]
         """
-        attributes_to_return = []
-        for attribute in self.attribute_list:
-            if attribute_name is attribute_name:
-                attributes_to_return.append(attribute)
-
-        return attributes_to_return
+        return [
+            attribute
+            for attribute in self.attribute_list
+            if attribute.name == attribute_name
+        ]
 
 
 class Profile(BaseProfile):

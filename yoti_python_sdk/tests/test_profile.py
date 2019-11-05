@@ -794,7 +794,10 @@ def test_get_attributes_should_return_list_of_matching_attributes():
     second_attr = ProtobufAttribute(
         "full_name", "some_other_value".encode(), None, Protobuf.CT_STRING
     )
-    attr_list = [first_attr, second_attr]
+    third_attr = ProtobufAttribute(
+        "given_name", "some_given_name".encode(), None, Protobuf.CT_STRING
+    )
+    attr_list = [first_attr, second_attr, third_attr]
 
     human_profile = Profile(attr_list)
 
