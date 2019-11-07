@@ -73,6 +73,7 @@ class ActivityDetails:
         self.parent_remember_me_id = receipt.get("parent_remember_me_id")
         self.outcome = receipt.get("sharing_outcome")
         self.receipt_id = receipt.get("receipt_id")
+        self.extra_data = receipt.get("extra_data")
         timestamp = receipt.get("timestamp")
 
         if timestamp is not None:
