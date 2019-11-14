@@ -513,7 +513,8 @@ def test_nested_multi_value():
     outer_tuple = (inner_multi_value,)
 
     profile = Profile(profile_attributes=None)
-    profile.attribute_list.append(
+    profile.attribute_map[attribute_name] = []
+    profile.attribute_map[attribute_name].append(
         Attribute(name=attribute_name, value=outer_tuple, anchors=None)
     )
 
@@ -766,9 +767,11 @@ def test_profile_should_parse_multiple_attributes_with_the_same_name():
 
     human_profile = Profile(attr_list)
 
-    assert len(human_profile.attribute_list) == 2
-    assert human_profile.attribute_list[0].value == "some_value"
-    assert human_profile.attribute_list[1].value == "some_other_value"
+    attribute_list = human_profile.get_attributes("full_name")
+
+    assert len(attribute_list) == 2
+    assert attribute_list[0].value == "some_value"
+    assert attribute_list[1].value == "some_other_value"
 
 
 def test_get_attribute_should_return_first_match_when_multiple_attributes_of_same_name():

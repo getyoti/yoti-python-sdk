@@ -14,7 +14,7 @@ class BaseProfile(object):
         self.attributes = {}
         self.verifications = None
 
-        self.attribute_list = []
+        self.attribute_map = {}
 
         if profile_attributes:
             for field in profile_attributes:
@@ -37,7 +37,11 @@ class BaseProfile(object):
 
                     attr = Attribute(field.name, value, anchors)
                     self.attributes[field.name] = attr
-                    self.attribute_list.append(attr)
+
+                    if field.name not in self.attribute_map:
+                        self.attribute_map[field.name] = []
+
+                    self.attribute_map[field.name].append(attr)
 
                 except ValueError as ve:
                     if logging.getLogger().propagate:
@@ -56,10 +60,8 @@ class BaseProfile(object):
         :param attribute_name:
         :return: Attribute
         """
-        for attribute in self.attribute_list:
-            if attribute.name == attribute_name:
-                return attribute
-
+        if attribute_name in self.attribute_map:
+            return self.attribute_map[attribute_name][0]
         return None
 
     def get_attributes(self, attribute_name):
@@ -68,11 +70,9 @@ class BaseProfile(object):
         :param attribute_name:
         :return: Attribute[]
         """
-        return [
-            attribute
-            for attribute in self.attribute_list
-            if attribute.name == attribute_name
-        ]
+        if attribute_name in self.attribute_map:
+            return self.attribute_map[attribute_name]
+        return list()
 
 
 class Profile(BaseProfile):
@@ -228,7 +228,13 @@ class Profile(BaseProfile):
                     structured_postal_address.anchors,
                 )
                 self.attributes[config.ATTRIBUTE_POSTAL_ADDRESS] = attr_postal_address
-                self.attribute_list.append(attr_postal_address)
+
+                if config.ATTRIBUTE_POSTAL_ADDRESS not in self.attribute_map:
+                    self.attribute_map[config.ATTRIBUTE_POSTAL_ADDRESS] = []
+
+                self.attribute_map[config.ATTRIBUTE_POSTAL_ADDRESS].append(
+                    attr_postal_address
+                )
 
 
 class ApplicationProfile(BaseProfile):
