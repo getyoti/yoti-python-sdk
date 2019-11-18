@@ -47,7 +47,7 @@ def get_extra_data_from_base64(filepath):
     return ExtraData(protobuf_extra_data)
 
 
-def test_attribute_issuance_details_should_return_nil_when_no_data_entries():
+def test_attribute_issuance_details_should_return_none_when_no_data_entries():
     extra_data = ExtraData(create_extra_data([]))
 
     assert extra_data.attribute_issuance_details is None
