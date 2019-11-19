@@ -2,13 +2,16 @@
 
 from yoti_python_sdk.issuance_details import IssuanceDetails
 from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
+from yoti_python_sdk.protobuf.share_public_api import ExtraData_pb2
 
 
 class ExtraData(object):
     THIRD_PARTY_ATTRIBUTE = 6
 
-    def __init__(self, proto):
+    def __init__(self, raw):
         self.__attribute_issuance_details = None
+        proto = ExtraData_pb2.ExtraData()
+        proto.MergeFromString(raw)
         data_entries_list = proto.list
 
         for data_entry in data_entries_list:

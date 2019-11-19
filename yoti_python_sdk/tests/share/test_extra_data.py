@@ -5,7 +5,6 @@ import os.path
 
 from yoti_python_sdk.share.extra_data import ExtraData
 from yoti_python_sdk.tests import file_helper
-from yoti_python_sdk.protobuf import protobuf
 
 from yoti_python_sdk.protobuf.share_public_api import IssuingAttributes_pb2
 from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
@@ -38,13 +37,13 @@ def create_third_party_test_data(token_value, expiry_date, *definitions):
 def create_extra_data(data_entry_list):
     extra_data = ExtraData_pb2.ExtraData()
     extra_data.list.extend(data_entry_list)
-    return extra_data
+    return extra_data.SerializeToString()
 
 
 def get_extra_data_from_base64(filepath):
     extra_data_bytes = file_helper.get_file_bytes(filepath)
-    protobuf_extra_data = protobuf.Protobuf.extra_data(extra_data_bytes)
-    return ExtraData(protobuf_extra_data)
+
+    return ExtraData(extra_data_bytes)
 
 
 def test_attribute_issuance_details_should_return_none_when_no_data_entries():
