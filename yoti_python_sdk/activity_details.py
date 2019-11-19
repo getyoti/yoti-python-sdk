@@ -7,16 +7,22 @@ from datetime import datetime
 
 from yoti_python_sdk import attribute_parser, config
 from yoti_python_sdk.profile import Profile, ApplicationProfile
+from yoti_python_sdk.share.extra_data import ExtraData
 
 
 class ActivityDetails:
     def __init__(
-        self, receipt, decrypted_profile=None, decrypted_application_profile=None
+        self,
+        receipt,
+        decrypted_profile=None,
+        decrypted_application_profile=None,
+        decrypted_extra_data=None,
     ):
         self.decrypted_profile = decrypted_profile
         self.user_profile = {}  # will be removed in v3.0.0
         self.base64_selfie_uri = None
         self.decrypted_application_profile = decrypted_application_profile
+        self.extra_data = None
 
         if decrypted_profile and hasattr(decrypted_profile, "attributes"):
             decrypted_profile_attributes = decrypted_profile.attributes
@@ -78,6 +84,9 @@ class ActivityDetails:
 
         if timestamp is not None:
             self.timestamp = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
+
+        if decrypted_extra_data:
+            self.extra_data = ExtraData(decrypted_extra_data)
 
     @property
     def remember_me_id(self):

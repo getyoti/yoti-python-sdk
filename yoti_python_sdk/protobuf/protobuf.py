@@ -67,9 +67,15 @@ class Protobuf(object):
         return multi_value
 
     @staticmethod
-    def extra_data(data):
-        extra_data = ExtraData_pb2.ExtraData()
-        extra_data.MergeFromString(data)
+    def extra_data(receipt):
+        if receipt.get("extra_data_content") is None or receipt.get("extra_data_content") == '':
+            return None
+
+        extra_data_content = receipt["extra_data_content"]
+        extra_data_content = base64.b64decode(extra_data_content)
+
+        extra_data = EncryptedData_pb2.EncryptedData()
+        extra_data.MergeFromString(extra_data_content)
         return extra_data
 
     @staticmethod

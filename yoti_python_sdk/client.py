@@ -67,6 +67,7 @@ class Client(object):
         proto = protobuf.Protobuf()
         encrypted_data = proto.current_user(receipt)
         encrypted_application_profile = proto.current_application(receipt)
+        encrypted_extra_data = proto.extra_data(receipt)
 
         if not encrypted_data:
             return ActivityDetails(receipt)
@@ -81,6 +82,12 @@ class Client(object):
             encrypted_application_profile.iv,
             encrypted_application_profile.cipher_text,
         )
+        if encrypted_extra_data:
+            decrypted_extra_data = self.__crypto.decipher(
+                unwrapped_key, encrypted_extra_data.iv, encrypted_extra_data.cipher_text
+            )
+        else:
+            decrypted_extra_data = None
 
         user_profile_attribute_list = proto.attribute_list(decrypted_profile_data)
         application_profile_attribute_list = proto.attribute_list(
@@ -91,6 +98,7 @@ class Client(object):
             receipt=receipt,
             decrypted_profile=user_profile_attribute_list,
             decrypted_application_profile=application_profile_attribute_list,
+            decrypted_extra_data=decrypted_extra_data,
         )
 
     def perform_aml_check(self, aml_profile):
