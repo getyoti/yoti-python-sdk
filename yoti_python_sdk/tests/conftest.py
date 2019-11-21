@@ -49,7 +49,7 @@ def decrypted_request_token():
 
 
 @pytest.fixture(scope="module")
-def user_id():
+def remember_me_id():
     return "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
 
 
@@ -69,9 +69,9 @@ def timestamp():
 
 
 @pytest.fixture(scope="module")
-def successful_receipt(user_id, parent_remember_me_id, receipt_id, timestamp):
+def successful_receipt(remember_me_id, parent_remember_me_id, receipt_id, timestamp):
     return {
-        "remember_me_id": user_id,
+        "remember_me_id": remember_me_id,
         "parent_remember_me_id": parent_remember_me_id,
         "receipt_id": receipt_id,
         "timestamp": timestamp,
@@ -80,9 +80,9 @@ def successful_receipt(user_id, parent_remember_me_id, receipt_id, timestamp):
 
 
 @pytest.fixture(scope="module")
-def failure_receipt(user_id, timestamp):
+def failure_receipt(remember_me_id, timestamp):
     return {
-        "remember_me_id": user_id,
+        "remember_me_id": remember_me_id,
         "sharing_outcome": "FAILURE",
         "timestamp": timestamp,
     }
