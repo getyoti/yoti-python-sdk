@@ -60,6 +60,7 @@ class BaseProfile(object):
 class Profile(BaseProfile):
     def __init__(self, profile_attributes):
         super(Profile, self).__init__(profile_attributes)
+        self.__find_all_age_verifications()
         self.ensure_postal_address()
 
     @property
