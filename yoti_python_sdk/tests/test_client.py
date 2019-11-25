@@ -36,6 +36,7 @@ from yoti_python_sdk.config import (
     X_YOTI_SDK_VERSION,
 )
 
+import pytz
 import pytest
 import yoti_python_sdk
 
@@ -168,7 +169,9 @@ def test_requesting_activity_details_with_correct_data(
         activity_details.receipt_id
         == "9HNJDX5bEIN5TqBm0OGzVIc1LaAmbzfx6eIrwNdwpHvKeQmgPujyogC+r7hJCVPl"
     )
-    assert activity_details.timestamp == datetime(2016, 7, 19, 8, 55, 38)
+    assert activity_details.timestamp == datetime(
+        2016, 7, 19, 8, 55, 38, tzinfo=pytz.utc
+    )
 
     selfie_profile = activity_details.profile.selfie.value
     assert isinstance(selfie_profile, basestring)
@@ -205,7 +208,9 @@ def test_requesting_activity_details_with_null_profile(
         activity_details.receipt_id
         == "Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN"
     )
-    assert activity_details.timestamp == datetime(2016, 11, 14, 11, 35, 33)
+    assert activity_details.timestamp == datetime(
+        2016, 11, 14, 11, 35, 33, tzinfo=pytz.utc
+    )
     assert isinstance(activity_details, ActivityDetails)
 
 
@@ -230,7 +235,9 @@ def test_requesting_activity_details_with_empty_profile(
         activity_details.receipt_id
         == "Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN"
     )
-    assert activity_details.timestamp == datetime(2016, 11, 14, 11, 35, 33)
+    assert activity_details.timestamp == datetime(
+        2016, 11, 14, 11, 35, 33, tzinfo=pytz.utc
+    )
     assert isinstance(activity_details, ActivityDetails)
 
 
@@ -255,7 +262,9 @@ def test_requesting_activity_details_with_missing_profile(
         activity_details.receipt_id
         == "Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN"
     )
-    assert activity_details.timestamp == datetime(2016, 11, 14, 11, 35, 33)
+    assert activity_details.timestamp == datetime(
+        2016, 11, 14, 11, 35, 33, tzinfo=pytz.utc
+    )
     assert isinstance(activity_details, ActivityDetails)
 
 

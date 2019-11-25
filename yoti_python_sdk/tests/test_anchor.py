@@ -1,23 +1,14 @@
 # -*- coding: utf-8 -*-
+import pytz
 import logging
-import time
+import yoti_python_sdk
+
 from datetime import datetime
 
-from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2
-
-import yoti_python_sdk
 from yoti_python_sdk import config
 from yoti_python_sdk.anchor import Anchor
 from yoti_python_sdk.tests import anchor_fixture_parser
-
-
-def get_utc_offset():
-    utc_offset = int(time.timezone / 60 / 60)
-
-    if time.daylight:
-        utc_offset = utc_offset - time.daylight
-
-    return utc_offset
+from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2
 
 
 def test_parse_anchor_non_critical_only():
@@ -36,7 +27,7 @@ def test_parse_anchors_driving_license():
         "46131813624213904216516051554755262812"
     )
     assert parsed_anchor.signed_timestamp == datetime(
-        2018, 4, 11, 12 - get_utc_offset(), 13, 3, 923537
+        2018, 4, 11, 12, 13, 3, 923537, tzinfo=pytz.utc
     )
 
 
@@ -50,7 +41,7 @@ def test_parse_anchors_passport():
         "277870515583559162487099305254898397834"
     )
     assert parsed_anchor.signed_timestamp == datetime(
-        2018, 4, 12, 13 - get_utc_offset(), 14, 32, 835537
+        2018, 4, 12, 13, 14, 32, 835537, tzinfo=pytz.utc
     )
 
 
@@ -64,7 +55,7 @@ def test_parse_yoti_admin():
         "256616937783084706710155170893983549581"
     )
     assert parsed_anchor.signed_timestamp == datetime(
-        2018, 4, 11, 12 - get_utc_offset(), 13, 4, 95238
+        2018, 4, 11, 12, 13, 4, 95238, tzinfo=pytz.utc
     )
 
 
@@ -103,7 +94,7 @@ def test_error_parsing_anchor_certificate_carries_on_parsing():
         "46131813624213904216516051554755262812"
     )
     assert parsed_anchor.signed_timestamp == datetime(
-        2018, 4, 11, 12 - get_utc_offset(), 13, 3, 923537
+        2018, 4, 11, 12, 13, 3, 923537, tzinfo=pytz.utc
     )
 
 
@@ -118,7 +109,7 @@ def test_processing_unknown_anchor_data():
         (anchor.value, anchor.anchor_type, anchor.sub_type) for anchor in anchors
     ]
 
-    expected_timestamp = datetime(2019, 3, 5, 10, 45, 11, 840037)
+    expected_timestamp = datetime(2019, 3, 5, 10, 45, 11, 840037, tzinfo=pytz.utc)
     actual_timestamp = anchors[0].signed_timestamp
 
     assert expected_timestamp == actual_timestamp

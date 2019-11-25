@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import pytz
+
 from datetime import datetime
 
 from yoti_python_sdk import config
@@ -36,7 +38,9 @@ def test_failure_receipt_handled(failure_receipt, remember_me_id):
 
     assert activity_details.remember_me_id == remember_me_id
     assert activity_details.outcome == "FAILURE"
-    assert activity_details.timestamp == datetime(2016, 11, 14, 11, 35, 33)
+    assert activity_details.timestamp == datetime(
+        2016, 11, 14, 11, 35, 33, tzinfo=pytz.utc
+    )
 
 
 def test_missing_values_handled(no_values_receipt):
