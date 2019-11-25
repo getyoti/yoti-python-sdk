@@ -8,7 +8,7 @@ class WantedAttributeBuilder(object):
     """
 
     def __init__(self):
-        self.__attribute = {"name": None}
+        self.__attribute = {}
         self.__constraints = []
 
     def with_name(self, name):
@@ -47,7 +47,7 @@ class WantedAttributeBuilder(object):
         """
         :return: The wanted attribute object
         """
-        if self.__attribute["name"] is None or self.__attribute["name"] == "":
+        if self.__attribute.get("name", None) is None or self.__attribute["name"] == "":
             raise ValueError
         attribute = self.__attribute.copy()
         attribute["constraints"] = self.__constraints[:]
