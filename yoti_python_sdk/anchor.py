@@ -1,6 +1,7 @@
 import datetime
 import logging
 
+import pytz
 import OpenSSL
 import asn1
 import yoti_python_sdk.protobuf.common_public_api.SignedTimestamp_pb2 as compubapi
@@ -181,7 +182,7 @@ class Anchor:
 
         try:
             signed_timestamp_parsed = datetime.datetime.fromtimestamp(
-                signed_timestamp_object.timestamp / float(1000000)
+                signed_timestamp_object.timestamp / float(1000000), tz=pytz.utc
             )
         except OSError:
             print(
