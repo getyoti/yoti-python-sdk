@@ -191,7 +191,7 @@ def test_requesting_activity_details_with_correct_data(
     phone_number = activity_details.profile.phone_number
     assert phone_number is not None
     assert len(phone_number.anchors) == 1
-    assert "Unknown" in [anchor.anchor_type for anchor in phone_number.anchors]
+    assert "UNKNOWN" in [anchor.anchor_type for anchor in phone_number.anchors]
     assert "" in [anchor.value for anchor in phone_number.anchors]
 
 

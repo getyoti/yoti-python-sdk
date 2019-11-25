@@ -71,7 +71,7 @@ def test_parse_yoti_admin():
 def test_anchor_returns_correct_default_values():
     default_anchor = yoti_python_sdk.anchor.Anchor()
 
-    assert default_anchor.anchor_type == "Unknown"
+    assert default_anchor.anchor_type == "UNKNOWN"
     assert default_anchor.signed_timestamp is None
     assert default_anchor.sub_type == ""
     assert default_anchor.value == ""
@@ -114,7 +114,7 @@ def test_processing_unknown_anchor_data():
     anchors = Anchor.parse_anchors(unknown_anchor_data)
 
     assert len(anchors) == 1
-    assert ("", "Unknown", "TEST UNKNOWN SUB TYPE") in [
+    assert ("", "UNKNOWN", "TEST UNKNOWN SUB TYPE") in [
         (anchor.value, anchor.anchor_type, anchor.sub_type) for anchor in anchors
     ]
 
