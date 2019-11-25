@@ -47,8 +47,8 @@ class WantedAttributeBuilder(object):
         """
         :return: The wanted attribute object
         """
-        assert self.__attribute["name"] is not None
-        assert self.__attribute["name"] != ""
+        if self.__attribute["name"] is None or self.__attribute["name"] == "":
+            raise ValueError
         attribute = self.__attribute.copy()
         attribute["constraints"] = self.__constraints[:]
         return attribute
