@@ -10,7 +10,7 @@ jobs:
   include:
     - &test
       stage: Test
-      python: "2.7"
+      python: "3.7"
       cache: pip
       before_install:
         - pip install -U setuptools
@@ -29,8 +29,6 @@ jobs:
       python: "3.6"
     - <<: *test
       python: "3.6-dev"
-    - <<: *test
-      python: "3.7"
     - <<: *test
       python: "3.7-dev"
     - <<: *test
