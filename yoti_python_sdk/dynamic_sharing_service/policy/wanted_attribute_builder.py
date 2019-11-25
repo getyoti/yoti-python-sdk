@@ -8,7 +8,7 @@ class WantedAttributeBuilder(object):
     """
 
     def __init__(self):
-        self.__attribute = {}
+        self.__attribute = {"name": None}
         self.__constraints = []
 
     def with_name(self, name):
