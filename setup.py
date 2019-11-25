@@ -27,7 +27,6 @@ setup(
         "future>=0.11.0",
         "asn1==2.2.0",
         "pyopenssl>=18.0.0",
-        "deprecated==1.2.6",
     ],
     extras_require={
         "examples": [
