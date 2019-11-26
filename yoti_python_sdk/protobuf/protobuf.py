@@ -7,6 +7,7 @@ from yoti_python_sdk.protobuf.common_public_api import EncryptedData_pb2
 from yoti_python_sdk.protobuf.share_public_api import ExtraData_pb2
 from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
 
+
 class Protobuf(object):
     CT_UNDEFINED = 0  # should not be seen, and is used as an error placeholder
     CT_STRING = 1  # UTF-8 encoded text
