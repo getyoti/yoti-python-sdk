@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from yoti_python_sdk import attribute_parser, config, multivalue, document_details
-from yoti_python_sdk.anchor import Anchor
+from yoti_python_sdk import (
+    attribute_parser,
+    anchor_parser,
+    config,
+    multivalue,
+    document_details,
+)
 from yoti_python_sdk.attribute import Attribute
 from yoti_python_sdk.image import Image
 from yoti_python_sdk.age_verification import AgeVerification
@@ -30,7 +35,7 @@ class BaseProfile(object):
                     if field.name == config.ATTRIBUTE_DOCUMENT_DETAILS:
                         value = document_details.DocumentDetails(value)
 
-                    anchors = Anchor().parse_anchors(field.anchors)
+                    anchors = anchor_parser.parse_anchors(field.anchors)
 
                     self.attributes[field.name] = Attribute(field.name, value, anchors)
 

@@ -1,10 +1,10 @@
-from yoti_python_sdk.anchor import UNKNOWN_ANCHOR_TYPE
+from yoti_python_sdk.config import ANCHOR_UNKNOWN
 
 
 class SandboxAnchor(object):
     def __init__(self, anchor_type=None, sub_type=None, value=None, timestamp=None):
         if anchor_type is None:
-            anchor_type = UNKNOWN_ANCHOR_TYPE
+            anchor_type = ANCHOR_UNKNOWN
         if sub_type is None:
             sub_type = ""
         if value is None:

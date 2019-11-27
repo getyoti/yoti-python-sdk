@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from os.path import abspath, dirname, join
 
-from yoti_python_sdk import anchor
+from yoti_python_sdk import anchor_parser
 from yoti_python_sdk.protobuf import protobuf
 from yoti_python_sdk.tests import file_helper
 
@@ -24,24 +24,22 @@ def get_anchor_from_base64_text(file_path):
 
 
 def get_parsed_driving_license_anchor():
-    return anchor.Anchor().parse_anchors(
+    return anchor_parser.parse_anchors(
         get_anchor_from_base64_text(ANCHOR_DRIVING_LICENSE)
     )[0]
 
 
 def get_parsed_anchor_critical_last():
-    return anchor.Anchor().parse_anchors(
+    return anchor_parser.parse_anchors(
         get_anchor_from_base64_text(ANCHOR_CRITICAL_LAST)
     )
 
 
 def get_parsed_passport_anchor():
-    return anchor.Anchor().parse_anchors(get_anchor_from_base64_text(ANCHOR_PASSPORT))[
-        0
-    ]
+    return anchor_parser.parse_anchors(get_anchor_from_base64_text(ANCHOR_PASSPORT))[0]
 
 
 def get_parsed_yoti_admin_anchor():
-    return anchor.Anchor().parse_anchors(
-        get_anchor_from_base64_text(ANCHOR_YOTI_ADMIN)
-    )[0]
+    return anchor_parser.parse_anchors(get_anchor_from_base64_text(ANCHOR_YOTI_ADMIN))[
+        0
+    ]
