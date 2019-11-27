@@ -94,8 +94,8 @@ class AuthView(TemplateView):
         profile_dict = vars(profile)
 
         context = profile_dict.get("attributes")
-        context["base64_selfie_uri"] = getattr(activity_details, "base64_selfie_uri")
-        context["user_id"] = getattr(activity_details, "user_id")
+        context["base64_selfie_uri"] = profile.selfie.value.base64_content()
+        context["user_id"] = activity_details.remember_me_id
         context["parent_remember_me_id"] = getattr(
             activity_details, "parent_remember_me_id"
         )
@@ -117,7 +117,7 @@ class AuthView(TemplateView):
 
         selfie = context.get("selfie")
         if selfie is not None:
-            self.save_image(selfie.value)
+            self.save_image(selfie.value.data)
         return self.render_to_response(context)
 
     @staticmethod

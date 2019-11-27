@@ -8,12 +8,12 @@ except ImportError:
 
 from datetime import datetime
 from os import environ
-from past.builtins import basestring
 
 from yoti_python_sdk import config
 from yoti_python_sdk import YOTI_API_ENDPOINT
 from yoti_python_sdk import Client
 from yoti_python_sdk import aml
+from yoti_python_sdk.image import Image
 from yoti_python_sdk.client import NO_KEY_FILE_SPECIFIED_ERROR
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.tests.conftest import YOTI_CLIENT_SDK_ID, PEM_FILE_PATH
@@ -168,7 +168,7 @@ def test_requesting_activity_details_with_correct_data(
     )
 
     selfie_profile = activity_details.profile.selfie.value
-    assert isinstance(selfie_profile, basestring)
+    assert isinstance(selfie_profile, Image)
     assert (
         activity_details.profile.get_attribute(config.ATTRIBUTE_SELFIE)
         == activity_details.profile.selfie

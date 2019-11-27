@@ -89,7 +89,7 @@ def auth():
     profile_dict = vars(profile)
 
     context = profile_dict.get("attributes")
-    context["base64_selfie_uri"] = getattr(activity_details, "base64_selfie_uri")
+    context["base64_selfie_uri"] = profile.selfie.value.base64_content()
     context["remember_me_id"] = getattr(activity_details, "remember_me_id")
     context["parent_remember_me_id"] = getattr(
         activity_details, "parent_remember_me_id"
@@ -112,7 +112,7 @@ def auth():
 
     selfie = context.get("selfie")
     if selfie is not None:
-        save_image(selfie.value)
+        save_image(selfie.value.data)
     return render_template("profile.html", **context)
 
 
