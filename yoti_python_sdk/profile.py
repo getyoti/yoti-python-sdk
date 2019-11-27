@@ -25,10 +25,8 @@ class BaseProfile(object):
                         field.value, field.content_type
                     )
 
-                    # this will be removed in v3.0.0, so selfie also returns an Image object
                     if field.content_type in Image.allowed_types():
-                        if field.name == config.ATTRIBUTE_SELFIE:
-                            value = field.value
+                        value = Image(field.value, field.content_type)
 
                     if field.name == config.ATTRIBUTE_DOCUMENT_IMAGES:
                         value = multivalue.filter_values(value, Image)
