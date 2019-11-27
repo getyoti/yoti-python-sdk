@@ -20,8 +20,11 @@ ATTRIBUTE_APPLICATION_NAME = "application_name"
 ATTRIBUTE_APPLICATION_LOGO = "application_logo"
 ATTRIBUTE_APPLICATION_URL = "application_url"
 ATTRIBUTE_APPLICATION_RECEIPT_BGCOLOR = "application_receipt_bgcolor"
+
 ANCHOR_SOURCE = "SOURCE"
 ANCHOR_VERIFIER = "VERIFIER"
+ANCHOR_UNKNOWN = "UNKNOWN"
+
 KEY_AGE_VERIFIED = "is_age_verified"
 KEY_BASE64_SELFIE = "base64_selfie_uri"
 KEY_FORMATTED_ADDRESS = "formatted_address"

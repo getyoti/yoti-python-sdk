@@ -153,13 +153,7 @@ def test_creating_client_instance_with_valid_key_file_env_but_invalid_key_file_a
 @mock.patch("time.time", side_effect=mocked_timestamp)
 @mock.patch("uuid.uuid4", side_effect=mocked_uuid4)
 def test_requesting_activity_details_with_correct_data(
-    mock_uuid4,
-    mock_time,
-    mock_get,
-    client,
-    expected_activity_details_url,
-    expected_get_headers,
-    encrypted_request_token,
+    mock_uuid4, mock_time, mock_get, client, encrypted_request_token
 ):
     activity_details = client.get_activity_details(encrypted_request_token)
 

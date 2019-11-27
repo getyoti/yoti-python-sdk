@@ -5,8 +5,7 @@ import yoti_python_sdk
 
 from datetime import datetime
 
-from yoti_python_sdk import config
-from yoti_python_sdk.anchor import Anchor
+from yoti_python_sdk import config, anchor_parser
 from yoti_python_sdk.tests import anchor_fixture_parser
 from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2
 
@@ -81,7 +80,7 @@ def test_error_parsing_anchor_certificate_carries_on_parsing():
     logger = logging.getLogger()
     logger.propagate = False
 
-    parsed_anchors = Anchor.parse_anchors(anchors)
+    parsed_anchors = anchor_parser.parse_anchors(anchors)
     logger.propagate = True
 
     assert len(parsed_anchors) == 1
@@ -102,7 +101,7 @@ def test_processing_unknown_anchor_data():
     unknown_anchor_data = anchor_fixture_parser.get_anchor_from_base64_text(
         anchor_fixture_parser.ANCHOR_UNKNOWN_ANCHOR
     )
-    anchors = Anchor.parse_anchors(unknown_anchor_data)
+    anchors = anchor_parser.parse_anchors(unknown_anchor_data)
 
     assert len(anchors) == 1
     assert ("", "UNKNOWN", "TEST UNKNOWN SUB TYPE") in [
