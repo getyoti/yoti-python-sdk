@@ -110,9 +110,6 @@ def auth():
             "verifiers": age_verified.attribute.verifiers,
         }
 
-    selfie = context.get("selfie")
-    if selfie is not None:
-        save_image(selfie.value.data)
     return render_template("profile.html", **context)
 
 

@@ -115,9 +115,6 @@ class AuthView(TemplateView):
                 "verifiers": age_verified.attribute.verifiers,
             }
 
-        selfie = context.get("selfie")
-        if selfie is not None:
-            self.save_image(selfie.value.data)
         return self.render_to_response(context)
 
     @staticmethod
