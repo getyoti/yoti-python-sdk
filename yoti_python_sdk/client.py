@@ -128,9 +128,7 @@ class Client(object):
         decrypted_token = self.__crypto.decrypt_token(encrypted_request_token).decode(
             "utf-8"
         )
-        path = self.__endpoint.get_activity_details_request_path(
-            decrypted_token, no_params=True
-        )
+        path = self.__endpoint.get_activity_details_request_path(decrypted_token)
 
         signed_request = (
             SignedRequest.builder()
@@ -155,7 +153,7 @@ class Client(object):
     def __make_aml_check_request(self, aml_profile):
         aml_profile_json = json.dumps(aml_profile.__dict__, sort_keys=True)
         aml_profile_bytes = aml_profile_json.encode()
-        path = self.__endpoint.get_aml_request_url(no_params=True)
+        path = self.__endpoint.get_aml_request_url()
 
         signed_request = (
             SignedRequest.builder()
