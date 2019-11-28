@@ -30,7 +30,7 @@ def value_based_on_content_type(value, content_type=None):
         int_value = int(string_value)
         return int_value
     elif content_type == Protobuf.CT_MULTI_VALUE:
-        return tuple(multivalue.parse(value))
+        return multivalue.parse(value)
 
     if logging.getLogger().propagate:
         logging.warning(

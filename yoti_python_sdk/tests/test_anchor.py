@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytz
 import logging
+import pytest
 import yoti_python_sdk
 
 from datetime import datetime
@@ -116,3 +117,22 @@ def test_processing_unknown_anchor_data():
     assert "document-registration-server" in [
         a.value for a in anchors[0].origin_server_certs.issuer
     ]
+
+
+def test_anchor_tuple_is_immutable():
+    parsed_anchor = anchor_fixture_parser.get_parsed_anchor_critical_last()
+
+    with pytest.raises(TypeError) as ex:
+        parsed_anchor[0] = "someOtherValue"
+
+    assert "does not support item assignment" in str(ex.value)
+
+
+def test_anchor_tuple_objects_are_immutable():
+    parsed_anchor = anchor_fixture_parser.get_parsed_anchor_critical_last()
+
+    with pytest.raises(AttributeError) as ex:
+        anchor = parsed_anchor[0]
+        anchor.value = "someOtherValue"
+
+    assert "can't set attribute" in str(ex.value)
