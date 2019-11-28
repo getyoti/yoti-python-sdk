@@ -21,7 +21,8 @@ from yoti_python_sdk.anchor import (
 def parse_anchors(anchors):
     """
     Parse the supplied anchors
-    :return: Anchor[]
+
+    :return: tuple(Anchor, ...)
     """
     if anchors is None:
         return None
@@ -59,7 +60,7 @@ def parse_anchors(anchors):
                 )
             )
 
-    return parsed_anchors
+    return tuple(parsed_anchors)
 
 
 def extract_anchor_type(extension):

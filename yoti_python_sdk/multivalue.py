@@ -18,7 +18,7 @@ def parse(multi_value_bytes):
             )
         )
 
-    return multi_value_list
+    return tuple(multi_value_list)
 
 
 def filter_values(values, type_to_filter):
