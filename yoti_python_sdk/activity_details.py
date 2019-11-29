@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-import pytz
-
-from datetime import datetime
-
+from yoti_python_sdk import date_parser
 from yoti_python_sdk.profile import Profile, ApplicationProfile
 
 
@@ -25,8 +22,7 @@ class ActivityDetails:
         timestamp = receipt.get("timestamp")
 
         if timestamp is not None:
-            self.timestamp = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
-            self.timestamp = self.timestamp.replace(tzinfo=pytz.utc)
+            self.timestamp = date_parser.datetime_from_string(timestamp)
 
     @property
     def remember_me_id(self):
