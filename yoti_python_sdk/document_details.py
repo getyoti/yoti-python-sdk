@@ -8,6 +8,10 @@ class DocumentDetails(object):
     VALIDATION_REGEX = re.compile("^[A-Za-z_]* [A-Za-z]{3} [A-Za-z0-9]{1}.*$")
 
     def __init__(self, data):
+        # Non-required attributes default to None
+        self.__expiration_date = None
+        self.__issuing_authority = None
+
         self.__validate_data(data)
         self.__parse_data(data)
 
@@ -25,11 +29,11 @@ class DocumentDetails(object):
 
     @property
     def expiration_date(self):
-        return self.__dict__.get("_DocumentDetails__expiration_date", None)
+        return self.__expiration_date
 
     @property
     def issuing_authority(self):
-        return self.__dict__.get("_DocumentDetails__issuing_authority", None)
+        return self.__issuing_authority
 
     def __validate_data(self, data):
         if self.VALIDATION_REGEX.search(data):
