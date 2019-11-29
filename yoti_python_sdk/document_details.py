@@ -50,6 +50,6 @@ class DocumentDetails(object):
         if len(data) > 3:
             date = data[3]
             if date != "-":
-                self.__expiration_date = date_parser.from_iso_format(date)
+                self.__expiration_date = date_parser.date_from_string(date)
         if len(data) > 4:
             self.__issuing_authority = data[4]

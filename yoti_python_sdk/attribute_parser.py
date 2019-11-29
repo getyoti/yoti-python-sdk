@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 import collections
 import json
 import logging
-import datetime
 
+from yoti_python_sdk import date_parser
 from yoti_python_sdk import multivalue
 from yoti_python_sdk.protobuf.protobuf import Protobuf
 
@@ -20,7 +20,7 @@ def value_based_on_content_type(value, content_type=None):
             "Content type: '{0}' should not have an empty value".format(content_type)
         )
     elif content_type == Protobuf.CT_DATE:
-        return parse_to_date(value.decode("utf-8"))
+        return date_parser.date_from_string(value.decode("utf-8"))
     elif content_type in Image.allowed_types():
         return Image(value, content_type)
     elif content_type == Protobuf.CT_JSON:
@@ -40,10 +40,6 @@ def value_based_on_content_type(value, content_type=None):
         )
 
     return value.decode("utf-8")
-
-
-def parse_to_date(date_str):
-    return datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
 
 
 def convert_to_dict(byte_value):
