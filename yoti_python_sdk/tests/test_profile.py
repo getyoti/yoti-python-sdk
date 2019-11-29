@@ -2,8 +2,9 @@
 import collections
 import json
 import logging
-
 import pytest
+
+from datetime import date
 
 from yoti_python_sdk import config
 from yoti_python_sdk.attribute import Attribute
@@ -753,3 +754,61 @@ def test_expect_none_when_no_age_under_verification_exists():
 
     age_under_verification = human_profile.find_age_under_verification(18)
     assert age_under_verification is None
+
+
+def test_expect_date_object_for_date_of_birth():
+    attribute_list = create_single_attribute_list(
+        name="date_of_birth",
+        value="1986-02-05".encode(),
+        anchors=None,
+        content_type=Protobuf.CT_DATE,
+    )
+
+    human_profile = Profile(attribute_list)
+
+    date_of_birth = human_profile.date_of_birth.value
+    assert isinstance(date_of_birth, date) is True
+    assert date_of_birth == date(year=1986, month=2, day=5)
+
+
+def test_expect_date_less_than_1970_to_parse():
+    attribute_list = create_single_attribute_list(
+        name="date_of_birth",
+        value="1927-02-05".encode(),
+        anchors=None,
+        content_type=Protobuf.CT_DATE,
+    )
+
+    human_profile = Profile(attribute_list)
+
+    date_of_birth = human_profile.date_of_birth.value
+    assert isinstance(date_of_birth, date) is True
+    assert date_of_birth == date(year=1927, month=2, day=5)
+
+
+def test_expect_given_names_to_return_correct_attribute():
+    attribute_list = create_single_attribute_list(
+        name="given_names",
+        value="Elliot".encode(),
+        anchors=None,
+        content_type=Protobuf.CT_STRING,
+    )
+
+    human_profile = Profile(attribute_list)
+
+    family_name = human_profile.given_names
+    assert family_name.value == "Elliot"
+
+
+def test_expect_family_name_to_return_correct_attribute():
+    attribute_list = create_single_attribute_list(
+        name="family_name",
+        value="Alderson".encode(),
+        anchors=None,
+        content_type=Protobuf.CT_STRING,
+    )
+
+    human_profile = Profile(attribute_list)
+
+    family_name = human_profile.family_name
+    assert family_name.value == "Alderson"
