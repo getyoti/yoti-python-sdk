@@ -6,6 +6,7 @@ from yoti_python_sdk.issuance_details import IssuanceDetails
 from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
 from yoti_python_sdk.protobuf.share_public_api import IssuingAttributes_pb2
 from datetime import datetime
+import base64
 import pytest
 
 FIXTURES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
@@ -35,7 +36,9 @@ def test_should_parse_third_party_attribute_correctly():
     issuance_details = IssuanceDetails(proto)
 
     assert issuance_details.attributes[0].name == "com.thirdparty.id"
-    assert issuance_details.token == "someIssuanceToken"
+    assert issuance_details.token == base64.b64encode(
+        "someIssuanceToken".encode("utf-8")
+    )
     assert issuance_details.expiry_date == datetime(2019, 10, 15, 22, 4, 5, 123000)
 
 

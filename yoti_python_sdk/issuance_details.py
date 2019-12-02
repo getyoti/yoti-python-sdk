@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from yoti_python_sdk import date_parser
+import base64
 
 
 class IssuanceDetails(object):
     def __init__(self, data_entry):
-        self.__token = data_entry.issuance_token.decode()
+        self.__token = base64.b64encode(data_entry.issuance_token)
         self.__expiry_date = date_parser.datetime_with_microsecond(
             data_entry.issuing_attributes.expiry_date
         )
