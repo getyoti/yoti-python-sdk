@@ -2,6 +2,7 @@
 
 from datetime import datetime
 import os.path
+import base64
 
 from yoti_python_sdk.share.extra_data import ExtraData
 from yoti_python_sdk.tests import file_helper
@@ -24,7 +25,7 @@ def create_third_party_test_data(token_value, expiry_date, *definitions):
         issuing_attributes.definitions.extend([name])
 
     attribute = ThirdPartyAttribute_pb2.ThirdPartyAttribute()
-    attribute.issuance_token = str(token_value).encode("utf-8")
+    attribute.issuance_token = token_value.encode("utf-8")
     attribute.issuing_attributes.MergeFrom(issuing_attributes)
 
     data_entry = DataEntry_pb2.DataEntry()
@@ -66,7 +67,9 @@ def test_should_return_first_matching_third_party_attribute():
         create_extra_data([thirdparty_attribute1, thirdparty_attribute2])
     )
 
-    assert parsed_extra_data.attribute_issuance_details.token == "tokenValue1"
+    assert parsed_extra_data.attribute_issuance_details.token == base64.b64encode(
+        "tokenValue1".encode("utf-8")
+    )
     assert (
         parsed_extra_data.attribute_issuance_details.attributes[0].name
         == "attributeName1"
@@ -79,7 +82,7 @@ def test_should_parse_multiple_issuing_attributes():
 
     result = extra_data.attribute_issuance_details
     assert result is not None
-    assert result.token == "someIssuanceToken"
+    assert result.token == base64.b64encode("someIssuanceToken".encode("utf-8"))
     assert result.expiry_date == datetime(2019, 10, 15, 22, 4, 5, 123000)
     assert result.attributes[0].name == "com.thirdparty.id"
     assert result.attributes[1].name == "com.thirdparty.other_id"
@@ -103,7 +106,7 @@ def test_should_handle_no_issuing_attributes():
     extra_data = ExtraData(create_extra_data([thirdparty_attribute]))
 
     result = extra_data.attribute_issuance_details
-    assert result.token == "tokenValue"
+    assert result.token == base64.b64encode(tokenValue.encode("utf-8"))
     assert len(result.attributes) == 0
 
 
@@ -116,6 +119,6 @@ def test_should_handle_no_issuing_attribute_definitions():
     extra_data = ExtraData(create_extra_data([thirdparty_attribute]))
 
     result = extra_data.attribute_issuance_details
-    assert result.token == tokenValue
+    assert result.token == base64.b64encode(tokenValue.encode("utf-8"))
     assert result.expiry_date == expiry_date
     assert len(result.attributes) == 0
