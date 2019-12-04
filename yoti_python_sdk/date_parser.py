@@ -19,7 +19,7 @@ def from_iso_format(string):
 
 def datetime_with_microsecond(string):
     # Python2 does not have a way of parsing date formats.
-    # TODO Deprecate this once Python2 support is dropped.
+    # Deprecate this once Python2 support is dropped.
     time_split = re.split("[^0-9]", string)
     parts = len(time_split)
     if parts <= 6:
@@ -27,14 +27,14 @@ def datetime_with_microsecond(string):
             logging.warning(ERROR_PARSING_DATE)
         return None
 
-    year = int(time_split[0]) if parts > 0 else 0
-    month = int(time_split[1]) if parts > 1 else 0
-    day = int(time_split[2]) if parts > 2 else 0
-    hour = int(time_split[3]) if parts > 3 else 0
-    minute = int(time_split[4]) if parts > 4 else 0
-    second = int(time_split[5]) if parts > 5 else 0
-    microsecond = int(float("0." + time_split[6]) * 1e6) if parts > 6 else 0
     try:
+        year = int(time_split[0])
+        month = int(time_split[1])
+        day = int(time_split[2])
+        hour = int(time_split[3])
+        minute = int(time_split[4])
+        second = int(time_split[5])
+        microsecond = int(float("0." + time_split[6]) * 1e6)
         return datetime(year, month, day, hour, minute, second, microsecond)
     except ValueError:
         if logging.getLogger().propagate:
