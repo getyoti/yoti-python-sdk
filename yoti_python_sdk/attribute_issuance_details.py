@@ -4,7 +4,7 @@ from yoti_python_sdk import date_parser
 import base64
 
 
-class IssuanceDetails(object):
+class AttributeIssuanceDetails(object):
     def __init__(self, data_entry):
         self.__token = base64.b64encode(data_entry.issuance_token)
         self.__expiry_date = date_parser.datetime_with_microsecond(
