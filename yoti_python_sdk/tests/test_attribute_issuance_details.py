@@ -2,7 +2,7 @@
 
 import os.path
 from yoti_python_sdk.tests import file_helper
-from yoti_python_sdk.issuance_details import IssuanceDetails
+from yoti_python_sdk.attribute_issuance_details import AttributeIssuanceDetails
 from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
 from yoti_python_sdk.protobuf.share_public_api import IssuingAttributes_pb2
 from datetime import datetime
@@ -33,7 +33,7 @@ def test_should_parse_third_party_attribute_correctly():
     proto = ThirdPartyAttribute_pb2.ThirdPartyAttribute()
     proto.MergeFromString(thirdparty_attribute_bytes)
 
-    issuance_details = IssuanceDetails(proto)
+    issuance_details = AttributeIssuanceDetails(proto)
 
     assert issuance_details.attributes[0].name == "com.thirdparty.id"
     assert issuance_details.token == base64.b64encode(
@@ -48,6 +48,6 @@ def test_should_parse_third_party_attribute_correctly():
 def test_should_return_none_if_error_in_parsing_date(expiry_date):
     proto = create_issuance_test_proto("someToken", expiry_date)
 
-    issuance_details = IssuanceDetails(proto)
+    issuance_details = AttributeIssuanceDetails(proto)
 
     assert issuance_details.expiry_date is None

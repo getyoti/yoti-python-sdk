@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from yoti_python_sdk.issuance_details import IssuanceDetails
+from yoti_python_sdk.attribute_issuance_details import AttributeIssuanceDetails
 from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
 from yoti_python_sdk.protobuf.share_public_api import ExtraData_pb2
 
@@ -21,7 +21,7 @@ class ExtraData(object):
             ):
                 attribute = ThirdPartyAttribute_pb2.ThirdPartyAttribute()
                 attribute.MergeFromString(data_entry.value)
-                self.__attribute_issuance_details = IssuanceDetails(attribute)
+                self.__attribute_issuance_details = AttributeIssuanceDetails(attribute)
 
     @property
     def attribute_issuance_details(self):
