@@ -34,7 +34,7 @@ def datetime_with_microsecond(string):
         hour = int(time_split[3])
         minute = int(time_split[4])
         second = int(time_split[5])
-        microsecond = int(float("0." + time_split[6]) * 1e6)
+        microsecond = int(round(float("0." + time_split[6]) * 1e6))
         return datetime(year, month, day, hour, minute, second, microsecond)
     except ValueError:
         if logging.getLogger().propagate:
