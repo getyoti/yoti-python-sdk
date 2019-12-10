@@ -1,2 +1,3 @@
 [MASTER]
-ignore=yoti_python_sdk/tests/**,examples/**
+ignore=tests,examples,protobuf
+disable=C0330
