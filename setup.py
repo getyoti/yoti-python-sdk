@@ -41,6 +41,8 @@ setup(
             "pre-commit==1.17.0",
             "pytest>=3.6.0",
             "pytest-cov>=2.7.1",
+            "pylint==1.9.4",
+            "pylint-exit>=1.1.0",
             "python-coveralls==2.9.3",
             "mock==2.0.0",
             "virtualenv==15.2",
