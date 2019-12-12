@@ -2,7 +2,8 @@ version: '3.4'
 services:
   web:
     build:
-      context: ./
+      context: ../../
+      dockerfile: examples/yoti_example_django/Dockerfile
       args:
         YOTI_SCENARIO_ID: "${YOTI_SCENARIO_ID}"
         YOTI_CLIENT_SDK_ID: "${YOTI_CLIENT_SDK_ID}"

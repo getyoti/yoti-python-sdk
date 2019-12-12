@@ -1,5 +1,8 @@
 # Yoti Python SDK #
 
+[![Build Status](https://travis-ci.com/getyoti/yoti-python-sdk.svg?branch=master)](https://travis-ci.com/getyoti/yoti-python-sdk)
+[![Coverage Status](https://coveralls.io/repos/github/getyoti/yoti-python-sdk/badge.svg?branch=master)](https://coveralls.io/github/getyoti/yoti-python-sdk?branch=master)
+
 Welcome to the Yoti Python SDK. This repo contains the tools and step by step instructions you need to quickly integrate your Python back-end with Yoti so that your users can share their identity details with your application in a secure and trusted way.
 
 ## Table of Contents
@@ -128,6 +131,7 @@ full_name = profile.full_name.value
 phone_number = profile.phone_number.value
 date_of_birth = profile.date_of_birth.value
 postal_address = profile.postal_address.value
+structured_postal_address = profile.structured_postal_address.value
 gender = profile.gender.value
 nationality = profile.nationality.value
 email_address = profile.email_address.value
@@ -274,7 +278,7 @@ To run the Flask or Django container:
 Running the tests is done by the following process, ensuring you are using Python 3.0+:
 
 1. Install dependencies: `pip install -r requirements.txt`
-1. Install the SDK: `python setup.py develop`
+1. Install the SDK and development dependencies: `pip install .[dev]`
 1. Execute in the main project dir: `py.test`
 
 ## API Coverage
@@ -293,6 +297,7 @@ Running the tests is done by the following process, ensuring you are using Pytho
         * [X] Email Address `email_address`
         * [X] Date of Birth `date_of_birth`
         * [X] Address `postal_address`
+        * [X] Structured Postal Address `structured_postal_address`
         * [X] Gender `gender`
         * [X] Nationality `nationality`
     * [X] Application Profile `application_profile`

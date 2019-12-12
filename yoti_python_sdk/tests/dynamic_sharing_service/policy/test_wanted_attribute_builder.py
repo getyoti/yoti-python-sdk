@@ -5,6 +5,8 @@ from yoti_python_sdk.dynamic_sharing_service.policy.source_constraint_builder im
     SourceConstraintBuilder,
 )
 
+import pytest
+
 
 def test_build():
     NAME = "Test name"
@@ -45,6 +47,11 @@ def test_with_multiple_constraints():
 
     constraints = attribute["constraints"]
     assert len(constraints) == 2
+
+
+def test_missing_attribute_name_raises():
+    with pytest.raises(ValueError):
+        WantedAttributeBuilder().build()
 
 
 def test_acccept_self_assert():

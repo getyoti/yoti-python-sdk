@@ -27,6 +27,7 @@ setup(
         "future>=0.11.0",
         "asn1==2.2.0",
         "pyopenssl>=18.0.0",
+        "deprecated==1.2.6",
     ],
     extras_require={
         "examples": [
@@ -35,7 +36,17 @@ setup(
             "python-dotenv>=0.7.1",
             "django-sslserver>=0.2",
             "Werkzeug==0.11.15",
-        ]
+        ],
+        "dev": [
+            "pre-commit==1.17.0",
+            "pytest>=3.6.0",
+            "pytest-cov>=2.7.1",
+            "pylint==1.9.4",
+            "pylint-exit>=1.1.0",
+            "python-coveralls==2.9.3",
+            "mock==2.0.0",
+            "virtualenv==15.2",
+        ],
     },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -44,10 +55,8 @@ setup(
         "Intended Audience :: Developers",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",

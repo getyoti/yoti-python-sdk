@@ -11,6 +11,7 @@ from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.endpoint import Endpoint
 from yoti_python_sdk.http import SignedRequest, YotiResponse
 from yoti_python_sdk.protobuf import protobuf
+from yoti_python_sdk.config import X_YOTI_AUTH_KEY
 
 NO_KEY_FILE_SPECIFIED_ERROR = (
     "Please specify the correct private key file "
@@ -66,6 +67,7 @@ class Client(object):
         proto = protobuf.Protobuf()
         encrypted_data = proto.current_user(receipt)
         encrypted_application_profile = proto.current_application(receipt)
+        encrypted_extra_data = proto.extra_data(receipt)
 
         if not encrypted_data:
             return ActivityDetails(receipt)
@@ -80,6 +82,12 @@ class Client(object):
             encrypted_application_profile.iv,
             encrypted_application_profile.cipher_text,
         )
+        if encrypted_extra_data:
+            decrypted_extra_data = self.__crypto.decipher(
+                unwrapped_key, encrypted_extra_data.iv, encrypted_extra_data.cipher_text
+            )
+        else:
+            decrypted_extra_data = None
 
         user_profile_attribute_list = proto.attribute_list(decrypted_profile_data)
         application_profile_attribute_list = proto.attribute_list(
@@ -90,6 +98,7 @@ class Client(object):
             receipt=receipt,
             decrypted_profile=user_profile_attribute_list,
             decrypted_application_profile=application_profile_attribute_list,
+            decrypted_extra_data=decrypted_extra_data,
         )
 
     def perform_aml_check(self, aml_profile):
@@ -138,6 +147,7 @@ class Client(object):
             .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
             .with_endpoint(path)
             .with_param("appId", self.sdk_id)
+            .with_header(X_YOTI_AUTH_KEY, self.__crypto.get_public_key())
             .with_request_handler(self.__request_handler)
             .build()
         )
