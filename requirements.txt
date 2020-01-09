@@ -13,6 +13,7 @@ click==6.6
 cryptography==2.7
 future==0.15.2
 idna==2.7                 # via requests
+iso8601==0.1.12
 itsdangerous==0.24
 pbr==1.10.0
 protobuf==3.7.0
