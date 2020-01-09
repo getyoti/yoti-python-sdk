@@ -1,5 +1,6 @@
 import pytz
 import pytest
+import iso8601
 
 from datetime import date, datetime
 
@@ -66,10 +67,10 @@ def test_datetime_from_string_valid(input_value, expected_type, expected_value):
     "input_value", ["1920, 1st of the Month!", "Why would we pass a string?"]
 )
 def test_datetime_from_string_throws_error_if_invalid_format(input_value):
-    with pytest.raises(ValueError) as ex:
+    with pytest.raises(iso8601.iso8601.ParseError) as ex:
         date_parser.datetime_from_string(input_value)
 
-    assert "does not match format" in str(ex.value)
+    assert "Unable to parse date string" in str(ex.value)
 
 
 @pytest.mark.parametrize(
@@ -179,3 +180,43 @@ def test_parse_timestamp_from_microseconds(input_value, expected_value):
     result = date_parser.parse_timestamp_from_microseconds(input_value)
 
     assert result == expected_value
+
+
+@pytest.mark.parametrize(
+    "string, expected",
+    [
+        ("2006-01-02T22:04:05Z", datetime(2006, 1, 2, 22, 4, 5, 0, pytz.utc)),
+        (
+            "2006-01-02T22:04:05.1Z",
+            datetime(2006, 1, 2, 22, 4, 5, int(100e3), pytz.utc),
+        ),
+        (
+            "2006-01-02T22:04:05.12Z",
+            datetime(2006, 1, 2, 22, 4, 5, int(120e3), pytz.utc),
+        ),
+        (
+            "2006-01-02T22:04:05.123Z",
+            datetime(2006, 1, 2, 22, 4, 5, int(123e3), pytz.utc),
+        ),
+        ("2006-01-02T22:04:05.1234Z", datetime(2006, 1, 2, 22, 4, 5, 123400, pytz.utc)),
+        (
+            "2006-01-02T22:04:05.12345Z",
+            datetime(2006, 1, 2, 22, 4, 5, 123450, pytz.utc),
+        ),
+        (
+            "2006-01-02T22:04:05.123456Z",
+            datetime(2006, 1, 2, 22, 4, 5, 123456, pytz.utc),
+        ),
+        (
+            "2002-10-02T10:00:00-05:00",
+            datetime(2002, 10, 2, 10, 0, 0, 0, pytz.FixedOffset(-5 * 60)),
+        ),
+        (
+            "2002-10-02T10:00:00+11:00",
+            datetime(2002, 10, 2, 10, 0, 0, 0, pytz.FixedOffset(11 * 60)),
+        ),
+    ],
+)
+def test_datetime_with_microsecond_should_handle_all_rfc3339(string, expected):
+    output = date_parser.datetime_from_string(string)
+    assert output.astimezone(pytz.utc) == expected.astimezone(pytz.utc)

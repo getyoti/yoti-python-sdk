@@ -2,6 +2,7 @@
 
 import pytz
 import datetime
+import iso8601
 
 
 RFC_3999_DATE_FORMAT = "%Y-%m-%d"
@@ -38,7 +39,7 @@ def datetime_from_string(date_string):
     :param date_string: the raw date string
     :return: datetime.datetime
     """
-    return parse_date(date_string, RFC_3999_DATETIME_FORMAT)
+    return iso8601.parse_date(date_string)
 
 
 def parse_from_timestamp(timestamp, division=1):
