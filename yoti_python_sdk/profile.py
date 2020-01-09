@@ -10,8 +10,11 @@ from yoti_python_sdk.age_verification import AgeVerification
 
 class BaseProfile(object):
     def __init__(self, profile_attributes):
+        # This will be removed in v3.0.0, as it doesn't allow duplicate Attributes
         self.attributes = {}
         self.verifications = None
+
+        self.attribute_map = {}
 
         if profile_attributes:
             for field in profile_attributes:
@@ -32,7 +35,13 @@ class BaseProfile(object):
 
                     anchors = Anchor().parse_anchors(field.anchors)
 
-                    self.attributes[field.name] = Attribute(field.name, value, anchors)
+                    attr = Attribute(field.name, value, anchors)
+                    self.attributes[field.name] = attr
+
+                    if field.name not in self.attribute_map:
+                        self.attribute_map[field.name] = []
+
+                    self.attribute_map[field.name].append(attr)
 
                 except ValueError as ve:
                     if logging.getLogger().propagate:
@@ -51,10 +60,19 @@ class BaseProfile(object):
         :param attribute_name:
         :return: Attribute
         """
-        if attribute_name in self.attributes:
-            return self.attributes.get(attribute_name)
-        else:
-            return None
+        if attribute_name in self.attribute_map:
+            return self.attribute_map[attribute_name][0]
+        return None
+
+    def get_attributes(self, attribute_name):
+        """
+        Returns a list of attributes based on the name supplied
+        :param attribute_name:
+        :return: Attribute[]
+        """
+        if attribute_name in self.attribute_map:
+            return self.attribute_map[attribute_name]
+        return list()
 
 
 class Profile(BaseProfile):
@@ -204,10 +222,18 @@ class Profile(BaseProfile):
                 formatted_address = structured_postal_address.value[
                     config.KEY_FORMATTED_ADDRESS
                 ]
-                self.attributes[config.ATTRIBUTE_POSTAL_ADDRESS] = Attribute(
+                attr_postal_address = Attribute(
                     config.ATTRIBUTE_POSTAL_ADDRESS,
                     formatted_address,
                     structured_postal_address.anchors,
+                )
+                self.attributes[config.ATTRIBUTE_POSTAL_ADDRESS] = attr_postal_address
+
+                if config.ATTRIBUTE_POSTAL_ADDRESS not in self.attribute_map:
+                    self.attribute_map[config.ATTRIBUTE_POSTAL_ADDRESS] = []
+
+                self.attribute_map[config.ATTRIBUTE_POSTAL_ADDRESS].append(
+                    attr_postal_address
                 )
 
 
