@@ -215,6 +215,11 @@ def test_parse_timestamp_from_microseconds(input_value, expected_value):
             "2002-10-02T10:00:00+11:00",
             datetime(2002, 10, 2, 10, 0, 0, 0, pytz.FixedOffset(11 * 60)),
         ),
+        (
+            "1920-03-13T19:50:53.999999Z",
+            datetime(1920, 3, 13, 19, 50, 53, 999999, pytz.utc),
+        ),
+        ("1920-03-13T19:50:54.000001Z", datetime(1920, 3, 13, 19, 50, 54, 1, pytz.utc)),
     ],
 )
 def test_datetime_with_microsecond_should_handle_all_rfc3339(string, expected):
