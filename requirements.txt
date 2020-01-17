@@ -5,12 +5,11 @@
 #    pip-compile --output-file=requirements.txt requirements.in
 #
 asn1==2.2.0
-asn1crypto==0.24.0        # via cryptography
 certifi==2018.11.29       # via requests
 cffi==1.13.0
 chardet==3.0.4            # via requests
 click==6.6
-cryptography==2.7
+cryptography==2.8
 deprecated==1.2.6
 future==0.15.2
 idna==2.7                 # via requests
@@ -27,4 +26,4 @@ wheel==0.24.0
 wrapt==1.11.2             # via deprecated
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.4.0        # via protobuf
+# setuptools
