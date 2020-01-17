@@ -45,7 +45,7 @@ setup(
             "pylint-exit>=1.1.0",
             "python-coveralls==2.9.3",
             "mock==2.0.0",
-            "virtualenv==15.2",
+            "virtualenv==16.7.9",
         ],
     },
     classifiers=[
