@@ -7,6 +7,8 @@ git:
   depth: 1
 
 jobs:
+  allow_failures:
+    - python: "3.8-dev"
   include:
     - &test
       stage: Test
@@ -49,7 +51,20 @@ jobs:
       if: type = pull_request OR branch = master
       after_success:
         - coveralls
-
-matrix:
-  allow_failures:
-  - python: "3.8-dev"
+    - stage: Analyze
+      name: Sonarcloud
+      dist: trusty
+      python: "3.7"
+      addons:
+        sonarcloud:
+          organization: "getyoti"
+          token:
+            secure: "rqiy5kLHuXPRZjWCg/DOt3x81nLvDoVLjtkzrzC7EPYSUiJQ+B/f+dMOLphhapnZ4wEQT1diM7R/XhEhEPRsXxCJuHJC5wERTiURw6jCjIMlfVM1vzq2W45nPKdzEjMDFi1XtaB0rQOP3eB6xAYQ84hJ17i7+fty9tTIembBOIZmJsA69QXODOUPJfUy/TlcS+GHml584xY4VEc2w8+O0sq7NOQoYsScHrwxyR6uQCXaeSgGFz6C6b3URqXe6559P2jttJc4+8JwG/GYRxU/8Gvtoh4DZcRivcWDfjoBirz8Cz95Pl224FxGeyitKuNWPFWQb3o2hgVkR2bOKOasHUvZuT6eOk6i+YnvltZZJimSZ5fX6bvR4t35YXYqXdEDSkOzZmHolGW9bj9LSYJphY+1ODVWjRycRV96nU2x42ueeTG9ZCW9ZnlWGgplo8X6KJDmhs5k6++Y7Q40DuYrmwYWxZXyBOkrMrUHCV7rpreRov+2NoOUuU8Dq4uBdIKn8truxPLAERFWrGIO5ti+TXPQ/ttGL+d47QhDBXhGKa0qUVRFq1W6CY1AgNCtxfG842eQzSNvV5am/4zZVWEwRbuIMDaceNagpLIDy4iEeEdwZXT2B8xZVt2rePWd7Qxk7UDD+s9/RYFLyOSDNcmmmguLej9gyTlBMrLFCvLcsnk="
+      install:
+        - pip install -r requirements.txt
+        - pip install -e .[dev]
+      script:
+        - pytest --cov=yoti_python_sdk yoti_python_sdk/tests
+      if: type = pull_request OR brnch = master
+      after_success:
+        - sonar-scanner
