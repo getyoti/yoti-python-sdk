@@ -4,7 +4,7 @@ dist: xenial
   
 # Only clone the most recent commit.
 git:
-  depth: 1
+  depth: false
 
 jobs:
   allow_failures:
@@ -62,6 +62,7 @@ jobs:
         - pip install -r requirements.txt
         - pip install -e .[dev]
       script:
-        - pytest --cov=yoti_python_sdk yoti_python_sdk/tests
+        - pytest --cov=yoti_python_sdk yoti_python_sdk/tests --cov-report=xml:coverage-reports/coverage-new.xml
+        - sed -i 's+<source>.*</source>+<source>/home/travis/build/getyoti/yoti-python-sdk/yoti_python_sdk</source>+g' coverage-reports/coverage-new.xml
         - sonar-scanner
       if: type = pull_request OR branch = master
