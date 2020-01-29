@@ -1,0 +1,5 @@
+{
+  "client_session_token_ttl": 599,
+  "client_session_token": "<uuid1>",
+  "session_id": "<uuid2>"
+}

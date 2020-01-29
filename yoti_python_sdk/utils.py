@@ -1,5 +1,27 @@
-import uuid
 import time
+import uuid
+from abc import ABCMeta
+from abc import abstractmethod
+from json import JSONEncoder
+
+
+class YotiSerializable(object):
+    """
+    Used to describe a class that is serializable by :class:`YotiEncoder`.
+    """
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def to_json(self):
+        raise NotImplementedError
+
+
+class YotiEncoder(JSONEncoder):
+    def default(self, o):
+        if isinstance(o, YotiSerializable):
+            return o.to_json()
+        return JSONEncoder.default(self, o)
 
 
 def create_nonce():
