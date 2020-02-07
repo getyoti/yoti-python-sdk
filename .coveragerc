@@ -1,4 +1,5 @@
 [run]
 omit =
     yoti_python_sdk/tests/**
+    yoti_python_sdk/protobuf/**/*
     examples/**
