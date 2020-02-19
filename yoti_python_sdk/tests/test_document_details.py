@@ -124,10 +124,9 @@ def test_invalid_date():
         assert str(exc.value) == "Invalid value for DocumentDetails"
 
 
-def test_should_parse_with_double_space():
-    DATA = "AADHAAR  IND ****1234"
+def test_should_fail_with_double_space():
+    DATA = "  IND ****1234"
 
-    document = DocumentDetails(DATA)
-
-    assert document.document_type == "AADHAAR"
-    assert document.document_number == "****1234"
+    with pytest.raises(ValueError) as exc:
+        DocumentDetails(DATA)
+        assert str(exc.value) == "Invalid value for DocumentDetails"
