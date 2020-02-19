@@ -125,7 +125,7 @@ def test_invalid_date():
 
 
 def test_should_fail_with_double_space():
-    DATA = "  IND ****1234"
+    DATA = "AADHAAR  IND ****1234"
 
     with pytest.raises(ValueError) as exc:
         DocumentDetails(DATA)

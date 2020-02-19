@@ -27,8 +27,8 @@ class DocumentDetails(object):
         return self.__dict__.get("_DocumentDetails__issuing_authority", None)
 
     def __parse_data(self, data):
-        data = data.split()
-        if len(data) < 3:
+        data = data.split(" ")
+        if len(data) < 3 or "" in data:
             raise ValueError("Invalid value for DocumentDetails")
 
         self.__document_type = data[0]
