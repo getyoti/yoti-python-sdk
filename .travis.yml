@@ -2,7 +2,6 @@ language: python
 
 dist: xenial
   
-# Only clone the most recent commit.
 git:
   depth: false
 
