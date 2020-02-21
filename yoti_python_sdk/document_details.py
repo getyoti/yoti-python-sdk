@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
-import re
-
 from . import date_parser
 
 
 class DocumentDetails(object):
-    VALIDATION_REGEX = re.compile("^[A-Za-z_]* [A-Za-z]{3} [A-Za-z0-9]{1}.*$")
-
     def __init__(self, data):
-        self.__validate_data(data)
         self.__parse_data(data)
 
     @property
@@ -31,14 +26,10 @@ class DocumentDetails(object):
     def issuing_authority(self):
         return self.__dict__.get("_DocumentDetails__issuing_authority", None)
 
-    def __validate_data(self, data):
-        if self.VALIDATION_REGEX.search(data):
-            return
-        else:
-            raise ValueError("Invalid value for DocumentDetails")
-
     def __parse_data(self, data):
-        data = data.split()
+        data = data.split(" ")
+        if len(data) < 3 or "" in data:
+            raise ValueError("Invalid value for DocumentDetails")
 
         self.__document_type = data[0]
         self.__issuing_country = data[1]

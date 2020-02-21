@@ -2,11 +2,12 @@ language: python
 
 dist: xenial
   
-# Only clone the most recent commit.
 git:
-  depth: 1
+  depth: false
 
 jobs:
+  allow_failures:
+    - python: "3.8-dev"
   include:
     - &test
       stage: Test
@@ -49,7 +50,18 @@ jobs:
       if: type = pull_request OR branch = master
       after_success:
         - coveralls
-
-matrix:
-  allow_failures:
-  - python: "3.8-dev"
+    - stage: Analyze
+      name: Sonarcloud
+      dist: trusty
+      python: "3.6.1"
+      addons:
+        sonarcloud:
+          organization: "getyoti"
+      install:
+        - pip install -r requirements.txt
+        - pip install -e .[dev]
+      script:
+        - pytest --cov=yoti_python_sdk yoti_python_sdk/tests --cov-report=xml:coverage-reports/coverage-new.xml
+        - sed -i 's+<source>.*</source>+<source>/home/travis/build/getyoti/yoti-python-sdk/yoti_python_sdk</source>+g' coverage-reports/coverage-new.xml
+        - sonar-scanner
+      if: type = pull_request OR branch = master
