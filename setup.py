@@ -35,7 +35,7 @@ setup(
             "Flask>=0.10",
             "python-dotenv>=0.7.1",
             "django-sslserver>=0.2",
-            "Werkzeug==0.11.15",
+            "Werkzeug==0.15.3",
         ],
         "dev": [
             "pre-commit==1.17.0",
