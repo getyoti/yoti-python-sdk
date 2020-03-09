@@ -1,6 +1,6 @@
 ---
 name: Custom issue template
-about: There's a better way to get help!
+about: " There's a better way to get help!"
 title: ''
 labels: ''
 assignees: ''
