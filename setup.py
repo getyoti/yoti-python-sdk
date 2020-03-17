@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from setuptools import setup, find_packages
-
-from yoti_python_sdk import __version__
+from setuptools import find_packages
+from setuptools import setup
 
 long_description = (
     "This package contains the tools you need to quickly "
@@ -10,10 +9,14 @@ long_description = (
     "application in a secure and trusted way."
 )
 
+version = {}
+with open("yoti_python_sdk/version.py") as fp:
+    exec(fp.read(), version)
+
 setup(
     name="yoti",
-    version=__version__,
-    packages=find_packages(),
+    version=version["__version__"],
+    packages=find_packages(include=["yoti_python_sdk", "yoti_python_sdk.*"]),
     license="MIT",
     description="The Yoti Python SDK, providing API support for Login, Verify (2FA) and Age Verification.",
     long_description=long_description,
@@ -21,13 +24,13 @@ setup(
     author="Yoti",
     author_email="websdk@yoti.com",
     install_requires=[
+        "deprecated==1.2.6",
         "cryptography>=2.2.1",
         "protobuf>=3.1.0",
         "requests>=2.11.1",
         "future>=0.11.0",
         "asn1==2.2.0",
         "pyopenssl>=18.0.0",
-        "deprecated==1.2.6",
     ],
     extras_require={
         "examples": [
