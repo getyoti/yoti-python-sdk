@@ -14,7 +14,7 @@ future==0.18.2            # via -r requirements.in
 idna==2.7                 # via requests
 itsdangerous==0.24        # via -r requirements.in
 pbr==1.10.0               # via -r requirements.in
-protobuf==3.7.0           # via -r requirements.in
+protobuf==3.11.3          # via -r requirements.in
 pycparser==2.18           # via cffi
 pyopenssl==18.0.0         # via -r requirements.in
 pytz==2018.9              # via -r requirements.in
