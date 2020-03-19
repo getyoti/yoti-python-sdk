@@ -3,7 +3,7 @@ language: python
 dist: xenial
   
 git:
-  depth: false
+  depth: 3
 
 jobs:
   allow_failures:
