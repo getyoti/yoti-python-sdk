@@ -41,7 +41,7 @@ setup(
             "Werkzeug==0.15.3",
         ],
         "dev": [
-            "pre-commit==1.17.0",
+            "pre-commit==2.2.0",
             "pytest>=3.6.0",
             "pytest-cov>=2.7.1",
             "pylint==1.9.4",
