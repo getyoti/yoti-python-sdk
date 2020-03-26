@@ -13,7 +13,7 @@ deprecated==1.2.6         # via -r requirements.in
 future==0.18.2            # via -r requirements.in
 idna==2.7                 # via requests
 itsdangerous==0.24        # via -r requirements.in
-pbr==1.10.0               # via -r requirements.in
+pbr==3.1.1                # via -r requirements.in
 protobuf==3.11.3          # via -r requirements.in
 pycparser==2.18           # via cffi
 pyopenssl==18.0.0         # via -r requirements.in
