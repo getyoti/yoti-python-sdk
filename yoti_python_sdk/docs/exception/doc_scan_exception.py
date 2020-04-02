@@ -11,8 +11,20 @@ class DocScanException(Exception):
         :param response: the http response
         :type response: requests.Response
         """
-        Exception.__init__(self, message)
+        Exception.__init__(self)
+
+        self.__message = message
         self.__response = response
+
+    @property
+    def message(self):
+        """
+        Get the specific exception message
+
+        :return: the exception message
+        :rtype: str
+        """
+        return self.__message
 
     @property
     def status_code(self):
@@ -43,3 +55,6 @@ class DocScanException(Exception):
         :rtype: bytearray or None
         """
         return self.__response.content
+
+    def __str__(self):
+        return self.__message

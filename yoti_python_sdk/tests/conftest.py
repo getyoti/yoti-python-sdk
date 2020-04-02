@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import io
-from os.path import dirname, join, abspath
+from os.path import abspath
+from os.path import dirname
+from os.path import join
 
 import pytest
 

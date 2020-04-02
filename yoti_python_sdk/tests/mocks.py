@@ -1,11 +1,16 @@
-from uuid import UUID
-from yoti_python_sdk.http import RequestHandler, SignedRequest
-from yoti_python_sdk.http import YotiResponse
 import base64
+from uuid import UUID
+
+from yoti_python_sdk.http import RequestHandler
+from yoti_python_sdk.http import SignedRequest
+from yoti_python_sdk.http import YotiResponse
 
 
 class MockResponse(YotiResponse):
-    def __init__(self, status_code, text, headers={}):
+    def __init__(self, status_code, text, headers=None):
+        if headers is None:
+            headers = dict()
+
         super(MockResponse, self).__init__(status_code, text, headers)
 
     @property

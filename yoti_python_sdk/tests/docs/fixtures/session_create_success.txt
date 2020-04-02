@@ -1,0 +1,1 @@
+{"session_id": "someSessionId", "client_session_token": "someClientSessionToken", "client_session_token_ttl": 299}
