@@ -31,6 +31,7 @@ setup(
         "future>=0.11.0",
         "asn1==2.2.0",
         "pyopenssl>=18.0.0",
+        "iso8601==0.1.12",
     ],
     extras_require={
         "examples": [
