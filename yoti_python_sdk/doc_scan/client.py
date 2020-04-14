@@ -12,7 +12,6 @@ from yoti_python_sdk.doc_scan.session.retrieve.get_session_result import (
     GetSessionResult,
 )
 from yoti_python_sdk.doc_scan.session.retrieve.media_value import MediaValue
-from yoti_python_sdk.http import MediaRequestHandler
 from yoti_python_sdk.http import SignedRequest
 from yoti_python_sdk.utils import YotiEncoder
 from .exception import DocScanException
@@ -129,7 +128,6 @@ class DocScanClient(object):
         """
         request = (
             SignedRequest.builder()
-            .with_request_handler(MediaRequestHandler)
             .with_get()
             .with_pem_file(self.__key)
             .with_base_url(self.__api_url)

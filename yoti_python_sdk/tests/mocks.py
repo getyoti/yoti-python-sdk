@@ -7,15 +7,11 @@ from yoti_python_sdk.http import YotiResponse
 
 
 class MockResponse(YotiResponse):
-    def __init__(self, status_code, text, headers=None):
+    def __init__(self, status_code, text, headers=None, content=None):
         if headers is None:
             headers = dict()
 
-        super(MockResponse, self).__init__(status_code, text, headers)
-
-    @property
-    def content(self):
-        return self.text
+        super(MockResponse, self).__init__(status_code, text, headers, content)
 
 
 class MockRequestHandler(RequestHandler):

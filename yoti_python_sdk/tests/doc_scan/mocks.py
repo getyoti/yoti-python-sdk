@@ -32,7 +32,8 @@ def mocked_request_failed_session_retrieval():
 def mocked_request_media_content():
     return MockResponse(
         status_code=200,
-        text=b"someContent",
+        text="someContent",
+        content=b"someContent",
         headers={"Content-Type": "application/json"},
     )
 

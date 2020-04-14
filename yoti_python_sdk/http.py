@@ -24,12 +24,13 @@ HTTP_SUPPORTED_METHODS = ["POST", "PUT", "PATCH", "GET", "DELETE"]
 
 
 class YotiResponse(object):
-    def __init__(self, status_code, text, headers=None):
+    def __init__(self, status_code, text, headers=None, content=None):
         if headers is None:
             headers = {}
 
         self.status_code = status_code
         self.text = text
+        self.content = content
         self.headers = headers
 
 
@@ -89,25 +90,8 @@ class DefaultRequestHandler(RequestHandler):
             status_code=response.status_code,
             text=response.text,
             headers=response.headers,
+            content=response.content,
         )
-
-
-class MediaRequestHandler(RequestHandler):
-    @staticmethod
-    def execute(request):
-        """
-        Execute the HTTP request supplied
-        """
-        if not isinstance(request, SignedRequest):
-            raise TypeError("RequestHandler expects instance of SignedRequest")
-
-        response = requests.request(
-            url=request.url,
-            method=request.method,
-            data=request.data,
-            headers=request.headers,
-        )
-        return MediaResponse(response)
 
 
 class SignedRequest(object):
