@@ -41,7 +41,7 @@ class ResourceContainer(object):
         """
         Parses a liveness capture into a specific sub-class based on the
         liveness type.  If no liveness type is available, it falls back
-        to the parent class :class:`LivensssResourceResponse`
+        to the parent class :class:`LivenessResourceResponse`
 
         :param liveness_capture: the liveness capture
         :type liveness_capture: dict

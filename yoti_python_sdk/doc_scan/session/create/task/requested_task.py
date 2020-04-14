@@ -15,7 +15,7 @@ class RequestedTask(YotiSerializable):
     @abstractmethod
     def type(self):
         """
-        Returns the tyoe of the Task to create
+        Returns the type of the Task to create
 
         :return: the type
         :rtype: str

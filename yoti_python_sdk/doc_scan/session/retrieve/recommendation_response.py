@@ -38,7 +38,7 @@ class RecommendationResponse(object):
     @property
     def recovery_suggestion(self):
         """
-        Returns the recovery suggestion of the recommendtion
+        Returns the recovery suggestion of the recommendation
 
         :return: the recovery suggestion
         :rtype: str or None
