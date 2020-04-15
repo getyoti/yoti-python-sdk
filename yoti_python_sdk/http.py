@@ -34,27 +34,6 @@ class YotiResponse(object):
         self.headers = headers
 
 
-class MediaResponse(object):
-    def __init__(self, response):
-        self.response = response
-
-    @property
-    def status_code(self):
-        return self.response.status_code
-
-    @property
-    def content(self):
-        return self.response.content
-
-    @property
-    def text(self):
-        return self.response.text
-
-    @property
-    def headers(self):
-        return self.response.headers
-
-
 class RequestHandler(object):
     """
     Default request handler for signing requests using the requests library.
