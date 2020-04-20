@@ -7,6 +7,7 @@ from .session.create.task.text_extraction import RequestedTextExtractionTaskBuil
 from .session.create.notification_config import NotificationConfigBuilder
 from .session.create.sdk_config import SdkConfigBuilder
 from .session.create.session_spec import SessionSpecBuilder
+from .client import DocScanClient
 
 __all__ = [
     RequestedDocumentAuthenticityCheckBuilder,
@@ -16,4 +17,5 @@ __all__ = [
     SessionSpecBuilder,
     NotificationConfigBuilder,
     SdkConfigBuilder,
+    DocScanClient,
 ]
