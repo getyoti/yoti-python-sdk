@@ -1,0 +1,196 @@
+{
+	"client_session_token_ttl": 599,
+	"session_id": "<uuid>",
+	"user_tracking_id": "<uuid>",
+	"state": "COMPLETED",
+	"client_session_token": "<uuid>",
+	"resources": {
+		"id_documents": [{
+			"id": "<uuid>",
+			"tasks": [{
+				"type": "ID_DOCUMENT_TEXT_DATA_EXTRACTION",
+				"id": "<uuid>",
+				"state": "DONE",
+				"created": "2020-01-30T15:00:00Z",
+				"last_updated": "2020-01-30T15:00:00Z",
+				"generated_checks": [],
+				"generated_media": [{
+					"id": "<uuid>",
+					"type": "JSON"
+				}]
+			}],
+			"document_type": "DRIVING_LICENCE",
+			"issuing_country": "GBR",
+			"pages": [{
+				"capture_method": "CAMERA",
+				"media": {
+					"id": "<uuid>",
+					"type": "IMAGE",
+					"created": "2020-01-30T15:00:00Z",
+					"last_updated": "2020-01-30T15:00:00Z"
+				}
+			}],
+			"document_fields": {
+				"media": {
+					"id": "<uuid>",
+					"type": "JSON",
+					"created": "2020-01-30T15:00:00Z",
+					"last_updated": "2020-01-30T15:00:00Z"
+				}
+			}
+		}],
+		"liveness_capture": [{
+			"id": "<uuid>",
+			"tasks": [],
+			"frames": [{
+					"media": {
+						"id": "<uuid>",
+						"type": "IMAGE",
+						"created": "2020-01-30T15:00:00Z",
+						"last_updated": "2020-01-30T15:00:00Z"
+					}
+				},
+				{
+					"media": {
+						"id": "<uuid>",
+						"type": "IMAGE",
+						"created": "2020-01-30T15:00:00Z",
+						"last_updated": "2020-01-30T15:00:00Z"
+					}
+				},
+				{
+					"media": {
+						"id": "<uuid>",
+						"type": "IMAGE",
+						"created": "2020-01-30T15:00:00Z",
+						"last_updated": "2020-01-30T15:00:00Z"
+					}
+				},
+				{},
+				{},
+				{},
+				{}
+			],
+			"liveness_type": "ZOOM",
+			"facemap": {
+				"media": {
+					"id": "<uuid>",
+					"type": "BINARY",
+					"created": "2020-01-30T15:00:00Z",
+					"last_updated": "2020-01-30T15:00:00Z"
+				}
+			}
+		}]
+	},
+	"checks": [{
+			"id": "<uuid>",
+			"type": "ID_DOCUMENT_AUTHENTICITY",
+			"state": "DONE",
+			"resources_used": [
+				"<uuid>"
+			],
+			"report": {
+				"recommendation": {
+					"value": "APPROVE"
+				},
+				"breakdown": [{
+						"sub_check": "data_in_correct_position",
+						"result": "PASS",
+						"details": []
+					},
+					{
+						"sub_check": "document_in_date",
+						"result": "PASS",
+						"details": []
+					},
+					{
+						"sub_check": "expected_data_present",
+						"result": "PASS",
+						"details": []
+					},
+					{
+						"sub_check": "hologram",
+						"result": "PASS",
+						"details": []
+					},
+					{
+						"sub_check": "hologram_movement",
+						"result": "PASS",
+						"details": []
+					},
+					{
+						"sub_check": "no_sign_of_tampering",
+						"result": "PASS",
+						"details": []
+					},
+					{
+						"sub_check": "other_security_features",
+						"result": "PASS",
+						"details": []
+					},
+					{
+						"sub_check": "real_document",
+						"result": "PASS",
+						"details": []
+					}
+				]
+			},
+			"created": "2020-01-30T15:00:00Z",
+			"last_updated": "2020-01-30T15:00:00Z"
+
+		},
+		{
+			"type": "LIVENESS",
+			"id": "<uuid>",
+			"state": "DONE",
+			"resources_used": [
+				"<uuid>"
+			],
+			"generated_media": [],
+			"report": {
+				"recommendation": {
+					"value": "APPROVE"
+				},
+				"breakdown": [{
+					"sub_check": "liveness_auth",
+					"result": "PASS",
+					"details": []
+				}]
+			},
+			"created": "2020-01-30T15:00:00Z",
+			"last_updated": "2020-01-30T15:00:00Z"
+		},
+		{
+			"type": "ID_DOCUMENT_FACE_MATCH",
+			"id": "<uuid>",
+			"state": "DONE",
+			"resources_used": [
+				"<uuid>",
+				"<uuid>"
+			],
+			"generated_media": [],
+			"report": {
+				"recommendation": {
+					"value": "APPROVE"
+				},
+				"breakdown": [{
+						"sub_check": "manual_face_match",
+						"result": "PASS",
+						"details": []
+					},
+					{
+						"sub_check": "ai_face_match",
+						"result": "PASS",
+						"details": [{
+							"name": "confidence_score",
+							"value": "1.00"
+						}]
+					}
+
+				]
+			},
+			"created": "2020-01-30T15:00:00Z",
+			"last_updated": "2020-01-30T15:00:00Z"
+		}
+	]
+}

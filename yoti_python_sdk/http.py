@@ -24,12 +24,17 @@ HTTP_SUPPORTED_METHODS = ["POST", "PUT", "PATCH", "GET", "DELETE"]
 
 
 class YotiResponse(object):
-    def __init__(self, status_code, text):
+    def __init__(self, status_code, text, headers=None, content=None):
+        if headers is None:
+            headers = {}
+
         self.status_code = status_code
         self.text = text
+        self.content = content
+        self.headers = headers
 
 
-class RequestHandler:
+class RequestHandler(object):
     """
     Default request handler for signing requests using the requests library.
     This type can be inherited and the execute method overridden to use any
@@ -60,7 +65,12 @@ class DefaultRequestHandler(RequestHandler):
             headers=request.headers,
         )
 
-        return YotiResponse(status_code=response.status_code, text=response.text)
+        return YotiResponse(
+            status_code=response.status_code,
+            text=response.text,
+            headers=response.headers,
+            content=response.content,
+        )
 
 
 class SignedRequest(object):
