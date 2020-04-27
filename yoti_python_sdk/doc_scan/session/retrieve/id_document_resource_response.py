@@ -5,10 +5,10 @@ from yoti_python_sdk.doc_scan.session.retrieve.document_fields_response import (
     DocumentFieldsResponse,
 )
 from yoti_python_sdk.doc_scan.session.retrieve.page_response import PageResponse
-from yoti_python_sdk.doc_scan.session.retrieve.task_response import TaskResponse
+from yoti_python_sdk.doc_scan.session.retrieve.resource_response import ResourceResponse
 
 
-class IdDocumentResourceResponse(object):
+class IdDocumentResourceResponse(ResourceResponse):
     """
     Represents an Identity Document resource for a given session
     """
@@ -21,36 +21,16 @@ class IdDocumentResourceResponse(object):
         if data is None:
             data = dict()
 
-        self.__id = data.get("id", None)
+        ResourceResponse.__init__(self, data)
+
         self.__document_type = data.get("document_type", None)
         self.__issuing_country = data.get("issuing_country", None)
-        self.__tasks = [TaskResponse(task) for task in data.get("tasks", [])]
         self.__pages = [PageResponse(page) for page in data.get("pages", [])]
         self.__document_fields = (
             DocumentFieldsResponse(data["document_fields"])
             if "document_fields" in data.keys()
             else None
         )
-
-    @property
-    def id(self):
-        """
-        Returns the ID of the identity document
-
-        :return: the ID
-        :rtype: str or None
-        """
-        return self.__id
-
-    @property
-    def tasks(self):
-        """
-        Returns all associated tasks of the identity document
-
-        :return: the associated tasks
-        :rtype: list[TaskResponse]
-        """
-        return self.__tasks
 
     @property
     def document_type(self):
