@@ -11,7 +11,17 @@ class LivenessResourceResponse(ResourceResponse):
     Represents a Liveness resource for a given session
     """
 
-    pass
+    def __init__(self, data=None):
+        if data is None:
+            data = dict()
+
+        ResourceResponse.__init__(self, data)
+
+        self.__liveness_type = data.get("liveness_type", None)
+
+    @property
+    def liveness_type(self):
+        return self.__liveness_type
 
 
 class ZoomLivenessResourceResponse(LivenessResourceResponse):
