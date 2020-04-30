@@ -68,6 +68,14 @@ class IdDocumentResourceResponseTest(unittest.TestCase):
         assert isinstance(result.tasks[0], TextExtractionTaskResponse)
         assert isinstance(result.tasks[1], TaskResponse)
 
+    def test_should_filter_text_extraction_tasks(self):
+        data = {"tasks": self.SOME_TASKS}
+
+        result = IdDocumentResourceResponse(data)
+
+        assert len(result.tasks) == 2
+        assert len(result.text_extraction_tasks) == 1
+
 
 if __name__ == "__main__":
     unittest.main()
