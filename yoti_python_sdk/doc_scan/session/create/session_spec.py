@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from .filter.required_document import RequiredDocument  # noqa: F401
 from yoti_python_sdk.utils import YotiSerializable
 
 
@@ -18,6 +19,7 @@ class SessionSpec(YotiSerializable):
         sdk_config,
         requested_checks=None,
         requested_tasks=None,
+        required_documents=None,
     ):
         """
         :param client_session_token_ttl: the client session token TTL
@@ -31,14 +33,18 @@ class SessionSpec(YotiSerializable):
         :param sdk_config: the SDK configuration
         :type sdk_config: SdkConfig
         :param requested_checks: the list of requested checks
-        :type requested_checks: list[RequestedCheck]
+        :type requested_checks: list[RequestedCheck] or None
         :param requested_tasks: the list of requested tasks
-        :type requested_tasks: list[RequestedTask]
+        :type requested_tasks: list[RequestedTask] or None
+        :param required_documents: the list of required documents
+        :type required_documents: list[RequiredDocument] or None
         """
         if requested_tasks is None:
             requested_tasks = []
         if requested_checks is None:
             requested_checks = []
+        if required_documents is None:
+            required_documents = []
 
         self.__client_session_token_ttl = client_session_token_ttl
         self.__resources_ttl = resources_ttl
@@ -47,6 +53,7 @@ class SessionSpec(YotiSerializable):
         self.__sdk_config = sdk_config
         self.__requested_checks = requested_checks
         self.__requested_tasks = requested_tasks
+        self.__required_documents = required_documents
 
     @property
     def client_session_token_ttl(self):
@@ -120,6 +127,17 @@ class SessionSpec(YotiSerializable):
         """
         return self.__requested_tasks
 
+    @property
+    def required_documents(self):
+        """
+        List of documents that are required from the user to satisfy a sessions
+        requirements.
+
+        :return: the list of required documents
+        :rtype: list[RequiredDocument]
+        """
+        return self.__required_documents
+
     def to_json(self):
         return {
             "client_session_token_ttl": self.client_session_token_ttl,
@@ -129,6 +147,7 @@ class SessionSpec(YotiSerializable):
             "requested_checks": self.requested_checks,
             "requested_tasks": self.requested_tasks,
             "sdk_config": self.sdk_config,
+            "required_documents": self.required_documents,
         }
 
 
@@ -145,6 +164,7 @@ class SessionSpecBuilder(object):
         self.__sdk_config = None
         self.__requested_checks = []
         self.__requested_tasks = []
+        self.__required_documents = []
 
     def with_client_session_token_ttl(self, value):
         """
@@ -230,6 +250,18 @@ class SessionSpecBuilder(object):
         self.__sdk_config = value
         return self
 
+    def with_required_document(self, required_document):
+        """
+        Adds a required document to the session specification
+
+        :param required_document: the required document
+        :type required_document: RequiredDocument
+        :return: the builder
+        :rtype: SessionSpecBuilder
+        """
+        self.__required_documents.append(required_document)
+        return self
+
     def build(self):
         """
         Builds a :class:`SessionSpec` using the supplied values
@@ -245,4 +277,5 @@ class SessionSpecBuilder(object):
             self.__sdk_config,
             self.__requested_checks,
             self.__requested_tasks,
+            self.__required_documents,
         )

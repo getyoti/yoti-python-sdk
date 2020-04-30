@@ -15,6 +15,7 @@ from yoti_python_sdk.doc_scan.session.retrieve.media_value import MediaValue
 from yoti_python_sdk.http import SignedRequest
 from yoti_python_sdk.utils import YotiEncoder
 from .exception import DocScanException
+from .support import SupportedDocumentsResponse
 
 
 class DocScanClient(object):
@@ -169,3 +170,26 @@ class DocScanClient(object):
         response = request.execute()
         if response.status_code < 200 or response.status_code >= 300:
             raise DocScanException("Failed to delete media content", response)
+
+    def get_supported_documents(self):
+        """
+        Retrieves a list of all of the currently supported documents
+
+        :return: the supported documents response
+        :rtype: SupportedDocumentsResponse
+        """
+        request = (
+            SignedRequest.builder()
+            .with_http_method("GET")
+            .with_pem_file(self.__key)
+            .with_base_url(self.__api_url)
+            .with_endpoint(Endpoint.get_supported_documents_path())
+            .build()
+        )
+
+        response = request.execute()
+        if response.status_code < 200 or response.status_code >= 300:
+            raise DocScanException("Failed to retrieve supported documents", response)
+
+        parsed = json.loads(response.text)
+        return SupportedDocumentsResponse(parsed)

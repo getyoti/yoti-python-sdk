@@ -1,0 +1,1 @@
+{"supported_countries":[{"code":"GBR"},{"code":"USA"}]}

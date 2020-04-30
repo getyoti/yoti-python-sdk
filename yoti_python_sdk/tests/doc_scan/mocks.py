@@ -42,5 +42,11 @@ def mocked_request_missing_content():
     return MockResponse(status_code=404, text="")
 
 
+def mocked_supported_documents_content():
+    with open(FIXTURES_DIR + "/supported_documents_success.txt", "r") as f:
+        response = f.read()
+    return MockResponse(status_code=200, text=response)
+
+
 def mocked_request_server_error():
     return MockResponse(status_code=500, text="")

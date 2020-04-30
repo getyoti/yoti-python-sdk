@@ -5,10 +5,14 @@ from mock import Mock
 
 from yoti_python_sdk.doc_scan.session.create import SessionSpecBuilder
 from yoti_python_sdk.doc_scan.session.create.check.requested_check import RequestedCheck
+from yoti_python_sdk.doc_scan.session.create.filter.required_id_document import (
+    RequiredIdDocument,
+)
 from yoti_python_sdk.doc_scan.session.create.notification_config import (
     NotificationConfig,
 )
 from yoti_python_sdk.doc_scan.session.create.sdk_config import SdkConfig
+from yoti_python_sdk.doc_scan.session.create.session_spec import SessionSpec
 from yoti_python_sdk.doc_scan.session.create.task.requested_task import RequestedTask
 from yoti_python_sdk.utils import YotiEncoder
 
@@ -73,6 +77,32 @@ class SessionSpecTest(unittest.TestCase):
 
         s = json.dumps(result, cls=YotiEncoder)
         assert s is not None and s != ""
+
+    def test_should_add_required_document(self):
+        required_document_mock = Mock(spec=RequiredIdDocument)
+
+        result = (
+            SessionSpecBuilder().with_required_document(required_document_mock).build()
+        )
+
+        assert len(result.required_documents) == 1
+        assert result.required_documents[0] == required_document_mock
+
+    def test_should_default_empty_arrays(self):
+        result = SessionSpec(
+            client_session_token_ttl=1,
+            resources_ttl=1,
+            user_tracking_id="someTrackingId",
+            notifications=None,
+            sdk_config=None,
+            requested_checks=None,
+            requested_tasks=None,
+            required_documents=None,
+        )
+
+        assert len(result.requested_checks) == 0
+        assert len(result.requested_tasks) == 0
+        assert len(result.required_documents) == 0
 
 
 if __name__ == "__main__":
