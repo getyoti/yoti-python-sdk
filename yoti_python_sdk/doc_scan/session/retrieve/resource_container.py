@@ -6,8 +6,6 @@ from yoti_python_sdk.doc_scan.session.retrieve.id_document_resource_response imp
 )
 from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import (
     LivenessResourceResponse,
-)
-from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import (
     ZoomLivenessResourceResponse,
 )
 
@@ -75,3 +73,17 @@ class ResourceContainer(object):
         :rtype: list[LivenessResourceResponse]
         """
         return self.__liveness_capture
+
+    @property
+    def zoom_liveness_resources(self):
+        """
+        Returns a filtered list of zoom liveness capture resources
+
+        :return: list of zoom liveness captures
+        :rtype: list[ZoomLivenessResourceResponse]
+        """
+        return [
+            liveness
+            for liveness in self.__liveness_capture
+            if isinstance(liveness, ZoomLivenessResourceResponse)
+        ]
