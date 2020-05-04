@@ -182,3 +182,10 @@ def test_should_throw_exception_for_supported_documents(_, doc_scan_client):
     doc_scan_exception = ex.value
     assert "Failed to retrieve supported documents" in str(doc_scan_exception)
     assert 404 == doc_scan_exception.status_code
+
+
+def test_should_use_correct_default_api_url(doc_scan_client):
+    assert (
+        doc_scan_client._DocScanClient__api_url
+        == "https://api.yoti.com:443/idverify/v1"
+    )  # noqa
