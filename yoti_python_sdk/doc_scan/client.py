@@ -29,7 +29,7 @@ class DocScanClient(object):
         if api_url is not None:
             self.__api_url = api_url
         else:
-            self.__api_url = yoti_python_sdk.YOTI_DOC_SCAN_ENDPOINT
+            self.__api_url = yoti_python_sdk.YOTI_DOC_SCAN_API_URL
 
     def create_session(self, session_spec):
         """

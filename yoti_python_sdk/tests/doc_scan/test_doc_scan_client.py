@@ -154,3 +154,10 @@ def test_should_throw_exception_for_delete_media(_, doc_scan_client):
     doc_scan_exception = ex.value  # type: DocScanException
     assert "Failed to delete media content" in str(doc_scan_exception)
     assert 404 == doc_scan_exception.status_code
+
+
+def test_should_use_correct_default_api_url(doc_scan_client):
+    assert (
+        doc_scan_client._DocScanClient__api_url
+        == "https://api.yoti.com:443/idverify/v1"
+    )  # noqa
