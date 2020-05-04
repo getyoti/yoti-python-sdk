@@ -1,0 +1,115 @@
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <td>ID</td>
+            <td>{{ check.id }}</td>
+        </tr>
+        <tr>
+            <td>State</td>
+            <td>
+                <span class="badge badge-{{ "success" if check.state == "COMPLETED" else "secondary" }}">
+                    {{ check.state }}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>Created</td>
+            <td>{{ check.created }}</td>
+        </tr>
+        <tr>
+            <td>Last Updated</td>
+            <td>{{ check.last_updated }}</td>
+        </tr>
+        <tr>
+            <td>Resources Used</td>
+            <td>{{ check.resources_used|join(", ") }}</td>
+        </tr>
+
+
+        {% if check.report is not none %}
+            {% if check.report.recommendation is not none %}
+            <tr>
+                <td>Recommendation</td>
+                <td>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>Value</td>
+                                <td>{{ check.report.recommendation.value }}</td>
+                            </tr>
+                            <tr>
+                                <td>Reason</td>
+                                <td>{{ check.report.recommendation.reason }}</td>
+                            </tr>
+                            <tr>
+                                <td>Recovery Suggestion</td>
+                                <td>{{ check.report.recommendation.recovery_suggestion }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            {% endif %}
+            {% if check.report.breakdown|length > 0 %}
+            <tr>
+                <td>Breakdown</td>
+                <td>
+                    {% for breakdown in check.report.breakdown %}
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>Sub Check</td>
+                                <td>{{ breakdown.sub_check }}</td>
+                            </tr>
+                            <tr>
+                                <td>Result</td>
+                                <td>{{ breakdown.result }}</td>
+                            </tr>
+                            {% if breakdown.details|length > 0 %}
+                            <tr>
+                                <td>Details</td>
+                                <td>
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            {% for detail in breakdown.details %}
+                                            <tr>
+                                                <td>{{ detail.name }}</td>
+                                                <td>{{ detail.value }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endif %}
+        {% endif %}
+
+        {% if check.generated_media|length > 0 %}
+            <tr>
+                <td>Generated Media</td>
+                <td>
+                    {% for media in check.generated_media %}
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>ID</td>
+                                <td><a href="/media?mediaId={{ media.id }}">{{ media.id }}</a></td>
+                            </tr>
+                            <tr>
+                                <td>Type</td>
+                                <td>{{ media.type }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
