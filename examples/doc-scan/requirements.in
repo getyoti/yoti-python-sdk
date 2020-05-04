@@ -1,0 +1,4 @@
+flask>=1.1.2
+python-dotenv>=0.13.0
+yoti>=2.11.2
+filetype>=1.0.7
