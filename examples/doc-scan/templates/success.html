@@ -149,7 +149,7 @@
 
     {% with doc_num=0 %}
         {% for document in session_result.resources.id_documents %}
-            {% set doc_num = doc_num + 1 %}
+            {% set doc_num = loop.index + 1 %}
             <div class="row pt-4">
                 <div class="col">
 
@@ -303,7 +303,7 @@
 
     {% with liveness_num=0 %}
         {% for liveness in session_result.resources.zoom_liveness_resources %}
-            {% set liveness_num = liveness_num + 1 %}
+            {% set liveness_num = loop.index + 1 %}
             <div class="row pt-4">
                 <div class="col">
                     <table class="table table-striped table-light">
