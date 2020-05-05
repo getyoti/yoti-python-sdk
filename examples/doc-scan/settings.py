@@ -12,8 +12,4 @@ YOTI_KEY_FILE_PATH = environ.get("YOTI_KEY_FILE_PATH", None)
 if YOTI_CLIENT_SDK_ID is None or YOTI_KEY_FILE_PATH is None:
     raise ValueError("YOTI_CLIENT_SDK_ID or YOTI_KEY_FILE_PATH is None")
 
-YOTI_DOC_SCAN_IFRAME_URL = environ.get("YOTI_DOC_SCAN_IFRAME_URL", "")
-if YOTI_DOC_SCAN_IFRAME_URL == "":
-    YOTI_DOC_SCAN_IFRAME_URL = "https://api.yoti.com/idverify/v1/web/index.html"
-
 YOTI_APP_BASE_URL = environ.get("YOTI_APP_BASE_URL", "https://localhost:5000")
