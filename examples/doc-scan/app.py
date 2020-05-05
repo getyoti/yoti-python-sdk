@@ -1,6 +1,7 @@
 import base64
 from io import BytesIO
 
+import yoti_python_sdk
 from filetype import filetype
 from flask import Flask, Response, render_template, request, send_file, session
 from yoti_python_sdk.doc_scan import (
@@ -14,12 +15,7 @@ from yoti_python_sdk.doc_scan import (
 )
 from yoti_python_sdk.doc_scan.exception import DocScanException
 
-from .settings import (
-    YOTI_APP_BASE_URL,
-    YOTI_CLIENT_SDK_ID,
-    YOTI_DOC_SCAN_IFRAME_URL,
-    YOTI_KEY_FILE_PATH,
-)
+from .settings import YOTI_APP_BASE_URL, YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH
 
 app = Flask(__name__)
 app.secret_key = "someSecretKey"
@@ -81,10 +77,11 @@ def index():
 
     session["doc_scan_session_id"] = result.session_id
 
-    iframe_url = (
-        YOTI_DOC_SCAN_IFRAME_URL
-        + "?sessionID={session_id}&sessionToken={session_token}"
-    ).format(session_id=result.session_id, session_token=result.client_session_token)
+    iframe_url = "{base_url}/web/index.html?sessionID={session_id}&sessionToken={session_token}".format(
+        base_url=yoti_python_sdk.YOTI_DOC_SCAN_API_URL,
+        session_id=result.session_id,
+        session_token=result.client_session_token,
+    )
 
     return render_template("index.html", iframe_url=iframe_url)
 
