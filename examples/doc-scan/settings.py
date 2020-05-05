@@ -16,4 +16,4 @@ YOTI_DOC_SCAN_IFRAME_URL = environ.get("YOTI_DOC_SCAN_IFRAME_URL", "")
 if YOTI_DOC_SCAN_IFRAME_URL == "":
     YOTI_DOC_SCAN_IFRAME_URL = "https://api.yoti.com/idverify/v1/web/index.html"
 
-YOTI_APP_BASE_URL = environ.get("YOTI_APP_BASE_URL", "http://localhost:5000")
+YOTI_APP_BASE_URL = environ.get("YOTI_APP_BASE_URL", "https://localhost:5000")
