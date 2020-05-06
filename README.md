@@ -247,31 +247,12 @@ To run the Flask or Django container:
 
 ### Running Locally
 
-1. Both example applications utilise the env variables described in [Configuration](#configuration), make sure they are accessible.
-1. Ensure pip is up to date: `easy_install --upgrade pip`
-1. Ensure setuptools and wheel are up to date: `python -m pip install --upgrade setuptools wheel`
+#### Follow instructions in the README for each example:
 
-#### Flask
-
-1. Change directories to the Flask project: `cd examples/yoti_example_flask`
-1. Install dependencies: `pip install -r requirements.txt`
-1. Run `python app.py`
-1. Navigate to https://localhost:5000
-
-#### Django
-
-1. You will need Python 3+ to run the Django example
-1. Change directories to the Django project: `cd examples/yoti_example_django`
-1. Install dependencies: `pip install -r requirements.txt`
-1. Apply migrations before the first start by running: `python manage.py migrate`
-1. Run: `python manage.py runsslserver 0.0.0.0:5000`
-1. Navigate to https://localhost:5000
-
-#### AML Example
-
-1. Change directories to the AML folder: `cd examples/aml`
-1. Install requirements with `pip install -r requirements.txt`
-1. Run: `python app.py`
+* [Profile - Django](examples/yoti_example_django)
+* [Profile - Flask](examples/yoti_example_flask)
+* [AML](examples/aml)
+* [Doc Scan](examples/doc_scan)
 
 ## Running the Tests
 
