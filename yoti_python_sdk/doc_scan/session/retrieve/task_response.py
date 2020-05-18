@@ -156,4 +156,10 @@ class TextExtractionTaskResponse(TaskResponse):
     Represents a Text Extraction task response
     """
 
-    pass
+    @property
+    def generated_text_data_checks(self):
+        return [
+            check
+            for check in self.generated_checks
+            if isinstance(check, GeneratedTextDataCheckResponse)
+        ]

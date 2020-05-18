@@ -9,16 +9,15 @@ from yoti_python_sdk.doc_scan.session.retrieve.create_session_result import (
 from yoti_python_sdk.doc_scan.session.retrieve.get_session_result import (
     GetSessionResult,
 )
-from yoti_python_sdk.tests.doc_scan.mocks import mocked_request_failed_session_creation
-from yoti_python_sdk.tests.doc_scan.mocks import mocked_request_failed_session_retrieval
-from yoti_python_sdk.tests.doc_scan.mocks import mocked_request_media_content
-from yoti_python_sdk.tests.doc_scan.mocks import mocked_request_missing_content
-from yoti_python_sdk.tests.doc_scan.mocks import mocked_request_server_error
 from yoti_python_sdk.tests.doc_scan.mocks import (
+    mocked_request_failed_session_creation,
+    mocked_request_failed_session_retrieval,
+    mocked_request_media_content,
+    mocked_request_missing_content,
+    mocked_request_server_error,
     mocked_request_successful_session_creation,
-)
-from yoti_python_sdk.tests.doc_scan.mocks import (
     mocked_request_successful_session_retrieval,
+    mocked_supported_documents_content,
 )
 
 try:
@@ -153,6 +152,35 @@ def test_should_throw_exception_for_delete_media(_, doc_scan_client):
 
     doc_scan_exception = ex.value  # type: DocScanException
     assert "Failed to delete media content" in str(doc_scan_exception)
+    assert 404 == doc_scan_exception.status_code
+
+
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_supported_documents_content,
+)
+def test_should_return_supported_documents_response(_, doc_scan_client):
+    """
+    :type doc_scan_client: DocScanClient
+    """
+    supported_docs = doc_scan_client.get_supported_documents()
+
+    assert len(supported_docs.supported_countries) == 2
+
+
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_request_missing_content,
+)
+def test_should_throw_exception_for_supported_documents(_, doc_scan_client):
+    """
+    :type doc_scan_client: DocScanClient
+    """
+    with pytest.raises(DocScanException) as ex:
+        doc_scan_client.get_supported_documents()
+
+    doc_scan_exception = ex.value
+    assert "Failed to retrieve supported documents" in str(doc_scan_exception)
     assert 404 == doc_scan_exception.status_code
 
 

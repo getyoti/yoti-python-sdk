@@ -34,6 +34,19 @@ class ResourceContainerTest(unittest.TestCase):
         assert len(result.id_documents) == 0
         assert len(result.liveness_capture) == 0
 
+    def test_should_filter_zoom_liveness_resources(self):
+        data = {
+            "liveness_capture": [
+                {"liveness_type": "ZOOM"},
+                {"liveness_type": "someUnknown"},
+            ]
+        }
+
+        result = ResourceContainer(data)
+
+        assert len(result.liveness_capture) == 2
+        assert len(result.zoom_liveness_resources) == 1
+
 
 if __name__ == "__main__":
     unittest.main()

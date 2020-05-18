@@ -6,6 +6,9 @@ from yoti_python_sdk.doc_scan.session.retrieve.document_fields_response import (
 )
 from yoti_python_sdk.doc_scan.session.retrieve.page_response import PageResponse
 from yoti_python_sdk.doc_scan.session.retrieve.resource_response import ResourceResponse
+from yoti_python_sdk.doc_scan.session.retrieve.task_response import (
+    TextExtractionTaskResponse,
+)
 
 
 class IdDocumentResourceResponse(ResourceResponse):
@@ -71,3 +74,16 @@ class IdDocumentResourceResponse(ResourceResponse):
         :rtype: DocumentFieldsResponse
         """
         return self.__document_fields
+
+    @property
+    def text_extraction_tasks(self):
+        """
+        Returns a list of text extraction tasks associated
+        with the id document
+
+        :return: list of text extraction tasks
+        :rtype: list[TextExtractionTaskResponse]
+        """
+        return [
+            task for task in self.tasks if isinstance(task, TextExtractionTaskResponse)
+        ]

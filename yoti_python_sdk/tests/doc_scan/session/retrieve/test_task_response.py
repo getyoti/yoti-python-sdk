@@ -9,7 +9,10 @@ from yoti_python_sdk.doc_scan.session.retrieve.generated_check_response import (
 from yoti_python_sdk.doc_scan.session.retrieve.generated_check_response import (
     GeneratedTextDataCheckResponse,
 )
-from yoti_python_sdk.doc_scan.session.retrieve.task_response import TaskResponse
+from yoti_python_sdk.doc_scan.session.retrieve.task_response import (
+    TaskResponse,
+    TextExtractionTaskResponse,
+)
 
 
 class TaskResponseTest(unittest.TestCase):
@@ -73,6 +76,14 @@ class TaskResponseTest(unittest.TestCase):
         assert result.last_updated is None
         assert len(result.generated_checks) == 0
         assert len(result.generated_media) == 0
+
+    def test_should_filter_generated_text_data_checks(self):
+        data = {"generated_checks": self.SOME_GENERATED_CHECKS}
+
+        result = TextExtractionTaskResponse(data)
+
+        assert len(result.generated_checks) == 2
+        assert len(result.generated_text_data_checks) == 1
 
 
 if __name__ == "__main__":

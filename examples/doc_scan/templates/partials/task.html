@@ -1,0 +1,24 @@
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <td>ID</td>
+            <td>{{ task.id }}</td>
+        </tr>
+        <tr>
+            <td>State</td>
+            <td>
+                <span class="badge badge-{{ "success" if task.state == "COMPLETED" else "secondary" }}">
+                    {{ task.state }}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>Created</td>
+            <td>{{ task.created }}</td>
+        </tr>
+        <tr>
+            <td>Last Updated</td>
+            <td>{{ task.last_updated }}</td>
+        </tr>
+    </tbody>
+</table>
