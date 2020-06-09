@@ -19,7 +19,7 @@ protobuf==3.11.3          # via -r requirements.in
 pycparser==2.18           # via cffi
 pyopenssl==18.0.0         # via -r requirements.in
 pytz==2020.1              # via -r requirements.in
-pyyaml==5.2               # via -r requirements.in
+pyyaml==5.3.1             # via -r requirements.in
 requests==2.21.0          # via -r requirements.in
 six==1.10.0               # via cryptography, protobuf, pyopenssl
 urllib3==1.24.3           # via -r requirements.in, requests
