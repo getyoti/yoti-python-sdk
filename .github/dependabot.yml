@@ -1,0 +1,60 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 3
+  target-branch: development
+  reviewers:
+  - echarrod
+  - davidgrayston
+  - MrBurtyyy
+  assignees:
+  - echarrod
+  ignore:
+  - dependency-name: coverage
+    versions:
+    - "> 4.5.4"
+  - dependency-name: cryptography
+    versions:
+    - "> 2.8"
+  - dependency-name: itsdangerous
+    versions:
+    - ">= 1.a, < 2"
+  - dependency-name: mock
+    versions:
+    - "> 2.0.0"
+  - dependency-name: pbr
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: pbr
+    versions:
+    - ">= 4.a, < 5"
+  - dependency-name: pbr
+    versions:
+    - ">= 5.a, < 6"
+  - dependency-name: pre-commit
+    versions:
+    - ">= 2.a, < 3"
+  - dependency-name: pylint
+    versions:
+    - "> 1.9.4"
+  - dependency-name: pyopenssl
+    versions:
+    - "> 18.0.0"
+  - dependency-name: pytz
+    versions:
+    - ">= 2019.a, < 2020"
+  - dependency-name: pyyaml
+    versions:
+    - "> 5.2"
+  - dependency-name: requests
+    versions:
+    - "> 2.21.0"
+  - dependency-name: virtualenv
+    versions:
+    - "> 20.0.13, < 20.1"
+  - dependency-name: wheel
+    versions:
+    - "> 0.24.0, < 1"
