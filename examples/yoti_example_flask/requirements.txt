@@ -6,7 +6,7 @@
 #
 asn1==2.2.0               # via yoti
 certifi==2018.4.16        # via requests
-cffi==1.11.5              # via cryptography
+cffi==1.14.0              # via -r requirements.in, cryptography
 chardet==3.0.4            # via requests
 click==6.7                # via flask
 cryptography==2.9.2       # via pyopenssl, yoti
