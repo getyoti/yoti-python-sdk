@@ -24,7 +24,7 @@ pyyaml==5.2               # via -r requirements.in
 requests==2.21.0          # via -r requirements.in
 six==1.10.0               # via cryptography, protobuf, pyopenssl
 urllib3==1.24.3           # via -r requirements.in, requests
-wheel==0.24.0             # via -r requirements.in
+wheel==0.34.2             # via -r requirements.in
 wrapt==1.11.2             # via deprecated
 
 # The following packages are considered to be unsafe in a requirements file:
