@@ -9,7 +9,7 @@ asn1==2.2.0               # via yoti
 certifi==2018.4.16        # via requests
 cffi==1.14.0              # via cryptography
 chardet==3.0.4            # via requests
-cryptography==2.9.2       # via -r requirements.in, pyopenssl, yoti
+cryptography==2.9.2       # via pyopenssl, yoti
 deprecated==1.2.6         # via yoti
 django-sslserver==0.22    # via -r requirements.in
 django==3.0.7             # via -r requirements.in, django-sslserver

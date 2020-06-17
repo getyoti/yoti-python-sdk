@@ -9,7 +9,7 @@ certifi==2018.4.16        # via requests
 cffi==1.11.5              # via cryptography
 chardet==3.0.4            # via requests
 click==6.7                # via flask
-cryptography==2.9.2       # via -r requirements.in, pyopenssl, yoti
+cryptography==2.9.2       # via pyopenssl, yoti
 deprecated==1.2.6         # via yoti
 flask==1.1.1              # via -r requirements.in
 future==0.16.0            # via yoti
