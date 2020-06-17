@@ -39,6 +39,28 @@ jobs:
     - <<: *test
       python: "3.8"
       
+    - stage: Check Examples
+      name: AML 
+      python: "3.8"
+      script:
+        - cd ./examples/aml
+        - pip install -r requirements.txt
+    - name: Django
+      python: "3.8"
+      script:
+        - cd ./examples/yoti_example_django
+        - pip install -r requirements.txt
+    - name: Flask
+      python: "3.8"
+      script:
+        - cd ./examples/yoti_example_flask
+        - pip install -r requirements.txt
+    - name: Doc Scan
+      python: "3.8"
+      script:
+        - cd ./examples/doc_scan
+        - pip install -r requirements.txt
+
     - stage: Analyze
       name: Sonarcloud
       python: "3.8"
