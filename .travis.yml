@@ -41,7 +41,6 @@ jobs:
       
     - stage: Analyze
       name: Sonarcloud
-      dist: trusty
       python: "3.8"
       addons:
         sonarcloud:
