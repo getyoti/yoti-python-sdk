@@ -42,7 +42,7 @@ setup(
             "pylint==1.9.4",
             "pylint-exit>=1.1.0",
             "python-coveralls==2.9.3",
-            "coverage==4.5.4",
+            "coverage==5.1",
             "mock==2.0.0",
             "virtualenv==20.0.13",
         ],
