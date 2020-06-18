@@ -38,22 +38,10 @@ jobs:
       python: "3.8-dev"
     - <<: *test
       python: "3.8"
-    - <<: *test
-      stage: Coverage
-      name: Coveralls
-      python: "3.7"
-      install:
-        - pip install -r requirements.txt
-        - pip install -e .[dev]
-      script:
-        - pytest --cov=yoti_python_sdk yoti_python_sdk/tests
-      if: type = pull_request OR branch = master
-      after_success:
-        - coveralls
+      
     - stage: Analyze
       name: Sonarcloud
-      dist: trusty
-      python: "3.6.1"
+      python: "3.8"
       addons:
         sonarcloud:
           organization: "getyoti"
