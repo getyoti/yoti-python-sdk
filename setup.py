@@ -23,7 +23,7 @@ setup(
         "protobuf>=3.1.0",
         "requests>=2.11.1",
         "future>=0.11.0",
-        "asn1==2.3.1",
+        "asn1==2.2.0",
         "pyopenssl>=18.0.0",
         "iso8601==0.1.12",
     ],
