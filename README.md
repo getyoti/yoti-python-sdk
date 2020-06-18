@@ -1,7 +1,10 @@
 # Yoti Python SDK #
 
 [![Build Status](https://travis-ci.com/getyoti/yoti-python-sdk.svg?branch=master)](https://travis-ci.com/getyoti/yoti-python-sdk)
-[![Coverage Status](https://coveralls.io/repos/github/getyoti/yoti-python-sdk/badge.svg?branch=master)](https://coveralls.io/github/getyoti/yoti-python-sdk?branch=master)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Apython&metric=coverage)](https://sonarcloud.io/dashboard?id=getyoti%3Apython)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Apython&metric=bugs)](https://sonarcloud.io/dashboard?id=getyoti%3Apython)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Apython&metric=code_smells)](https://sonarcloud.io/dashboard?id=getyoti%3Apython)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Apython&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=getyoti%3Apython)
 
 Welcome to the Yoti Python SDK. This repo contains the tools and step by step instructions you need to quickly integrate your Python back-end with Yoti so that your users can share their identity details with your application in a secure and trusted way.
 
