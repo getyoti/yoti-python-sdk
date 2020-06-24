@@ -4,12 +4,13 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-asn1==2.2.0               # via -r requirements.in
+asn1==2.4.0               # via -r requirements.in
 certifi==2018.11.29       # via requests
 cffi==1.14.0              # via -r requirements.in, cryptography
 chardet==3.0.4            # via requests
 cryptography==2.8         # via -r requirements.in, pyopenssl
 deprecated==1.2.10        # via -r requirements.in
+enum34==1.1.10            # via asn1
 future==0.18.2            # via -r requirements.in
 idna==2.7                 # via requests
 iso8601==0.1.12           # via -r requirements.in
