@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from yoti_python_sdk import date_parser
-import base64
+from yoti_python_sdk.utils import urlsafe_b64encode_unpadded
 
 
 class Definition(object):
@@ -15,7 +15,7 @@ class Definition(object):
 
 class AttributeIssuanceDetails(object):
     def __init__(self, data_entry):
-        self.__token = base64.b64encode(data_entry.issuance_token)
+        self.__token = urlsafe_b64encode_unpadded(data_entry.issuance_token)
         self.__expiry_date = date_parser.datetime_with_microsecond(
             data_entry.issuing_attributes.expiry_date
         )
