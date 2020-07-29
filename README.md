@@ -263,7 +263,7 @@ Running the tests is done by the following process, ensuring you are using Pytho
 
 1. Install dependencies: `pip install -r requirements.txt`
 1. Install the SDK and development dependencies: `pip install .[dev]`
-1. Execute in the main project dir: `py.test`
+1. Execute in the main project dir: `pytest`
 
 ## API Coverage
 
