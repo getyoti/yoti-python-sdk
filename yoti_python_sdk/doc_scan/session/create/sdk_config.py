@@ -8,7 +8,7 @@ from yoti_python_sdk.utils import YotiSerializable
 
 class SdkConfig(YotiSerializable):
     """
-    Provides configuration properties using by the web/native clients
+    Provides configuration properties for the web/native clients
     """
 
     def __init__(

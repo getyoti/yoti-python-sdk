@@ -78,7 +78,7 @@ class SessionSpec(YotiSerializable):
     @property
     def user_tracking_id(self):
         """
-        User tracking ID, for the Relying Business to track returning users
+        User tracking ID, to track returning users
 
         :return: the user tracking ID
         :rtype: str

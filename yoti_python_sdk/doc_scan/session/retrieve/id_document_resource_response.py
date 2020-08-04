@@ -79,7 +79,7 @@ class IdDocumentResourceResponse(ResourceResponse):
     def text_extraction_tasks(self):
         """
         Returns a list of text extraction tasks associated
-        with the id document
+        with the identity document
 
         :return: list of text extraction tasks
         :rtype: list[TextExtractionTaskResponse]
