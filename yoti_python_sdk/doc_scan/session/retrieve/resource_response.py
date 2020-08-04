@@ -4,6 +4,10 @@ from .task_response import TextExtractionTaskResponse
 
 
 class ResourceResponse(object):
+    """
+    Represents a resource
+    """
+
     def __init__(self, data=None):
         """
         :param data: the data to parse
