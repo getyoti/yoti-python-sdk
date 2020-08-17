@@ -15,7 +15,7 @@ idna==2.7                 # via requests
 iso8601==0.1.12           # via -r requirements.in
 itsdangerous==1.1.0       # via -r requirements.in
 pbr==1.10.0               # via -r requirements.in
-protobuf==3.12.4          # via -r requirements.in
+protobuf==3.13.0          # via -r requirements.in
 pycparser==2.18           # via cffi
 pyopenssl==19.1.0         # via -r requirements.in
 pytz==2020.1              # via -r requirements.in
