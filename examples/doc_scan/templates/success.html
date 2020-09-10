@@ -317,39 +317,6 @@
 
                     <div class="accordion mt-3">
 
-                        {% if liveness.facemap is not none %}
-                            <div class="card">
-                                <div class="card-header" id="liveness-{{ liveness_num }}-facemap">
-                                    <h3 class="mb-0">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse"
-                                            data-target="#collapse-liveness-{{ liveness_num }}-facemap" aria-expanded="true"
-                                            aria-controls="collapse-liveness-{{ liveness_num }}-facemap">
-                                            Face Map
-                                        </button>
-                                    </h3>
-                                </div>
-                                <div id="collapse-liveness-{{ liveness_num }}-facemap" class="collapse" aria-labelledby="liveness-{{ liveness_num }}-facemap">
-                                    <div class="card-body">
-                                        {% if liveness.facemap.media is not none %}
-                                            <h4>Media</h4>
-                                            <table class="table table-striped">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>ID</td>
-                                                        <td>
-                                                            <a href="/media?mediaId={{ liveness.facemap.media.id }}&base64=1">
-                                                                {{ liveness.facemap.media.id }}
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-
                         {% if liveness.frames|length > 0 %}
                             <div class="card">
                                 <div class="card-header" id="liveness-{{ liveness_num }}-frames">
