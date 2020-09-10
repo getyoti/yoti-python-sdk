@@ -4,12 +4,18 @@ from yoti_python_sdk.doc_scan import (
     DocScanClient,
     RequestedDocumentAuthenticityCheckBuilder,
     RequestedFaceMatchCheckBuilder,
+    RequestedIDDocumentComparisonCheckBuilder,
     RequestedLivenessCheckBuilder,
     RequestedTextExtractionTaskBuilder,
     SdkConfigBuilder,
     SessionSpecBuilder,
 )
 from yoti_python_sdk.doc_scan.exception import DocScanException
+from yoti_python_sdk.doc_scan.session.create.filter import (
+    RequiredIdDocumentBuilder,
+    DocumentRestrictionBuilder,
+    DocumentRestrictionsFilterBuilder,
+)
 
 from .settings import YOTI_APP_BASE_URL, YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH
 
@@ -52,16 +58,32 @@ def create_session():
             .build()
         )
         .with_requested_check(
-            RequestedFaceMatchCheckBuilder().with_manual_check_fallback().build()
+            RequestedFaceMatchCheckBuilder().with_manual_check_never().build()
         )
+        .with_requested_check(RequestedIDDocumentComparisonCheckBuilder().build())
         .with_requested_task(
-            RequestedTextExtractionTaskBuilder().with_manual_check_always().build()
+            RequestedTextExtractionTaskBuilder().with_manual_check_never().build()
         )
         .with_sdk_config(sdk_config)
+        .with_required_document(build_required_id_document_restriction("PASSPORT"))
+        .with_required_document(
+            build_required_id_document_restriction("DRIVING_LICENCE")
+        )
         .build()
     )
 
     return doc_scan_client.create_session(session_spec)
+
+
+def build_required_id_document_restriction(document_type):
+    document_restriction = (
+        DocumentRestrictionBuilder().with_document_types([document_type]).build()
+    )
+
+    filter_builder = DocumentRestrictionsFilterBuilder().for_whitelist()
+    filter_builder.with_document_restriction(document_restriction)
+
+    return RequiredIdDocumentBuilder().with_filter(filter_builder.build()).build()
 
 
 @app.route("/")

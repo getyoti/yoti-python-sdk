@@ -37,7 +37,7 @@ setup(
         ],
         "dev": [
             "pre-commit==1.17.0",
-            "pytest>=4.6.0",
+            "pytest>=4.6.11",
             "pytest-cov>=2.7.1",
             "pylint==1.9.4",
             "pylint-exit>=1.1.0",

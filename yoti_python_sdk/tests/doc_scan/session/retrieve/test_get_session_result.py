@@ -10,6 +10,9 @@ from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
     LivenessCheckResponse,
 )
 from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
+    IDDocumentComparisonCheckResponse,
+)
+from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
     TextDataCheckResponse,
 )
 from yoti_python_sdk.doc_scan.session.retrieve.get_session_result import (
@@ -31,6 +34,7 @@ class GetSessionResultTest(unittest.TestCase):
         {"type": "ID_DOCUMENT_TEXT_DATA_CHECK"},
         {"type": "ID_DOCUMENT_FACE_MATCH"},
         {"type": "LIVENESS"},
+        {"type": "ID_DOCUMENT_COMPARISON"},
     ]
 
     def test_should_parse_different_checks(self):
@@ -52,11 +56,12 @@ class GetSessionResultTest(unittest.TestCase):
         assert result.state is self.SOME_STATE
         assert result.user_tracking_id is self.SOME_USER_TRACKING_ID
 
-        assert len(result.checks) == 4
+        assert len(result.checks) == 5
         assert isinstance(result.checks[0], AuthenticityCheckResponse)
         assert isinstance(result.checks[1], TextDataCheckResponse)
         assert isinstance(result.checks[2], FaceMatchCheckResponse)
         assert isinstance(result.checks[3], LivenessCheckResponse)
+        assert isinstance(result.checks[4], IDDocumentComparisonCheckResponse)
 
         assert isinstance(result.resources, ResourceContainer)
 
@@ -65,11 +70,12 @@ class GetSessionResultTest(unittest.TestCase):
 
         result = GetSessionResult(data)
 
-        assert len(result.checks) == 4
+        assert len(result.checks) == 5
         assert len(result.authenticity_checks) == 1
         assert len(result.face_match_checks) == 1
         assert len(result.liveness_checks) == 1
         assert len(result.text_data_checks) == 1
+        assert len(result.id_document_comparison_checks) == 1
 
 
 if __name__ == "__main__":
