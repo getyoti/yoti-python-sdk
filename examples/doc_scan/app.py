@@ -1,9 +1,5 @@
-import base64
-from io import BytesIO
-
 import yoti_python_sdk
-from filetype import filetype
-from flask import Flask, Response, render_template, request, send_file, session
+from flask import Flask, Response, render_template, request, session
 from yoti_python_sdk.doc_scan import (
     DocScanClient,
     RequestedDocumentAuthenticityCheckBuilder,
@@ -118,8 +114,6 @@ def media():
 
     doc_scan_client = DocScanClient(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
 
-    base64_req = request.args.get("base64", "0")
-
     session_id = session.get("doc_scan_session_id", None)
     if session_id is None:
         return Response("No session ID available", status=404)
@@ -128,21 +122,6 @@ def media():
         retrieved_media = doc_scan_client.get_media_content(session_id, media_id)
     except DocScanException as e:
         return render_template("error.html", error=e.text)
-
-    if base64_req == "1" and retrieved_media.mime_type == "application/octet-stream":
-        decoded = base64.b64decode(retrieved_media.content)
-        info = filetype.guess(decoded)
-
-        buffer = BytesIO()
-        buffer.write(decoded)
-        buffer.seek(0)
-
-        return send_file(
-            buffer,
-            attachment_filename="media." + info.extension,
-            mimetype=info.mime,
-            as_attachment=True,
-        )
 
     return Response(
         retrieved_media.content, content_type=retrieved_media.mime_type, status=200
