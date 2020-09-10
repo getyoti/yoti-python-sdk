@@ -5,6 +5,7 @@ from yoti_python_sdk.doc_scan import constants
 from .check_response import AuthenticityCheckResponse
 from .check_response import CheckResponse
 from .check_response import FaceMatchCheckResponse
+from .check_response import IDDocumentComparisonCheckResponse
 from .check_response import LivenessCheckResponse
 from .check_response import TextDataCheckResponse
 from .resource_container import ResourceContainer
@@ -48,6 +49,7 @@ class GetSessionResult(object):
             constants.ID_DOCUMENT_FACE_MATCH: FaceMatchCheckResponse,
             constants.ID_DOCUMENT_TEXT_DATA_CHECK: TextDataCheckResponse,
             constants.LIVENESS: LivenessCheckResponse,
+            constants.ID_DOCUMENT_COMPARISON: IDDocumentComparisonCheckResponse,
         }
         clazz = types.get(check.get("type", None), CheckResponse)
         return clazz(check)
@@ -162,6 +164,16 @@ class GetSessionResult(object):
         :rtype: list[LivenessCheckResponse]
         """
         return self.__checks_of_type((LivenessCheckResponse,))
+
+    @property
+    def id_document_comparison_checks(self):
+        """
+        A filtered list of checks, returning only Identity Document Comparison checks
+
+        :return: the Identity Document Comparison checks
+        :rtype: list[IDDocumentComparisonCheckResponse]
+        """
+        return self.__checks_of_type((IDDocumentComparisonCheckResponse,))
 
     @property
     def resources(self):

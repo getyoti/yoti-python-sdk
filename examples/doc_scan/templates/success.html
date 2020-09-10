@@ -134,6 +134,29 @@
                             </div>
                         </div>
                     {% endif %}
+
+                    {% if session_result.id_document_comparison_checks|length > 0 %}
+                        <div class="card">
+                            <div class="card-header" id="comparison-checks">
+                                <h3 class="mb-0">
+                                    <button aria-controls="collapse-comparison-checks" aria-expanded="true" class="btn btn-link"
+                                            data-target="#collapse-comparison-checks" data-toggle="collapse"
+                                            type="button">
+                                        ID Document Comparison Checks
+                                    </button>
+                                </h3>
+                            </div>
+                            <div aria-labelledby="comparison-checks" class="collapse" id="collapse-comparison-checks">
+                                <div class="card-body">
+                                    {% for check in session_result.id_document_comparison_checks %}
+                                        {% with check=check %}
+                                            {% include "partials/check.html" %}
+                                        {% endwith %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
