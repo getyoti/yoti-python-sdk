@@ -12,7 +12,7 @@ cryptography==2.8         # via -r requirements.in, pyopenssl
 deprecated==1.2.10        # via -r requirements.in
 future==0.18.2            # via -r requirements.in
 idna==2.7                 # via requests
-iso8601==0.1.12           # via -r requirements.in
+iso8601==0.1.13           # via -r requirements.in
 itsdangerous==1.1.0       # via -r requirements.in
 pbr==1.10.0               # via -r requirements.in
 protobuf==3.13.0          # via -r requirements.in
