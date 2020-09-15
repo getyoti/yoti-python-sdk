@@ -14,6 +14,9 @@ class RequestedDocumentAuthenticityCheckConfig(YotiSerializable):
     def to_json(self):
         return {}
 
+    def include_null_values(self):
+        return False
+
 
 class RequestedDocumentAuthenticityCheck(RequestedCheck):
     """

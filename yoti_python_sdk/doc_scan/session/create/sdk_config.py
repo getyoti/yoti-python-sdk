@@ -133,6 +133,9 @@ class SdkConfig(YotiSerializable):
             "error_url": self.error_url,
         }
 
+    def include_null_values(self):
+        return False
+
 
 class SdkConfigBuilder(object):
     """

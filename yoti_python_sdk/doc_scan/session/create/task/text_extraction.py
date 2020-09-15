@@ -26,6 +26,9 @@ class RequestedTextExtractionTaskConfig(YotiSerializable):
     def to_json(self):
         return {"manual_check": self.manual_check}
 
+    def include_null_values(self):
+        return False
+
 
 class RequestedTextExtractionTask(RequestedTask):
     """

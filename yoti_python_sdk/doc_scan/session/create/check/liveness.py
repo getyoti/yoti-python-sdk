@@ -42,6 +42,9 @@ class RequestedLivenessCheckConfig(YotiSerializable):
     def to_json(self):
         return {"liveness_type": self.liveness_type, "max_retries": self.max_retries}
 
+    def include_null_values(self):
+        return False
+
 
 class RequestedLivenessCheck(RequestedCheck):
     """

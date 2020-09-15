@@ -41,3 +41,15 @@ def test_to_json_should_not_throw_exception():
 
     s = json.dumps(result, cls=YotiEncoder)
     assert s is not None and s != ""
+
+
+def test_to_json_should_not_include_null_values():
+    result = (
+        DocumentRestrictionBuilder()
+        .with_document_types(["PASSPORT", "DRIVING_LICENCE"])
+        .build()
+    )
+
+    s = json.dumps(result, cls=YotiEncoder)
+    assert s is not None
+    assert "null" not in s

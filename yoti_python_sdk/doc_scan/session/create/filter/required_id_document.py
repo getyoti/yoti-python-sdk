@@ -22,6 +22,9 @@ class RequiredIdDocument(RequiredDocument):
     def to_json(self):
         return {"type": self.type, "filter": self.__doc_filter}
 
+    def include_null_values(self):
+        return False
+
 
 class RequiredIdDocumentBuilder(object):
     """
