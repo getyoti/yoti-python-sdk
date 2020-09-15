@@ -69,6 +69,9 @@ class NotificationConfig(YotiSerializable):
             "topics": self.topics,
         }
 
+    def include_null_values(self):
+        return False
+
 
 class NotificationConfigBuilder(object):
     """

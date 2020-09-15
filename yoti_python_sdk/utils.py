@@ -16,10 +16,16 @@ class YotiSerializable(object):
     def to_json(self):
         raise NotImplementedError
 
+    def include_null_values(self):
+        return True
+
 
 class YotiEncoder(JSONEncoder):
     def default(self, o):
         if isinstance(o, YotiSerializable):
+            if not o.include_null_values():
+                return remove_null_values(o.to_json())
+
             return o.to_json()
         return JSONEncoder.default(self, o)
 
@@ -40,3 +46,15 @@ def create_timestamp():
     :return: the timestamp as a int
     """
     return int(time.time() * 1000)
+
+
+def remove_null_values(d):
+    """
+    Delete keys with the value ``None`` in a dictionary, recursively. (None serializes to null)
+    """
+    for key, value in list(d.items()):
+        if value is None:
+            del d[key]
+        elif isinstance(value, dict):
+            remove_null_values(value)
+    return d

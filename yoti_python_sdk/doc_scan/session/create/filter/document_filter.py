@@ -15,3 +15,6 @@ class DocumentFilter(YotiSerializable):
 
     def to_json(self):
         return {"type": self.type}
+
+    def include_null_values(self):
+        return False

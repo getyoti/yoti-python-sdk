@@ -26,6 +26,9 @@ class DocumentRestriction(YotiSerializable):
             "document_types": self.document_types,
         }
 
+    def include_null_values(self):
+        return False
+
 
 class DocumentRestrictionBuilder(object):
     def __init__(self):
@@ -86,6 +89,9 @@ class DocumentRestrictionsFilter(DocumentFilter):
         parent["inclusion"] = self.inclusion
         parent["documents"] = self.documents
         return parent
+
+    def include_null_values(self):
+        return False
 
 
 class DocumentRestrictionsFilterBuilder(object):

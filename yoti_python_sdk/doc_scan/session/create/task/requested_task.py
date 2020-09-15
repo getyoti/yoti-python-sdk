@@ -34,3 +34,6 @@ class RequestedTask(YotiSerializable):
 
     def to_json(self):
         return {"type": self.type, "config": self.config}
+
+    def include_null_values(self):
+        return False

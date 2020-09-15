@@ -150,6 +150,9 @@ class SessionSpec(YotiSerializable):
             "required_documents": self.required_documents,
         }
 
+    def include_null_values(self):
+        return False
+
 
 class SessionSpecBuilder(object):
     """

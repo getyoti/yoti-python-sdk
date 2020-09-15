@@ -33,6 +33,9 @@ class CountryRestriction(YotiSerializable):
     def to_json(self):
         return {"inclusion": self.inclusion, "country_codes": self.country_codes}
 
+    def include_null_values(self):
+        return False
+
 
 class TypeRestriction(YotiSerializable):
     def __init__(self, inclusion, document_types):
@@ -61,6 +64,9 @@ class TypeRestriction(YotiSerializable):
 
     def to_json(self):
         return {"inclusion": self.inclusion, "document_types": self.document_types}
+
+    def include_null_values(self):
+        return False
 
 
 class OrthogonalRestrictionsFilter(DocumentFilter):
@@ -95,6 +101,9 @@ class OrthogonalRestrictionsFilter(DocumentFilter):
         parent["country_restriction"] = self.country_restriction
         parent["type_restriction"] = self.type_restriction
         return parent
+
+    def include_null_values(self):
+        return False
 
 
 class OrthogonalRestrictionsFilterBuilder(object):
