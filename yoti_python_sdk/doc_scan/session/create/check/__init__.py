@@ -4,8 +4,8 @@ from .face_match import RequestedFaceMatchCheckBuilder
 from .liveness import RequestedLivenessCheckBuilder
 
 __all__ = [
-    RequestedDocumentAuthenticityCheckBuilder,
-    RequestedIDDocumentComparisonCheckBuilder,
-    RequestedFaceMatchCheckBuilder,
-    RequestedLivenessCheckBuilder,
+    "RequestedDocumentAuthenticityCheckBuilder",
+    "RequestedIDDocumentComparisonCheckBuilder",
+    "RequestedFaceMatchCheckBuilder",
+    "RequestedLivenessCheckBuilder",
 ]
