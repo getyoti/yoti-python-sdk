@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from yoti_python_sdk.doc_scan import constants
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 from .requested_check import RequestedCheck
 
 
@@ -40,10 +40,9 @@ class RequestedLivenessCheckConfig(YotiSerializable):
         return self.__max_retries
 
     def to_json(self):
-        return {"liveness_type": self.liveness_type, "max_retries": self.max_retries}
-
-    def include_null_values(self):
-        return False
+        return remove_null_values(
+            {"liveness_type": self.liveness_type, "max_retries": self.max_retries}
+        )
 
 
 class RequestedLivenessCheck(RequestedCheck):

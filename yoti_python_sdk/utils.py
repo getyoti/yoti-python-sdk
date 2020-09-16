@@ -16,16 +16,10 @@ class YotiSerializable(object):
     def to_json(self):
         raise NotImplementedError
 
-    def include_null_values(self):
-        return True
-
 
 class YotiEncoder(JSONEncoder):
     def default(self, o):
         if isinstance(o, YotiSerializable):
-            if not o.include_null_values():
-                return remove_null_values(o.to_json())
-
             return o.to_json()
         return JSONEncoder.default(self, o)
 

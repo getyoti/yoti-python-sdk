@@ -1,7 +1,7 @@
 from yoti_python_sdk.doc_scan.constants import INCLUSION_BLACKLIST
 from yoti_python_sdk.doc_scan.constants import INCLUSION_WHITELIST
 from yoti_python_sdk.doc_scan.constants import ORTHOGONAL_RESTRICTIONS
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 from .document_filter import DocumentFilter
 
 
@@ -31,10 +31,9 @@ class CountryRestriction(YotiSerializable):
         return self.__country_codes
 
     def to_json(self):
-        return {"inclusion": self.inclusion, "country_codes": self.country_codes}
-
-    def include_null_values(self):
-        return False
+        return remove_null_values(
+            {"inclusion": self.inclusion, "country_codes": self.country_codes}
+        )
 
 
 class TypeRestriction(YotiSerializable):
@@ -63,10 +62,9 @@ class TypeRestriction(YotiSerializable):
         return self.__document_types
 
     def to_json(self):
-        return {"inclusion": self.inclusion, "document_types": self.document_types}
-
-    def include_null_values(self):
-        return False
+        return remove_null_values(
+            {"inclusion": self.inclusion, "document_types": self.document_types}
+        )
 
 
 class OrthogonalRestrictionsFilter(DocumentFilter):
@@ -100,10 +98,7 @@ class OrthogonalRestrictionsFilter(DocumentFilter):
         parent = DocumentFilter.to_json(self)
         parent["country_restriction"] = self.country_restriction
         parent["type_restriction"] = self.type_restriction
-        return parent
-
-    def include_null_values(self):
-        return False
+        return remove_null_values(parent)
 
 
 class OrthogonalRestrictionsFilterBuilder(object):
