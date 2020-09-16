@@ -5,7 +5,7 @@ from yoti_python_sdk.doc_scan.constants import CHECK_COMPLETION
 from yoti_python_sdk.doc_scan.constants import RESOURCE_UPDATE
 from yoti_python_sdk.doc_scan.constants import SESSION_COMPLETION
 from yoti_python_sdk.doc_scan.constants import TASK_COMPLETION
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 
 
 class NotificationConfig(YotiSerializable):
@@ -63,14 +63,13 @@ class NotificationConfig(YotiSerializable):
         return self.__topics
 
     def to_json(self):
-        return {
-            "auth_token": self.auth_token,
-            "endpoint": self.endpoint,
-            "topics": self.topics,
-        }
-
-    def include_null_values(self):
-        return False
+        return remove_null_values(
+            {
+                "auth_token": self.auth_token,
+                "endpoint": self.endpoint,
+                "topics": self.topics,
+            }
+        )
 
 
 class NotificationConfigBuilder(object):

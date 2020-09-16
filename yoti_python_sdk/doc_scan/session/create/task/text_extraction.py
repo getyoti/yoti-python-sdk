@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from yoti_python_sdk.doc_scan import constants
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 from .requested_task import RequestedTask
 
 
@@ -24,10 +24,7 @@ class RequestedTextExtractionTaskConfig(YotiSerializable):
         return self.__manual_check
 
     def to_json(self):
-        return {"manual_check": self.manual_check}
-
-    def include_null_values(self):
-        return False
+        return remove_null_values({"manual_check": self.manual_check})
 
 
 class RequestedTextExtractionTask(RequestedTask):

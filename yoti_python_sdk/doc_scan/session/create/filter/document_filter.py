@@ -1,6 +1,6 @@
 from abc import ABCMeta
 
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 
 
 class DocumentFilter(YotiSerializable):
@@ -14,7 +14,4 @@ class DocumentFilter(YotiSerializable):
         return self.__filter_type
 
     def to_json(self):
-        return {"type": self.type}
-
-    def include_null_values(self):
-        return False
+        return remove_null_values({"type": self.type})

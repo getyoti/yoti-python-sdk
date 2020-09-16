@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from yoti_python_sdk.doc_scan.constants import ID_DOCUMENT_AUTHENTICITY
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 from .requested_check import RequestedCheck
 
 
@@ -12,10 +12,7 @@ class RequestedDocumentAuthenticityCheckConfig(YotiSerializable):
     """
 
     def to_json(self):
-        return {}
-
-    def include_null_values(self):
-        return False
+        return remove_null_values({})
 
 
 class RequestedDocumentAuthenticityCheck(RequestedCheck):

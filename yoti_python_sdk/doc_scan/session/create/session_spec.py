@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from .filter.required_document import RequiredDocument  # noqa: F401
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 
 
 class SessionSpec(YotiSerializable):
@@ -139,19 +139,18 @@ class SessionSpec(YotiSerializable):
         return self.__required_documents
 
     def to_json(self):
-        return {
-            "client_session_token_ttl": self.client_session_token_ttl,
-            "resources_ttl": self.resources_ttl,
-            "user_tracking_id": self.user_tracking_id,
-            "notifications": self.notifications,
-            "requested_checks": self.requested_checks,
-            "requested_tasks": self.requested_tasks,
-            "sdk_config": self.sdk_config,
-            "required_documents": self.required_documents,
-        }
-
-    def include_null_values(self):
-        return False
+        return remove_null_values(
+            {
+                "client_session_token_ttl": self.client_session_token_ttl,
+                "resources_ttl": self.resources_ttl,
+                "user_tracking_id": self.user_tracking_id,
+                "notifications": self.notifications,
+                "requested_checks": self.requested_checks,
+                "requested_tasks": self.requested_tasks,
+                "sdk_config": self.sdk_config,
+                "required_documents": self.required_documents,
+            }
+        )
 
 
 class SessionSpecBuilder(object):
