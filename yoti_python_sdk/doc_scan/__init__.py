@@ -13,13 +13,13 @@ from .session.create.session_spec import SessionSpecBuilder
 from .client import DocScanClient
 
 __all__ = [
-    RequestedDocumentAuthenticityCheckBuilder,
-    RequestedLivenessCheckBuilder,
-    RequestedFaceMatchCheckBuilder,
-    RequestedIDDocumentComparisonCheckBuilder,
-    RequestedTextExtractionTaskBuilder,
-    SessionSpecBuilder,
-    NotificationConfigBuilder,
-    SdkConfigBuilder,
-    DocScanClient,
+    "RequestedDocumentAuthenticityCheckBuilder",
+    "RequestedLivenessCheckBuilder",
+    "RequestedFaceMatchCheckBuilder",
+    "RequestedIDDocumentComparisonCheckBuilder",
+    "RequestedTextExtractionTaskBuilder",
+    "SessionSpecBuilder",
+    "NotificationConfigBuilder",
+    "SdkConfigBuilder",
+    "DocScanClient",
 ]

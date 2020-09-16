@@ -6,10 +6,10 @@ from .session_spec import SessionSpecBuilder
 from .sdk_config import SdkConfigBuilder
 
 __all__ = [
-    RequestedDocumentAuthenticityCheckBuilder,
-    RequestedFaceMatchCheckBuilder,
-    RequestedLivenessCheckBuilder,
-    NotificationConfigBuilder,
-    SessionSpecBuilder,
-    SdkConfigBuilder,
+    "RequestedDocumentAuthenticityCheckBuilder",
+    "RequestedFaceMatchCheckBuilder",
+    "RequestedLivenessCheckBuilder",
+    "NotificationConfigBuilder",
+    "SessionSpecBuilder",
+    "SdkConfigBuilder",
 ]
