@@ -1,3 +1,6 @@
+import json
+
+
 class DocScanException(Exception):
     """
     Exception thrown by the Yoti Doc Scan client
@@ -13,7 +16,11 @@ class DocScanException(Exception):
         """
         Exception.__init__(self)
 
-        self.__message = message
+        response_message = self.__format_response_message(response)
+
+        self.__message = message + (
+            " - " + response_message if response_message else ""
+        )
         self.__response = response
 
     @property
@@ -55,6 +62,33 @@ class DocScanException(Exception):
         :rtype: bytearray or None
         """
         return self.__response.content
+
+    def __format_response_message(self, response):
+        """
+        Return the formatted response message
+
+        :return: the formatted message
+        :rtype: string or None
+        """
+        if response.headers.get("Content-Type") != "application/json":
+            return None
+
+        parsed = json.loads(response.text)
+
+        if not parsed.get("code") or not parsed.get("message"):
+            return None
+
+        code_message = parsed.get("code") + " - " + parsed.get("message")
+
+        errors = []
+        for error in parsed.get("errors", []):
+            if error.get("property") and error.get("message"):
+                errors.append(error.get("property") + ' "' + error.get("message") + '"')
+
+        if len(errors) > 0:
+            return code_message + ": " + ", ".join(errors)
+
+        return code_message
 
     def __str__(self):
         return self.__message
