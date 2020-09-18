@@ -16,7 +16,7 @@ class DocScanException(Exception):
         """
         Exception.__init__(self)
 
-        response_message = self.__format_response_message(response)
+        response_message = self.__get_response_message(response)
 
         self.__message = message + (
             " - " + response_message if response_message else ""
@@ -63,18 +63,25 @@ class DocScanException(Exception):
         """
         return self.__response.content
 
-    def __format_response_message(self, response):
+    def __get_response_message(self, response):
         """
         Return the formatted response message
 
         :return: the formatted message
         :rtype: string or None
         """
-        if response.headers.get("Content-Type") != "application/json":
-            return None
+        if response.headers.get("Content-Type") == "application/json":
+            return self.__format_json_response_message(json.loads(response.text))
 
-        parsed = json.loads(response.text)
+        return None
 
+    def __format_json_response_message(self, parsed):
+        """
+        Return the formatted JSON response message
+
+        :return: the formatted message
+        :rtype: string or None
+        """
         if not parsed.get("code") or not parsed.get("message"):
             return None
 
