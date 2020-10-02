@@ -50,7 +50,11 @@ def create_session():
         .with_client_session_token_ttl(600)
         .with_resources_ttl(90000)
         .with_user_tracking_id("some-user-tracking-id")
-        .with_requested_check(RequestedDocumentAuthenticityCheckBuilder().build())
+        .with_requested_check(
+            RequestedDocumentAuthenticityCheckBuilder()
+            .with_manual_check_never()
+            .build()
+        )
         .with_requested_check(
             RequestedLivenessCheckBuilder()
             .for_zoom_liveness()
