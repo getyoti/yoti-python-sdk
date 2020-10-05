@@ -1,5 +1,9 @@
 import unittest
 
+from datetime import datetime
+
+import pytz
+
 from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
     AuthenticityCheckResponse,
 )
@@ -29,6 +33,7 @@ class GetSessionResultTest(unittest.TestCase):
     SOME_USER_TRACKING_ID = "someUserTrackingId"
     SOME_STATE = "someState"
     SOME_CLIENT_SESSION_TOKEN = "someClientSessionToken"
+    SOME_BIOMETRIC_CONSENT = "2019-05-01T05:01:48.000Z"
     SOME_CHECKS = [
         {"type": "ID_DOCUMENT_AUTHENTICITY"},
         {"type": "ID_DOCUMENT_TEXT_DATA_CHECK"},
@@ -36,6 +41,17 @@ class GetSessionResultTest(unittest.TestCase):
         {"type": "LIVENESS"},
         {"type": "ID_DOCUMENT_COMPARISON"},
     ]
+
+    EXPECTED_BIOMETRIC_CONSENT_DATETIME = datetime(
+        year=2019,
+        month=5,
+        day=1,
+        hour=5,
+        minute=1,
+        second=48,
+        microsecond=0,
+        tzinfo=pytz.utc,
+    )
 
     def test_should_parse_different_checks(self):
         data = {
@@ -46,6 +62,7 @@ class GetSessionResultTest(unittest.TestCase):
             "user_tracking_id": self.SOME_USER_TRACKING_ID,
             "checks": self.SOME_CHECKS,
             "resources": {},
+            "biometric_consent": self.SOME_BIOMETRIC_CONSENT,
         }
 
         result = GetSessionResult(data)
@@ -64,6 +81,12 @@ class GetSessionResultTest(unittest.TestCase):
         assert isinstance(result.checks[4], IDDocumentComparisonCheckResponse)
 
         assert isinstance(result.resources, ResourceContainer)
+
+        assert isinstance(result.biometric_consent_timestamp, datetime)
+        assert (
+            result.biometric_consent_timestamp
+            == self.EXPECTED_BIOMETRIC_CONSENT_DATETIME
+        )
 
     def test_should_filter_checks(self):
         data = {"checks": self.SOME_CHECKS}

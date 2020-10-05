@@ -104,6 +104,21 @@ class SessionSpecTest(unittest.TestCase):
         assert len(result.requested_tasks) == 0
         assert len(result.required_documents) == 0
 
+    def test_should_build_correctly_with_block_biometric_consent_true(self):
+        result = SessionSpecBuilder().with_block_biometric_consent(True).build()
+
+        assert result.block_biometric_consent is True
+
+    def test_should_build_correctly_with_block_biometric_consent_false(self):
+        result = SessionSpecBuilder().with_block_biometric_consent(False).build()
+
+        assert result.block_biometric_consent is False
+
+    def test_should_build_correctly_without_block_biometric_consent_false(self):
+        result = SessionSpecBuilder().build()
+
+        assert result.block_biometric_consent is None
+
 
 if __name__ == "__main__":
     unittest.main()

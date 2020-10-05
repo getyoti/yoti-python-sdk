@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from iso8601 import (
+    ParseError,
+    iso8601,
+)
+
 from yoti_python_sdk.doc_scan import constants
 from .check_response import AuthenticityCheckResponse
 from .check_response import CheckResponse
@@ -29,9 +34,31 @@ class GetSessionResult(object):
         self.__state = data.get("state", None)
         self.__client_session_token = data.get("client_session_token", None)
         self.__checks = [self.__parse_check(check) for check in data.get("checks", [])]
+        self.__biometric_consent_timestamp = self.__parse_date(
+            data.get("biometric_consent", None)
+        )
 
         resources = data.get("resources", None)
         self.__resources = ResourceContainer(resources) or None
+
+    @staticmethod
+    def __parse_date(date):
+        """
+        Attempts to parse a date from string using the
+        iso8601 library.  Returns None if there was an error
+
+        :param date: the datestring to parse
+        :type date: str
+        :return: the parsed date
+        :rtype: datetime.datetime or None
+        """
+        if date is None:
+            return date
+
+        try:
+            return iso8601.parse_date(date)
+        except ParseError:
+            return None
 
     @staticmethod
     def __parse_check(check):
@@ -184,3 +211,13 @@ class GetSessionResult(object):
         :rtype: ResourceContainer or None
         """
         return self.__resources
+
+    @property
+    def biometric_consent_timestamp(self):
+        """
+        The biometric constent timestamp
+
+        :return: the biometric constent timestamp
+        :rtype: datetime.datetime or None
+        """
+        return self.__biometric_consent_timestamp
