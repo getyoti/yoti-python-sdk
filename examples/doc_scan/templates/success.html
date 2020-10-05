@@ -34,6 +34,12 @@
                     <td>User Tracking ID</td>
                     <td>{{ session_result.user_tracking_id }}</td>
                 </tr>
+                {% if session_result.biometric_consent_timestamp is not none %}
+                <tr>
+                    <td>Biometric Consent Timestamp</td>
+                    <td>{{ session_result.biometric_consent_timestamp }}</td>
+                </tr>
+                {% endif %}
                 </tbody>
             </table>
         </div>
