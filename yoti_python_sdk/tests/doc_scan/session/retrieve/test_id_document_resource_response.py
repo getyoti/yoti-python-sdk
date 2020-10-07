@@ -3,6 +3,9 @@ import unittest
 from yoti_python_sdk.doc_scan.session.retrieve.document_fields_response import (
     DocumentFieldsResponse,
 )
+from yoti_python_sdk.doc_scan.session.retrieve.document_id_photo_response import (
+    DocumentIdPhotoResponse,
+)
 from yoti_python_sdk.doc_scan.session.retrieve.id_document_resource_response import (
     IdDocumentResourceResponse,
 )
@@ -22,6 +25,7 @@ class IdDocumentResourceResponseTest(unittest.TestCase):
     ]
     SOME_PAGES = [{"first": "page"}, {"second": "page"}]
     SOME_DOCUMENT_FIELDS = {"media": {}}
+    SOME_DOCUMENT_ID_PHOTO = {"media": {}}
 
     def test_should_parse_correctly(self):
         data = {
@@ -31,6 +35,7 @@ class IdDocumentResourceResponseTest(unittest.TestCase):
             "tasks": self.SOME_TASKS,
             "pages": self.SOME_PAGES,
             "document_fields": self.SOME_DOCUMENT_FIELDS,
+            "document_id_photo": self.SOME_DOCUMENT_ID_PHOTO,
         }
 
         result = IdDocumentResourceResponse(data)
@@ -41,6 +46,7 @@ class IdDocumentResourceResponseTest(unittest.TestCase):
         assert len(result.tasks) == 2
         assert len(result.pages) == 2
         assert isinstance(result.document_fields, DocumentFieldsResponse)
+        assert isinstance(result.document_id_photo, DocumentIdPhotoResponse)
 
     def test_should_parse_when_none(self):
         result = IdDocumentResourceResponse(None)
@@ -51,6 +57,7 @@ class IdDocumentResourceResponseTest(unittest.TestCase):
         assert len(result.tasks) == 0
         assert len(result.pages) == 0
         assert result.document_fields is None
+        assert result.document_id_photo is None
 
     def test_should_parse_tasks_with_type(self):
         data = {
