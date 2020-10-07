@@ -66,7 +66,10 @@ def create_session():
         )
         .with_requested_check(RequestedIDDocumentComparisonCheckBuilder().build())
         .with_requested_task(
-            RequestedTextExtractionTaskBuilder().with_manual_check_never().build()
+            RequestedTextExtractionTaskBuilder()
+            .with_manual_check_never()
+            .with_chip_data_desired()
+            .build()
         )
         .with_sdk_config(sdk_config)
         .with_required_document(build_required_id_document_restriction("PASSPORT"))

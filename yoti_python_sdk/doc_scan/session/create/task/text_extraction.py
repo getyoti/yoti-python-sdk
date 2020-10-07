@@ -7,12 +7,13 @@ from .requested_task import RequestedTask
 
 
 class RequestedTextExtractionTaskConfig(YotiSerializable):
-    def __init__(self, manual_check):
+    def __init__(self, manual_check, chip_data=None):
         """
         :param manual_check: the manual check value
         :type manual_check: str
         """
         self.__manual_check = manual_check
+        self.__chip_data = chip_data
 
     @property
     def manual_check(self):
@@ -23,8 +24,20 @@ class RequestedTextExtractionTaskConfig(YotiSerializable):
         """
         return self.__manual_check
 
+    @property
+    def chip_data(self):
+        """
+        Describes how to use chip data from an ID document if
+        it is available
+
+        :return: the chip data usage
+        """
+        return self.__chip_data
+
     def to_json(self):
-        return remove_null_values({"manual_check": self.manual_check})
+        return remove_null_values(
+            {"manual_check": self.manual_check, "chip_data": self.chip_data}
+        )
 
 
 class RequestedTextExtractionTask(RequestedTask):
@@ -55,6 +68,7 @@ class RequestedTextExtractionTaskBuilder(object):
 
     def __init__(self):
         self.__manual_check = None
+        self.__chip_data = None
 
     def with_manual_check_always(self):
         """
@@ -86,6 +100,28 @@ class RequestedTextExtractionTaskBuilder(object):
         self.__manual_check = constants.NEVER
         return self
 
+    def with_chip_data_desired(self):
+        """
+        The TextExtractionTask will use chip data if it is available
+
+        :return: the builder
+        :rtype: RequestedTextExtractionTaskBuilder
+        """
+        self.__chip_data = constants.DESIRED
+        return self
+
+    def with_chip_data_ignore(self):
+        """
+        The TextExtractionTask will ignore chip data
+
+        :return: the builder
+        :rtype: RequestedTextExtractionTaskBuilder
+        """
+        self.__chip_data = constants.IGNORE
+        return self
+
     def build(self):
-        config = RequestedTextExtractionTaskConfig(self.__manual_check)
+        config = RequestedTextExtractionTaskConfig(
+            self.__manual_check, self.__chip_data
+        )
         return RequestedTextExtractionTask(config)
