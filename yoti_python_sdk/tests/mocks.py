@@ -1,5 +1,6 @@
 import base64
 from uuid import UUID
+from requests.structures import CaseInsensitiveDict
 
 from yoti_python_sdk.http import RequestHandler
 from yoti_python_sdk.http import SignedRequest
@@ -11,7 +12,9 @@ class MockResponse(YotiResponse):
         if headers is None:
             headers = dict()
 
-        super(MockResponse, self).__init__(status_code, text, headers, content)
+        super(MockResponse, self).__init__(
+            status_code, text, CaseInsensitiveDict(headers), content
+        )
 
 
 class MockRequestHandler(RequestHandler):

@@ -148,7 +148,7 @@ class AuthenticityCheckResponse(CheckResponse):
 
 class FaceMatchCheckResponse(CheckResponse):
     """
-    Represents a FaceMatch Check for a given session
+    Represents a FaceMatch check for a given session
     """
 
     pass
@@ -156,7 +156,7 @@ class FaceMatchCheckResponse(CheckResponse):
 
 class LivenessCheckResponse(CheckResponse):
     """
-    Represents a Liveness Check for a given session
+    Represents a Liveness check for a given session
     """
 
     pass
@@ -165,6 +165,14 @@ class LivenessCheckResponse(CheckResponse):
 class TextDataCheckResponse(CheckResponse):
     """
     Represents a Text Data check for a given session
+    """
+
+    pass
+
+
+class IDDocumentComparisonCheckResponse(CheckResponse):
+    """
+    Represents an Identity Document Comparison check for a given session
     """
 
     pass

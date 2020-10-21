@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from iso8601 import (
+    ParseError,
+    iso8601,
+)
+
 from yoti_python_sdk.doc_scan import constants
 from .check_response import AuthenticityCheckResponse
 from .check_response import CheckResponse
 from .check_response import FaceMatchCheckResponse
+from .check_response import IDDocumentComparisonCheckResponse
 from .check_response import LivenessCheckResponse
 from .check_response import TextDataCheckResponse
 from .resource_container import ResourceContainer
@@ -28,9 +34,31 @@ class GetSessionResult(object):
         self.__state = data.get("state", None)
         self.__client_session_token = data.get("client_session_token", None)
         self.__checks = [self.__parse_check(check) for check in data.get("checks", [])]
+        self.__biometric_consent_timestamp = self.__parse_date(
+            data.get("biometric_consent", None)
+        )
 
         resources = data.get("resources", None)
         self.__resources = ResourceContainer(resources) or None
+
+    @staticmethod
+    def __parse_date(date):
+        """
+        Attempts to parse a date from string using the
+        iso8601 library.  Returns None if there was an error
+
+        :param date: the datestring to parse
+        :type date: str
+        :return: the parsed date
+        :rtype: datetime.datetime or None
+        """
+        if date is None:
+            return date
+
+        try:
+            return iso8601.parse_date(date)
+        except ParseError:
+            return None
 
     @staticmethod
     def __parse_check(check):
@@ -48,6 +76,7 @@ class GetSessionResult(object):
             constants.ID_DOCUMENT_FACE_MATCH: FaceMatchCheckResponse,
             constants.ID_DOCUMENT_TEXT_DATA_CHECK: TextDataCheckResponse,
             constants.LIVENESS: LivenessCheckResponse,
+            constants.ID_DOCUMENT_COMPARISON: IDDocumentComparisonCheckResponse,
         }
         clazz = types.get(check.get("type", None), CheckResponse)
         return clazz(check)
@@ -164,6 +193,16 @@ class GetSessionResult(object):
         return self.__checks_of_type((LivenessCheckResponse,))
 
     @property
+    def id_document_comparison_checks(self):
+        """
+        A filtered list of checks, returning only Identity Document Comparison checks
+
+        :return: the Identity Document Comparison checks
+        :rtype: list[IDDocumentComparisonCheckResponse]
+        """
+        return self.__checks_of_type((IDDocumentComparisonCheckResponse,))
+
+    @property
     def resources(self):
         """
         The resources associated with the session
@@ -172,3 +211,13 @@ class GetSessionResult(object):
         :rtype: ResourceContainer or None
         """
         return self.__resources
+
+    @property
+    def biometric_consent_timestamp(self):
+        """
+        The biometric constent timestamp
+
+        :return: the biometric constent timestamp
+        :rtype: datetime.datetime or None
+        """
+        return self.__biometric_consent_timestamp

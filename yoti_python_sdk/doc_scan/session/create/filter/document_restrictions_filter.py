@@ -3,7 +3,7 @@ from yoti_python_sdk.doc_scan.constants import (
     INCLUSION_BLACKLIST,
     INCLUSION_WHITELIST,
 )
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 from .document_filter import DocumentFilter
 
 
@@ -21,10 +21,12 @@ class DocumentRestriction(YotiSerializable):
         return self.__document_types
 
     def to_json(self):
-        return {
-            "country_codes": self.country_codes,
-            "document_types": self.document_types,
-        }
+        return remove_null_values(
+            {
+                "country_codes": self.country_codes,
+                "document_types": self.document_types,
+            }
+        )
 
 
 class DocumentRestrictionBuilder(object):
@@ -85,7 +87,7 @@ class DocumentRestrictionsFilter(DocumentFilter):
         parent = DocumentFilter.to_json(self)
         parent["inclusion"] = self.inclusion
         parent["documents"] = self.documents
-        return parent
+        return remove_null_values(parent)
 
 
 class DocumentRestrictionsFilterBuilder(object):

@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from .filter.required_document import RequiredDocument  # noqa: F401
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 
 
 class SessionSpec(YotiSerializable):
@@ -20,6 +20,7 @@ class SessionSpec(YotiSerializable):
         requested_checks=None,
         requested_tasks=None,
         required_documents=None,
+        block_biometric_consent=None,
     ):
         """
         :param client_session_token_ttl: the client session token TTL
@@ -38,6 +39,8 @@ class SessionSpec(YotiSerializable):
         :type requested_tasks: list[RequestedTask] or None
         :param required_documents: the list of required documents
         :type required_documents: list[RequiredDocument] or None
+        :param block_biometric_consent: block the collection of biometric consent
+        :type block_biometric_consent: bool
         """
         if requested_tasks is None:
             requested_tasks = []
@@ -54,6 +57,7 @@ class SessionSpec(YotiSerializable):
         self.__requested_checks = requested_checks
         self.__requested_tasks = requested_tasks
         self.__required_documents = required_documents
+        self.__block_biometric_consent = block_biometric_consent
 
     @property
     def client_session_token_ttl(self):
@@ -78,7 +82,7 @@ class SessionSpec(YotiSerializable):
     @property
     def user_tracking_id(self):
         """
-        User tracking ID, for the Relying Business to track returning users
+        User tracking ID, to track returning users
 
         :return: the user tracking ID
         :rtype: str
@@ -138,17 +142,30 @@ class SessionSpec(YotiSerializable):
         """
         return self.__required_documents
 
+    @property
+    def block_biometric_consent(self):
+        """
+        Whether or not to block the collection of biometric consent.
+
+        :return: block biometric consent
+        :rtype: bool
+        """
+        return self.__block_biometric_consent
+
     def to_json(self):
-        return {
-            "client_session_token_ttl": self.client_session_token_ttl,
-            "resources_ttl": self.resources_ttl,
-            "user_tracking_id": self.user_tracking_id,
-            "notifications": self.notifications,
-            "requested_checks": self.requested_checks,
-            "requested_tasks": self.requested_tasks,
-            "sdk_config": self.sdk_config,
-            "required_documents": self.required_documents,
-        }
+        return remove_null_values(
+            {
+                "client_session_token_ttl": self.client_session_token_ttl,
+                "resources_ttl": self.resources_ttl,
+                "user_tracking_id": self.user_tracking_id,
+                "notifications": self.notifications,
+                "requested_checks": self.requested_checks,
+                "requested_tasks": self.requested_tasks,
+                "sdk_config": self.sdk_config,
+                "required_documents": self.required_documents,
+                "block_biometric_consent": self.block_biometric_consent,
+            }
+        )
 
 
 class SessionSpecBuilder(object):
@@ -165,6 +182,7 @@ class SessionSpecBuilder(object):
         self.__requested_checks = []
         self.__requested_tasks = []
         self.__required_documents = []
+        self.__block_biometric_consent = None
 
     def with_client_session_token_ttl(self, value):
         """
@@ -262,6 +280,18 @@ class SessionSpecBuilder(object):
         self.__required_documents.append(required_document)
         return self
 
+    def with_block_biometric_consent(self, block_biometric_consent):
+        """
+        Sets whether or not to block the collection of biometric consent
+
+        :param block_biometric_consent: block biometric consent
+        :type block_biometric_consent: bool
+        :return: the builder
+        :rtype: SessionSpecBuilder
+        """
+        self.__block_biometric_consent = block_biometric_consent
+        return self
+
     def build(self):
         """
         Builds a :class:`SessionSpec` using the supplied values
@@ -278,4 +308,5 @@ class SessionSpecBuilder(object):
             self.__requested_checks,
             self.__requested_tasks,
             self.__required_documents,
+            self.__block_biometric_consent,
         )

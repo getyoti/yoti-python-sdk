@@ -1,5 +1,9 @@
 import unittest
 
+from datetime import datetime
+
+import pytz
+
 from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
     AuthenticityCheckResponse,
 )
@@ -8,6 +12,9 @@ from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
 )
 from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
     LivenessCheckResponse,
+)
+from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
+    IDDocumentComparisonCheckResponse,
 )
 from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
     TextDataCheckResponse,
@@ -26,12 +33,25 @@ class GetSessionResultTest(unittest.TestCase):
     SOME_USER_TRACKING_ID = "someUserTrackingId"
     SOME_STATE = "someState"
     SOME_CLIENT_SESSION_TOKEN = "someClientSessionToken"
+    SOME_BIOMETRIC_CONSENT = "2019-05-01T05:01:48.000Z"
     SOME_CHECKS = [
         {"type": "ID_DOCUMENT_AUTHENTICITY"},
         {"type": "ID_DOCUMENT_TEXT_DATA_CHECK"},
         {"type": "ID_DOCUMENT_FACE_MATCH"},
         {"type": "LIVENESS"},
+        {"type": "ID_DOCUMENT_COMPARISON"},
     ]
+
+    EXPECTED_BIOMETRIC_CONSENT_DATETIME = datetime(
+        year=2019,
+        month=5,
+        day=1,
+        hour=5,
+        minute=1,
+        second=48,
+        microsecond=0,
+        tzinfo=pytz.utc,
+    )
 
     def test_should_parse_different_checks(self):
         data = {
@@ -42,6 +62,7 @@ class GetSessionResultTest(unittest.TestCase):
             "user_tracking_id": self.SOME_USER_TRACKING_ID,
             "checks": self.SOME_CHECKS,
             "resources": {},
+            "biometric_consent": self.SOME_BIOMETRIC_CONSENT,
         }
 
         result = GetSessionResult(data)
@@ -52,24 +73,32 @@ class GetSessionResultTest(unittest.TestCase):
         assert result.state is self.SOME_STATE
         assert result.user_tracking_id is self.SOME_USER_TRACKING_ID
 
-        assert len(result.checks) == 4
+        assert len(result.checks) == 5
         assert isinstance(result.checks[0], AuthenticityCheckResponse)
         assert isinstance(result.checks[1], TextDataCheckResponse)
         assert isinstance(result.checks[2], FaceMatchCheckResponse)
         assert isinstance(result.checks[3], LivenessCheckResponse)
+        assert isinstance(result.checks[4], IDDocumentComparisonCheckResponse)
 
         assert isinstance(result.resources, ResourceContainer)
+
+        assert isinstance(result.biometric_consent_timestamp, datetime)
+        assert (
+            result.biometric_consent_timestamp
+            == self.EXPECTED_BIOMETRIC_CONSENT_DATETIME
+        )
 
     def test_should_filter_checks(self):
         data = {"checks": self.SOME_CHECKS}
 
         result = GetSessionResult(data)
 
-        assert len(result.checks) == 4
+        assert len(result.checks) == 5
         assert len(result.authenticity_checks) == 1
         assert len(result.face_match_checks) == 1
         assert len(result.liveness_checks) == 1
         assert len(result.text_data_checks) == 1
+        assert len(result.id_document_comparison_checks) == 1
 
 
 if __name__ == "__main__":

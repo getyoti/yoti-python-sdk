@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from .media_response import MediaResponse
+from .frame_response import FrameResponse
 
 
 class PageResponse(object):
@@ -21,6 +22,7 @@ class PageResponse(object):
             data["capture_method"] if "capture_method" in data.keys() else None
         )
         self.__media = MediaResponse(data["media"]) if "media" in data.keys() else None
+        self.__frames = [FrameResponse(frame) for frame in data.get("frames", [])]
 
     @property
     def capture_method(self):
@@ -41,3 +43,13 @@ class PageResponse(object):
         :rtype: MediaResponse or None
         """
         return self.__media
+
+    @property
+    def frames(self):
+        """
+        Returns the list of associated frames
+
+        :return: the frames
+        :rtype: list[FrameResponse]
+        """
+        return self.__frames

@@ -1,4 +1,5 @@
 from yoti_python_sdk.doc_scan.constants import ID_DOCUMENT
+from yoti_python_sdk.utils import remove_null_values
 from .document_filter import DocumentFilter  # noqa: F401
 from .required_document import RequiredDocument
 
@@ -20,7 +21,7 @@ class RequiredIdDocument(RequiredDocument):
         return self.__doc_filter
 
     def to_json(self):
-        return {"type": self.type, "filter": self.__doc_filter}
+        return remove_null_values({"type": self.type, "filter": self.__doc_filter})
 
 
 class RequiredIdDocumentBuilder(object):

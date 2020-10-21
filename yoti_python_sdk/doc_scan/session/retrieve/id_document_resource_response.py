@@ -4,6 +4,9 @@ from __future__ import unicode_literals
 from yoti_python_sdk.doc_scan.session.retrieve.document_fields_response import (
     DocumentFieldsResponse,
 )
+from yoti_python_sdk.doc_scan.session.retrieve.document_id_photo_response import (
+    DocumentIdPhotoResponse,
+)
 from yoti_python_sdk.doc_scan.session.retrieve.page_response import PageResponse
 from yoti_python_sdk.doc_scan.session.retrieve.resource_response import ResourceResponse
 from yoti_python_sdk.doc_scan.session.retrieve.task_response import (
@@ -32,6 +35,11 @@ class IdDocumentResourceResponse(ResourceResponse):
         self.__document_fields = (
             DocumentFieldsResponse(data["document_fields"])
             if "document_fields" in data.keys()
+            else None
+        )
+        self.__document_id_photo = (
+            DocumentIdPhotoResponse(data["document_id_photo"])
+            if "document_id_photo" in data.keys()
             else None
         )
 
@@ -76,10 +84,20 @@ class IdDocumentResourceResponse(ResourceResponse):
         return self.__document_fields
 
     @property
+    def document_id_photo(self):
+        """
+        Returns the associated document ID photo
+
+        :return: the document ID photo
+        :rtype: DocumentIdPhotoResponse
+        """
+        return self.__document_id_photo
+
+    @property
     def text_extraction_tasks(self):
         """
         Returns a list of text extraction tasks associated
-        with the id document
+        with the identity document
 
         :return: list of text extraction tasks
         :rtype: list[TextExtractionTaskResponse]

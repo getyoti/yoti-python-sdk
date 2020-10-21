@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from abc import abstractmethod
 
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 
 
 class RequestedCheck(YotiSerializable):
@@ -33,4 +33,4 @@ class RequestedCheck(YotiSerializable):
         raise NotImplementedError
 
     def to_json(self):
-        return {"type": self.type, "config": self.config}
+        return remove_null_values({"type": self.type, "config": self.config})

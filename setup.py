@@ -25,7 +25,7 @@ setup(
         "future>=0.11.0",
         "asn1==2.2.0",
         "pyopenssl>=18.0.0",
-        "iso8601==0.1.12",
+        "iso8601==0.1.13",
     ],
     extras_require={
         "examples": [
@@ -37,14 +37,14 @@ setup(
         ],
         "dev": [
             "pre-commit==1.17.0",
-            "pytest>=4.6.0",
+            "pytest>=4.6.11",
             "pytest-cov>=2.7.1",
             "pylint==1.9.4",
             "pylint-exit>=1.1.0",
             "python-coveralls==2.9.3",
             "coverage==4.5.4",
             "mock==2.0.0",
-            "virtualenv==20.0.13",
+            "virtualenv==20.0.33",
         ],
     },
     classifiers=[

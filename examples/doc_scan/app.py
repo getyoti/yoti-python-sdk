@@ -1,19 +1,21 @@
-import base64
-from io import BytesIO
-
 import yoti_python_sdk
-from filetype import filetype
-from flask import Flask, Response, render_template, request, send_file, session
+from flask import Flask, Response, render_template, request, session
 from yoti_python_sdk.doc_scan import (
     DocScanClient,
     RequestedDocumentAuthenticityCheckBuilder,
     RequestedFaceMatchCheckBuilder,
+    RequestedIDDocumentComparisonCheckBuilder,
     RequestedLivenessCheckBuilder,
     RequestedTextExtractionTaskBuilder,
     SdkConfigBuilder,
     SessionSpecBuilder,
 )
 from yoti_python_sdk.doc_scan.exception import DocScanException
+from yoti_python_sdk.doc_scan.session.create.filter import (
+    RequiredIdDocumentBuilder,
+    DocumentRestrictionBuilder,
+    DocumentRestrictionsFilterBuilder,
+)
 
 from .settings import YOTI_APP_BASE_URL, YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH
 
@@ -48,7 +50,11 @@ def create_session():
         .with_client_session_token_ttl(600)
         .with_resources_ttl(90000)
         .with_user_tracking_id("some-user-tracking-id")
-        .with_requested_check(RequestedDocumentAuthenticityCheckBuilder().build())
+        .with_requested_check(
+            RequestedDocumentAuthenticityCheckBuilder()
+            .with_manual_check_never()
+            .build()
+        )
         .with_requested_check(
             RequestedLivenessCheckBuilder()
             .for_zoom_liveness()
@@ -56,16 +62,35 @@ def create_session():
             .build()
         )
         .with_requested_check(
-            RequestedFaceMatchCheckBuilder().with_manual_check_fallback().build()
+            RequestedFaceMatchCheckBuilder().with_manual_check_never().build()
         )
+        .with_requested_check(RequestedIDDocumentComparisonCheckBuilder().build())
         .with_requested_task(
-            RequestedTextExtractionTaskBuilder().with_manual_check_always().build()
+            RequestedTextExtractionTaskBuilder()
+            .with_manual_check_never()
+            .with_chip_data_desired()
+            .build()
         )
         .with_sdk_config(sdk_config)
+        .with_required_document(build_required_id_document_restriction("PASSPORT"))
+        .with_required_document(
+            build_required_id_document_restriction("DRIVING_LICENCE")
+        )
         .build()
     )
 
     return doc_scan_client.create_session(session_spec)
+
+
+def build_required_id_document_restriction(document_type):
+    document_restriction = (
+        DocumentRestrictionBuilder().with_document_types([document_type]).build()
+    )
+
+    filter_builder = DocumentRestrictionsFilterBuilder().for_whitelist()
+    filter_builder.with_document_restriction(document_restriction)
+
+    return RequiredIdDocumentBuilder().with_filter(filter_builder.build()).build()
 
 
 @app.route("/")
@@ -118,8 +143,6 @@ def media():
 
     doc_scan_client = DocScanClient(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
 
-    base64_req = request.args.get("base64", "0")
-
     session_id = session.get("doc_scan_session_id", None)
     if session_id is None:
         return Response("No session ID available", status=404)
@@ -128,21 +151,6 @@ def media():
         retrieved_media = doc_scan_client.get_media_content(session_id, media_id)
     except DocScanException as e:
         return render_template("error.html", error=e.text)
-
-    if base64_req == "1" and retrieved_media.mime_type == "application/octet-stream":
-        decoded = base64.b64decode(retrieved_media.content)
-        info = filetype.guess(decoded)
-
-        buffer = BytesIO()
-        buffer.write(decoded)
-        buffer.seek(0)
-
-        return send_file(
-            buffer,
-            attachment_filename="media." + info.extension,
-            mimetype=info.mime,
-            as_attachment=True,
-        )
 
     return Response(
         retrieved_media.content, content_type=retrieved_media.mime_type, status=200

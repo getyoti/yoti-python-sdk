@@ -29,6 +29,33 @@ class RequestedDocumentAuthenticityCheckTest(unittest.TestCase):
         s = json.dumps(result, cls=YotiEncoder)
         assert s is not None and s != ""
 
+    def test_should_build_with_manual_check_always(self):
+        result = (
+            RequestedDocumentAuthenticityCheckBuilder()
+            .with_manual_check_always()
+            .build()
+        )
+
+        assert result.config.manual_check == "ALWAYS"
+
+    def test_should_build_with_manual_check_fallback(self):
+        result = (
+            RequestedDocumentAuthenticityCheckBuilder()
+            .with_manual_check_fallback()
+            .build()
+        )
+
+        assert result.config.manual_check == "FALLBACK"
+
+    def test_should_build_with_manual_check_never(self):
+        result = (
+            RequestedDocumentAuthenticityCheckBuilder()
+            .with_manual_check_never()
+            .build()
+        )
+
+        assert result.config.manual_check == "NEVER"
+
 
 if __name__ == "__main__":
     unittest.main()

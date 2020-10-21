@@ -3,12 +3,12 @@ from __future__ import unicode_literals
 
 from yoti_python_sdk.doc_scan.constants import CAMERA
 from yoti_python_sdk.doc_scan.constants import CAMERA_AND_UPLOAD
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 
 
 class SdkConfig(YotiSerializable):
     """
-    Provides configuration properties using by the web/native clients
+    Provides configuration properties for the web/native clients
     """
 
     def __init__(
@@ -122,16 +122,18 @@ class SdkConfig(YotiSerializable):
         return self.__error_url
 
     def to_json(self):
-        return {
-            "allowed_capture_methods": self.allowed_capture_methods,
-            "primary_colour": self.primary_colour,
-            "secondary_colour": self.secondary_colour,
-            "font_colour": self.font_colour,
-            "locale": self.locale,
-            "preset_issuing_country": self.preset_issuing_country,
-            "success_url": self.success_url,
-            "error_url": self.error_url,
-        }
+        return remove_null_values(
+            {
+                "allowed_capture_methods": self.allowed_capture_methods,
+                "primary_colour": self.primary_colour,
+                "secondary_colour": self.secondary_colour,
+                "font_colour": self.font_colour,
+                "locale": self.locale,
+                "preset_issuing_country": self.preset_issuing_country,
+                "success_url": self.success_url,
+                "error_url": self.error_url,
+            }
+        )
 
 
 class SdkConfigBuilder(object):

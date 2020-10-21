@@ -1,10 +1,10 @@
 asn1==2.2.0 # asn1 2.3.0 introduces enum34 as a dependency, which causes problems on some envs
 cryptography==2.8.0
-cffi>=1.14.0
+cffi==1.14.3
 future==0.18.2
-itsdangerous==0.24
+itsdangerous==1.1.0
 pbr==1.10.0
-protobuf==3.12.2
+protobuf==3.13.0
 pyopenssl==19.1.0
 PyYAML==5.2 # PyYAML 5.3 does not support Python 3.4
 pytz==2020.1
@@ -12,4 +12,4 @@ requests>=2.20.0
 urllib3>=1.24.3
 deprecated==1.2.10
 wheel==0.33.6
-iso8601==0.1.12
+iso8601==0.1.13

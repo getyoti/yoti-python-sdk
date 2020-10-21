@@ -34,6 +34,12 @@
                     <td>User Tracking ID</td>
                     <td>{{ session_result.user_tracking_id }}</td>
                 </tr>
+                {% if session_result.biometric_consent_timestamp is not none %}
+                <tr>
+                    <td>Biometric Consent Timestamp</td>
+                    <td>{{ session_result.biometric_consent_timestamp }}</td>
+                </tr>
+                {% endif %}
                 </tbody>
             </table>
         </div>
@@ -134,6 +140,29 @@
                             </div>
                         </div>
                     {% endif %}
+
+                    {% if session_result.id_document_comparison_checks|length > 0 %}
+                        <div class="card">
+                            <div class="card-header" id="comparison-checks">
+                                <h3 class="mb-0">
+                                    <button aria-controls="collapse-comparison-checks" aria-expanded="true" class="btn btn-link"
+                                            data-target="#collapse-comparison-checks" data-toggle="collapse"
+                                            type="button">
+                                        ID Document Comparison Checks
+                                    </button>
+                                </h3>
+                            </div>
+                            <div aria-labelledby="comparison-checks" class="collapse" id="collapse-comparison-checks">
+                                <div class="card-body">
+                                    {% for check in session_result.id_document_comparison_checks %}
+                                        {% with check=check %}
+                                            {% include "partials/check.html" %}
+                                        {% endwith %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -149,7 +178,7 @@
 
     {% with doc_num=0 %}
         {% for document in session_result.resources.id_documents %}
-            {% set doc_num = loop.index + 1 %}
+            {% set doc_num = loop.index %}
             <div class="row pt-4">
                 <div class="col">
 
@@ -193,6 +222,26 @@
                                 </div>
                             </div>
                         {% endif %}
+
+                        {% if document.document_id_photo is not none %}
+                        <div class="card">
+                            <div class="card-header" id="document-id-photo-{{ doc_num }}">
+                                <h4 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-document-id-photo-{{ doc_num }}" aria-expanded="true" aria-controls="collapse-document-id-photo-{{ doc_num }}">
+                                        Document ID Photo
+                                    </button>
+                                </h4>
+                            </div>
+                            <div id="collapse-document-id-photo-{{ doc_num }}" class="collapse" aria-labelledby="document-id-photo-{{ doc_num }}">
+                                <div class="card-body">
+                                    {% if document.document_fields.media is not none %}
+                                    <img class="card-img-top" src="/media?mediaId={{ document.document_id_photo.media.id }}" />
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
                         {% if document.text_extraction_tasks|length > 0 %}
                             <div class="card">
                                 <div class="card-header" id="text-extraction-tasks-{{ doc_num }}">
@@ -256,36 +305,54 @@
                         {% endif %}
 
                         {% if document.pages|length > 0 %}
+                        {% with page_num=0 %}
+                        {% for page in document.pages %}
+                            {% set page_num = loop.index %}
                             <div class="card">
-                                <div class="card-header" id="document-pages-{{ doc_num }}">
+                                <div class="card-header" id="document-pages-{{ doc_num }}-{{ page_num }}">
                                     <h4 class="mb-0">
                                         <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                data-target="#collapse-document-pages-{{ doc_num }}"
+                                                data-target="#collapse-document-pages-{{ doc_num }}-{{ page_num }}"
                                                 aria-expanded="true"
-                                                aria-controls="collapse-document-pages-{{ doc_num }}">
-                                            Pages
+                                                aria-controls="collapse-document-pages-{{ doc_num }}-{{ page_num }}">
+                                            Page {{ page_num }}
                                         </button>
                                     </h4>
                                 </div>
-                                <div id="collapse-document-pages-{{ doc_num }}" class="collapse"
-                                     aria-labelledby="document-pages-{{ doc_num }}">
-                                    <div class="card-body">
-                                        <div class="card-group">
-                                            {% for page in document.pages %}
-                                                {% if page.media is not none %}
-                                                    <div class="card" style="width: 18rem;">
-                                                        <img class="card-img-top"
-                                                             src="/media?mediaId={{ page.media.id }}"/>
-                                                        <div class="card-body">
-                                                            <p>Method: {{ page.capture_method }}</p>
-                                                        </div>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
+                                <div id="collapse-document-pages-{{ doc_num }}-{{ page_num }}" class="collapse"
+                                     aria-labelledby="document-pages-{{ doc_num }}-{{ page_num }}">
+
+                                    <div class="card-group">
+                                        {% if page.media is not none %}
+                                            <div class="card" style="width: 18rem;">
+                                                <img class="card-img-top"
+                                                        src="/media?mediaId={{ page.media.id }}"/>
+                                                <div class="card-body">
+                                                    <p>Method: {{ page.capture_method }}</p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
                                     </div>
+
+                                    {% if page.frames|length > 0 %}
+                                    <div class="card-group">
+                                        {% for frame in page.frames %}
+                                            {% if frame.media is not none %}
+                                                <div class="card">
+                                                    <img class="card-img-top" src="/media?mediaId={{ frame.media.id }}" />
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Frame</h5>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+
                                 </div>
                             </div>
+                        {% endfor %}
+                        {% endwith %}
                         {% endif %}
                     </div>
                 </div>
@@ -303,7 +370,7 @@
 
     {% with liveness_num=0 %}
         {% for liveness in session_result.resources.zoom_liveness_resources %}
-            {% set liveness_num = loop.index + 1 %}
+            {% set liveness_num = loop.index %}
             <div class="row pt-4">
                 <div class="col">
                     <table class="table table-striped table-light">
@@ -316,39 +383,6 @@
                     </table>
 
                     <div class="accordion mt-3">
-
-                        {% if liveness.facemap is not none %}
-                            <div class="card">
-                                <div class="card-header" id="liveness-{{ liveness_num }}-facemap">
-                                    <h3 class="mb-0">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse"
-                                            data-target="#collapse-liveness-{{ liveness_num }}-facemap" aria-expanded="true"
-                                            aria-controls="collapse-liveness-{{ liveness_num }}-facemap">
-                                            Face Map
-                                        </button>
-                                    </h3>
-                                </div>
-                                <div id="collapse-liveness-{{ liveness_num }}-facemap" class="collapse" aria-labelledby="liveness-{{ liveness_num }}-facemap">
-                                    <div class="card-body">
-                                        {% if liveness.facemap.media is not none %}
-                                            <h4>Media</h4>
-                                            <table class="table table-striped">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>ID</td>
-                                                        <td>
-                                                            <a href="/media?mediaId={{ liveness.facemap.media.id }}&base64=1">
-                                                                {{ liveness.facemap.media.id }}
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
 
                         {% if liveness.frames|length > 0 %}
                             <div class="card">
