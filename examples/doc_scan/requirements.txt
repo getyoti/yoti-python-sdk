@@ -10,12 +10,12 @@ cffi==1.14.0              # via cryptography
 chardet==3.0.4            # via requests
 click==7.1.2              # via flask
 cryptography==2.9.2       # via pyopenssl, yoti
-deprecated==1.2.6         # via yoti
+deprecated==1.2.10        # via yoti
 filetype==1.0.7           # via -r requirements.in
 flask==1.1.2              # via -r requirements.in
 future==0.18.2            # via yoti
 idna==2.9                 # via requests
-iso8601==0.1.12           # via yoti
+iso8601==0.1.13           # via yoti
 itsdangerous==1.1.0       # via flask
 jinja2==2.11.2            # via flask
 markupsafe==1.1.1         # via jinja2
@@ -28,7 +28,7 @@ six==1.14.0               # via cryptography, protobuf, pyopenssl
 urllib3==1.25.9           # via requests
 werkzeug==1.0.1           # via flask
 wrapt==1.12.1             # via deprecated
-yoti==2.12.1              # via -r requirements.in
+yoti==2.13.0              # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
