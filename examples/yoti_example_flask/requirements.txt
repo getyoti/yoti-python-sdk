@@ -9,11 +9,13 @@ certifi==2018.4.16        # via requests
 cffi==1.14.0              # via -r requirements.in, cryptography
 chardet==3.0.4            # via requests
 click==6.7                # via flask
-cryptography==2.9.2       # via pyopenssl, yoti
+cryptography==3.2         # via pyopenssl, yoti
 deprecated==1.2.10        # via yoti
+enum34==1.1.10            # via cryptography
 flask==1.1.1              # via -r requirements.in
 future==0.16.0            # via yoti
 idna==2.7                 # via requests
+ipaddress==1.0.23         # via cryptography
 iso8601==0.1.13           # via yoti
 itsdangerous==0.24        # via flask
 jinja2==2.10.1            # via -r requirements.in, flask
