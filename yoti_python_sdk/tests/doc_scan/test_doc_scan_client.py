@@ -13,7 +13,8 @@ from yoti_python_sdk.tests.doc_scan.mocks import (
     mocked_request_failed_session_creation,
     mocked_request_failed_session_retrieval,
     mocked_request_media_content,
-    mocked_request_missing_content,
+    mocked_request_no_content,
+    mocked_request_not_found,
     mocked_request_server_error,
     mocked_request_successful_session_creation,
     mocked_request_successful_session_retrieval,
@@ -111,7 +112,7 @@ def test_should_raise_exception_for_delete_session(_, doc_scan_client):
 
 @mock.patch(
     "yoti_python_sdk.http.SignedRequest.execute",
-    side_effect=mocked_request_missing_content,
+    side_effect=mocked_request_not_found,
 )
 def test_should_raise_exception_for_invalid_content(_, doc_scan_client):
     """
@@ -141,7 +142,20 @@ def test_should_return_media_value(_, doc_scan_client):
 
 @mock.patch(
     "yoti_python_sdk.http.SignedRequest.execute",
-    side_effect=mocked_request_missing_content,
+    side_effect=mocked_request_no_content,
+)
+def test_should_return_none_for_media_no_content(_, doc_scan_client):
+    """
+    :type doc_scan_client: DocScanClient
+    """
+    media = doc_scan_client.get_media_content(SOME_SESSION_ID, SOME_MEDIA_ID)
+
+    assert media is None
+
+
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_request_not_found,
 )
 def test_should_throw_exception_for_delete_media(_, doc_scan_client):
     """
@@ -170,7 +184,7 @@ def test_should_return_supported_documents_response(_, doc_scan_client):
 
 @mock.patch(
     "yoti_python_sdk.http.SignedRequest.execute",
-    side_effect=mocked_request_missing_content,
+    side_effect=mocked_request_not_found,
 )
 def test_should_throw_exception_for_supported_documents(_, doc_scan_client):
     """

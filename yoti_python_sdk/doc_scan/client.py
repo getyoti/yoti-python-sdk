@@ -138,6 +138,9 @@ class DocScanClient(object):
         )
         response = request.execute()
 
+        if response.status_code == 204:
+            return None
+
         if response.status_code != 200:
             raise DocScanException("Failed to retrieve media content", response)
 
