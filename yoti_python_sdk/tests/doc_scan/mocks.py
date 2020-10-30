@@ -38,7 +38,11 @@ def mocked_request_media_content():
     )
 
 
-def mocked_request_missing_content():
+def mocked_request_no_content():
+    return MockResponse(status_code=204, text="")
+
+
+def mocked_request_not_found():
     return MockResponse(status_code=404, text="")
 
 

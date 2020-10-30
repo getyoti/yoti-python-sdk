@@ -73,9 +73,7 @@ def create_session():
         )
         .with_sdk_config(sdk_config)
         .with_required_document(build_required_id_document_restriction("PASSPORT"))
-        .with_required_document(
-            build_required_id_document_restriction("DRIVING_LICENCE")
-        )
+        .with_required_document(RequiredIdDocumentBuilder().build())
         .build()
     )
 
@@ -151,6 +149,9 @@ def media():
         retrieved_media = doc_scan_client.get_media_content(session_id, media_id)
     except DocScanException as e:
         return render_template("error.html", error=e.text)
+
+    if retrieved_media is None:
+        return Response("", status=204)
 
     return Response(
         retrieved_media.content, content_type=retrieved_media.mime_type, status=200
