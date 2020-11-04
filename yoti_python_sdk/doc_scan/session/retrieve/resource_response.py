@@ -1,6 +1,9 @@
 from yoti_python_sdk.doc_scan import constants
-from .task_response import TaskResponse
-from .task_response import TextExtractionTaskResponse
+from .task_response import (
+    TaskResponse,
+    TextExtractionTaskResponse,
+    SupplementaryDocumentTextExtractionTaskResponse,
+)
 
 
 class ResourceResponse(object):
@@ -29,7 +32,10 @@ class ResourceResponse(object):
         :return: the parsed task
         :rtype: TaskResponse
         """
-        types = {constants.ID_DOCUMENT_TEXT_DATA_EXTRACTION: TextExtractionTaskResponse}
+        types = {
+            constants.ID_DOCUMENT_TEXT_DATA_EXTRACTION: TextExtractionTaskResponse,
+            constants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION: SupplementaryDocumentTextExtractionTaskResponse,
+        }
         clazz = types.get(
             task.get("type", None), TaskResponse  # Default fallback for task type
         )

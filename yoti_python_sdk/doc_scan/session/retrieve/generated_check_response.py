@@ -46,3 +46,11 @@ class GeneratedTextDataCheckResponse(GeneratedCheckResponse):
     """
 
     pass
+
+
+class GeneratedSupplementaryDocumentTextDataCheckResponse(GeneratedCheckResponse):
+    """
+    Represents a generated Supplementary Document Text Data check response
+    """
+
+    pass
