@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from deprecated import deprecated
 
 from iso8601 import (
     ParseError,
@@ -7,12 +8,15 @@ from iso8601 import (
 )
 
 from yoti_python_sdk.doc_scan import constants
-from .check_response import AuthenticityCheckResponse
-from .check_response import CheckResponse
-from .check_response import FaceMatchCheckResponse
-from .check_response import IDDocumentComparisonCheckResponse
-from .check_response import LivenessCheckResponse
-from .check_response import TextDataCheckResponse
+from .check_response import (
+    AuthenticityCheckResponse,
+    CheckResponse,
+    FaceMatchCheckResponse,
+    IDDocumentComparisonCheckResponse,
+    LivenessCheckResponse,
+    TextDataCheckResponse,
+    SupplementaryDocumentTextDataCheckResponse,
+)
 from .resource_container import ResourceContainer
 
 
@@ -77,6 +81,7 @@ class GetSessionResult(object):
             constants.ID_DOCUMENT_TEXT_DATA_CHECK: TextDataCheckResponse,
             constants.LIVENESS: LivenessCheckResponse,
             constants.ID_DOCUMENT_COMPARISON: IDDocumentComparisonCheckResponse,
+            constants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK: SupplementaryDocumentTextDataCheckResponse,
         }
         clazz = types.get(check.get("type", None), CheckResponse)
         return clazz(check)
@@ -173,6 +178,7 @@ class GetSessionResult(object):
         return self.__checks_of_type((FaceMatchCheckResponse,))
 
     @property
+    @deprecated("replaced by id_document_text_data_checks")
     def text_data_checks(self):
         """
         A filtered list of checks, returning only Text Data checks
@@ -180,7 +186,27 @@ class GetSessionResult(object):
         :return: the Text Data checks
         :rtype: list[TextDataCheckResponse]
         """
+        return self.id_document_text_data_checks
+
+    @property
+    def id_document_text_data_checks(self):
+        """
+        A filtered list of checks, returning only ID Document Text Data checks
+
+        :return: the Text Data checks
+        :rtype: list[TextDataCheckResponse]
+        """
         return self.__checks_of_type((TextDataCheckResponse,))
+
+    @property
+    def supplementary_document_text_data_checks(self):
+        """
+        A filtered list of checks, returning only Supplementary Document Text Data checks
+
+        :return: the Text Data checks
+        :rtype: list[SupplementaryDocumentTextDataCheckResponse]
+        """
+        return self.__checks_of_type((SupplementaryDocumentTextDataCheckResponse,))
 
     @property
     def liveness_checks(self):

@@ -176,3 +176,11 @@ class IDDocumentComparisonCheckResponse(CheckResponse):
     """
 
     pass
+
+
+class SupplementaryDocumentTextDataCheckResponse(CheckResponse):
+    """
+    Represents a Supplementary Document Text Data check for a given session
+    """
+
+    pass

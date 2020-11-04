@@ -7,9 +7,8 @@ from iso8601 import ParseError
 from yoti_python_sdk.doc_scan import constants
 from yoti_python_sdk.doc_scan.session.retrieve.generated_check_response import (
     GeneratedCheckResponse,
-)
-from yoti_python_sdk.doc_scan.session.retrieve.generated_check_response import (
     GeneratedTextDataCheckResponse,
+    GeneratedSupplementaryDocumentTextDataCheckResponse,
 )
 from yoti_python_sdk.doc_scan.session.retrieve.generated_media import GeneratedMedia
 
@@ -51,7 +50,10 @@ class TaskResponse(object):
         :return: the parse generated check
         :rtype: GeneratedCheckResponse
         """
-        types = {constants.ID_DOCUMENT_TEXT_DATA_CHECK: GeneratedTextDataCheckResponse}
+        types = {
+            constants.ID_DOCUMENT_TEXT_DATA_CHECK: GeneratedTextDataCheckResponse,
+            constants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK: GeneratedSupplementaryDocumentTextDataCheckResponse,
+        }
 
         clazz = types.get(
             generated_check.get("type", None),
@@ -153,7 +155,7 @@ class TaskResponse(object):
 
 class TextExtractionTaskResponse(TaskResponse):
     """
-    Represents a Text Extraction task response
+    Represents an ID Document Text Extraction task response
     """
 
     @property
@@ -162,4 +164,18 @@ class TextExtractionTaskResponse(TaskResponse):
             check
             for check in self.generated_checks
             if isinstance(check, GeneratedTextDataCheckResponse)
+        ]
+
+
+class SupplementaryDocumentTextExtractionTaskResponse(TaskResponse):
+    """
+    Represents a Supplementary Document Text Extraction task response
+    """
+
+    @property
+    def generated_text_data_checks(self):
+        return [
+            check
+            for check in self.generated_checks
+            if isinstance(check, GeneratedSupplementaryDocumentTextDataCheckResponse)
         ]

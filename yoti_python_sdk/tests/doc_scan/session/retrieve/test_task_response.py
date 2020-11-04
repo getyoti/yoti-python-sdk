@@ -5,6 +5,7 @@ import pytz
 
 from yoti_python_sdk.doc_scan.session.retrieve.generated_check_response import (
     GeneratedCheckResponse,
+    GeneratedSupplementaryDocumentTextDataCheckResponse,
 )
 from yoti_python_sdk.doc_scan.session.retrieve.generated_check_response import (
     GeneratedTextDataCheckResponse,
@@ -12,6 +13,7 @@ from yoti_python_sdk.doc_scan.session.retrieve.generated_check_response import (
 from yoti_python_sdk.doc_scan.session.retrieve.task_response import (
     TaskResponse,
     TextExtractionTaskResponse,
+    SupplementaryDocumentTextExtractionTaskResponse,
 )
 
 
@@ -22,6 +24,7 @@ class TaskResponseTest(unittest.TestCase):
 
     SOME_GENERATED_CHECKS = [
         {"type": "ID_DOCUMENT_TEXT_DATA_CHECK"},
+        {"type": "SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK"},
         {"type": "someUnknownType"},
     ]
 
@@ -60,9 +63,13 @@ class TaskResponseTest(unittest.TestCase):
         assert result.created == self.EXPECTED_DATETIME
         assert result.last_updated == self.EXPECTED_DATETIME
 
-        assert len(result.generated_checks) == 2
+        assert len(result.generated_checks) == 3
         assert isinstance(result.generated_checks[0], GeneratedTextDataCheckResponse)
-        assert isinstance(result.generated_checks[1], GeneratedCheckResponse)
+        assert isinstance(
+            result.generated_checks[1],
+            GeneratedSupplementaryDocumentTextDataCheckResponse,
+        )
+        assert isinstance(result.generated_checks[2], GeneratedCheckResponse)
 
         assert len(result.generated_media) == 2
 
@@ -82,8 +89,23 @@ class TaskResponseTest(unittest.TestCase):
 
         result = TextExtractionTaskResponse(data)
 
-        assert len(result.generated_checks) == 2
+        assert len(result.generated_checks) == 3
         assert len(result.generated_text_data_checks) == 1
+        assert isinstance(
+            result.generated_text_data_checks[0], GeneratedTextDataCheckResponse
+        )
+
+    def test_supplementary_task_should_filter_generated_text_data_checks(self):
+        data = {"generated_checks": self.SOME_GENERATED_CHECKS}
+
+        result = SupplementaryDocumentTextExtractionTaskResponse(data)
+
+        assert len(result.generated_checks) == 3
+        assert len(result.generated_text_data_checks) == 1
+        assert isinstance(
+            result.generated_text_data_checks[0],
+            GeneratedSupplementaryDocumentTextDataCheckResponse,
+        )
 
 
 if __name__ == "__main__":
