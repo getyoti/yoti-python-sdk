@@ -47,10 +47,11 @@ def test_build_with_simple_attributes():
     builder.with_selfie()
     builder.with_email()
     builder.with_document_details()
+    builder.with_document_images()
     policy = builder.build()
 
     attr_names = [attr["name"] for attr in policy["wanted"]]
-    assert len(policy["wanted"]) == 12
+    assert len(policy["wanted"]) == 13
     assert config.ATTRIBUTE_FAMILY_NAME in attr_names
     assert config.ATTRIBUTE_GIVEN_NAMES in attr_names
     assert config.ATTRIBUTE_FULL_NAME in attr_names
@@ -63,6 +64,7 @@ def test_build_with_simple_attributes():
     assert config.ATTRIBUTE_SELFIE in attr_names
     assert config.ATTRIBUTE_EMAIL_ADDRESS in attr_names
     assert config.ATTRIBUTE_DOCUMENT_DETAILS in attr_names
+    assert config.ATTRIBUTE_DOCUMENT_IMAGES in attr_names
 
 
 def test_build_with_age_derived_attributes():
