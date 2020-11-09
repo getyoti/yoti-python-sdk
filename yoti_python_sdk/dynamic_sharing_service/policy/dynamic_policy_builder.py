@@ -122,6 +122,11 @@ class DynamicPolicyBuilder(object):
             config.ATTRIBUTE_DOCUMENT_DETAILS, **kwargs
         )
 
+    def with_document_images(self, **kwargs):
+        return self.with_wanted_attribute_by_name(
+            config.ATTRIBUTE_DOCUMENT_IMAGES, **kwargs
+        )
+
     """
     @param wanted_auth_type
     """
