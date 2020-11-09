@@ -130,3 +130,18 @@ def test_attributes_with_constraints():
     constraint = SourceConstraintBuilder().with_national_id().build()
     policy = DynamicPolicyBuilder().with_nationality(constraints=constraint).build()
     assert len(policy["wanted"][0]["constraints"]) == 1
+
+
+def test_attributes_with_accept_self_asserted_true():
+    policy = DynamicPolicyBuilder().with_nationality(accept_self_asserted=True).build()
+    assert policy["wanted"][0]["accept_self_asserted"] is True
+
+
+def test_attributes_with_accept_self_asserted_false():
+    policy = DynamicPolicyBuilder().with_nationality(accept_self_asserted=False).build()
+    assert policy["wanted"][0]["accept_self_asserted"] is False
+
+
+def test_attributes_without_accept_self_asserted():
+    policy = DynamicPolicyBuilder().with_nationality().build()
+    assert not hasattr(policy["wanted"][0], "accept_self_asserted")

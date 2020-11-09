@@ -38,6 +38,10 @@ class DynamicPolicyBuilder(object):
         if constraints:
             attributeBuilder.with_constraint(constraints)
 
+        accept_self_asserted = kwargs.get("accept_self_asserted", None)
+        if accept_self_asserted is not None:
+            attributeBuilder.with_accept_self_asserted(accept_self_asserted)
+
     def with_wanted_attribute_by_name(self, wanted_name, **kwargs):
         """
         @param wanted_name The name of the attribute to include
