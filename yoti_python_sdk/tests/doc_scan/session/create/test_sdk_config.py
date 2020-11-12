@@ -14,6 +14,7 @@ class SdkConfigTest(unittest.TestCase):
     SOME_PRESET_ISSUING_COUNTRY = "USA"
     SOME_SUCCESS_URL = "https://mysite.com/yoti/success"
     SOME_ERROR_URL = "https://mysite.com/yoti/error"
+    SOME_PRIVACY_POLICY_URL = "https://mysite.com/privacy"
 
     def test_should_build_correctly(self):
         result = (
@@ -26,6 +27,7 @@ class SdkConfigTest(unittest.TestCase):
             .with_preset_issuing_country(self.SOME_PRESET_ISSUING_COUNTRY)
             .with_success_url(self.SOME_SUCCESS_URL)
             .with_error_url(self.SOME_ERROR_URL)
+            .with_privacy_policy_url(self.SOME_PRIVACY_POLICY_URL)
             .build()
         )
 
@@ -38,6 +40,7 @@ class SdkConfigTest(unittest.TestCase):
         assert result.preset_issuing_country is self.SOME_PRESET_ISSUING_COUNTRY
         assert result.success_url is self.SOME_SUCCESS_URL
         assert result.error_url is self.SOME_ERROR_URL
+        assert result.privacy_policy_url is self.SOME_PRIVACY_POLICY_URL
 
     def test_should_allows_camera(self):
         result = SdkConfigBuilder().with_allows_camera().build()
@@ -55,6 +58,7 @@ class SdkConfigTest(unittest.TestCase):
             .with_preset_issuing_country(self.SOME_PRESET_ISSUING_COUNTRY)
             .with_success_url(self.SOME_SUCCESS_URL)
             .with_error_url(self.SOME_ERROR_URL)
+            .with_privacy_policy_url(self.SOME_PRIVACY_POLICY_URL)
             .build()
         )
 
