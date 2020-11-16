@@ -73,20 +73,20 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if session_result.text_data_checks|length > 0 %}
+                    {% if session_result.id_document_text_data_checks|length > 0 %}
                         <div class="card">
                             <div class="card-header" id="text-data-checks">
                                 <h3 class="mb-0">
                                     <button class="btn btn-link" type="button" data-toggle="collapse"
                                             data-target="#collapse-text-data-checks" aria-expanded="true"
                                             aria-controls="collapse-text-data-checks">
-                                        Text Data Checks
+                                        ID Document Text Data Checks
                                     </button>
                                 </h3>
                             </div>
                             <div id="collapse-text-data-checks" class="collapse" aria-labelledby="text-data-checks">
                                 <div class="card-body">
-                                    {% for check in session_result.text_data_checks %}
+                                    {% for check in session_result.id_document_text_data_checks %}
                                         {% with check=check %}
                                             {% include "partials/check.html" %}
                                         {% endwith %}
@@ -155,6 +155,29 @@
                             <div aria-labelledby="comparison-checks" class="collapse" id="collapse-comparison-checks">
                                 <div class="card-body">
                                     {% for check in session_result.id_document_comparison_checks %}
+                                        {% with check=check %}
+                                            {% include "partials/check.html" %}
+                                        {% endwith %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if session_result.supplementary_document_text_data_checks|length > 0 %}
+                        <div class="card">
+                            <div class="card-header" id="sup-doc-text-data-checks">
+                                <h3 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapse-sup-doc-text-data-checks" aria-expanded="true"
+                                            aria-controls="collapse-sup-doc-text-data-checks">
+                                        Supplementary Document Text Data Checks
+                                    </button>
+                                </h3>
+                            </div>
+                            <div id="collapse-sup-doc-text-data-checks" class="collapse" aria-labelledby="sup-doc-text-data-checks">
+                                <div class="card-body">
+                                    {% for check in session_result.supplementary_document_text_data_checks %}
                                         {% with check=check %}
                                             {% include "partials/check.html" %}
                                         {% endwith %}
@@ -321,6 +344,193 @@
                                 </div>
                                 <div id="collapse-document-pages-{{ doc_num }}-{{ page_num }}" class="collapse"
                                      aria-labelledby="document-pages-{{ doc_num }}-{{ page_num }}">
+
+                                    <div class="card-group">
+                                        {% if page.media is not none %}
+                                            <div class="card" style="width: 18rem;">
+                                                <img class="card-img-top"
+                                                        src="/media?mediaId={{ page.media.id }}"/>
+                                                <div class="card-body">
+                                                    <p>Method: {{ page.capture_method }}</p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if page.frames|length > 0 %}
+                                    <div class="card-group">
+                                        {% for frame in page.frames %}
+                                            {% if frame.media is not none %}
+                                                <div class="card">
+                                                    <img class="card-img-top" src="/media?mediaId={{ frame.media.id }}" />
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Frame</h5>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% endwith %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    {% if session_result.resources.supplementary_documents|length > 0 %}
+        <div class="row pt-4">
+            <div class="col">
+                <h2>Supplementary Documents</h2>
+            </div>
+        </div>
+    {% endif %}
+
+    {% with doc_num=0 %}
+        {% for document in session_result.resources.supplementary_documents %}
+            {% set doc_num = loop.index %}
+            <div class="row pt-4">
+                <div class="col">
+
+                    <h3>
+                        {{ document.document_type }} <span
+                            class="badge badge-primary">{{ document.issuing_country }}</span>
+                    </h3>
+
+                    <div class="accordion mt-3">
+                        {% if document.document_fields is not none %}
+                            <div class="card">
+                                <div class="card-header" id="sup-doc-fields-{{ doc_num }}">
+                                    <h4 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                data-target="#collapse-sup-doc-fields-{{ doc_num }}"
+                                                aria-expanded="true"
+                                                aria-controls="collapse-sup-doc-fields-{{ doc_num }}">
+                                            Document Fields
+                                        </button>
+                                    </h4>
+                                </div>
+                                <div id="collapse-sup-doc-fields-{{ doc_num }}" class="collapse"
+                                     aria-labelledby="sup-doc-fields-{{ doc_num }}">
+                                    <div class="card-body">
+                                        {% if document.document_fields.media is not none %}
+                                            <h5>Media</h5>
+                                            <table class="table table-striped table-light">
+                                                <tbody>
+                                                <tr>
+                                                    <td>ID</td>
+                                                    <td>
+                                                        <a href="/media?mediaId={{ document.document_fields.media.id }}">
+                                                            {{ document.document_fields.media.id }}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if document.document_file is not none %}
+                        {% if document.document_file.media is not none %}
+                        <div class="card">
+                            <div class="card-header" id="sup-doc-file-{{ doc_num }}">
+                                <h4 class="mb-0">
+                                    <a class="btn btn-link" href="/media?mediaId={{ document.document_file.media.id }}">
+                                        Download File
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+
+                        {% if document.text_extraction_tasks|length > 0 %}
+                            <div class="card">
+                                <div class="card-header" id="text-extraction-tasks-{{ doc_num }}">
+                                    <h4 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                data-target="#collapse-text-extraction-tasks-{{ doc_num }}"
+                                                aria-expanded="true"
+                                                aria-controls="collapse-text-extraction-tasks-{{ doc_num }}">
+                                            Text Extraction Tasks
+                                        </button>
+                                    </h4>
+                                </div>
+                                <div id="collapse-text-extraction-tasks-{{ doc_num }}" class="collapse"
+                                     aria-labelledby="text-extraction-tasks-{{ doc_num }}">
+                                    <div class="card-body">
+                                        {% for task in document.text_extraction_tasks %}
+
+                                            {% with task=task %}
+                                                {% include "partials/task.html" %}
+                                            {% endwith %}
+
+                                            {% if task.generated_text_data_checks|length > 0 %}
+                                                <h5>Generated Text Data Checks</h5>
+
+                                                {% for generated_check in task.generated_text_data_checks %}
+                                                    <table class="table table-striped">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>ID</td>
+                                                            <td>{{ generated_check.id }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                {% endfor %}
+                                            {% endif %}
+
+                                            {% if task.generated_media|length > 0 %}
+                                                <h5>Generated Media</h5>
+
+                                                {% for generated_media in task.generated_media %}
+                                                    <table class="table table-striped">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>ID</td>
+                                                            <td>
+                                                                <a href="/media?mediaId={{ generated_media.id }}">{{ generated_media.id }}</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Type</td>
+                                                            <td>{{ generated_media.type }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if document.pages|length > 0 %}
+                        {% with page_num=0 %}
+                        {% for page in document.pages %}
+                            {% set page_num = loop.index %}
+                            <div class="card">
+                                <div class="card-header" id="sup-doc-pages-{{ doc_num }}-{{ page_num }}">
+                                    <h4 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                data-target="#collapse-sup-doc-pages-{{ doc_num }}-{{ page_num }}"
+                                                aria-expanded="true"
+                                                aria-controls="collapse-sup-doc-pages-{{ doc_num }}-{{ page_num }}">
+                                            Page {{ page_num }}
+                                        </button>
+                                    </h4>
+                                </div>
+                                <div id="collapse-sup-doc-pages-{{ doc_num }}-{{ page_num }}" class="collapse"
+                                     aria-labelledby="sup-doc-pages-{{ doc_num }}-{{ page_num }}">
 
                                     <div class="card-group">
                                         {% if page.media is not none %}

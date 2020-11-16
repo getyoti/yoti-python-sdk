@@ -15,6 +15,7 @@ class ResourceContainerTest(unittest.TestCase):
     def test_should_parse_correctly(self):
         data = {
             "id_documents": [{"first": "id_document"}, {"second": "id_document"}],
+            "supplementary_documents": [{"first": "document"}, {"second": "document"}],
             "liveness_capture": [
                 {"liveness_type": "ZOOM"},
                 {"liveness_type": "someUnknown"},
@@ -24,6 +25,7 @@ class ResourceContainerTest(unittest.TestCase):
         result = ResourceContainer(data)
 
         assert len(result.id_documents) == 2
+        assert len(result.supplementary_documents) == 2
         assert len(result.liveness_capture) == 2
         assert isinstance(result.liveness_capture[0], ZoomLivenessResourceResponse)
         assert isinstance(result.liveness_capture[1], LivenessResourceResponse)

@@ -26,6 +26,7 @@ setup(
         "asn1==2.2.0",
         "pyopenssl>=18.0.0",
         "iso8601==0.1.13",
+        "pytz==2020.4",
     ],
     extras_require={
         "examples": [
@@ -44,7 +45,7 @@ setup(
             "python-coveralls==2.9.3",
             "coverage==4.5.4",
             "mock==2.0.0",
-            "virtualenv==20.0.33",
+            "virtualenv==20.1.0",
         ],
     },
     classifiers=[

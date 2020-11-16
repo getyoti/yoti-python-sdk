@@ -7,6 +7,7 @@ from yoti_python_sdk.doc_scan import (
     RequestedIDDocumentComparisonCheckBuilder,
     RequestedLivenessCheckBuilder,
     RequestedTextExtractionTaskBuilder,
+    RequestedSupplementaryDocTextExtractionTaskBuilder,
     SdkConfigBuilder,
     SessionSpecBuilder,
 )
@@ -15,6 +16,10 @@ from yoti_python_sdk.doc_scan.session.create.filter import (
     RequiredIdDocumentBuilder,
     DocumentRestrictionBuilder,
     DocumentRestrictionsFilterBuilder,
+    RequiredSupplementaryDocumentBuilder,
+)
+from yoti_python_sdk.doc_scan.session.create.objective import (
+    ProofOfAddressObjectiveBuilder,
 )
 
 from .settings import YOTI_APP_BASE_URL, YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH
@@ -52,7 +57,7 @@ def create_session():
         .with_user_tracking_id("some-user-tracking-id")
         .with_requested_check(
             RequestedDocumentAuthenticityCheckBuilder()
-            .with_manual_check_never()
+            .with_manual_check_always()
             .build()
         )
         .with_requested_check(
@@ -62,19 +67,27 @@ def create_session():
             .build()
         )
         .with_requested_check(
-            RequestedFaceMatchCheckBuilder().with_manual_check_never().build()
+            RequestedFaceMatchCheckBuilder().with_manual_check_always().build()
         )
         .with_requested_check(RequestedIDDocumentComparisonCheckBuilder().build())
         .with_requested_task(
             RequestedTextExtractionTaskBuilder()
-            .with_manual_check_never()
+            .with_manual_check_always()
             .with_chip_data_desired()
+            .build()
+        )
+        .with_requested_task(
+            RequestedSupplementaryDocTextExtractionTaskBuilder()
+            .with_manual_check_always()
             .build()
         )
         .with_sdk_config(sdk_config)
         .with_required_document(build_required_id_document_restriction("PASSPORT"))
+        .with_required_document(RequiredIdDocumentBuilder().build())
         .with_required_document(
-            build_required_id_document_restriction("DRIVING_LICENCE")
+            RequiredSupplementaryDocumentBuilder()
+            .with_objective(ProofOfAddressObjectiveBuilder().build())
+            .build()
         )
         .build()
     )
@@ -98,7 +111,7 @@ def index():
     try:
         result = create_session()
     except DocScanException as e:
-        return render_template("error.html", error=e.text)
+        return render_template("error.html", error=e.message)
 
     session["doc_scan_session_id"] = result.session_id
 
@@ -120,7 +133,7 @@ def success():
     try:
         session_result = doc_scan_client.get_session(session_id)
     except DocScanException as e:
-        return render_template("error.html", error=e.text)
+        return render_template("error.html", error=e.message)
 
     return render_template("success.html", session_result=session_result)
 
@@ -150,7 +163,10 @@ def media():
     try:
         retrieved_media = doc_scan_client.get_media_content(session_id, media_id)
     except DocScanException as e:
-        return render_template("error.html", error=e.text)
+        return render_template("error.html", error=e.message)
+
+    if retrieved_media is None:
+        return Response("", status=204)
 
     return Response(
         retrieved_media.content, content_type=retrieved_media.mime_type, status=200

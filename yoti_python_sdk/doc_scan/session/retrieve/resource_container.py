@@ -4,6 +4,9 @@ from __future__ import unicode_literals
 from yoti_python_sdk.doc_scan.session.retrieve.id_document_resource_response import (
     IdDocumentResourceResponse,
 )
+from yoti_python_sdk.doc_scan.session.retrieve.supplementary_document_resource_response import (
+    SupplementaryDocumentResourceResponse,
+)
 from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import (
     LivenessResourceResponse,
     ZoomLivenessResourceResponse,
@@ -27,6 +30,11 @@ class ResourceContainer(object):
         self.__id_documents = [
             IdDocumentResourceResponse(document)
             for document in data.get("id_documents", [])
+        ]
+
+        self.__supplementary_documents = [
+            SupplementaryDocumentResourceResponse(document)
+            for document in data.get("supplementary_documents", [])
         ]
 
         self.__liveness_capture = [
@@ -63,6 +71,16 @@ class ResourceContainer(object):
         :rtype: list[IdDocumentResourceResponse]
         """
         return self.__id_documents
+
+    @property
+    def supplementary_documents(self):
+        """
+        Return a list of supplementary document resources
+
+        :return: list of supplementary documents
+        :rtype: list[SupplementaryDocumentResourceResponse]
+        """
+        return self.__supplementary_documents
 
     @property
     def liveness_capture(self):
