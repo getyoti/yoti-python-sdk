@@ -23,12 +23,13 @@ protobuf==3.11.3          # via yoti
 pycparser==2.20           # via cffi
 pyopenssl==19.1.0         # via -r requirements.in, yoti
 python-dotenv==0.13.0     # via -r requirements.in
+pytz==2020.4              # via yoti
 requests==2.23.0          # via yoti
 six==1.14.0               # via cryptography, protobuf, pyopenssl
 urllib3==1.25.9           # via requests
 werkzeug==1.0.1           # via flask
 wrapt==1.12.1             # via deprecated
-yoti==2.13.0              # via -r requirements.in
+yoti==2.14.0              # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
