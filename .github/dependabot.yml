@@ -8,5 +8,6 @@ updates:
   target-branch: development
   reviewers:
   - echarrod
+  - gautam-yoti
   assignees:
   - echarrod
