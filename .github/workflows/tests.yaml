@@ -1,0 +1,53 @@
+name: Unit Tests
+on: [push, pull_request_target]
+
+jobs:
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    # always run on push events
+    # only run on pull_request_target event when pull request pulls from fork repository
+    if: >
+      github.event_name == 'push' || 
+      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository 
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [2.7, 3.4, 3.5, "3.5-dev", 3.6, "3.6-dev", 3.7, "3.7-dev", 3.8, "3.8-dev"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2.1.4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - run: pip install -U setuptools
+
+      - run: pip install -r requirements.txt
+
+      - run: pip install -e .[dev]
+
+      - run: pytest -v
+
+  examples:
+    name: Check Examples
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'push' || 
+      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository 
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2.1.4
+
+      - run: pip install -U setuptools==45
+
+      - run: pushd examples/aml && pip install -r requirements.txt && popd
+
+      - run: pushd examples/yoti_example_django && pip install -r requirements.txt && popd
+     
+      - run: pushd examples/yoti_example_flask && pip install -r requirements.txt && popd
+      
+      - run: pushd examples/doc_scan && pip install -r requirements.txt && popd
