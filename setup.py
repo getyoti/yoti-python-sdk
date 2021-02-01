@@ -18,7 +18,7 @@ setup(
     author="Yoti",
     author_email="websdk@yoti.com",
     install_requires=[
-        "deprecated==1.2.10",
+        "deprecated==1.2.11",
         "cryptography>=2.2.1",
         "protobuf>=3.1.0",
         "requests>=2.11.1",
