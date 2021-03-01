@@ -45,7 +45,7 @@ setup(
             "python-coveralls==2.9.3",
             "coverage==4.5.4",
             "mock==2.0.0",
-            "virtualenv==20.2.1",
+            "virtualenv==20.4.2",
         ],
     },
     classifiers=[
