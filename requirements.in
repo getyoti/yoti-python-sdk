@@ -12,4 +12,4 @@ requests>=2.20.0
 urllib3>=1.24.3
 deprecated==1.2.10
 wheel==0.33.6
-iso8601==0.1.13
+iso8601==0.1.14
