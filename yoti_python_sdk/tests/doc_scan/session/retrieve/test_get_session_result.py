@@ -11,6 +11,7 @@ from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
     IDDocumentComparisonCheckResponse,
     TextDataCheckResponse,
     SupplementaryDocumentTextDataCheckResponse,
+    RequestedThirdPartyIdentityCheckResponse,
 )
 from yoti_python_sdk.doc_scan.session.retrieve.get_session_result import (
     GetSessionResult,
@@ -34,6 +35,7 @@ class GetSessionResultTest(unittest.TestCase):
         {"type": "LIVENESS"},
         {"type": "ID_DOCUMENT_COMPARISON"},
         {"type": "SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK"},
+        {"type": "THIRD_PARTY_IDENTITY"},
     ]
 
     EXPECTED_BIOMETRIC_CONSENT_DATETIME = datetime(
@@ -67,13 +69,14 @@ class GetSessionResultTest(unittest.TestCase):
         assert result.state is self.SOME_STATE
         assert result.user_tracking_id is self.SOME_USER_TRACKING_ID
 
-        assert len(result.checks) == 6
+        assert len(result.checks) == 7
         assert isinstance(result.checks[0], AuthenticityCheckResponse)
         assert isinstance(result.checks[1], TextDataCheckResponse)
         assert isinstance(result.checks[2], FaceMatchCheckResponse)
         assert isinstance(result.checks[3], LivenessCheckResponse)
         assert isinstance(result.checks[4], IDDocumentComparisonCheckResponse)
         assert isinstance(result.checks[5], SupplementaryDocumentTextDataCheckResponse)
+        assert isinstance(result.checks[6], RequestedThirdPartyIdentityCheckResponse)
 
         assert isinstance(result.resources, ResourceContainer)
 
@@ -88,7 +91,7 @@ class GetSessionResultTest(unittest.TestCase):
 
         result = GetSessionResult(data)
 
-        assert len(result.checks) == 6
+        assert len(result.checks) == 7
 
         assert len(result.authenticity_checks) == 1
         assert isinstance(result.authenticity_checks[0], AuthenticityCheckResponse)
@@ -114,6 +117,12 @@ class GetSessionResultTest(unittest.TestCase):
         assert isinstance(
             result.supplementary_document_text_data_checks[0],
             SupplementaryDocumentTextDataCheckResponse,
+        )
+
+        assert len(result.third_party_identity_checks) == 1
+        assert isinstance(
+            result.third_party_identity_checks[0],
+            RequestedThirdPartyIdentityCheckResponse,
         )
 
 

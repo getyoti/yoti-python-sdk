@@ -2,10 +2,7 @@
 from __future__ import unicode_literals
 from deprecated import deprecated
 
-from iso8601 import (
-    ParseError,
-    iso8601,
-)
+from iso8601 import ParseError, iso8601
 
 from yoti_python_sdk.doc_scan import constants
 from .check_response import (
@@ -16,6 +13,7 @@ from .check_response import (
     LivenessCheckResponse,
     TextDataCheckResponse,
     SupplementaryDocumentTextDataCheckResponse,
+    RequestedThirdPartyIdentityCheckResponse,
 )
 from .resource_container import ResourceContainer
 
@@ -82,6 +80,7 @@ class GetSessionResult(object):
             constants.LIVENESS: LivenessCheckResponse,
             constants.ID_DOCUMENT_COMPARISON: IDDocumentComparisonCheckResponse,
             constants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK: SupplementaryDocumentTextDataCheckResponse,
+            constants.THIRD_PARTY_IDENTITY: RequestedThirdPartyIdentityCheckResponse,
         }
         clazz = types.get(check.get("type", None), CheckResponse)
         return clazz(check)
@@ -227,6 +226,16 @@ class GetSessionResult(object):
         :rtype: list[IDDocumentComparisonCheckResponse]
         """
         return self.__checks_of_type((IDDocumentComparisonCheckResponse,))
+
+    @property
+    def third_party_identity_checks(self):
+        """
+        A filtered list of checks, returning only third party identity checks
+
+        :return: the third party identity checks
+        :rtype: list[RequestedThirdPartyIdentityCheckResponse]
+        """
+        return self.__checks_of_type((RequestedThirdPartyIdentityCheckResponse,))
 
     @property
     def resources(self):
