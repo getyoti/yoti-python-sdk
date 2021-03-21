@@ -10,6 +10,9 @@ from .session.create.task.text_extraction import RequestedTextExtractionTaskBuil
 from .session.create.task.supplementary_doc_text_extraction import (
     RequestedSupplementaryDocTextExtractionTaskBuilder,
 )
+from .session.create.check.third_party_identity import (
+    RequestedThirdPartyIdentityCheckBuilder,
+)
 from .session.create.notification_config import NotificationConfigBuilder
 from .session.create.sdk_config import SdkConfigBuilder
 from .session.create.session_spec import SessionSpecBuilder
@@ -22,6 +25,7 @@ __all__ = [
     "RequestedIDDocumentComparisonCheckBuilder",
     "RequestedTextExtractionTaskBuilder",
     "RequestedSupplementaryDocTextExtractionTaskBuilder",
+    "RequestedThirdPartyIdentityCheckBuilder",
     "SessionSpecBuilder",
     "NotificationConfigBuilder",
     "SdkConfigBuilder",
