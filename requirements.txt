@@ -26,7 +26,7 @@ idna==2.7
     # via requests
 iso8601==0.1.14
     # via -r requirements.in
-itsdangerous==1.1.0
+itsdangerous==2.0.1
     # via -r requirements.in
 pbr==1.10.0
     # via -r requirements.in
