@@ -1,5 +1,6 @@
 # Yoti Python SDK #
 
+
 [![Build Status](https://github.com/getyoti/yoti-python-sdk/workflows/Unit%20Tests/badge.svg?branch=master)](https://github.com/getyoti/yoti-python-sdk/actions)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Apython&metric=coverage)](https://sonarcloud.io/dashboard?id=getyoti%3Apython)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=getyoti%3Apython&metric=bugs)](https://sonarcloud.io/dashboard?id=getyoti%3Apython)
