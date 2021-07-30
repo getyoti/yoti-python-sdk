@@ -184,3 +184,11 @@ class SupplementaryDocumentTextDataCheckResponse(CheckResponse):
     """
 
     pass
+
+
+class ThirdPartyIdenticyCheckResponse(CheckResponse):
+    """
+    Represents a third party identity check for a given session
+    """
+
+    pass

@@ -5,6 +5,7 @@ from .session.create.check.document_comparison import (
     RequestedIDDocumentComparisonCheckBuilder,
 )
 from .session.create.check.face_match import RequestedFaceMatchCheckBuilder
+from .session.create.check.third_party import RequestedThirdPartyCheckBuilder
 from .session.create.check.liveness import RequestedLivenessCheckBuilder
 from .session.create.task.text_extraction import RequestedTextExtractionTaskBuilder
 from .session.create.task.supplementary_doc_text_extraction import (
@@ -26,4 +27,5 @@ __all__ = [
     "NotificationConfigBuilder",
     "SdkConfigBuilder",
     "DocScanClient",
+    "RequestedThirdPartyCheckBuilder",
 ]

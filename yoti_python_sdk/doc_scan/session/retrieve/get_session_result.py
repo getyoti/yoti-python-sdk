@@ -16,6 +16,7 @@ from .check_response import (
     LivenessCheckResponse,
     TextDataCheckResponse,
     SupplementaryDocumentTextDataCheckResponse,
+    ThirdPartyIdenticyCheckResponse,
 )
 from .resource_container import ResourceContainer
 
@@ -80,6 +81,7 @@ class GetSessionResult(object):
             constants.ID_DOCUMENT_FACE_MATCH: FaceMatchCheckResponse,
             constants.ID_DOCUMENT_TEXT_DATA_CHECK: TextDataCheckResponse,
             constants.LIVENESS: LivenessCheckResponse,
+            constants.THIRD_PARTY_IDENTITY: ThirdPartyIdenticyCheckResponse,
             constants.ID_DOCUMENT_COMPARISON: IDDocumentComparisonCheckResponse,
             constants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK: SupplementaryDocumentTextDataCheckResponse,
         }
