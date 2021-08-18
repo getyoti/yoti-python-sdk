@@ -1,6 +1,7 @@
 import json
 import unittest
 
+from yoti_python_sdk.doc_scan import constants
 from yoti_python_sdk.doc_scan.session.create import NotificationConfigBuilder
 from yoti_python_sdk.doc_scan.session.create.notification_config import (
     NotificationConfig,
@@ -103,6 +104,41 @@ class NotificationConfigTest(unittest.TestCase):
         )
 
         assert len(result.topics) == 1
+
+    def test_should_not_build_with_invalid_auth_type(self):
+        with self.assertRaises(ValueError) as context:
+            NotificationConfigBuilder()\
+                .with_auth_token(self.SOME_AUTH_TOKEN)\
+                .with_endpoint(self.SOME_ENDPOINT)\
+                .with_topic(self.SOME_TOPIC)\
+                .with_auth_type('INVALID')\
+                .build()
+
+    def test_should_build_with_basic_type(self):
+        result = (
+            NotificationConfigBuilder()
+            .with_auth_token(self.SOME_AUTH_TOKEN)
+            .with_endpoint(self.SOME_ENDPOINT)
+            .with_topic(self.SOME_TOPIC)
+            .with_auth_type(constants.DocScanAuthType.BASIC.value)
+            .build()
+        )
+
+        assert isinstance(result, NotificationConfig)
+        assert result.auth_type == constants.DocScanAuthType.BASIC.value
+
+    def test_should_build_with_bearer_type(self):
+        result = (
+            NotificationConfigBuilder()
+            .with_auth_token(self.SOME_AUTH_TOKEN)
+            .with_endpoint(self.SOME_ENDPOINT)
+            .with_topic(self.SOME_TOPIC)
+            .with_auth_type(constants.DocScanAuthType.BEARER.value)
+            .build()
+        )
+
+        assert isinstance(result, NotificationConfig)
+        assert result.auth_type == constants.DocScanAuthType.BEARER.value
 
     def test_should_serialize_to_json_without_error(self):
         result = (

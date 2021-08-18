@@ -26,7 +26,7 @@ jobs:
 
       - run: pytest --cov=yoti_python_sdk yoti_python_sdk/tests --cov-report=xml:coverage-reports/coverage-new.xml
 
-      - run: sed -i 's+<source>.*</source>+<source>/home/travis/build/getyoti/yoti-python-sdk/yoti_python_sdk</source>+g' coverage-reports/coverage-new.xml
+      - run: sed -i 's+<source>.*</source>+<source>/github/workspace/coverage-reports</source>+g' coverage-reports/coverage-new.xml
 
       - uses: sonarsource/sonarcloud-github-action@master
         env:

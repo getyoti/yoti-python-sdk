@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from yoti_python_sdk.doc_scan import constants
 from yoti_python_sdk.doc_scan.constants import CHECK_COMPLETION
 from yoti_python_sdk.doc_scan.constants import RESOURCE_UPDATE
 from yoti_python_sdk.doc_scan.constants import SESSION_COMPLETION
@@ -16,21 +17,22 @@ class NotificationConfig(YotiSerializable):
     to poll for the state of the Session.
     """
 
-    def __init__(self, auth_token, endpoint, topics=None):
+    def __init__(self, auth_token, endpoint, topics=None, auth_type=None):
         """
         :param auth_token: the authorization token
         :type auth_token: str
         :param endpoint: the endpoint
         :type endpoint: str
+        :param auth_type: authentication type (BASIC or BEARER)
+        :type auth_type: str
         :param topics: the list of topics
         :type topics: list[str]
         """
-        if topics is None:
-            topics = []
 
         self.__auth_token = auth_token
         self.__endpoint = endpoint
-        self.__topics = list(set(topics))  # Get unique values
+        self.__auth_type = auth_type or constants.DocScanAuthType.BASIC.value
+        self.__topics = list(set(topics or []))  # Get unique values
 
     @property
     def auth_token(self):
@@ -62,9 +64,20 @@ class NotificationConfig(YotiSerializable):
         """
         return self.__topics
 
+    @property
+    def auth_type(self):
+        """
+        Auth type that notification should use
+
+        :return: the auth_type
+        :rtype: list[str]
+        """
+        return self.__auth_type
+
     def to_json(self):
         return remove_null_values(
             {
+                "auth_type": self.auth_type,
                 "auth_token": self.auth_token,
                 "endpoint": self.endpoint,
                 "topics": self.topics,
@@ -78,9 +91,23 @@ class NotificationConfigBuilder(object):
     """
 
     def __init__(self):
+        self.__auth_type = None
         self.__auth_token = None
         self.__endpoint = None
         self.__topics = []
+
+    def with_auth_type(self, auth_type):
+        """
+        Sets the auth_type to be included in call-back messages
+
+        :param token: the auth_type (BASIC or BEARER)
+        :type token: str
+        :return: the builder
+        :rtype: NotificationConfigBuilder
+        """
+
+        self.__auth_type = constants.DocScanAuthType(auth_type).value
+        return self
 
     def with_auth_token(self, token):
         """
@@ -115,6 +142,7 @@ class NotificationConfigBuilder(object):
         :return: the builder
         :rtype: NotificationConfigBuilder
         """
+
         self.__topics.append(topic)
         return self
 
@@ -161,4 +189,4 @@ class NotificationConfigBuilder(object):
         :return: the build notification config
         :rtype: NotificationConfig
         """
-        return NotificationConfig(self.__auth_token, self.__endpoint, self.__topics)
+        return NotificationConfig(self.__auth_token, self.__endpoint, self.__topics, self.__auth_type,)

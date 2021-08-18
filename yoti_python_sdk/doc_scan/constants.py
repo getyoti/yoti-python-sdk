@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from enum import Enum
+
 
 ID_DOCUMENT_AUTHENTICITY = "ID_DOCUMENT_AUTHENTICITY"
 ID_DOCUMENT_COMPARISON = "ID_DOCUMENT_COMPARISON"
@@ -36,3 +38,8 @@ DESIRED = "DESIRED"
 IGNORE = "IGNORE"
 
 PROOF_OF_ADDRESS = "PROOF_OF_ADDRESS"
+
+
+class DocScanAuthType(Enum):
+    BASIC = 'BASIC'
+    BEARER = 'BEARER'
