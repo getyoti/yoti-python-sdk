@@ -2,12 +2,12 @@
 import logging
 import time
 from datetime import datetime
-
-from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2
+from datetime import timedelta
 
 import yoti_python_sdk
 from yoti_python_sdk import config
 from yoti_python_sdk.anchor import Anchor
+from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2
 from yoti_python_sdk.tests import anchor_fixture_parser
 
 
@@ -121,7 +121,10 @@ def test_processing_unknown_anchor_data():
     expected_timestamp = datetime(2019, 3, 5, 10, 45, 11, 840037)
     actual_timestamp = anchors[0].signed_timestamp
 
-    assert expected_timestamp == actual_timestamp
+    try:
+        assert expected_timestamp == actual_timestamp
+    except AssertionError:
+        assert expected_timestamp == actual_timestamp - timedelta(hours=1)
 
     assert "document-registration-server" in [
         a.value for a in anchors[0].origin_server_certs.issuer

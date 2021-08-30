@@ -105,3 +105,5 @@ examples/yoti_example_django/*.pem
 examples/yoti_example_flask/*.pem
 
 .scannerwork
+
+.venv/
