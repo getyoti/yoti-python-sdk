@@ -184,3 +184,11 @@ class SupplementaryDocumentTextDataCheckResponse(CheckResponse):
     """
 
     pass
+
+
+class WatchlistScreeningCheckResponse(CheckResponse):
+    """
+    Represents a watchlist screening check for a given session
+    """
+
+    pass
