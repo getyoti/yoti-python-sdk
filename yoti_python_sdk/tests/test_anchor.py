@@ -118,8 +118,8 @@ def test_processing_unknown_anchor_data():
         (anchor.value, anchor.anchor_type, anchor.sub_type) for anchor in anchors
     ]
 
-    expected_timestamp = datetime(2019, 3, 5, 10, 45, 11, 840037).replace(tzinfo=None)
-    actual_timestamp = anchors[0].signed_timestamp.astimezone(pytz.utc).replace(tzinfo=None)
+    expected_timestamp = datetime(2019, 3, 5, 10, 45, 11, 840037, tzinfo=pytz.utc)
+    actual_timestamp = anchors[0].signed_timestamp.astimezone(pytz.utc)
 
     assert expected_timestamp == actual_timestamp
 
