@@ -18,7 +18,7 @@ cryptography==2.8
     # via
     #   -r requirements.in
     #   pyopenssl
-deprecated==1.2.12
+deprecated==1.2.13
     # via -r requirements.in
 future==0.18.2
     # via -r requirements.in
