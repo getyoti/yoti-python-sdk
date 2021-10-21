@@ -2,7 +2,7 @@ asn1==2.2.0 # asn1 2.3.0 introduces enum34 as a dependency, which causes problem
 cryptography==2.8.0
 cffi==1.14.6
 future==0.18.2
-itsdangerous==1.1.0
+itsdangerous==2.0.1
 pbr==1.10.0
 protobuf==3.17.3
 pyopenssl==19.1.0
