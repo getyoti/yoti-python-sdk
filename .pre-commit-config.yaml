@@ -1,7 +1,7 @@
 exclude: protobuf/
 repos:
  - repo: https://github.com/ambv/black
-   rev: stable
+   rev: 847d468b828faff7daae297d8a20d899d2259824
    hooks:
      - id: black
  - repo: https://github.com/pre-commit/pre-commit-hooks
