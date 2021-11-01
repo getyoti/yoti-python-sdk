@@ -26,7 +26,7 @@ setup(
         "asn1==2.2.0",
         "pyopenssl>=18.0.0",
         "iso8601==0.1.16",
-        "pytz==2021.1",
+        "pytz==2021.3",
     ],
     extras_require={
         "examples": [
