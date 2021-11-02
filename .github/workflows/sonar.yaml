@@ -28,7 +28,8 @@ jobs:
 
       - run: sed -i 's+<source>.*</source>+<source>/home/travis/build/getyoti/yoti-python-sdk/yoti_python_sdk</source>+g' coverage-reports/coverage-new.xml
 
-      - uses: sonarsource/sonarcloud-github-action@master
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
