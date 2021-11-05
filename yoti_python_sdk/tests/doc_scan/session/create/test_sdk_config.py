@@ -43,6 +43,7 @@ class SdkConfigTest(unittest.TestCase):
         assert result.success_url is self.SOME_SUCCESS_URL
         assert result.error_url is self.SOME_ERROR_URL
         assert result.privacy_policy_url is self.SOME_PRIVACY_POLICY_URL
+        assert result.allow_handoff is True
 
     def test_should_allows_camera(self):
         result = SdkConfigBuilder().with_allows_camera().build()
