@@ -118,13 +118,10 @@ def test_processing_unknown_anchor_data():
         (anchor.value, anchor.anchor_type, anchor.sub_type) for anchor in anchors
     ]
 
-    expected_timestamp = datetime(2019, 3, 5, 10, 45, 11, 840037)
-    actual_timestamp = anchors[0].signed_timestamp.astimezone(pytz.utc)
+    expected_timestamp = datetime(2019, 3, 5, 10, 45, 11, 840037).replace(tzinfo=None)
+    actual_timestamp = anchors[0].signed_timestamp.astimezone(pytz.utc).replace(tzinfo=None)
 
-    test_datetime_format = "%Y-%m-%d %H:%M:%S"
-
-    assert expected_timestamp.strftime(test_datetime_format) == \
-           actual_timestamp.strftime(test_datetime_format)
+    assert expected_timestamp == actual_timestamp
 
     assert "document-registration-server" in [
         a.value for a in anchors[0].origin_server_certs.issuer
