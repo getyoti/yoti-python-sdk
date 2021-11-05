@@ -15,6 +15,7 @@ class SdkConfigTest(unittest.TestCase):
     SOME_SUCCESS_URL = "https://mysite.com/yoti/success"
     SOME_ERROR_URL = "https://mysite.com/yoti/error"
     SOME_PRIVACY_POLICY_URL = "https://mysite.com/privacy"
+    SOME_ALLOW_HANDOFF = True
 
     def test_should_build_correctly(self):
         result = (
@@ -28,6 +29,7 @@ class SdkConfigTest(unittest.TestCase):
             .with_success_url(self.SOME_SUCCESS_URL)
             .with_error_url(self.SOME_ERROR_URL)
             .with_privacy_policy_url(self.SOME_PRIVACY_POLICY_URL)
+            .with_allow_handoff(self.SOME_ALLOW_HANDOFF)
             .build()
         )
 
@@ -41,11 +43,22 @@ class SdkConfigTest(unittest.TestCase):
         assert result.success_url is self.SOME_SUCCESS_URL
         assert result.error_url is self.SOME_ERROR_URL
         assert result.privacy_policy_url is self.SOME_PRIVACY_POLICY_URL
+        assert result.allow_handoff is True
 
     def test_should_allows_camera(self):
         result = SdkConfigBuilder().with_allows_camera().build()
 
         assert result.allowed_capture_methods == "CAMERA"
+
+    def test_not_passing_allow_handoff(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        assert result.allow_handoff is None
+
+    def test_passing_allow_handoff_false_value(self):
+        result = SdkConfigBuilder().with_allow_handoff(False).build()
+
+        assert result.allow_handoff is False
 
     def test_should_serialize_to_json_without_error(self):
         result = (
