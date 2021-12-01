@@ -7,7 +7,7 @@ from .sub_check import SubRequestedCheck
 
 class IssuingAuthoritySubCheck(SubRequestedCheck):
     """
-    Requests creation of a Issuing Authority Sub Check.
+    Requests creation of an Issuing Authority Sub Check.
     """
 
     def __init__(self, filter=None):
