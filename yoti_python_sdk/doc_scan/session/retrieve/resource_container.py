@@ -11,6 +11,7 @@ from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import
     LivenessResourceResponse,
     ZoomLivenessResourceResponse,
 )
+from yoti_python_sdk.doc_scan.session.retrieve.face_capture_response import FaceCaptureResponse
 
 
 class ResourceContainer(object):
@@ -42,6 +43,8 @@ class ResourceContainer(object):
             for liveness in data.get("liveness_capture", [])
         ]
 
+        self.__face_capture = self.__parse_face_capture(data.get("face_capture" , {}))
+
     @staticmethod
     def __parse_liveness_capture(liveness_capture):
         """
@@ -61,6 +64,19 @@ class ResourceContainer(object):
             LivenessResourceResponse,  # Fallback value for unknown type
         )
         return clazz(liveness_capture)
+
+    @staticmethod
+    def __parse_face_capture(data):
+        """
+        Parses a face capture from provided data.
+
+        :param data: the face capture data
+        :type data: dict
+        :return: the parsed face match capture
+        :rtype: FaceCaptureResponse
+        """
+
+        return FaceCaptureResponse(**data)
 
     @property
     def id_documents(self):
@@ -105,3 +121,14 @@ class ResourceContainer(object):
             for liveness in self.__liveness_capture
             if isinstance(liveness, ZoomLivenessResourceResponse)
         ]
+
+    @property
+    def face_capture(self):
+        """
+        Return a face capture resource
+
+        :return: face capture resource
+        :rtype: FaceCaptureResponse
+        """
+
+        return self.__face_capture
