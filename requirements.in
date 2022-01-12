@@ -13,3 +13,4 @@ urllib3>=1.24.3
 deprecated==1.2.12
 wheel==0.33.6
 iso8601==0.1.14
+six>=1.16.0
