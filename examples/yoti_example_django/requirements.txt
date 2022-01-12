@@ -8,10 +8,14 @@ asgiref==3.4.1
     # via django
 asn1==2.2.0
     # via yoti
+backports.zoneinfo==0.2.1
+    # via django
 certifi==2018.4.16
     # via requests
-cffi==1.14.0
-    # via cryptography
+cffi==1.15.0
+    # via
+    #   -r requirements.in
+    #   cryptography
 chardet==3.0.4
     # via requests
 cryptography==3.2
@@ -20,7 +24,7 @@ cryptography==3.2
     #   yoti
 deprecated==1.2.10
     # via yoti
-django==3.1.12
+django==4.0.1
     # via
     #   -r requirements.in
     #   django-sslserver
@@ -41,9 +45,7 @@ pyopenssl==18.0.0
 python-dotenv==0.8.2
     # via -r requirements.in
 pytz==2020.4
-    # via
-    #   django
-    #   yoti
+    # via yoti
 requests==2.21.0
     # via
     #   -r requirements.in
