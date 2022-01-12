@@ -3,3 +3,4 @@ python-dotenv>=0.13.0
 yoti>=2.14.0
 filetype>=1.0.7
 pyopenssl>=19.1.0
+six>=1.16.0
