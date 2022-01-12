@@ -44,7 +44,7 @@ jobs:
         with:
           python-version: 3.9
 
-      - run: pip install -U setuptools==45
+      - run: pip install -U setuptools
 
       - run: sudo apt install python3-distutils -y
 
