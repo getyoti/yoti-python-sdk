@@ -22,7 +22,7 @@ setup(
         "cryptography>=2.2.1",
         "protobuf>=3.1.0",
         "requests>=2.11.1",
-        "future>=0.11.0",
+        "future>=0.18.2",
         "asn1==2.2.0",
         "pyopenssl>=18.0.0",
         "iso8601==1.0.2",
@@ -37,7 +37,7 @@ setup(
             "Werkzeug==2.0.2",
         ],
         "dev": [
-            "pre-commit==1.17.0",
+            "pre-commit==2.16.0",
             "pytest>=4.6.11",
             "pytest-cov>=2.7.1",
             "pylint==1.9.4",
@@ -47,6 +47,7 @@ setup(
             "mock==2.0.0",
             "virtualenv==20.12.0",
             "flake8==4.0.1",
+            "pip-tools==6.4.0",
         ],
     },
     classifiers=[
