@@ -48,8 +48,6 @@ jobs:
 
       - run: pushd examples/aml && pip install -r requirements.txt && popd
 
-      - run: pushd examples/yoti_example_django && pip install -r requirements.txt && popd
-     
       - run: pushd examples/yoti_example_flask && pip install -r requirements.txt && popd
       
       - run: pushd examples/doc_scan && pip install -r requirements.txt && popd
