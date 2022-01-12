@@ -44,8 +44,6 @@ jobs:
 
       - run: pip install -U setuptools==45
 
-      - run: sudo apt install python3.10-distutils
-
       - run: pushd examples/aml && pip install -r requirements.txt && popd
 
       - run: pushd examples/yoti_example_django && pip install -r requirements.txt && popd
