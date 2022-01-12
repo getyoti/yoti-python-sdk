@@ -1,4 +1,4 @@
-django>=3.0.7
+django>=4.0.1
 django-sslserver>=0.22.0
 python-dotenv>=0.7.1
 requests>=2.20.0
