@@ -33,3 +33,21 @@ def test_with_soft_preference():
     assert ANCHOR_VALUE_DRIVING_LICENCE in [a["name"] for a in anchors]
     assert ANCHOR_VALUE_PASSPORT in [a["name"] for a in anchors]
     assert constraint["preferred_sources"]["soft_preference"]
+
+
+def test_with_is_strictly_latin_set_true():
+    constraint = SourceConstraintBuilder().allow_strictly_latin().build()
+
+    assert constraint["is_strictly_latin"] is True
+
+
+def test_with_is_strictly_latin_set_false():
+    constraint = SourceConstraintBuilder().disable_strictly_latin().build()
+
+    assert constraint["is_strictly_latin"] is False
+
+
+def test_with_is_strictly_latin_default():
+    constraint = SourceConstraintBuilder().build()
+
+    assert "is_strictly_latin" not in constraint
