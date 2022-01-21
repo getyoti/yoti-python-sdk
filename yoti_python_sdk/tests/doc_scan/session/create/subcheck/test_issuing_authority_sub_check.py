@@ -29,6 +29,21 @@ class IssuingAuthoritySubCheckTest(unittest.TestCase):
 
         assert issuing_authority_sub_check.requested is True
 
+    def test_allow_non_latin_documents_set_to_true(self):
+        filter = OrthogonalRestrictionsFilterBuilder().allow_non_latin_documents().build()
+
+        assert filter.allow_non_latin_documents is True
+
+    def test_allow_non_latin_documents_set_to_false(self):
+        filter = OrthogonalRestrictionsFilterBuilder().disable_non_latin_documents().build()
+
+        assert filter.allow_non_latin_documents is False
+
+    def test_default_non_latin_documents(self):
+        filter = OrthogonalRestrictionsFilterBuilder().build()
+
+        assert 'allow_non_latin_documents' not in filter.to_json()
+
     def test_build_invalid_filter(self):
         filter = 'invalid'
 
