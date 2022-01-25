@@ -1,6 +1,8 @@
-django>=3.0.7
+django>=4.0.1
 django-sslserver>=0.22.0
 python-dotenv>=0.7.1
 requests>=2.20.0
 urllib3>=1.24.2
 yoti>=2.14.0
+six>=1.16.0
+cffi>=1.15.0

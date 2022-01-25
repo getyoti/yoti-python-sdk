@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2.1.4
+      - uses: actions/setup-python@v2.3.1
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -40,18 +40,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2.1.4
-        with:
-          python-version: 3.9
+      - uses: actions/setup-python@v2.3.1
 
       - run: pip install -U setuptools==45
 
-      - run: sudo apt install python3-distutils -y
+      - run: pip install wheel
 
       - run: pushd examples/aml && pip install -r requirements.txt && popd
 
-      - run: pushd examples/yoti_example_django && pip install -r requirements.txt && popd
-     
       - run: pushd examples/yoti_example_flask && pip install -r requirements.txt && popd
-      
-      - run: pushd examples/doc_scan && pip install -r requirements.txt && popd
