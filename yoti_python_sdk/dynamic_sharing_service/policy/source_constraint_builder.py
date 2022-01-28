@@ -15,7 +15,6 @@ class SourceConstraintBuilder(object):
     def __init__(self):
         self.__soft_preference = False
         self.__anchors = []
-        self.__is_strictly_latin = None
 
     def with_soft_preference(self, value=True):
         """
@@ -65,27 +64,14 @@ class SourceConstraintBuilder(object):
         """
         return self.with_anchor_by_name(ANCHOR_VALUE_DRIVING_LICENCE, subtype)
 
-    def allow_strictly_latin(self):
-        self.__is_strictly_latin = True
-        return self
-
-    def disable_strictly_latin(self):
-        self.__is_strictly_latin = False
-        return self
-
     def build(self):
         """
         :returns: A dict describing the source constraint
         """
-        constrain = {
+        return {
             "type": "SOURCE",
             "preferred_sources": {
                 "soft_preference": self.__soft_preference,
                 "anchors": self.__anchors,
             },
         }
-
-        if self.__is_strictly_latin is not None:
-            constrain["is_strictly_latin"] = self.__is_strictly_latin
-
-        return constrain
