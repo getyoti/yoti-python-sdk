@@ -39,7 +39,7 @@ setup(
         ],
         "dev": [
             "pre-commit==2.16.0",
-            "pytest>=4.6.11",
+            "pytest>=7.1.2",
             "pytest-cov>=2.7.1",
             "pylint==1.9.4",
             "pylint-exit>=1.1.0",
@@ -48,7 +48,7 @@ setup(
             "mock==2.0.0",
             "virtualenv==20.12.0",
             "flake8==4.0.1",
-            "pip-tools==6.4.0",
+            "pip-tools==6.6.0",
         ],
     },
     classifiers=[
