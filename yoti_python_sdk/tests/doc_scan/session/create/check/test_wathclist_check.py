@@ -35,9 +35,7 @@ class WatchlistScreeningCheckTest(unittest.TestCase):
         dummy_categories = ["FIRST", "SECOND"]
 
         result = (
-            WatchlistScreeningCheckBuilder()
-            .with_categories(dummy_categories)
-            .build()
+            WatchlistScreeningCheckBuilder().with_categories(dummy_categories).build()
         )
 
         assert isinstance(result, RequestedCheck)
