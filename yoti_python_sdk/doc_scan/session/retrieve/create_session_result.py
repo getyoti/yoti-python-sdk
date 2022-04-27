@@ -16,6 +16,7 @@ class CreateSessionResult(object):
             data = dict()
 
         self.__client_session_token_ttl = data.get("client_session_token_ttl", None)
+        self.__session_deadline = data.get("session_deadline", None)
         self.__session_id = data.get("session_id", None)
         self.__client_session_token = data.get("client_session_token", None)
 
@@ -49,3 +50,13 @@ class CreateSessionResult(object):
         :rtype: str or None
         """
         return self.__session_id
+
+    @property
+    def session_deadline(self):
+        """
+        The deadline that the session needs to be completed by.
+
+        :return: the session deadline
+        :rtype: str or None
+        """
+        return self.__session_deadline

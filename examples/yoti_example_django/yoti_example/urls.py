@@ -13,17 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.urls import re_path
 from django.contrib import admin
 
 from .views import IndexView, AuthView, DynamicShareView, SourceConstraintsView
 
 urlpatterns = [
-    url(r"^$", IndexView.as_view(), name="index"),
-    url(r"^yoti/auth/$", AuthView.as_view(), name="auth"),
-    url(r"^admin/", admin.site.urls),
-    url(r"^dynamic-share/$", DynamicShareView.as_view(), name="dynamic-share"),
-    url(
+    re_path(r"^$", IndexView.as_view(), name="index"),
+    re_path(r"^yoti/auth/$", AuthView.as_view(), name="auth"),
+    re_path(r"^admin/", admin.site.urls),
+    re_path(r"^dynamic-share/$", DynamicShareView.as_view(), name="dynamic-share"),
+    re_path(
         r"^source-constraint/$",
         SourceConstraintsView.as_view(),
         name="source-constraints",

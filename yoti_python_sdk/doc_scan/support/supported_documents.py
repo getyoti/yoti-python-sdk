@@ -4,10 +4,15 @@ class SupportedDocument(object):
             data = dict()
 
         self.__type = data.get("type", None)
+        self.__is_strictly_latin = data.get("is_strictly_latin", None)
 
     @property
     def type(self):
         return self.__type
+
+    @property
+    def is_strictly_latin(self):
+        return self.__is_strictly_latin
 
 
 class SupportedCountry(object):
