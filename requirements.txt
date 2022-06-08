@@ -18,7 +18,7 @@ pbr==1.10.0               # via -r requirements.in
 protobuf==3.13.0          # via -r requirements.in
 pycparser==2.18           # via cffi
 pyopenssl==19.1.0         # via -r requirements.in
-pytz==2020.4              # via -r requirements.in
+pytz==2022.1              # via -r requirements.in
 pyyaml==5.2               # via -r requirements.in
 requests==2.21.0          # via -r requirements.in
 six==1.10.0               # via cryptography, protobuf, pyopenssl
