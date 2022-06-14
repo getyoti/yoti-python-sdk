@@ -20,7 +20,7 @@ setup(
     install_requires=[
         "deprecated==1.2.10",
         "cryptography>=2.2.1",
-        "protobuf>=3.1.0",
+        "protobuf==3.13.0",
         "requests>=2.11.1",
         "future>=0.11.0",
         "asn1==2.2.0",
