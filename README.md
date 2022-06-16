@@ -66,7 +66,7 @@ Yoti also allows you to enable user details verification from your mobile app by
 
 ## Requirements
 
-To see the versions of Python this SDK is compatible with, see the [.travis.yml](/.travis.yml) file.
+To see the versions of Python this SDK is compatible with, see the [the GitHub workflow tests file](./.github/workflows/tests.yaml) file.
 
 ## Installing the SDK
 
