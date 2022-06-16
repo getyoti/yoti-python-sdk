@@ -85,7 +85,7 @@ def create_age_verified_field(
 ):
     activity_details.field = lambda: None
     activity_details.field.name = (
-        "age_over:{0}".format(age) if over is True else "age_under:".format(age)
+        "age_over:{0}".format(age) if over is True else "age_under:{0}".format(age)
     )
     activity_details.field.value = encoded_string_verified_value
     activity_details.field.content_type = Protobuf.CT_STRING
