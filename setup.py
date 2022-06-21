@@ -46,7 +46,7 @@ setup(
             "python-coveralls==2.9.3",
             "coverage==4.5.4",
             "mock==2.0.0",
-            "virtualenv==20.13.0",
+            "virtualenv==20.14.1",
             "flake8==4.0.1",
             "pip-tools==6.4.0",
         ],
