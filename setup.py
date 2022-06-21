@@ -48,7 +48,7 @@ setup(
             "mock==2.0.0",
             "virtualenv==20.13.0",
             "flake8==4.0.1",
-            "pip-tools==6.4.0",
+            "pip-tools==6.6.2",
         ],
     },
     classifiers=[
