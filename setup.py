@@ -20,14 +20,14 @@ setup(
     install_requires=[
         "deprecated==1.2.13",
         "cryptography>=2.2.1",
-        "protobuf>=3.1.0",
+        "protobuf==3.13.0",
         "requests>=2.11.1",
         "future>=0.18.2",
         "asn1==2.2.0",
         "pyopenssl>=18.0.0",
         "iso8601==1.0.2",
         "wheel==0.37.1",
-        "pytz==2021.3",
+        "pytz==2022.1",
     ],
     extras_require={
         "examples": [
