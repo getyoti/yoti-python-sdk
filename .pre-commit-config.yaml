@@ -1,11 +1,12 @@
 exclude: protobuf/
 repos:
  - repo: https://github.com/ambv/black
-   rev: stable
+   rev: 22.3.0
    hooks:
      - id: black
- - repo: https://github.com/pre-commit/pre-commit-hooks
-   rev: v1.2.3
+
+ - repo: https://github.com/PyCQA/flake8
+   rev: 4.0.1
    hooks:
      - id: flake8
        args:

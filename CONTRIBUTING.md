@@ -7,7 +7,7 @@
 ## Adding Features
 
 Any features added must be fully tested and documented, with examples supplied in the pull request.
-The feature must support the lowest Python version that the SDK supports (see [the travis file](.travis.yml) for all supported versions).  The feature
+The feature must support the lowest Python version that the SDK supports (see [the GitHub workflow tests file](./.github/workflows/tests.yaml) for all supported versions).  The feature
 must not introduce any unnecessary dependencies (although introducing a new third party library
 is open for discussion if absolutely required).
 
