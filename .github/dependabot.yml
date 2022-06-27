@@ -6,8 +6,3 @@ updates:
     interval: monthly
   open-pull-requests-limit: 3
   target-branch: development
-  reviewers:
-  - echarrod
-  - gautam-yoti
-  assignees:
-  - echarrod
