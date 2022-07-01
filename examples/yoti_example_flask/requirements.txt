@@ -40,7 +40,7 @@ jinja2==3.0.3
     #   flask
 markupsafe==2.0.1
     # via jinja2
-protobuf==3.6.0
+protobuf==3.15.0
     # via yoti
 pycparser==2.18
     # via cffi
@@ -74,6 +74,3 @@ wrapt==1.12.1
     # via deprecated
 yoti==2.14.0
     # via -r requirements.in
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
