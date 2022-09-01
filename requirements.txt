@@ -30,7 +30,7 @@ itsdangerous==2.0.1
     # via -r requirements.in
 pbr==1.10.0
     # via -r requirements.in
-protobuf==3.19.4
+protobuf==4.21.5
     # via -r requirements.in
 pycparser==2.18
     # via cffi
