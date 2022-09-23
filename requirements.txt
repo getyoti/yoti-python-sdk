@@ -30,7 +30,7 @@ itsdangerous==1.1.0
     # via -r requirements.in
 pbr==1.10.0
     # via -r requirements.in
-protobuf==3.13.0
+protobuf==3.18.3
     # via -r requirements.in
 pycparser==2.18
     # via cffi
@@ -45,7 +45,6 @@ requests==2.21.0
 six==1.10.0
     # via
     #   cryptography
-    #   protobuf
     #   pyopenssl
 urllib3==1.24.3
     # via
@@ -55,6 +54,3 @@ wheel==0.33.6
     # via -r requirements.in
 wrapt==1.11.2
     # via deprecated
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
