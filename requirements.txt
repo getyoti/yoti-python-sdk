@@ -36,7 +36,7 @@ pycparser==2.18
     # via cffi
 pyopenssl==19.1.0
     # via -r requirements.in
-pytz==2021.3
+pytz==2022.7
     # via -r requirements.in
 pyyaml==5.2
     # via -r requirements.in
