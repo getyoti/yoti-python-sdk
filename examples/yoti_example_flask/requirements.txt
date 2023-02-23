@@ -18,7 +18,7 @@ click==8.1.2
     # via
     #   -r requirements.in
     #   flask
-cryptography==3.2
+cryptography==39.0.1
     # via
     #   pyopenssl
     #   yoti
@@ -59,7 +59,6 @@ requests==2.21.0
 six==1.16.0
     # via
     #   -r requirements.in
-    #   cryptography
     #   protobuf
     #   pyopenssl
 urllib3==1.24.2
