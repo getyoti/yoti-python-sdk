@@ -38,8 +38,10 @@ jinja2==3.0.3
     # via
     #   -r requirements.in
     #   flask
-markupsafe==2.0.1
-    # via jinja2
+markupsafe==2.1.2
+    # via
+    #   jinja2
+    #   werkzeug
 protobuf==3.6.0
     # via yoti
 pycparser==2.18
@@ -66,7 +68,7 @@ urllib3==1.24.2
     # via
     #   -r requirements.in
     #   requests
-werkzeug==1.0.1
+werkzeug==2.2.3
     # via
     #   -r requirements.in
     #   flask
