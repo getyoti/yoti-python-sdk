@@ -45,16 +45,12 @@ requests==2.21.0
 six==1.10.0
     # via
     #   cryptography
-    #   protobuf
     #   pyopenssl
 urllib3==1.24.3
     # via
     #   -r requirements.in
     #   requests
-wheel==0.33.6
+wheel==0.38.1
     # via -r requirements.in
 wrapt==1.11.2
     # via deprecated
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
