@@ -14,7 +14,7 @@ cffi==1.14.3
     #   cryptography
 chardet==3.0.4
     # via requests
-cryptography==2.8
+cryptography==39.0.1
     # via
     #   -r requirements.in
     #   pyopenssl
@@ -43,10 +43,7 @@ pyyaml==5.2
 requests==2.21.0
     # via -r requirements.in
 six==1.10.0
-    # via
-    #   cryptography
-    #   protobuf
-    #   pyopenssl
+    # via pyopenssl
 urllib3==1.24.3
     # via
     #   -r requirements.in
@@ -55,6 +52,3 @@ wheel==0.33.6
     # via -r requirements.in
 wrapt==1.11.2
     # via deprecated
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
