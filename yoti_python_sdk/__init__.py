@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-from distutils.util import convert_path
 from os import environ
 
 from yoti_python_sdk.client import Client
@@ -17,7 +16,7 @@ main_ns = {}
 directory_name = os.path.dirname(__file__)
 version_path = os.path.join(directory_name, "version.py")
 
-ver_path = convert_path(version_path)
+ver_path = os.path.normcase(version_path)
 with open(ver_path) as ver_file:
     exec(ver_file.read(), main_ns)
 
