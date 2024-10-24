@@ -3,8 +3,7 @@ from google.protobuf.message import DecodeError
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-from ..proto import EncryptedData_pb2
-
+from yoti_python_sdk.protobuf.common_public_api import EncryptedData_pb2 
 def decrypt_receipt_content(content, receipt_content_key):
     if not content:
         return None
