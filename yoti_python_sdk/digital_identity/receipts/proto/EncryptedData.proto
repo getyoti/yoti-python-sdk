@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package compubapi_v1;
-
-message EncryptedData {
-    bytes iv = 1;
-    bytes cipher_text = 2;
-}
