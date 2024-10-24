@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/profile.css" />
+    <title>Share v2 Example - Profile</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+
+        .attributes {
+            border: 1px solid #333;
+            padding: 10px;
+            margin-top: 20px;
+            width: 50%;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .attributes table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .attributes th,
+        .attributes td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .attributes tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .attributes tr:nth-child(odd) {
+            background-color: #e9e9e9;
+        }
+    </style>
+</head>
+
+<body>
+   
+    <main class="yoti-profile-layout">
+        <section class="yoti-profile-user-section">
+            <div class="yoti-profile-picture-powered-section">
+                <span class="yoti-profile-picture-powered">Powered by</span>
+                <img class="yoti-logo-image" src="{{ url_for('static', filename='assets/logo.png') }}"
+                     srcset="{{ url_for('static', filename='assets/logo@2x.png') }} 2x" alt="Yoti" />
+            </div>
+
+            <div class="yoti-profile-picture-section">
+                {% if selfie %}
+                    <div class="yoti-profile-picture-area">
+                        <img src="{{ selfie_image }}" class="yoti-profile-picture-image" alt="Yoti" />
+                        <i class="yoti-profile-picture-verified-icon"></i>
+                    </div>
+                {% endif %}
+
+                <div class="yoti-profile-name">
+                    {{ full_name }}
+                </div>
+            </div>
+        </section>
+
+       
+            <section class="yoti-attributes-section">
+                <img class="yoti-company-logo" src="{{ url_for('static', filename='assets/company-logo.jpg') }}" alt="company logo" />
+
+                <div class="yoti-attribute-list-header">
+                    <div class="yoti-attribute-list-header-attribute">Attribute</div>
+                    <div class="yoti-attribute-list-header-value">Value</div>
+                    <div>Anchors</div>
+                </div>
+
+                <div class="yoti-attribute-list-subheader">
+                    <div class="yoti-attribute-list-subhead-layout">
+                        <div>S / V</div>
+                        <div>Value</div>
+                        <div>Sub type</div>
+                    </div>
+                </div>
+
+                <div class="yoti-attribute-list">
+                    {% for attribute in attribute_list %}
+                        <div class="yoti-attribute-list-item">
+                            <div class="yoti-attribute-name">
+                                <div class="yoti-attribute-name-cell">
+                                    <i class="{{ attribute.icon }}"></i>
+                                    <span class="yoti-attribute-name-cell-text">{{ attribute_list[attribute].name }}</span>
+                                </div>
+                            </div>
+
+                            <div class="yoti-attribute-value">
+                                <div class="yoti-attribute-value-text">
+                                    {% if attribute.name == "Structured Postal Address" %}
+                                       
+                                    {% elif attribute_list["name"] == "identity_profile_report" %}
+                                        <table>
+                                            {% for key, value in attribute.value.items() %}
+                                                <tr>
+                                                    <td>bb{{ key }}<br/>
+                                                        <pre>{{ value | tojson(indent=2) }}</pre>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    {% elif attribute_list[attribute].name == "document_details" %}
+                                        <table>
+                                            <tr><td>Type</td><td>{{ attribute_list[attribute].value.document_type }}</td></tr>
+                                            <tr><td>Issuing Country</td><td>{{ attribute_list[attribute].value.issuing_country }}</td></tr>
+                                            <tr><td>Issuing Authority</td><td>{{ attribute_list[attribute].value.issuing_authority }}</td></tr>
+                                            <tr><td>Document Number</td><td>{{ attribute_list[attribute].value.document_number }}</td></tr>
+                                            <tr><td>Expiration Date</td><td>{{ attribute_list[attribute].value.expiration_date }}</td></tr>
+                                        </table>
+                                    {% elif attribute_list[attribute].name == "document_images" %}
+                                        {% for image in attribute_list[attribute].value %}
+                                            <img src="{{ image.base64_content() }}" />
+                                        {% endfor %}
+                                    {% elif attribute_list[attribute].name == "selfie" %}
+                                    
+                                    
+                                    {% else %}
+                                        {{ attribute_list[attribute].value }}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="yoti-attribute-anchors-layout">
+                                <div class="yoti-attribute-anchors-head -s-v">S / V</div>
+                                <div class="yoti-attribute-anchors-head -value">Value</div>
+                                <div class="yoti-attribute-anchors-head -subtype">Sub type</div>
+
+                                {% for source in attribute_list[attribute].anchors if source.anchor_type == "SOURCE" %}
+                                    <div class="yoti-attribute-anchors -s-v">Source</div>
+                                    <div class="yoti-attribute-anchors -value">{{ source.value }}</div>
+                                    <div class="yoti-attribute-anchors -subtype">{{ source.sub_type }}</div>
+                                {% endfor %}
+                                {% for verifier in attribute_list[attribute].anchors if verifier.anchor_type == "VERIFIER" %}
+                                    <div class="yoti-attribute-anchors -s-v">Verifier</div>
+                                    <div class="yoti-attribute-anchors -value">{{ verifier.value }}</div>
+                                    <div class="yoti-attribute-anchors -subtype">{{ verifier.sub_type }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+      
+    </main>
+
+</body>
+
+</html>

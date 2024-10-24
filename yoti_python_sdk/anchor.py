@@ -39,7 +39,9 @@ class Anchor:
         self.__value = value
         self.__signed_timestamp = signed_timestamp
         self.__origin_server_certs = origin_server_certs
-
+        self.idx = 0
+        self.data = []
+        
     def __iter__(self):
         return self
 

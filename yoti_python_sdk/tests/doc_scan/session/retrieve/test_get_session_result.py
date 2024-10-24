@@ -99,8 +99,8 @@ class GetSessionResultTest(unittest.TestCase):
         assert len(result.liveness_checks) == 1
         assert isinstance(result.liveness_checks[0], LivenessCheckResponse)
 
-        assert len(result.text_data_checks) == 1
-        assert isinstance(result.text_data_checks[0], TextDataCheckResponse)
+        assert len(result.id_document_text_data_checks) == 1
+        assert isinstance(result.id_document_text_data_checks[0], TextDataCheckResponse)
 
         assert len(result.id_document_text_data_checks) == 1
         assert isinstance(result.id_document_text_data_checks[0], TextDataCheckResponse)
