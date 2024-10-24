@@ -24,9 +24,9 @@ jobs:
 
       - run: pip install -U setuptools wheel
 
-      - run: pip install --no-cache-dir -r requirements.txt
+      - run: pip install -r requirements.txt
 
-      - run: pip install --no-cache-dir -e .[dev]
+      - run: pip install -e .[dev]
 
       - run: pytest -v
 
@@ -44,12 +44,12 @@ jobs:
         with:
           python-version: 3.9
 
-      - run: pip install --upgrade setuptools wheel
+      - run: pip install --upgrade setuptools
 
-      - run: pushd examples/aml && pip install --no-cache-dir -r requirements.txt && popd
+      - run: pushd examples/aml && pip install -r requirements.txt && popd
 
-      - run: pushd examples/yoti_example_django && pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt && popd
+      - run: pushd examples/yoti_example_django && pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt && popd
 
-      - run: pushd examples/yoti_example_flask && pip install --no-cache-dir -r requirements.txt && popd
+      - run: pushd examples/yoti_example_flask && pip install -r requirements.txt && popd
 
-      - run: pushd examples/doc_scan && pip install --no-cache-dir -r requirements.txt && popd
+      - run: pushd examples/doc_scan && pip install -r requirements.txt && popd
