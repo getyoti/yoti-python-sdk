@@ -678,8 +678,7 @@ def test_get_age_over_verification(attribute_value, expected_age_over, expected_
     )
 
     human_profile = Profile(attribute_list)
-    print(human_profile.attributes)
-
+    
     age_verifications = human_profile.get_age_verifications()
     age_verification = human_profile.find_age_over_verification(expected_age_over)
 

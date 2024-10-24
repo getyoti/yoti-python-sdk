@@ -79,6 +79,7 @@ class ActivityDetails:
         self.parent_remember_me_id = receipt.get("parent_remember_me_id")
         self.outcome = receipt.get("sharing_outcome")
         self.receipt_id = receipt.get("receipt_id")
+        self.receipt_identifier = receipt.get("receipt_id")
         self.extra_data = receipt.get("extra_data")
         timestamp = receipt.get("timestamp")
 
@@ -97,9 +98,14 @@ class ActivityDetails:
     def user_id(self):
         return self.__remember_me_id
 
+    @property
+    @deprecated
+    def user_id(self):
+        return self.__remember_me_id
+
     @user_id.setter
     @deprecated
-    def user_id(self, value):
+    def user_identifier(self, value):
         self.__remember_me_id = value
 
     @deprecated
@@ -151,6 +157,7 @@ class ActivityDetails:
         yield "parent_remember_me_id", self.parent_remember_me_id
         yield "outcome", self.outcome
         yield "receipt_id", self.receipt_id
+        yield "receipt_identifier", self.receipt_identifier
         yield "user_profile", self.user_profile
         yield "profile", self.profile
         yield "base64_selfie_uri", self.base64_selfie_uri

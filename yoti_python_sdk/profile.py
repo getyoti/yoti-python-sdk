@@ -15,6 +15,7 @@ class BaseProfile(object):
 
         if profile_attributes:
             for field in profile_attributes:
+                # print("field %s" % field)
                 try:
                     value = attribute_parser.value_based_on_content_type(
                         field.value, field.content_type
@@ -33,7 +34,6 @@ class BaseProfile(object):
                     anchors = Anchor().parse_anchors(field.anchors)
 
                     self.attributes[field.name] = Attribute(field.name, value, anchors)
-
                 except ValueError as ve:
                     if logging.getLogger().propagate:
                         logging.warning(ve)

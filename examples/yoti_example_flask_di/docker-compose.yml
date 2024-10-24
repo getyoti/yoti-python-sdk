@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  web:
+    build:
+      context: ../../
+      dockerfile: examples/yoti_example_flask/Dockerfile
+      args:
+        YOTI_SCENARIO_ID: "${YOTI_SCENARIO_ID}"
+        YOTI_CLIENT_SDK_ID: "${YOTI_CLIENT_SDK_ID}"
+        YOTI_KEY_FILE_PATH: "${YOTI_KEY_FILE_PATH}"
+    ports:
+      - "5000:5000"

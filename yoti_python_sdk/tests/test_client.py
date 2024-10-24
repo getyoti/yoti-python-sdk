@@ -165,11 +165,11 @@ def test_requesting_activity_details_with_correct_data(
     assert isinstance(activity_details, ActivityDetails)
 
     assert (
-        activity_details.user_id
+        activity_details.user_identifier
         == "Hig2yAT79cWvseSuXcIuCLa5lNkAPy70rxetUaeHlTJGmiwc/g1MWdYWYrexWvPU"
     )
     assert (
-        activity_details.receipt_id
+        activity_details.receipt_identifier
         == "9HNJDX5bEIN5TqBm0OGzVIc1LaAmbzfx6eIrwNdwpHvKeQmgPujyogC+r7hJCVPl"
     )
     assert activity_details.timestamp == datetime(2016, 7, 19, 8, 55, 38)
@@ -213,11 +213,11 @@ def test_requesting_activity_details_with_null_profile(
     activity_details = client.get_activity_details(encrypted_request_token)
 
     assert (
-        activity_details.user_id
+        activity_details.user_identifier
         == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
     )
     assert (
-        activity_details.receipt_id
+        activity_details.receipt_identifier
         == "Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN"
     )
     assert activity_details.timestamp == datetime(2016, 11, 14, 11, 35, 33)
@@ -271,11 +271,11 @@ def test_requesting_activity_details_with_missing_profile(
     activity_details = client.get_activity_details(encrypted_request_token)
 
     assert (
-        activity_details.user_id
+        activity_details.user_identifier
         == "ijH4kkqMKTG0FSNUgQIvd2Z3Nx1j8f5RjVQMyoKOvO/hkv43Ik+t6d6mGfP2tdrN"
     )
     assert (
-        activity_details.receipt_id
+        activity_details.receipt_identifier
         == "Eq3+P8qjAlxr4d2mXKCUvzKdJTchI53ghwYPZXyA/cF5T+m/HCP1bK5LOmudZASN"
     )
     assert activity_details.timestamp == datetime(2016, 11, 14, 11, 35, 33)
