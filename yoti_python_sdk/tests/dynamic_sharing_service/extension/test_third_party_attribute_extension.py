@@ -117,9 +117,18 @@ def test_should_format_utc_expiry_dates_correctly(expiry_date, expected_value):
 @pytest.mark.parametrize(
     "expiry_date, tz_name",
     [
-        (datetime(2030, 6, 6, 8, 0, 0, 0), "US/Eastern",),
-        (datetime(2030, 6, 6, 15, 0, 0, 0), "Europe/Moscow",),
-        (datetime(2030, 6, 6, 7, 0, 0, 0), "America/Jamaica",),
+        (
+            datetime(2030, 6, 6, 8, 0, 0, 0),
+            "US/Eastern",
+        ),
+        (
+            datetime(2030, 6, 6, 15, 0, 0, 0),
+            "Europe/Moscow",
+        ),
+        (
+            datetime(2030, 6, 6, 7, 0, 0, 0),
+            "America/Jamaica",
+        ),
         (datetime(2030, 6, 6, 23, 0, 0, 0), "Etc/GMT-11"),
         (datetime(2030, 6, 6, 7, 0, 0, 0), "Etc/GMT+5"),
         # In order to conform with the POSIX style, those zones beginning

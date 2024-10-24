@@ -21,6 +21,7 @@ class SessionSpecTest(unittest.TestCase):
     SOME_CLIENT_SESSION_TOKEN_TTL = 300
     SOME_RESOURCES_TTL = 100000
     SOME_USER_TRACKING_ID = "someUserTrackingId"
+    SOME_SESSION_DEADLINE = "2021-09-03T11:40:54.727619+02:00"
 
     def test_should_build_correctly(self):
         sdk_config_mock = Mock(spec=SdkConfig)
@@ -31,6 +32,7 @@ class SessionSpecTest(unittest.TestCase):
         result = (
             SessionSpecBuilder()
             .with_client_session_token_ttl(self.SOME_CLIENT_SESSION_TOKEN_TTL)
+            .with_session_deadline(self.SOME_SESSION_DEADLINE)
             .with_resources_ttl(self.SOME_RESOURCES_TTL)
             .with_user_tracking_id(self.SOME_USER_TRACKING_ID)
             .with_notifications(notification_mock)
@@ -49,6 +51,7 @@ class SessionSpecTest(unittest.TestCase):
         assert requested_check_mock in result.requested_checks
         assert len(result.requested_tasks) == 1
         assert requested_task_mock in result.requested_tasks
+        assert result.session_deadline == self.SOME_SESSION_DEADLINE
 
     def test_should_serialize_to_json_without_error(self):
         sdk_config_mock = Mock(spec=SdkConfig)
@@ -66,6 +69,7 @@ class SessionSpecTest(unittest.TestCase):
         result = (
             SessionSpecBuilder()
             .with_client_session_token_ttl(self.SOME_CLIENT_SESSION_TOKEN_TTL)
+            .with_session_deadline(self.SOME_SESSION_DEADLINE)
             .with_resources_ttl(self.SOME_RESOURCES_TTL)
             .with_user_tracking_id(self.SOME_USER_TRACKING_ID)
             .with_notifications(notification_mock)

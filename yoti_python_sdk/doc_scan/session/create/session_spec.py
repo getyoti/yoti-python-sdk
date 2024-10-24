@@ -21,6 +21,7 @@ class SessionSpec(YotiSerializable):
         requested_tasks=None,
         required_documents=None,
         block_biometric_consent=None,
+        session_deadline=None,
     ):
         """
         :param client_session_token_ttl: the client session token TTL
@@ -41,6 +42,8 @@ class SessionSpec(YotiSerializable):
         :type required_documents: list[RequiredDocument] or None
         :param block_biometric_consent: block the collection of biometric consent
         :type block_biometric_consent: bool
+        :param session_deadline: session deadline using a Zoned timestamp
+        "type session_deadline: str
         """
         if requested_tasks is None:
             requested_tasks = []
@@ -58,6 +61,7 @@ class SessionSpec(YotiSerializable):
         self.__requested_tasks = requested_tasks
         self.__required_documents = required_documents
         self.__block_biometric_consent = block_biometric_consent
+        self.__session_deadline = session_deadline
 
     @property
     def client_session_token_ttl(self):
@@ -152,6 +156,16 @@ class SessionSpec(YotiSerializable):
         """
         return self.__block_biometric_consent
 
+    @property
+    def session_deadline(self):
+        """
+        Session deadline used by IDV
+
+        :return: session deadline
+        :rtype: str
+        """
+        return self.__session_deadline
+
     def to_json(self):
         return remove_null_values(
             {
@@ -164,6 +178,7 @@ class SessionSpec(YotiSerializable):
                 "sdk_config": self.sdk_config,
                 "required_documents": self.required_documents,
                 "block_biometric_consent": self.block_biometric_consent,
+                "session_deadline": self.session_deadline,
             }
         )
 
@@ -183,6 +198,7 @@ class SessionSpecBuilder(object):
         self.__requested_tasks = []
         self.__required_documents = []
         self.__block_biometric_consent = None
+        self.__session_deadline = None
 
     def with_client_session_token_ttl(self, value):
         """
@@ -194,6 +210,19 @@ class SessionSpecBuilder(object):
         :rtype: SessionSpecBuilder
         """
         self.__client_session_token_ttl = value
+        return self
+
+    def with_session_deadline(self, value):
+        """
+        Sets the deadline that the session needs to be completed by.
+        Can be used as an alternative to with_client_session_token_ttl.
+
+        :param value: the session deadline
+        :type value: str
+        :return: the builder
+        :rtype: SessionSpecBuilder
+        """
+        self.__session_deadline = value
         return self
 
     def with_resources_ttl(self, value):
@@ -309,4 +338,5 @@ class SessionSpecBuilder(object):
             self.__requested_tasks,
             self.__required_documents,
             self.__block_biometric_consent,
+            self.__session_deadline,
         )

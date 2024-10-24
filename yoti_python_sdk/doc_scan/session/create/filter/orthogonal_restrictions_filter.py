@@ -68,11 +68,12 @@ class TypeRestriction(YotiSerializable):
 
 
 class OrthogonalRestrictionsFilter(DocumentFilter):
-    def __init__(self, country_restriction, type_restriction):
+    def __init__(self, country_restriction, type_restriction, allow_non_latin_documents=None):
         DocumentFilter.__init__(self, filter_type=ORTHOGONAL_RESTRICTIONS)
 
         self.__country_restriction = country_restriction
         self.__type_restriction = type_restriction
+        self.__allow_non_latin_documents = allow_non_latin_documents
 
     @property
     def country_restriction(self):
@@ -94,10 +95,23 @@ class OrthogonalRestrictionsFilter(DocumentFilter):
         """
         return self.__type_restriction
 
+    @property
+    def allow_non_latin_documents(self):
+        """
+        Returns the flag for whether non-latin documents are allowed.
+
+        :return: allow_non_latin_documents
+        :rtype: bool
+        """
+        return self.__allow_non_latin_documents
+
     def to_json(self):
         parent = DocumentFilter.to_json(self)
         parent["country_restriction"] = self.country_restriction
         parent["type_restriction"] = self.type_restriction
+        if self.__allow_non_latin_documents is not None:
+            parent["allow_non_latin_documents"] = self.__allow_non_latin_documents
+
         return remove_null_values(parent)
 
 
@@ -117,6 +131,7 @@ class OrthogonalRestrictionsFilterBuilder(object):
     def __init__(self):
         self.__country_restriction = None
         self.__type_restriction = None
+        self.__allow_non_latin_documents = None
 
     def with_whitelisted_country_codes(self, country_codes):
         """
@@ -170,6 +185,26 @@ class OrthogonalRestrictionsFilterBuilder(object):
         self.__type_restriction = TypeRestriction(INCLUSION_BLACKLIST, document_types)
         return self
 
+    def allow_non_latin_documents(self):
+        """
+        Sets a True value for "allow non-latin documents" flag.
+
+        :return: the builder
+        :rtype: OrthogonalRestrictionsFilterBuilder
+        """
+        self.__allow_non_latin_documents = True
+        return self
+
+    def disable_non_latin_documents(self):
+        """
+        Sets a False value for "allow non-latin documents" flag.
+
+        :return: the builder
+        :rtype: OrthogonalRestrictionsFilterBuilder
+        """
+        self.__allow_non_latin_documents = False
+        return self
+
     def build(self):
         """
         Builds the orthogonal filter, using the supplied whitelisted/blacklisted values
@@ -178,5 +213,5 @@ class OrthogonalRestrictionsFilterBuilder(object):
         :rtype: OrthogonalRestrictionsFilter
         """
         return OrthogonalRestrictionsFilter(
-            self.__country_restriction, self.__type_restriction
+            self.__country_restriction, self.__type_restriction, self.__allow_non_latin_documents
         )
