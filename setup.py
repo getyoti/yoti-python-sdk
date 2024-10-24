@@ -44,7 +44,7 @@ setup(
             "pylint==1.9.4",
             "pylint-exit>=1.1.0",
             "python-coveralls==2.9.3",
-            "coverage==4.5.4",
+            "coverage==6.0",
             "mock==2.0.0",
             "virtualenv==20.15.1",
             "flake8==4.0.1",
