@@ -20,7 +20,7 @@ setup(
     install_requires=[
         "deprecated==1.2.13",
         "cryptography>=2.2.1",
-        "protobuf==3.13.0",
+        "protobuf==3.20.1",
         "requests>=2.11.1",
         "future>=0.18.2",
         "asn1==2.2.0",
@@ -44,7 +44,7 @@ setup(
             "pylint==1.9.4",
             "pylint-exit>=1.1.0",
             "python-coveralls==2.9.3",
-            "coverage==4.5.4",
+            "coverage==6.0",
             "mock==2.0.0",
             "virtualenv==20.15.1",
             "flake8==4.0.1",

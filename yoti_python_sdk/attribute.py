@@ -2,7 +2,7 @@ from yoti_python_sdk import config
 
 
 class Attribute:
-    def __init__(self, name=None, value=None, anchors=None):
+    def __init__(self, name=None, value=None, anchors=None, icon = None):
         if name is None:
             name = ""
         if value is None:
@@ -12,6 +12,7 @@ class Attribute:
         self.__name = name
         self.__value = value
         self.__anchors = anchors
+        self.__icon = icon
 
     @property
     def name(self):
@@ -36,3 +37,6 @@ class Attribute:
         return list(
             filter(lambda a: a.anchor_type == config.ANCHOR_VERIFIER, self.__anchors)
         )
+    @property
+    def icon(self):
+        return self.__icon

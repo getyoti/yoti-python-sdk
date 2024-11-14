@@ -5,6 +5,7 @@ from .policy.dynamic_policy_builder import DynamicPolicyBuilder
 
 
 class DynamicScenarioBuilder(object):
+    print("Hello, World!")
     def __init__(self):
         self.__scenario = {
             "policy": DynamicPolicyBuilder().build(),

@@ -103,6 +103,7 @@ examples/yoti_example_flask/static/YotiSelfie.jpg
 #.pem files for examples
 examples/yoti_example_django/*.pem
 examples/yoti_example_flask/*.pem
+examples/digitalidentity/*.pem
 
 .scannerwork
 .venv/
