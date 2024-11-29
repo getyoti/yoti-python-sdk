@@ -18,6 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set up pyenv
+        uses: tiangolo/pyenv-action@v2
+        with:
+          python-version: "3.9"  # specify your desired Python version here
+
       - uses: actions/setup-python@v2.3.1
         with:
           python-version: ${{ matrix.python-version }}
