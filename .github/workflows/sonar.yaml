@@ -1,12 +1,13 @@
 name: Sonar Scan
+
 on: [push, pull_request_target]
 
 jobs:
   sonar:
     name: Sonar Scan
     runs-on: ubuntu-latest
-    # always run on push events
-    # only run on pull_request_target event when pull request pulls from fork repository
+
+    # Conditions to only run when push event or pull_request from a fork
     if: >
       github.event_name == 'push' || 
       github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository 
@@ -20,16 +21,28 @@ jobs:
         with:
           python-version: 3.9
 
-      - run: pip install -r requirements.txt
+      - name: Upgrade pip, setuptools, and wheel
+        run: |
+          pip install --upgrade pip setuptools wheel
 
-      - run: pip install -e .[dev]
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
 
-      - run: pytest --cov=yoti_python_sdk yoti_python_sdk/tests --cov-report=xml:coverage-reports/coverage-new.xml
+      - name: Install coverage from source (no binary wheels)
+        run: |
+          pip install --no-binary :all: coverage
 
-      - run: sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage-reports/coverage-new.xml
+      - name: Run unit tests with pytest
+        run: |
+          pytest --cov=yoti_python_sdk yoti_python_sdk/tests --cov-report=xml:coverage-reports/coverage-new.xml
 
-      - uses: sonarsource/sonarcloud-github-action@master
+      - name: Modify coverage path for SonarQube compatibility
+        run: |
+          sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage-reports/coverage-new.xml
+
+      - name: Run SonarQube scan
+        uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
