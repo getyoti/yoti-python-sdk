@@ -84,6 +84,15 @@ class RequestedLivenessCheckBuilder(object):
         """
         return self.with_liveness_type(constants.ZOOM)
 
+    def for_static_liveness(self):
+        """
+        Sets the liveness type to "STATIC"
+
+        :return: the builder
+        :rtype: RequestedLivenessCheckBuilder
+        """
+        return self.with_liveness_type(constants.STATIC)
+
     def with_liveness_type(self, liveness_type):
         """
         Sets the liveness type on the builder
