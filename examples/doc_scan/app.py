@@ -62,7 +62,8 @@ def create_session():
         )
         .with_requested_check(
             RequestedLivenessCheckBuilder()
-            .for_zoom_liveness()
+            #.for_zoom_liveness()
+            .for_static_liveness()
             .with_max_retries(1)
             .build()
         )
