@@ -22,9 +22,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: pip install -U setuptools
+      - name: Upgrade pip, setuptools, and wheel
+        run: |
+            pip install --upgrade pip setuptools wheel
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+            pip install -r requirements.txt
 
       - run: pip install -e .[dev]
 
