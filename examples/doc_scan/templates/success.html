@@ -610,7 +610,7 @@
                                         {% for frame in liveness.frames %}
                                             {% if frame.media is not none %}
                                                 <div class="card">
-                                                    <img class="card-img-top" src="/media?mediaId={{ frame.media.id }}" />
+                                                    <img class="card-img-top" src="/mediaShow?mediaId={{ frame.media.id }}&sessionId={{ session_result.session_id }}" />
                                                     <div class="card-body">
                                                         <h5 class="card-title">Frame</h5>
                                                     </div>
@@ -626,5 +626,55 @@
             </div>
         {% endfor %}
     {% endwith %}
+
+{% if session_result.resources.static_liveness_resources|length %}
+    <div class="row pt-4">
+        <div class="col">
+            <h2>Static Liveness Resources</h2>
+        </div>
+    </div>
+{% endif %}
+
+{% with liveness_num=0 %}
+    {% for liveness in session_result.resources.static_liveness_resources %}
+        {% set liveness_num = loop.index %}
+        <div class="row pt-4">
+            <div class="col">
+                <table class="table table-striped table-light">
+                    <tbody>
+                        <tr>
+                            <td>ID</td>
+                            <td>{{ liveness.id }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="accordion mt-3">
+                    {% if liveness.image is not none %}
+                        <div class="card">
+                            <div class="card-header" id="liveness-{{ liveness_num }}-image">
+                                <h3 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapse-liveness-{{ liveness_num }}-image" aria-expanded="true"
+                                        aria-controls="collapse-liveness-{{ liveness_num }}-image">
+                                        Image
+                                    </button>
+                                </h3>
+                            </div>
+                            <div id="collapse-liveness-{{ liveness_num }}-image" class="collapse" aria-labelledby="liveness-{{ liveness_num }}-image">
+                                <div class="card">
+                                    <img class="card-img-top" src="/media?mediaId={{ liveness.image.media.id }}" />
+                                    <div class="card-body">
+                                        <h5 class="card-title">Static Liveness Image</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+{% endwith %}
 </div>
 {% include "layout/footer.html" %}

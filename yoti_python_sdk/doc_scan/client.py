@@ -83,7 +83,6 @@ class DocScanClient(object):
             .build()
         )
         response = request.execute()
-
         if response.status_code != 200:
             raise DocScanException("Failed to retrieve session", response)
 
@@ -132,12 +131,13 @@ class DocScanClient(object):
             .with_get()
             .with_pem_file(self.__key)
             .with_base_url(self.__api_url)
-            .with_endpoint(Endpoint.get_media_content_path(session_id, media_id))
+            .with_endpoint(Endpoint.get_media_content_path(
+                session_id,media_id))
             .with_param("sdkId", self.__sdk_id)
             .build()
+
         )
         response = request.execute()
-
         if response.status_code == 204:
             return None
 

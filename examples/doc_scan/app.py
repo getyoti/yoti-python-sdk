@@ -1,5 +1,5 @@
 import yoti_python_sdk
-from flask import Flask, Response, render_template, request, session
+from flask import Flask, Response, render_template, request, session, jsonify
 from yoti_python_sdk.doc_scan import (
     DocScanClient,
     RequestedDocumentAuthenticityCheckBuilder,
@@ -133,6 +133,9 @@ def success():
 
     try:
         session_result = doc_scan_client.get_session(session_id)
+        resources = session_result.resources
+        print(resources)
+
     except DocScanException as e:
         return render_template("error.html", error=e.message)
 
@@ -173,6 +176,31 @@ def media():
         retrieved_media.content, content_type=retrieved_media.mime_type, status=200
     )
 
+@app.route("/mediaShow")
+def mediaShow():
+    media_id = request.args.get("mediaId", None)
+    session_id = request.args.get("sessionId", None)
+
+    if media_id is None:
+        return Response(status=404)
+
+    doc_scan_client = DocScanClient(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
+
+    #session_id = session.get("doc_scan_session_id", None)
+    if session_id is None:
+        return Response("No session ID available", status=404)
+
+    try:
+        retrieved_media = doc_scan_client.get_media_content(session_id, media_id)
+    except DocScanException as e:
+        return render_template("error.html", error=e.message)
+
+    if retrieved_media is None:
+        return Response("", status=204)
+
+    return Response(
+        retrieved_media.content, content_type=retrieved_media.mime_type, status=200
+    )
 
 if __name__ == "__main__":
     app.run()
