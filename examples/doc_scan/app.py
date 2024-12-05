@@ -133,9 +133,6 @@ def success():
 
     try:
         session_result = doc_scan_client.get_session(session_id)
-        resources = session_result.resources
-        print(resources)
-
     except DocScanException as e:
         return render_template("error.html", error=e.message)
 
