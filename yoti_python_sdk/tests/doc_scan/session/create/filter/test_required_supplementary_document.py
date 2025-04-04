@@ -1,10 +1,11 @@
 import json
 import unittest
 
-from mock import (
+from unittest.mock import (
     Mock,
     MagicMock,
 )
+from unittest.mock import Mock
 
 from yoti_python_sdk.doc_scan.session.create.objective.objective import Objective
 from yoti_python_sdk.doc_scan.session.create.objective import (

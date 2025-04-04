@@ -1,6 +1,6 @@
 import json
 
-from mock import Mock
+from unittest.mock import Mock
 
 from yoti_python_sdk.doc_scan.session.create.filter import (
     DocumentRestrictionsFilterBuilder,
