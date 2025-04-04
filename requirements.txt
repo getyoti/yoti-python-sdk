@@ -34,7 +34,7 @@ protobuf==3.19.4
     # via -r requirements.in
 pycparser==2.18
     # via cffi
-pyopenssl==21.0.0
+pyopenssl==22.1.0
     # via -r requirements.in
 pytz==2021.3
     # via -r requirements.in
