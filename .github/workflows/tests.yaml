@@ -44,6 +44,12 @@ jobs:
         with:
           python-version: 3.12
 
+      - name: Upgrade pip and install dependencies
+        run: |
+          pip install --upgrade pip setuptools wheel
+          pip install --upgrade cffi cryptography
+          pip install --upgrade -r requirements.txt
+
       - run: pip install --upgrade setuptools
 
       - run: pushd examples/aml && pip install -r requirements.txt && popd
