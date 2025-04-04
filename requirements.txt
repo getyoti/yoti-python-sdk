@@ -8,13 +8,13 @@ asn1==2.2.0
     # via -r requirements.in
 certifi==2018.11.29
     # via requests
-cffi==1.17.0
+cffi==1.17.1
     # via
     #   -r requirements.in
     #   cryptography
 chardet==3.0.4
     # via requests
-cryptography==41.0.7
+cryptography==44.0.2
     # via
     #   -r requirements.in
     #   pyopenssl
