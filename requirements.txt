@@ -14,7 +14,7 @@ cffi==1.16.0
     #   cryptography
 chardet==3.0.4
     # via requests
-cryptography==42.0.0
+cryptography==40.0.0
     # via
     #   -r requirements.in
     #   pyopenssl
