@@ -40,7 +40,7 @@ six==1.16.0
     # via pyopenssl
 urllib3==1.26.8
     # via requests
-wrapt==1.17.2
+wrapt==1.13.3
     # via deprecated
 yoti==2.14.0
     # via -r requirements.in
