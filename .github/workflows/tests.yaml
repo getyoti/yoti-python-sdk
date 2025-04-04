@@ -16,6 +16,11 @@ jobs:
         python-version: ["3.10","3.13"]
 
     steps:
+      - name: Workaround for cffi ImportError
+        run: |
+          export LD_PRELOAD=$(python -c "import sysconfig; print(sysconfig.get_config_var('LIBDIR'))")/libpython3.13.so
+          pytest -v
+
       - uses: actions/checkout@v2
 
       - uses: actions/setup-python@v2.3.1
