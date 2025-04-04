@@ -8,7 +8,7 @@ asn1==2.2.0
     # via -r requirements.in
 certifi==2018.11.29
     # via requests
-cffi==1.16.0
+cffi==1.17.1
     # via
     #   -r requirements.in
     #   cryptography
