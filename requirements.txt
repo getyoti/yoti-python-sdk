@@ -52,5 +52,5 @@ urllib3==1.24.3
     #   requests
 wheel==0.37.1
     # via -r requirements.in
-wrapt==1.11.2
+wrapt==1.17.2
     # via deprecated
