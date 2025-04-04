@@ -5,30 +5,36 @@ jobs:
   test:
     name: Test (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
-    # always run on push events
-    # only run on pull_request_target event when pull request pulls from fork repository
     if: >
       github.event_name == 'push' || 
-      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository 
+      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.7, 3.8, 3.9, "3.10","3.13"]
+        python-version: [3.7, 3.8, 3.9, "3.10", "3.13"]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v2.3.1
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: pip install -U setuptools
+      - name: Install System Dependencies
+        run: sudo apt-get update && sudo apt-get install -y libffi-dev libssl-dev build-essential
 
-      - run: pip install -r requirements.txt
+      - name: Upgrade pip and setuptools
+        run: pip install --upgrade pip setuptools wheel
 
-      - run: pip install -e .[dev]
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - run: pytest -v
+      - name: Install dev dependencies
+        run: pip install -e .[dev]
+
+      - name: Run tests
+        run: pytest -v
 
   examples:
     name: Check Examples
@@ -38,18 +44,22 @@ jobs:
       github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository 
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v2.3.1
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v4
         with:
           python-version: 3.13.2
 
-      - run: pip install --upgrade setuptools
+      - name: Install System Dependencies
+        run: sudo apt-get update && sudo apt-get install -y libffi-dev libssl-dev build-essential
 
-      - run: pushd examples/aml && pip install -r requirements.txt && popd
+      - name: Upgrade pip and setuptools
+        run: pip install --upgrade pip setuptools wheel
 
-      - run: pushd examples/yoti_example_django && pip install --upgrade pip && pip install -r requirements.txt && popd
-
-      - run: pushd examples/yoti_example_flask && pip install -r requirements.txt && popd
-
-      - run: pushd examples/doc_scan && pip install -r requirements.txt && popd
+      - name: Install Example Dependencies
+        run: |
+          pushd examples/aml && pip install -r requirements.txt && popd
+          pushd examples/yoti_example_django && pip install -r requirements.txt && popd
+          pushd examples/yoti_example_flask && pip install -r requirements.txt && popd
+          pushd examples/doc_scan && pip install -r requirements.txt && popd
