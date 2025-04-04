@@ -1,6 +1,6 @@
 asn1==2.2.0
-cryptography==3.4.7
-cffi==1.15.0
+cryptography==42.0.5
+cffi==1.16.0
 future==0.18.2
 itsdangerous>=2.1.2  # Updated to match Flask's requirement
 pbr==1.10.0
