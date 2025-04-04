@@ -14,7 +14,7 @@ cffi==1.17.1
     #   cryptography
 chardet==3.0.4
     # via requests
-cryptography==38.0.2
+cryptography==41.0.7
     # via
     #   -r requirements.in
     #   pyopenssl
@@ -34,7 +34,7 @@ protobuf==3.19.4
     # via -r requirements.in
 pycparser==2.18
     # via cffi
-pyopenssl==22.1.0
+pyopenssl==24.3.0
     # via -r requirements.in
 pytz==2021.3
     # via -r requirements.in
