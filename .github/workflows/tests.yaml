@@ -13,28 +13,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10","3.13"]
+        python-version: ["3.13"]
 
     steps:
-
-
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v2.3.1
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Upgrade pip & Install Dependencies
-        run: |
-          python -m pip install --upgrade pip setuptools wheel
-          pip install --upgrade cffi cryptography
-          pip install --upgrade -r requirements.txt
-          pip install -e .[dev]
+      - run: pip install -U setuptools
 
-      - name: Workaround for cffi ImportError
-        run: |
-          export LD_PRELOAD=$(python -c "import sysconfig; print(sysconfig.get_config_var('LIBDIR'))")/libpython3.13.so
-          pytest -v
+      - run: pip install -r requirements.txt
+
+      - run: pip install -e .[dev]
 
       - run: pytest -v
 
@@ -50,13 +42,7 @@ jobs:
 
       - uses: actions/setup-python@v2.3.1
         with:
-          python-version: 3.13
-
-      - name: Upgrade pip and install dependencies
-        run: |
-          pip install --upgrade pip setuptools wheel
-          pip install --upgrade cffi cryptography
-          pip install --upgrade -r requirements.txt
+          python-version: 3.9
 
       - run: pip install --upgrade setuptools
 
