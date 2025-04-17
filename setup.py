@@ -1,33 +1,26 @@
-# -*- coding: utf-8 -*-
-from setuptools import find_packages
-from setuptools import setup
-
-version = {}
-with open("yoti_python_sdk/version.py") as fp:
-    exec(fp.read(), version)
+from setuptools import setup, find_packages
 
 setup(
-    name="yoti",
-    version=version["__version__"],
-    packages=find_packages(include=["yoti_python_sdk", "yoti_python_sdk.*"]),
-    license="MIT",
-    description="The Yoti Python SDK, providing API support for Login, Verify (2FA) and Age Verification.",
-    long_description=open("README.md").read(),
-    long_description_content_type="text/markdown",
-    url="https://github.com/getyoti/yoti-python-sdk",
-    author="Yoti",
-    author_email="websdk@yoti.com",
+    name="your_package_name",  # Replace with your actual package name
+    version="your_package_version",  # Replace with your actual package version
+    packages=find_packages(),
     install_requires=[
-        "deprecated==1.2.13",
-        "cryptography>=2.2.1",
-        "protobuf==3.13.0",
-        "requests>=2.11.1",
-        "future>=0.18.2",
+        "deprecated==1.2.10",  
+        "cryptography==44.0.2",  
+        "protobuf==4.25.3",  
+        "requests==2.32.3",  
+        "future==0.18.3",  
         "asn1==2.2.0",
-        "pyopenssl>=18.0.0",
-        "iso8601==1.0.2",
-        "wheel==0.37.1",
-        "pytz==2022.1",
+        "pyopenssl==25.0.0",  
+        "iso8601==0.1.14",  
+        "wheel==0.43.0",  
+        "pytz==2024.1",  
+        "cffi==1.17.1",
+        "charset-normalizer==3.4.1",
+        "idna==2.7",
+        "urllib3==2.3.0",
+        "six==1.16.0",
+        "wrapt==1.17.2",
     ],
     extras_require={
         "examples": [
@@ -63,6 +56,9 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     keywords="yoti sdk 2FA multifactor authentication verification identity login register verify 2Factor",
