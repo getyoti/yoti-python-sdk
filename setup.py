@@ -23,7 +23,7 @@ setup(
         "protobuf==3.20.3",
         "requests>=2.31.0",
         "pyopenssl>=24.0.0",
-        "pytz>=2024.1",
+        "pytz>=2025.2",
         "iso8601>=1.1.0",
         "deprecated>=1.2.14",
     ],

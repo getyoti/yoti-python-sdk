@@ -7,7 +7,7 @@ pbr>=5.11.1
 protobuf==3.20.3
 pyopenssl>=24.0.0
 PyYAML>=6.0
-pytz>=2024.1
+pytz>=2025.2
 requests>=2.31.0
 urllib3>=2.2.1
 deprecated>=1.2.14
