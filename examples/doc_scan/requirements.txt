@@ -6,14 +6,14 @@
 #
 asn1==2.2.0               # via yoti
 certifi==2020.4.5.1       # via requests
-cffi==1.14.0              # via cryptography
+cffi==1.17.1
 chardet==3.0.4            # via requests
 click==7.1.2              # via flask
-cryptography==3.2         # via pyopenssl, yoti
+cryptography==44.0.2
 deprecated==1.2.10        # via yoti
 filetype==1.0.7           # via -r requirements.in
 flask==1.1.2              # via -r requirements.in
-future==0.18.2            # via yoti
+future==1.0.0
 idna==2.9                 # via requests
 iso8601==0.1.13           # via yoti
 itsdangerous==1.1.0       # via flask
@@ -27,7 +27,7 @@ requests==2.23.0          # via yoti
 six==1.14.0               # via cryptography, protobuf, pyopenssl
 urllib3==1.25.9           # via requests
 werkzeug==1.0.1           # via flask
-wrapt==1.12.1             # via deprecated
+wrapt==1.17.2             # via deprecated
 yoti==2.13.0              # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:
