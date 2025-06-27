@@ -1,15 +1,10 @@
 name: Unit Tests
-on: [push, pull_request_target]
+on: [push, pull_request]
 
 jobs:
   test:
     name: Test (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
-    # always run on push events
-    # only run on pull_request_target event when pull request pulls from fork repository
-    if: >
-      github.event_name == 'push' || 
-      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
       matrix:
@@ -32,10 +27,7 @@ jobs:
 
   examples:
     name: Check Examples
-    runs-on: ubuntu-latest
-    if: >
-      github.event_name == 'push' || 
-      github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository 
+    runs-on: ubuntu-latest 
 
     steps:
       - uses: actions/checkout@v2
