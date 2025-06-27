@@ -140,6 +140,7 @@ timestamp = activity_details.timestamp
 base64_selfie_uri = activity_details.base64_selfie_uri
 ```
 
+
 You can retrieve the anchors, sources and verifiers for each attribute as follows:
 ```python
 given_names_attribute = profile.given_names
@@ -238,3 +239,4 @@ set LIB=C:\OpenSSL-Win64\lib;%LIB%
 set INCLUDE=C:\OpenSSL-Win64\include;%INCLUDE%
 ```
 Where `OpenSSL-Win64` is the location that you have installed OpenSSL to. See [here](https://cryptography.io/en/latest/installation/#building-cryptography-on-windows) for more information.
+
