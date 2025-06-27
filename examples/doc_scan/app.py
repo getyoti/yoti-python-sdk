@@ -47,6 +47,7 @@ def create_session():
         .with_preset_issuing_country("GBR")
         .with_success_url("{url}/success".format(url=YOTI_APP_BASE_URL))
         .with_error_url("{url}/error".format(url=YOTI_APP_BASE_URL))
+        .with_privacy_policy_url("{url}/privacy-policy".format(url=YOTI_APP_BASE_URL))
         .build()
     )
 
@@ -171,6 +172,11 @@ def media():
     return Response(
         retrieved_media.content, content_type=retrieved_media.mime_type, status=200
     )
+
+
+@app.route("/privacy-policy")
+def privacy_policy():
+    return render_template("privacy.html")
 
 
 if __name__ == "__main__":

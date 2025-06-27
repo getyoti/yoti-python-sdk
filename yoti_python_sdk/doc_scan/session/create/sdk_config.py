@@ -21,6 +21,8 @@ class SdkConfig(YotiSerializable):
         preset_issuing_country,
         success_url,
         error_url,
+        allow_handoff=None,
+        privacy_policy_url=None,
     ):
         """
         :param allowed_capture_methods: the allowed capture methods
@@ -39,6 +41,10 @@ class SdkConfig(YotiSerializable):
         :type success_url: str
         :param error_url: the error url
         :type error_url: str
+        :param privacy_policy_url: the privacy policy url
+        :type privacy_policy_url: str
+        :param allow_handoff: boolean flag for allow_handoff
+        :type allow_handoff: bool
         """
         self.__allowed_capture_methods = allowed_capture_methods
         self.__primary_colour = primary_colour
@@ -48,6 +54,8 @@ class SdkConfig(YotiSerializable):
         self.__preset_issuing_country = preset_issuing_country
         self.__success_url = success_url
         self.__error_url = error_url
+        self.__privacy_policy_url = privacy_policy_url
+        self.__allow_handoff = allow_handoff
 
     @property
     def allowed_capture_methods(self):
@@ -121,6 +129,25 @@ class SdkConfig(YotiSerializable):
         """
         return self.__error_url
 
+    @property
+    def privacy_policy_url(self):
+        """
+        The privacy policy URL
+
+        :return: the privacy policy url
+        """
+        return self.__privacy_policy_url
+
+    @property
+    def allow_handoff(self):
+        """
+        Flag to enable/disable relying business to handoff
+        support when creating a session.
+
+        :return: the allow_handoff
+        """
+        return self.__allow_handoff
+
     def to_json(self):
         return remove_null_values(
             {
@@ -132,6 +159,8 @@ class SdkConfig(YotiSerializable):
                 "preset_issuing_country": self.preset_issuing_country,
                 "success_url": self.success_url,
                 "error_url": self.error_url,
+                "privacy_policy_url": self.privacy_policy_url,
+                "allow_handoff": self.allow_handoff,
             }
         )
 
@@ -150,6 +179,8 @@ class SdkConfigBuilder(object):
         self.__preset_issuing_country = None
         self.__success_url = None
         self.__error_url = None
+        self.__privacy_policy_url = None
+        self.__allow_handoff = None
 
     def with_allowed_capture_methods(self, allowed_capture_methods):
         """
@@ -265,6 +296,30 @@ class SdkConfigBuilder(object):
         self.__error_url = url
         return self
 
+    def with_privacy_policy_url(self, url):
+        """
+        Sets the privacy policy URL
+
+        :param url: the privacy policy URL
+        :type url: str
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        self.__privacy_policy_url = url
+        return self
+
+    def with_allow_handoff(self, flag):
+        """
+        Sets the allow handoff flag
+
+        :param flag: boolean value for flag
+        :type flag: bool
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        self.__allow_handoff = flag
+        return self
+
     def build(self):
         return SdkConfig(
             self.__allowed_capture_methods,
@@ -275,4 +330,6 @@ class SdkConfigBuilder(object):
             self.__preset_issuing_country,
             self.__success_url,
             self.__error_url,
+            self.__allow_handoff,
+            self.__privacy_policy_url,
         )

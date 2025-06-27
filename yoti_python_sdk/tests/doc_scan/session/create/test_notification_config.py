@@ -12,6 +12,7 @@ class NotificationConfigTest(unittest.TestCase):
     SOME_AUTH_TOKEN = "someAuthToken"
     SOME_ENDPOINT = "someEndpoint"
     SOME_TOPIC = "someTopic"
+    SOME_AUTH_TYPE = "someAuthType"
 
     def test_should_build_correctly(self):
         result = (
@@ -26,6 +27,7 @@ class NotificationConfigTest(unittest.TestCase):
         assert result.auth_token is self.SOME_AUTH_TOKEN
         assert result.endpoint is self.SOME_ENDPOINT
         assert self.SOME_TOPIC in result.topics
+        assert result.auth_type is None
 
     def test_should_add_resource_update_topic(self):
         result = (
@@ -103,6 +105,30 @@ class NotificationConfigTest(unittest.TestCase):
         )
 
         assert len(result.topics) == 1
+
+    def test_build_with_basic_auth_type(self):
+        result = (
+            NotificationConfigBuilder()
+            .with_auth_token(self.SOME_AUTH_TOKEN)
+            .with_endpoint(self.SOME_ENDPOINT)
+            .with_topic(self.SOME_TOPIC)
+            .with_basic_auth_type()
+            .build()
+        )
+
+        assert result.auth_type is "BASIC"
+
+    def test_build_with_bearer_auth_type(self):
+        result = (
+            NotificationConfigBuilder()
+            .with_auth_token(self.SOME_AUTH_TOKEN)
+            .with_endpoint(self.SOME_ENDPOINT)
+            .with_topic(self.SOME_TOPIC)
+            .with_bearer_auth_type()
+            .build()
+        )
+
+        assert result.auth_type is "BEARER"
 
     def test_should_serialize_to_json_without_error(self):
         result = (
