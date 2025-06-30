@@ -36,9 +36,7 @@ itsdangerous==2.2.0
     # via -r requirements.in
 pbr==6.1.1
     # via -r requirements.in
-
 protobuf==3.20.3
-
     # via -r requirements.in
 pycparser==2.18
     # via cffi
