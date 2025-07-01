@@ -16,7 +16,7 @@ class NotificationConfig(YotiSerializable):
     to poll for the state of the Session.
     """
 
-    def __init__(self, auth_token, endpoint, topics=None):
+    def __init__(self, auth_token, endpoint, topics=None, auth_type=None):
         """
         :param auth_token: the authorization token
         :type auth_token: str
@@ -31,6 +31,7 @@ class NotificationConfig(YotiSerializable):
         self.__auth_token = auth_token
         self.__endpoint = endpoint
         self.__topics = list(set(topics))  # Get unique values
+        self.__auth_type = auth_type
 
     @property
     def auth_token(self):
@@ -62,9 +63,21 @@ class NotificationConfig(YotiSerializable):
         """
         return self.__topics
 
+    @property
+    def auth_type(self):
+        """
+        The authentication type that the notification will use to
+        authenticate itself.
+
+        :return: the endpoint
+        :rtype: str
+        """
+        return self.__auth_type
+
     def to_json(self):
         return remove_null_values(
             {
+                "auth_type": self.auth_type,
                 "auth_token": self.auth_token,
                 "endpoint": self.endpoint,
                 "topics": self.topics,
@@ -81,6 +94,7 @@ class NotificationConfigBuilder(object):
         self.__auth_token = None
         self.__endpoint = None
         self.__topics = []
+        self.__auth_type = None
 
     def with_auth_token(self, token):
         """
@@ -154,6 +168,26 @@ class NotificationConfigBuilder(object):
         """
         return self.with_topic(CHECK_COMPLETION)
 
+    def with_basic_auth_type(self):
+        """
+        Setup "BASIC" auth type for notifications.
+
+        :return: the builder
+        :rtype: NotificationConfigBuilder
+        """
+        self.__auth_type = "BASIC"
+        return self
+
+    def with_bearer_auth_type(self):
+        """
+        Setup "BEARER" auth type for notifications.
+
+        :return: the builder
+        :rtype: NotificationConfigBuilder
+        """
+        self.__auth_type = "BEARER"
+        return self
+
     def build(self):
         """
         Builds the :class:`NotificationConfig` using the supplied values
@@ -161,4 +195,4 @@ class NotificationConfigBuilder(object):
         :return: the build notification config
         :rtype: NotificationConfig
         """
-        return NotificationConfig(self.__auth_token, self.__endpoint, self.__topics)
+        return NotificationConfig(self.__auth_token, self.__endpoint, self.__topics, self.__auth_type)

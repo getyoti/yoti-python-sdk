@@ -18,15 +18,17 @@ setup(
     author="Yoti",
     author_email="websdk@yoti.com",
     install_requires=[
-        "deprecated==1.2.10",
-        "cryptography>=2.2.1",
-        "protobuf==3.20.1",
-        "requests>=2.11.1",
-        "future>=0.11.0",
-        "asn1==2.2.0",
-        "pyopenssl>=18.0.0",
-        "iso8601==0.1.13",
-        "pytz==2022.1",
+
+
+        "asn1==2.2.0",  # still pinned due to enum34 issue
+        "cryptography>=42.0.0",
+        "protobuf==3.20.3",
+        "requests>=2.31.0",
+        "pyopenssl>=24.0.0",
+        "pytz>=2025.2",
+        "iso8601>=1.1.0",
+        "deprecated>=1.2.14",
+
     ],
     extras_require={
         "examples": [
@@ -34,18 +36,20 @@ setup(
             "Flask>=1.0.4",
             "python-dotenv>=0.7.1",
             "django-sslserver>=0.22.0",
-            "Werkzeug==1.0.1",
+            "Werkzeug==2.1.2",
         ],
         "dev": [
-            "pre-commit==1.17.0",
+            "pre-commit==2.16.0",
             "pytest>=4.6.11",
             "pytest-cov>=2.7.1",
             "pylint==1.9.4",
             "pylint-exit>=1.1.0",
             "python-coveralls==2.9.3",
-            "coverage==4.5.4",
+            "coverage>=7.4.0",
             "mock==2.0.0",
-            "virtualenv==20.1.0",
+            "virtualenv==20.15.1",
+            "flake8==4.0.1",
+            "pip-tools==6.6.2",
         ],
     },
     classifiers=[
@@ -54,13 +58,12 @@ setup(
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.4",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
+
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     keywords="yoti sdk 2FA multifactor authentication verification identity login register verify 2Factor",
