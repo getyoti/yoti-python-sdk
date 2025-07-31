@@ -20,6 +20,8 @@ jobs:
       - run: pip install -e .[dev]
 
       - run: pytest --cov=yoti_python_sdk yoti_python_sdk/tests --cov-report=xml:coverage-reports/coverage-new.xml
+        env:
+          PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
 
       - run: sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage-reports/coverage-new.xml
 

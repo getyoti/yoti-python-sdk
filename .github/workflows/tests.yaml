@@ -24,6 +24,8 @@ jobs:
       - run: pip install -e .[dev]
 
       - run: pytest -v
+        env:
+          PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
 
   examples:
     name: Check Examples
