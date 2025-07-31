@@ -12,19 +12,17 @@ cffi==1.14.3
     # via
     #   -r requirements.in
     #   cryptography
-chardet==3.0.4
+charset-normalizer==3.4.2
     # via requests
-cryptography==2.8
+cryptography==45.0.5
     # via
     #   -r requirements.in
     #   pyopenssl
-deprecated==1.2.10
-    # via -r requirements.in
-future==0.18.2
+deprecated==1.2.18
     # via -r requirements.in
 idna==2.7
     # via requests
-iso8601==0.1.13
+iso8601==2.1.0
     # via -r requirements.in
 itsdangerous==1.1.0
     # via -r requirements.in
@@ -34,18 +32,16 @@ protobuf==4.21.12
     # via -r requirements.in
 pycparser==2.18
     # via cffi
-pyopenssl==19.1.0
+pyopenssl==25.1.0
     # via -r requirements.in
-pytz==2022.1
+pytz==2025.2
     # via -r requirements.in
 pyyaml==5.2
     # via -r requirements.in
-requests==2.21.0
+requests==2.32.4
     # via -r requirements.in
-six==1.10.0
-    # via
-    #   cryptography
-    #   pyopenssl
+typing-extensions==4.14.1
+    # via pyopenssl
 urllib3==1.24.3
     # via
     #   -r requirements.in
