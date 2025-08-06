@@ -7,10 +7,10 @@ import base64
 from yoti_python_sdk.share.extra_data import ExtraData
 from yoti_python_sdk.tests import file_helper
 
-from yoti_python_sdk.protobuf.share_public_api import IssuingAttributes_pb2
-from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
-from yoti_python_sdk.protobuf.share_public_api import ExtraData_pb2
-from yoti_python_sdk.protobuf.share_public_api import DataEntry_pb2
+from yoti_python_sdk.protobuf.sharepubapi_v1 import IssuingAttributes_pb2
+from yoti_python_sdk.protobuf.sharepubapi_v1 import ThirdPartyAttribute_pb2
+from yoti_python_sdk.protobuf.sharepubapi_v1 import ExtraData_pb2
+from yoti_python_sdk.protobuf.sharepubapi_v1 import DataEntry_pb2
 
 FIXTURES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
 EXTRADATA = os.path.join(FIXTURES_DIR, "testextradata.txt")
