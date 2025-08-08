@@ -74,7 +74,7 @@ werkzeug==1.0.1
     #   flask
 wrapt==1.12.1
     # via deprecated
-yoti==2.14.4
+yoti==2.14.0
     # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:

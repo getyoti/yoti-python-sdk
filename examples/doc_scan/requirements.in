@@ -1,7 +1,7 @@
 # Core requirements
 flask>=2.2.0
 python-dotenv>=0.21.0
-yoti>=2.14.4
+yoti>=2.14.0
 filetype>=1.0.7
 pyopenssl>=24.0.0
 click>=8.0
