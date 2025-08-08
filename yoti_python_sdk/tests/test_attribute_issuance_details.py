@@ -3,8 +3,8 @@
 import os.path
 from yoti_python_sdk.tests import file_helper
 from yoti_python_sdk.attribute_issuance_details import AttributeIssuanceDetails
-from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
-from yoti_python_sdk.protobuf.share_public_api import IssuingAttributes_pb2
+from yoti_python_sdk.protobuf.sharepubapi_v1 import ThirdPartyAttribute_pb2
+from yoti_python_sdk.protobuf.sharepubapi_v1 import IssuingAttributes_pb2
 from datetime import datetime
 import base64
 import pytest

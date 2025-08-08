@@ -2,10 +2,10 @@
 from __future__ import unicode_literals
 
 from cryptography.fernet import base64
-from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2, List_pb2
-from yoti_python_sdk.protobuf.common_public_api import EncryptedData_pb2
-from yoti_python_sdk.protobuf.share_public_api import ExtraData_pb2
-from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
+from yoti_python_sdk.protobuf.attrpubapi_v1 import Attribute_pb2, List_pb2
+from yoti_python_sdk.protobuf.compubapi_v1 import EncryptedData_pb2
+from yoti_python_sdk.protobuf.sharepubapi_v1 import ExtraData_pb2
+from yoti_python_sdk.protobuf.sharepubapi_v1 import ThirdPartyAttribute_pb2
 
 
 class Protobuf(object):

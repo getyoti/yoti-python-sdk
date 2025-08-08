@@ -38,6 +38,8 @@ jobs:
 
       - run: pip install --upgrade setuptools
 
+      - run: pip install -e .
+
       - run: pushd examples/aml && pip install -r requirements.txt && popd
 
       - run: pushd examples/yoti_example_django && pip install --upgrade pip && pip install -r requirements.txt && popd
