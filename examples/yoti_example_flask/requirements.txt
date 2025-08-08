@@ -18,21 +18,23 @@ click==8.1.2
     # via
     #   -r requirements.in
     #   flask
-cryptography==3.2
+cryptography>=42.0.0
     # via
     #   pyopenssl
     #   yoti
-deprecated==1.2.10
+deprecated==1.2.18
     # via yoti
 flask==1.1.1
     # via -r requirements.in
-future==0.16.0
-    # via yoti
+future==1.0.0
+    # via
+    #   -r requirements.in
+    #   yoti
 idna==2.7
     # via requests
-iso8601==0.1.13
+iso8601>=1.1.0
     # via yoti
-itsdangerous==0.24
+itsdangerous==1.1.0
     # via flask
 jinja2==3.0.3
     # via
@@ -40,19 +42,19 @@ jinja2==3.0.3
     #   flask
 markupsafe==2.0.1
     # via jinja2
-protobuf==3.6.0
+protobuf==4.21.12
     # via yoti
 pycparser==2.18
     # via cffi
-pyopenssl==19.0.0
+pyopenssl>=24.0.0
     # via
     #   -r requirements.in
     #   yoti
-python-dotenv==0.8.2
+python-dotenv>=0.7.1
     # via -r requirements.in
-pytz==2020.4
+pytz>=2025.2
     # via yoti
-requests==2.21.0
+requests>=2.31.0
     # via
     #   -r requirements.in
     #   yoti
@@ -72,8 +74,7 @@ werkzeug==1.0.1
     #   flask
 wrapt==1.12.1
     # via deprecated
-yoti==2.14.0
-    # via -r requirements.in
+# yoti will be installed separately in CI from local source
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
