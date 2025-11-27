@@ -16,6 +16,7 @@ class SdkConfigTest(unittest.TestCase):
     SOME_ERROR_URL = "https://mysite.com/yoti/error"
     SOME_PRIVACY_POLICY_URL = "https://mysite.com/privacy"
     SOME_ALLOW_HANDOFF = True
+    SOME_BRAND_ID = "test-brand-id-123"
 
     def test_should_build_correctly(self):
         result = (
@@ -77,6 +78,33 @@ class SdkConfigTest(unittest.TestCase):
 
         s = json.dumps(result, cls=YotiEncoder)
         assert s is not None and s != ""
+
+    def test_should_build_with_brand_id(self):
+        result = SdkConfigBuilder().with_brand_id(self.SOME_BRAND_ID).build()
+
+        assert result.brand_id == self.SOME_BRAND_ID
+
+    def test_not_passing_brand_id(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        assert result.brand_id is None
+
+    def test_should_include_brand_id_in_json(self):
+        result = (
+            SdkConfigBuilder()
+            .with_allows_camera()
+            .with_brand_id(self.SOME_BRAND_ID)
+            .build()
+        )
+
+        json_data = result.to_json()
+        assert json_data["brand_id"] == self.SOME_BRAND_ID
+
+    def test_should_exclude_null_brand_id_from_json(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        json_data = result.to_json()
+        assert "brand_id" not in json_data
 
 
 if __name__ == "__main__":
