@@ -47,6 +47,8 @@ def create_session():
         .with_preset_issuing_country("GBR")
         .with_success_url("{url}/success".format(url=YOTI_APP_BASE_URL))
         .with_error_url("{url}/error".format(url=YOTI_APP_BASE_URL))
+        # Uncomment the line below to apply a custom brand theme
+        # .with_brand_id("your-brand-id-here")
         .build()
     )
 
