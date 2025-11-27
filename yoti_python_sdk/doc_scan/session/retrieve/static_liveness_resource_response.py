@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from .resource_response import ResourceResponse
 from .liveness_resource_response import LivenessResourceResponse
 from .image_response import ImageResponse
 
