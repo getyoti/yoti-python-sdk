@@ -6,6 +6,9 @@ from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import
 from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import (
     ZoomLivenessResourceResponse,
 )
+from yoti_python_sdk.doc_scan.session.retrieve.static_liveness_resource_response import (
+    StaticLivenessResourceResponse,
+)
 from yoti_python_sdk.doc_scan.session.retrieve.resource_container import (
     ResourceContainer,
 )
@@ -48,6 +51,19 @@ class ResourceContainerTest(unittest.TestCase):
 
         assert len(result.liveness_capture) == 2
         assert len(result.zoom_liveness_resources) == 1
+
+    def test_should_filter_static_liveness_resources(self):
+        data = {
+            "liveness_capture": [
+                {"liveness_type": "STATIC"},
+                {"liveness_type": "someUnknown"},
+            ]
+        }
+
+        result = ResourceContainer(data)
+
+        assert len(result.liveness_capture) == 2
+        assert len(result.static_liveness_resources) == 1
 
 
 if __name__ == "__main__":
