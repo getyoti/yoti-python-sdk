@@ -16,6 +16,7 @@ class SdkConfigTest(unittest.TestCase):
     SOME_ERROR_URL = "https://mysite.com/yoti/error"
     SOME_PRIVACY_POLICY_URL = "https://mysite.com/privacy"
     SOME_ALLOW_HANDOFF = True
+    SOME_BRAND_ID = "my-custom-brand"
 
     def test_should_build_correctly(self):
         result = (
@@ -77,6 +78,40 @@ class SdkConfigTest(unittest.TestCase):
 
         s = json.dumps(result, cls=YotiEncoder)
         assert s is not None and s != ""
+
+    def test_should_build_with_brand_id(self):
+        result = (
+            SdkConfigBuilder()
+            .with_allows_camera_and_upload()
+            .with_brand_id(self.SOME_BRAND_ID)
+            .build()
+        )
+
+        assert isinstance(result, SdkConfig)
+        assert result.brand_id == self.SOME_BRAND_ID
+
+    def test_not_passing_brand_id(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        assert result.brand_id is None
+
+    def test_should_serialize_brand_id_to_json(self):
+        result = (
+            SdkConfigBuilder()
+            .with_allows_camera_and_upload()
+            .with_brand_id(self.SOME_BRAND_ID)
+            .build()
+        )
+
+        json_data = json.loads(json.dumps(result, cls=YotiEncoder))
+        assert "brand_id" in json_data
+        assert json_data["brand_id"] == self.SOME_BRAND_ID
+
+    def test_should_not_include_brand_id_in_json_when_not_set(self):
+        result = SdkConfigBuilder().with_allows_camera_and_upload().build()
+
+        json_data = json.loads(json.dumps(result, cls=YotiEncoder))
+        assert "brand_id" not in json_data
 
 
 if __name__ == "__main__":
