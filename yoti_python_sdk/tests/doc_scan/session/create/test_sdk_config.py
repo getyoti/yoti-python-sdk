@@ -16,6 +16,7 @@ class SdkConfigTest(unittest.TestCase):
     SOME_ERROR_URL = "https://mysite.com/yoti/error"
     SOME_PRIVACY_POLICY_URL = "https://mysite.com/privacy"
     SOME_ALLOW_HANDOFF = True
+    SOME_ENFORCE_HANDOFF = True
 
     def test_should_build_correctly(self):
         result = (
@@ -30,6 +31,7 @@ class SdkConfigTest(unittest.TestCase):
             .with_error_url(self.SOME_ERROR_URL)
             .with_privacy_policy_url(self.SOME_PRIVACY_POLICY_URL)
             .with_allow_handoff(self.SOME_ALLOW_HANDOFF)
+            .with_enforce_handoff(self.SOME_ENFORCE_HANDOFF)
             .build()
         )
 
@@ -44,6 +46,7 @@ class SdkConfigTest(unittest.TestCase):
         assert result.error_url is self.SOME_ERROR_URL
         assert result.privacy_policy_url is self.SOME_PRIVACY_POLICY_URL
         assert result.allow_handoff is True
+        assert result.enforce_handoff is True
 
     def test_should_allows_camera(self):
         result = SdkConfigBuilder().with_allows_camera().build()
@@ -59,6 +62,45 @@ class SdkConfigTest(unittest.TestCase):
         result = SdkConfigBuilder().with_allow_handoff(False).build()
 
         assert result.allow_handoff is False
+
+    def test_not_passing_enforce_handoff(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        assert result.enforce_handoff is None
+
+    def test_passing_enforce_handoff_true_value(self):
+        result = SdkConfigBuilder().with_enforce_handoff(True).build()
+
+        assert result.enforce_handoff is True
+
+    def test_passing_enforce_handoff_false_value(self):
+        result = SdkConfigBuilder().with_enforce_handoff(False).build()
+
+        assert result.enforce_handoff is False
+
+    def test_enforce_handoff_with_allow_handoff_both_true(self):
+        result = (
+            SdkConfigBuilder()
+            .with_allow_handoff(True)
+            .with_enforce_handoff(True)
+            .build()
+        )
+
+        assert result.allow_handoff is True
+        assert result.enforce_handoff is True
+
+    def test_enforce_handoff_serializes_to_json(self):
+        result = (
+            SdkConfigBuilder()
+            .with_allows_camera()
+            .with_allow_handoff(True)
+            .with_enforce_handoff(True)
+            .build()
+        )
+
+        json_data = result.to_json()
+        assert json_data["allow_handoff"] is True
+        assert json_data["enforce_handoff"] is True
 
     def test_should_serialize_to_json_without_error(self):
         result = (
