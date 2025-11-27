@@ -6,6 +6,9 @@ from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import
 from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import (
     ZoomLivenessResourceResponse,
 )
+from yoti_python_sdk.doc_scan.session.retrieve.static_liveness_resource_response import (
+    StaticLivenessResourceResponse,
+)
 from yoti_python_sdk.doc_scan.session.retrieve.resource_container import (
     ResourceContainer,
 )
