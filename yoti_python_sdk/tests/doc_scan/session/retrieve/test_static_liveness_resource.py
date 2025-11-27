@@ -1,6 +1,4 @@
 import unittest
-import json
-
 from yoti_python_sdk.doc_scan.session.retrieve.static_liveness_resource_response import (
     StaticLivenessResourceResponse,
 )
