@@ -16,6 +16,7 @@ class SdkConfigTest(unittest.TestCase):
     SOME_ERROR_URL = "https://mysite.com/yoti/error"
     SOME_PRIVACY_POLICY_URL = "https://mysite.com/privacy"
     SOME_ALLOW_HANDOFF = True
+    SOME_BRAND_ID = "brand-123"
 
     def test_should_build_correctly(self):
         result = (
@@ -30,6 +31,7 @@ class SdkConfigTest(unittest.TestCase):
             .with_error_url(self.SOME_ERROR_URL)
             .with_privacy_policy_url(self.SOME_PRIVACY_POLICY_URL)
             .with_allow_handoff(self.SOME_ALLOW_HANDOFF)
+            .with_brand_id(self.SOME_BRAND_ID)
             .build()
         )
 
@@ -44,6 +46,7 @@ class SdkConfigTest(unittest.TestCase):
         assert result.error_url is self.SOME_ERROR_URL
         assert result.privacy_policy_url is self.SOME_PRIVACY_POLICY_URL
         assert result.allow_handoff is True
+        assert result.brand_id is self.SOME_BRAND_ID
 
     def test_should_allows_camera(self):
         result = SdkConfigBuilder().with_allows_camera().build()
@@ -77,6 +80,34 @@ class SdkConfigTest(unittest.TestCase):
 
         s = json.dumps(result, cls=YotiEncoder)
         assert s is not None and s != ""
+
+    def test_not_passing_brand_id(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        assert result.brand_id is None
+
+    def test_passing_brand_id(self):
+        result = SdkConfigBuilder().with_brand_id(self.SOME_BRAND_ID).build()
+
+        assert result.brand_id is self.SOME_BRAND_ID
+
+    def test_should_serialize_brand_id_to_json(self):
+        result = (
+            SdkConfigBuilder()
+            .with_allows_camera()
+            .with_brand_id(self.SOME_BRAND_ID)
+            .build()
+        )
+
+        json_data = json.loads(json.dumps(result, cls=YotiEncoder))
+        assert "brand_id" in json_data
+        assert json_data["brand_id"] == self.SOME_BRAND_ID
+
+    def test_should_not_include_brand_id_in_json_when_null(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        json_data = json.loads(json.dumps(result, cls=YotiEncoder))
+        assert "brand_id" not in json_data
 
 
 if __name__ == "__main__":
