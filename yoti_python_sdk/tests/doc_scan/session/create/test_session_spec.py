@@ -8,6 +8,9 @@ from yoti_python_sdk.doc_scan.session.create.check.requested_check import Reques
 from yoti_python_sdk.doc_scan.session.create.filter.required_id_document import (
     RequiredIdDocument,
 )
+from yoti_python_sdk.doc_scan.session.create.filter.required_share_code import (
+    RequiredShareCode,
+)
 from yoti_python_sdk.doc_scan.session.create.notification_config import (
     NotificationConfig,
 )
@@ -122,6 +125,33 @@ class SessionSpecTest(unittest.TestCase):
         result = SessionSpecBuilder().build()
 
         assert result.block_biometric_consent is None
+
+    def test_should_add_required_share_code(self):
+        required_share_code_mock = Mock(spec=RequiredShareCode)
+
+        result = (
+            SessionSpecBuilder()
+            .with_required_share_code(required_share_code_mock)
+            .build()
+        )
+
+        assert len(result.required_share_codes) == 1
+        assert result.required_share_codes[0] == required_share_code_mock
+
+    def test_should_default_empty_array_for_required_share_codes(self):
+        result = SessionSpec(
+            client_session_token_ttl=1,
+            resources_ttl=1,
+            user_tracking_id="someTrackingId",
+            notifications=None,
+            sdk_config=None,
+            requested_checks=None,
+            requested_tasks=None,
+            required_documents=None,
+            required_share_codes=None,
+        )
+
+        assert len(result.required_share_codes) == 0
 
 
 if __name__ == "__main__":

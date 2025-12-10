@@ -11,6 +11,9 @@ from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import
     LivenessResourceResponse,
     ZoomLivenessResourceResponse,
 )
+from yoti_python_sdk.doc_scan.session.retrieve.share_code_resource_response import (
+    ShareCodeResourceResponse,
+)
 
 
 class ResourceContainer(object):
@@ -40,6 +43,11 @@ class ResourceContainer(object):
         self.__liveness_capture = [
             self.__parse_liveness_capture(liveness)
             for liveness in data.get("liveness_capture", [])
+        ]
+
+        self.__share_codes = [
+            ShareCodeResourceResponse(share_code)
+            for share_code in data.get("share_codes", [])
         ]
 
     @staticmethod
@@ -105,3 +113,13 @@ class ResourceContainer(object):
             for liveness in self.__liveness_capture
             if isinstance(liveness, ZoomLivenessResourceResponse)
         ]
+
+    @property
+    def share_codes(self):
+        """
+        Return a list of share code resources
+
+        :return: list of share codes
+        :rtype: list[ShareCodeResourceResponse]
+        """
+        return self.__share_codes

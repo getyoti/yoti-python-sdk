@@ -5,6 +5,7 @@ from .document_restrictions_filter import (
 from .orthogonal_restrictions_filter import OrthogonalRestrictionsFilterBuilder
 from .required_id_document import RequiredIdDocumentBuilder
 from .required_supplementary_document import RequiredSupplementaryDocumentBuilder
+from .required_share_code import RequiredShareCodeBuilder
 
 __all__ = [
     "DocumentRestrictionsFilterBuilder",
@@ -12,4 +13,5 @@ __all__ = [
     "OrthogonalRestrictionsFilterBuilder",
     "RequiredIdDocumentBuilder",
     "RequiredSupplementaryDocumentBuilder",
+    "RequiredShareCodeBuilder",
 ]

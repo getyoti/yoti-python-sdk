@@ -22,6 +22,7 @@ class SessionSpec(YotiSerializable):
         required_documents=None,
         block_biometric_consent=None,
         session_deadline=None,
+        required_share_codes=None,
     ):
         """
         :param client_session_token_ttl: the client session token TTL
@@ -43,7 +44,9 @@ class SessionSpec(YotiSerializable):
         :param block_biometric_consent: block the collection of biometric consent
         :type block_biometric_consent: bool
         :param session_deadline: session deadline using a Zoned timestamp
-        "type session_deadline: str
+        :type session_deadline: str
+        :param required_share_codes: the list of required share codes
+        :type required_share_codes: list[RequiredShareCode] or None
         """
         if requested_tasks is None:
             requested_tasks = []
@@ -51,6 +54,8 @@ class SessionSpec(YotiSerializable):
             requested_checks = []
         if required_documents is None:
             required_documents = []
+        if required_share_codes is None:
+            required_share_codes = []
 
         self.__client_session_token_ttl = client_session_token_ttl
         self.__resources_ttl = resources_ttl
@@ -62,6 +67,7 @@ class SessionSpec(YotiSerializable):
         self.__required_documents = required_documents
         self.__block_biometric_consent = block_biometric_consent
         self.__session_deadline = session_deadline
+        self.__required_share_codes = required_share_codes
 
     @property
     def client_session_token_ttl(self):
@@ -166,6 +172,16 @@ class SessionSpec(YotiSerializable):
         """
         return self.__session_deadline
 
+    @property
+    def required_share_codes(self):
+        """
+        List of required share codes for the session
+
+        :return: the list of required share codes
+        :rtype: list[RequiredShareCode]
+        """
+        return self.__required_share_codes
+
     def to_json(self):
         return remove_null_values(
             {
@@ -179,6 +195,7 @@ class SessionSpec(YotiSerializable):
                 "required_documents": self.required_documents,
                 "block_biometric_consent": self.block_biometric_consent,
                 "session_deadline": self.session_deadline,
+                "required_share_codes": self.required_share_codes,
             }
         )
 
@@ -199,6 +216,7 @@ class SessionSpecBuilder(object):
         self.__required_documents = []
         self.__block_biometric_consent = None
         self.__session_deadline = None
+        self.__required_share_codes = []
 
     def with_client_session_token_ttl(self, value):
         """
@@ -321,6 +339,18 @@ class SessionSpecBuilder(object):
         self.__block_biometric_consent = block_biometric_consent
         return self
 
+    def with_required_share_code(self, required_share_code):
+        """
+        Adds a required share code to the session specification
+
+        :param required_share_code: the required share code
+        :type required_share_code: RequiredShareCode
+        :return: the builder
+        :rtype: SessionSpecBuilder
+        """
+        self.__required_share_codes.append(required_share_code)
+        return self
+
     def build(self):
         """
         Builds a :class:`SessionSpec` using the supplied values
@@ -339,4 +369,5 @@ class SessionSpecBuilder(object):
             self.__required_documents,
             self.__block_biometric_consent,
             self.__session_deadline,
+            self.__required_share_codes,
         )
