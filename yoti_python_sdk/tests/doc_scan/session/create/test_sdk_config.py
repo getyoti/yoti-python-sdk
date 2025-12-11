@@ -16,6 +16,7 @@ class SdkConfigTest(unittest.TestCase):
     SOME_ERROR_URL = "https://mysite.com/yoti/error"
     SOME_PRIVACY_POLICY_URL = "https://mysite.com/privacy"
     SOME_ALLOW_HANDOFF = True
+    SOME_SUPPRESSED_SCREENS = ["screen1", "screen2", "screen3"]
 
     def test_should_build_correctly(self):
         result = (
@@ -77,6 +78,45 @@ class SdkConfigTest(unittest.TestCase):
 
         s = json.dumps(result, cls=YotiEncoder)
         assert s is not None and s != ""
+
+    def test_should_build_with_suppressed_screens(self):
+        result = (
+            SdkConfigBuilder()
+            .with_allows_camera()
+            .with_suppressed_screens(self.SOME_SUPPRESSED_SCREENS)
+            .build()
+        )
+
+        assert isinstance(result, SdkConfig)
+        assert result.suppressed_screens == self.SOME_SUPPRESSED_SCREENS
+        assert len(result.suppressed_screens) == 3
+
+    def test_not_passing_suppressed_screens(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        assert result.suppressed_screens is None
+
+    def test_passing_empty_suppressed_screens_list(self):
+        result = SdkConfigBuilder().with_suppressed_screens([]).build()
+
+        assert result.suppressed_screens == []
+
+    def test_should_serialize_to_json_with_suppressed_screens(self):
+        result = (
+            SdkConfigBuilder()
+            .with_allows_camera_and_upload()
+            .with_primary_colour(self.SOME_PRIMARY_COLOUR)
+            .with_suppressed_screens(self.SOME_SUPPRESSED_SCREENS)
+            .build()
+        )
+
+        s = json.dumps(result, cls=YotiEncoder)
+        assert s is not None and s != ""
+        
+        # Verify suppressed_screens is in the JSON
+        parsed = json.loads(s)
+        assert "suppressed_screens" in parsed
+        assert parsed["suppressed_screens"] == self.SOME_SUPPRESSED_SCREENS
 
 
 if __name__ == "__main__":

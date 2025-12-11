@@ -23,6 +23,7 @@ class SdkConfig(YotiSerializable):
         error_url,
         allow_handoff=None,
         privacy_policy_url=None,
+        suppressed_screens=None,
     ):
         """
         :param allowed_capture_methods: the allowed capture methods
@@ -45,6 +46,8 @@ class SdkConfig(YotiSerializable):
         :type privacy_policy_url: str
         :param allow_handoff: boolean flag for allow_handoff
         :type allow_handoff: bool
+        :param suppressed_screens: list of screen identifiers to suppress in the flow
+        :type suppressed_screens: list[str] or None
         """
         self.__allowed_capture_methods = allowed_capture_methods
         self.__primary_colour = primary_colour
@@ -56,6 +59,7 @@ class SdkConfig(YotiSerializable):
         self.__error_url = error_url
         self.__privacy_policy_url = privacy_policy_url
         self.__allow_handoff = allow_handoff
+        self.__suppressed_screens = suppressed_screens
 
     @property
     def allowed_capture_methods(self):
@@ -148,6 +152,16 @@ class SdkConfig(YotiSerializable):
         """
         return self.__allow_handoff
 
+    @property
+    def suppressed_screens(self):
+        """
+        List of screen identifiers to suppress in the flow.
+
+        :return: the suppressed screens
+        :rtype: list[str] or None
+        """
+        return self.__suppressed_screens
+
     def to_json(self):
         return remove_null_values(
             {
@@ -161,6 +175,7 @@ class SdkConfig(YotiSerializable):
                 "error_url": self.error_url,
                 "privacy_policy_url": self.privacy_policy_url,
                 "allow_handoff": self.allow_handoff,
+                "suppressed_screens": self.suppressed_screens,
             }
         )
 
@@ -181,6 +196,7 @@ class SdkConfigBuilder(object):
         self.__error_url = None
         self.__privacy_policy_url = None
         self.__allow_handoff = None
+        self.__suppressed_screens = None
 
     def with_allowed_capture_methods(self, allowed_capture_methods):
         """
@@ -320,6 +336,18 @@ class SdkConfigBuilder(object):
         self.__allow_handoff = flag
         return self
 
+    def with_suppressed_screens(self, suppressed_screens):
+        """
+        Sets the list of screen identifiers to suppress in the flow
+
+        :param suppressed_screens: list of screen identifiers
+        :type suppressed_screens: list[str]
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        self.__suppressed_screens = suppressed_screens
+        return self
+
     def build(self):
         return SdkConfig(
             self.__allowed_capture_methods,
@@ -332,4 +360,5 @@ class SdkConfigBuilder(object):
             self.__error_url,
             self.__allow_handoff,
             self.__privacy_policy_url,
+            self.__suppressed_screens,
         )
