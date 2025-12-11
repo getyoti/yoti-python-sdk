@@ -112,7 +112,7 @@ class SdkConfigTest(unittest.TestCase):
 
         s = json.dumps(result, cls=YotiEncoder)
         assert s is not None and s != ""
-        
+
         # Verify suppressed_screens is in the JSON
         parsed = json.loads(s)
         assert "suppressed_screens" in parsed
