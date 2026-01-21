@@ -36,7 +36,7 @@ idna==2.7
     # via requests
 iso8601==0.1.13
     # via yoti
-protobuf==3.6.0
+protobuf==3.18.3
     # via yoti
 pycparser==2.18
     # via cffi
@@ -54,7 +54,6 @@ six==1.16.0
     # via
     #   -r requirements.in
     #   cryptography
-    #   protobuf
     #   pyopenssl
 sqlparse==0.3.0
     # via django
@@ -66,6 +65,3 @@ wrapt==1.12.1
     # via deprecated
 yoti==2.14.0
     # via -r requirements.in
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
