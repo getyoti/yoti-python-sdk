@@ -8,6 +8,7 @@ from yoti_python_sdk.doc_scan.session.retrieve.breakdown_response import (
 class BreakdownResponseTest(unittest.TestCase):
     SOME_SUB_CHECK = "someSubCheck"
     SOME_RESULT = "someResult"
+    SOME_PROCESS = "AUTOMATED"
     SOME_DETAILS = [
         {"name": "firstDetailName", "value": "firstDetailValue"},
         {"name": "secondDetailName", "value": "secondDetailValue"},
@@ -17,6 +18,7 @@ class BreakdownResponseTest(unittest.TestCase):
         data = {
             "sub_check": self.SOME_SUB_CHECK,
             "result": self.SOME_RESULT,
+            "process": self.SOME_PROCESS,
             "details": self.SOME_DETAILS,
         }
 
@@ -24,6 +26,7 @@ class BreakdownResponseTest(unittest.TestCase):
 
         assert result.sub_check is self.SOME_SUB_CHECK
         assert result.result is self.SOME_RESULT
+        assert result.process is self.SOME_PROCESS
         assert len(result.details) == 2
         assert result.details[0].name == "firstDetailName"
         assert result.details[0].value == "firstDetailValue"
@@ -31,6 +34,7 @@ class BreakdownResponseTest(unittest.TestCase):
     def test_should_default_details_to_empty_list(self):
         result = BreakdownResponse({})
         assert len(result.details) == 0
+        assert result.process is None
 
 
 if __name__ == "__main__":
