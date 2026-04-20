@@ -3,6 +3,7 @@ from .task_response import (
     TaskResponse,
     TextExtractionTaskResponse,
     SupplementaryDocumentTextExtractionTaskResponse,
+    FaceCaptureTaskResponse,
 )
 
 
@@ -35,6 +36,7 @@ class ResourceResponse(object):
         types = {
             constants.ID_DOCUMENT_TEXT_DATA_EXTRACTION: TextExtractionTaskResponse,
             constants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION: SupplementaryDocumentTextExtractionTaskResponse,
+            constants.FACE_CAPTURE: FaceCaptureTaskResponse,
         }
         clazz = types.get(
             task.get("type", None), TaskResponse  # Default fallback for task type

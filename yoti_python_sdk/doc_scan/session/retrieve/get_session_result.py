@@ -17,6 +17,7 @@ from .check_response import (
     TextDataCheckResponse,
     SupplementaryDocumentTextDataCheckResponse,
     WatchlistScreeningCheckResponse,
+    WatchlistAdvancedCaProfilesCheckResponse,
 )
 from .resource_container import ResourceContainer
 
@@ -81,7 +82,8 @@ class GetSessionResult(object):
             constants.ID_DOCUMENT_FACE_MATCH: FaceMatchCheckResponse,
             constants.ID_DOCUMENT_TEXT_DATA_CHECK: TextDataCheckResponse,
             constants.LIVENESS: LivenessCheckResponse,
-            constants.WATCHLIST_SCREENING_CHECK_TYPE:  WatchlistScreeningCheckResponse,
+            constants.WATCHLIST_SCREENING_CHECK_TYPE: WatchlistScreeningCheckResponse,
+            constants.WATCHLIST_ADVANCED_CA_CHECK_TYPE: WatchlistAdvancedCaProfilesCheckResponse,
             constants.ID_DOCUMENT_COMPARISON: IDDocumentComparisonCheckResponse,
             constants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK: SupplementaryDocumentTextDataCheckResponse,
         }
@@ -229,6 +231,26 @@ class GetSessionResult(object):
         :rtype: list[IDDocumentComparisonCheckResponse]
         """
         return self.__checks_of_type((IDDocumentComparisonCheckResponse,))
+
+    @property
+    def watchlist_screening_checks(self):
+        """
+        A filtered list of checks, returning only Watchlist Screening checks
+
+        :return: the Watchlist Screening checks
+        :rtype: list[WatchlistScreeningCheckResponse]
+        """
+        return self.__checks_of_type((WatchlistScreeningCheckResponse,))
+
+    @property
+    def watchlist_advanced_ca_checks(self):
+        """
+        A filtered list of checks, returning only Watchlist Advanced CA Profiles checks
+
+        :return: the Watchlist Advanced CA Profiles checks
+        :rtype: list[WatchlistAdvancedCaProfilesCheckResponse]
+        """
+        return self.__checks_of_type((WatchlistAdvancedCaProfilesCheckResponse,))
 
     @property
     def resources(self):

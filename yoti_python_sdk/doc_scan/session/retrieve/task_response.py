@@ -179,3 +179,11 @@ class SupplementaryDocumentTextExtractionTaskResponse(TaskResponse):
             for check in self.generated_checks
             if isinstance(check, GeneratedSupplementaryDocumentTextDataCheckResponse)
         ]
+
+
+class FaceCaptureTaskResponse(TaskResponse):
+    """
+    Represents a Face Capture task response
+    """
+
+    pass

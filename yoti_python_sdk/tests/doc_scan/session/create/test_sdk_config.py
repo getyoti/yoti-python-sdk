@@ -1,6 +1,7 @@
 import json
 import unittest
 
+from yoti_python_sdk.doc_scan import constants
 from yoti_python_sdk.doc_scan.session.create import SdkConfigBuilder
 from yoti_python_sdk.doc_scan.session.create.sdk_config import SdkConfig
 from yoti_python_sdk.utils import YotiEncoder
@@ -16,6 +17,15 @@ class SdkConfigTest(unittest.TestCase):
     SOME_ERROR_URL = "https://mysite.com/yoti/error"
     SOME_PRIVACY_POLICY_URL = "https://mysite.com/privacy"
     SOME_ALLOW_HANDOFF = True
+    SOME_SUPPRESSED_SCREENS = [
+        constants.ID_DOCUMENT_EDUCATION,
+        constants.ID_DOCUMENT_REQUIREMENTS,
+        constants.SUPPLEMENTARY_DOCUMENT_EDUCATION,
+        constants.ZOOM_LIVENESS_EDUCATION,
+        constants.STATIC_LIVENESS_EDUCATION,
+        constants.FACE_CAPTURE_EDUCATION,
+        constants.FLOW_COMPLETION,
+    ]
 
     def test_should_build_correctly(self):
         result = (
@@ -30,6 +40,7 @@ class SdkConfigTest(unittest.TestCase):
             .with_error_url(self.SOME_ERROR_URL)
             .with_privacy_policy_url(self.SOME_PRIVACY_POLICY_URL)
             .with_allow_handoff(self.SOME_ALLOW_HANDOFF)
+            .with_suppressed_screens(self.SOME_SUPPRESSED_SCREENS)
             .build()
         )
 
@@ -44,6 +55,7 @@ class SdkConfigTest(unittest.TestCase):
         assert result.error_url is self.SOME_ERROR_URL
         assert result.privacy_policy_url is self.SOME_PRIVACY_POLICY_URL
         assert result.allow_handoff is True
+        assert result.suppressed_screens is self.SOME_SUPPRESSED_SCREENS
 
     def test_should_allows_camera(self):
         result = SdkConfigBuilder().with_allows_camera().build()
@@ -59,6 +71,32 @@ class SdkConfigTest(unittest.TestCase):
         result = SdkConfigBuilder().with_allow_handoff(False).build()
 
         assert result.allow_handoff is False
+
+    def test_not_passing_suppressed_screens(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        assert result.suppressed_screens is None
+
+    def test_passing_empty_suppressed_screens(self):
+        result = SdkConfigBuilder().with_suppressed_screens([]).build()
+
+        assert result.suppressed_screens == []
+
+    def test_suppressed_screens_serializes_to_json(self):
+        result = (
+            SdkConfigBuilder()
+            .with_suppressed_screens(self.SOME_SUPPRESSED_SCREENS)
+            .build()
+        )
+
+        payload = result.to_json()
+        assert payload["suppressed_screens"] == self.SOME_SUPPRESSED_SCREENS
+
+    def test_unset_suppressed_screens_not_in_json(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        payload = result.to_json()
+        assert "suppressed_screens" not in payload
 
     def test_should_serialize_to_json_without_error(self):
         result = (

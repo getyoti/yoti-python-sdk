@@ -192,3 +192,11 @@ class WatchlistScreeningCheckResponse(CheckResponse):
     """
 
     pass
+
+
+class WatchlistAdvancedCaProfilesCheckResponse(CheckResponse):
+    """
+    Represents a Watchlist Advanced CA Profiles check for a given session
+    """
+
+    pass
