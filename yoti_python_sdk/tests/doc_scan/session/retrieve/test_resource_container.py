@@ -9,6 +9,9 @@ from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import
 from yoti_python_sdk.doc_scan.session.retrieve.resource_container import (
     ResourceContainer,
 )
+from yoti_python_sdk.doc_scan.session.retrieve.share_code_resource_response import (
+    ShareCodeResourceResponse,
+)
 
 
 class ResourceContainerTest(unittest.TestCase):
@@ -61,6 +64,32 @@ class ResourceContainerTest(unittest.TestCase):
 
         assert len(result.liveness_capture) == 2
         assert len(result.static_liveness_resources) == 1
+
+    def test_should_parse_share_codes(self):
+        data = {
+            "share_codes": [
+                {"id": "share-code-1", "source": "END_USER", "tasks": []},
+                {"id": "share-code-2", "source": "END_USER", "tasks": []},
+            ]
+        }
+
+        result = ResourceContainer(data)
+
+        assert len(result.share_codes) == 2
+        assert isinstance(result.share_codes[0], ShareCodeResourceResponse)
+        assert isinstance(result.share_codes[1], ShareCodeResourceResponse)
+
+    def test_should_parse_with_empty_share_codes(self):
+        data = {"share_codes": []}
+
+        result = ResourceContainer(data)
+
+        assert len(result.share_codes) == 0
+
+    def test_should_parse_with_missing_share_codes(self):
+        result = ResourceContainer({})
+
+        assert len(result.share_codes) == 0
 
 
 if __name__ == "__main__":
