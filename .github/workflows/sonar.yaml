@@ -17,7 +17,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: pip install -e .[dev]
+      - run: pip install -e ".[dev]"
 
       - run: pytest --cov=yoti_python_sdk yoti_python_sdk/tests --cov-report=xml:coverage-reports/coverage-new.xml
 
