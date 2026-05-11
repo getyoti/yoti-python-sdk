@@ -9,6 +9,9 @@ from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import
 from yoti_python_sdk.doc_scan.session.retrieve.resource_container import (
     ResourceContainer,
 )
+from yoti_python_sdk.doc_scan.session.retrieve.static_liveness_resource_response import (
+    StaticLivenessResourceResponse,
+)
 
 
 class ResourceContainerTest(unittest.TestCase):
@@ -61,6 +64,25 @@ class ResourceContainerTest(unittest.TestCase):
 
         assert len(result.liveness_capture) == 2
         assert len(result.static_liveness_resources) == 1
+
+    def test_should_expose_capture_type_on_static_liveness_resource(self):
+        data = {
+            "liveness_capture": [
+                {"liveness_type": "STATIC", "capture_type": "PHOTOGRAPH"},
+                {"liveness_type": "ZOOM"},
+            ]
+        }
+
+        result = ResourceContainer(data)
+
+        static_resources = result.static_liveness_resources
+        assert len(static_resources) == 1
+        assert isinstance(static_resources[0], StaticLivenessResourceResponse)
+        assert static_resources[0].capture_type == "PHOTOGRAPH"
+
+        zoom_resources = result.zoom_liveness_resources
+        assert len(zoom_resources) == 1
+        assert not hasattr(zoom_resources[0], "capture_type")
 
 
 if __name__ == "__main__":
