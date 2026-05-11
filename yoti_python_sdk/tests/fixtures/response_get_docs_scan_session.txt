@@ -28,7 +28,8 @@
 					"type": "IMAGE",
 					"created": "2020-01-30T15:00:00Z",
 					"last_updated": "2020-01-30T15:00:00Z"
-				}
+				},
+				"extraction_image_ids": ["066a9372-1ab9-49f0-b390-1b58e08f17f6"]
 			}],
 			"document_fields": {
 				"media": {
