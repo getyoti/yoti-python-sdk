@@ -20,10 +20,10 @@ setup(
     install_requires=[
 
         "asn1==2.2.0",  # still pinned due to enum34 issue
-        "cryptography>=42.0.0",
+        "cryptography>=44.0.1",
         "protobuf==3.20.3",
-        "requests>=2.31.0",
-        "pyopenssl>=24.0.0",
+        "requests>=2.32.4",
+        "pyopenssl>=26.0.0",
         "pytz>=2025.2",
         "iso8601>=1.1.0",
         "deprecated>=1.2.14",
