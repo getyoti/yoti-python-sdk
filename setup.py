@@ -21,7 +21,7 @@ setup(
 
         "asn1==2.2.0",  # still pinned due to enum34 issue
         "cryptography>=44.0.1",
-        "protobuf==3.20.3",
+        "protobuf>=4.25.8,<6",
         "requests>=2.32.4",
         "pyopenssl>=26.0.0",
         "pytz>=2025.2",
