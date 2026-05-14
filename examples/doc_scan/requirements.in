@@ -1,13 +1,12 @@
 # Core requirements
-flask>=2.2.0
+flask>=3.0.6
 python-dotenv>=0.21.0
-yoti==2.14.0
+yoti>=2.14.0
 filetype>=1.0.7
-pyopenssl==23.2.0
-click >=8.0
+pyopenssl>=26.0.0
+click>=8.1
 
 # Required for yoti compatibility
-deprecated==1.2.10
-iso8601==0.1.13
-pytz==2020.4
-
+deprecated>=1.2.14
+iso8601>=1.1.0
+pytz>=2025.2

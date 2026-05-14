@@ -31,11 +31,11 @@ setup(
     ],
     extras_require={
         "examples": [
-            "Django>=3.0.7",
-            "Flask>=1.0.4",
+            "Django>=4.2,<5.3",
+            "Flask>=3.0.6",
             "python-dotenv>=0.7.1",
             "django-sslserver>=0.22.0",
-            "Werkzeug==2.1.2",
+            "Werkzeug>=3.0.6",
         ],
         "dev": [
             "pre-commit==2.16.0",
