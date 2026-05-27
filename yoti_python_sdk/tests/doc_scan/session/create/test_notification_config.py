@@ -116,7 +116,7 @@ class NotificationConfigTest(unittest.TestCase):
             .build()
         )
 
-        assert result.auth_type is "BASIC"
+        assert result.auth_type == "BASIC"
 
     def test_build_with_bearer_auth_type(self):
         result = (
