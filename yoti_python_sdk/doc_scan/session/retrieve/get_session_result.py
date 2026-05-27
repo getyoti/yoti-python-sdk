@@ -81,7 +81,7 @@ class GetSessionResult(object):
             constants.ID_DOCUMENT_FACE_MATCH: FaceMatchCheckResponse,
             constants.ID_DOCUMENT_TEXT_DATA_CHECK: TextDataCheckResponse,
             constants.LIVENESS: LivenessCheckResponse,
-            constants.WATCHLIST_SCREENING_CHECK_TYPE:  WatchlistScreeningCheckResponse,
+            constants.WATCHLIST_SCREENING_CHECK_TYPE: WatchlistScreeningCheckResponse,
             constants.ID_DOCUMENT_COMPARISON: IDDocumentComparisonCheckResponse,
             constants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_CHECK: SupplementaryDocumentTextDataCheckResponse,
         }

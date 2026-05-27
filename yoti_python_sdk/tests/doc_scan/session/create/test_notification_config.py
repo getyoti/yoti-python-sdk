@@ -128,7 +128,7 @@ class NotificationConfigTest(unittest.TestCase):
             .build()
         )
 
-        assert result.auth_type is "BEARER"
+        assert result.auth_type == "BEARER"
 
     def test_should_serialize_to_json_without_error(self):
         result = (

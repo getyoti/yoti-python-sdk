@@ -24,7 +24,7 @@ class ShareCodeResourceResponse(ResourceResponse):
         if isinstance(source, str):
             self.__source = source
         elif isinstance(source, dict):
-            self.__source = source.get("type", str(source))
+            self.__source = source.get("type", None)
         else:
             self.__source = None
 
