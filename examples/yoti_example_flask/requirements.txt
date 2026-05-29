@@ -75,6 +75,3 @@ werkzeug==1.0.1
 wrapt==1.12.1
     # via deprecated
 # yoti will be installed separately in CI from local source
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
