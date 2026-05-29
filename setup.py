@@ -23,6 +23,7 @@ setup(
         "cryptography>=44.0.1",
         "protobuf>=4.25.8,<6",
         "requests>=2.32.4",
+        "urllib3>=2.6.3",
         "pyopenssl>=26.0.0",
         "pytz>=2025.2",
         "iso8601>=1.1.0",
