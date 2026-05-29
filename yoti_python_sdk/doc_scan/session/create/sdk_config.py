@@ -42,10 +42,10 @@ class SdkConfig(YotiSerializable):
         :type success_url: str
         :param error_url: the error url
         :type error_url: str
-        :param privacy_policy_url: the privacy policy url
-        :type privacy_policy_url: str
         :param allow_handoff: boolean flag for allow_handoff
         :type allow_handoff: bool
+        :param privacy_policy_url: the privacy policy url
+        :type privacy_policy_url: str
         :param brand_id: the brand id used to theme the IDV iframe
         :type brand_id: str
         """

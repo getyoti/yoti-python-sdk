@@ -42,11 +42,11 @@ class SdkConfigTest(unittest.TestCase):
         assert result.font_colour is self.SOME_FONT_COLOUR
         assert result.locale is self.SOME_LOCALE
         assert result.preset_issuing_country is self.SOME_PRESET_ISSUING_COUNTRY
-        assert result.success_url is self.SOME_SUCCESS_URL
-        assert result.error_url is self.SOME_ERROR_URL
-        assert result.privacy_policy_url is self.SOME_PRIVACY_POLICY_URL
+        assert result.success_url == self.SOME_SUCCESS_URL
+        assert result.error_url == self.SOME_ERROR_URL
+        assert result.privacy_policy_url == self.SOME_PRIVACY_POLICY_URL
         assert result.allow_handoff is True
-        assert result.brand_id is self.SOME_BRAND_ID
+        assert result.brand_id == self.SOME_BRAND_ID
 
     def test_should_allows_camera(self):
         result = SdkConfigBuilder().with_allows_camera().build()
