@@ -11,6 +11,9 @@ from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import
     LivenessResourceResponse,
     ZoomLivenessResourceResponse,
 )
+from yoti_python_sdk.doc_scan.session.retrieve.static_liveness_resource_response import (
+    StaticLivenessResourceResponse,
+)
 
 
 class ResourceContainer(object):
@@ -54,7 +57,7 @@ class ResourceContainer(object):
         :return: the parsed liveness capture
         :rtype: LivenessResourceResponse
         """
-        types = {"ZOOM": ZoomLivenessResourceResponse}
+        types = {"ZOOM": ZoomLivenessResourceResponse, "STATIC": StaticLivenessResourceResponse}
 
         clazz = types.get(
             liveness_capture.get("liveness_type", None),
@@ -104,4 +107,18 @@ class ResourceContainer(object):
             liveness
             for liveness in self.__liveness_capture
             if isinstance(liveness, ZoomLivenessResourceResponse)
+        ]
+
+    @property
+    def static_liveness_resources(self):
+        """
+        Returns a filtered list of static liveness capture resources
+
+        :return: list of static liveness captures
+        :rtype: list[StaticLivenessResourceResponse]
+        """
+        return [
+            liveness
+            for liveness in self.__liveness_capture
+            if isinstance(liveness, StaticLivenessResourceResponse)
         ]

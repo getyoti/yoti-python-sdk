@@ -52,6 +52,67 @@ class RequestedLivenessCheckTest(unittest.TestCase):
         s = json.dumps(result, cls=YotiEncoder)
         assert s is not None and s != ""
 
+    def test_should_build_with_static_liveness_type(self):
+        result = (
+            RequestedLivenessCheckBuilder()
+            .for_static_liveness()
+            .with_max_retries(3)
+            .build()
+        )
+
+        assert result.type == "LIVENESS"
+        assert result.config.liveness_type == "STATIC"
+        assert result.config.max_retries == 3
+
+    def test_should_build_with_manual_check_never(self):
+        result = (
+            RequestedLivenessCheckBuilder()
+            .for_static_liveness()
+            .with_max_retries(3)
+            .with_manual_check_never()
+            .build()
+        )
+
+        assert result.config.liveness_type == "STATIC"
+        assert result.config.manual_check == "NEVER"
+
+    def test_should_serialize_static_liveness_to_json(self):
+        result = (
+            RequestedLivenessCheckBuilder()
+            .for_static_liveness()
+            .with_max_retries(3)
+            .with_manual_check_never()
+            .build()
+        )
+
+        json_str = json.dumps(result, cls=YotiEncoder)
+        assert json_str is not None
+        
+        # Verify the JSON contains the expected fields
+        json_data = json.loads(json_str)
+        assert json_data["type"] == "LIVENESS"
+        assert json_data["config"]["liveness_type"] == "STATIC"
+        assert json_data["config"]["manual_check"] == "NEVER"
+        assert json_data["config"]["max_retries"] == 3
+
+    def test_should_omit_manual_check_when_not_set(self):
+        result = (
+            RequestedLivenessCheckBuilder()
+            .for_static_liveness()
+            .with_max_retries(3)
+            .build()
+        )
+
+        json_str = json.dumps(result, cls=YotiEncoder)
+        assert json_str is not None
+        
+        # Verify the JSON does not contain the manual_check field
+        json_data = json.loads(json_str)
+        assert json_data["type"] == "LIVENESS"
+        assert json_data["config"]["liveness_type"] == "STATIC"
+        assert "manual_check" not in json_data["config"]
+        assert json_data["config"]["max_retries"] == 3
+
 
 if __name__ == "__main__":
     unittest.main()

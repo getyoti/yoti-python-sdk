@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from yoti_python_sdk.attribute_issuance_details import AttributeIssuanceDetails
-from yoti_python_sdk.protobuf.share_public_api import ThirdPartyAttribute_pb2
-from yoti_python_sdk.protobuf.share_public_api import ExtraData_pb2
+from yoti_python_sdk.protobuf.sharepubapi_v1 import ThirdPartyAttribute_pb2
+from yoti_python_sdk.protobuf.sharepubapi_v1 import ExtraData_pb2
 
 
 class ExtraData(object):
