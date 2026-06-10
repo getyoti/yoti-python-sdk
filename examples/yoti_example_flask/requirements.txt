@@ -5,7 +5,7 @@
 #    pip-compile --output-file=requirements.txt requirements.in
 #
 asn1==2.2.0
-    # via yoti
+    # via yoti (installed separately)
 certifi==2018.4.16
     # via requests
 cffi==1.15.0
@@ -23,7 +23,7 @@ cryptography>=42.0.0
     #   pyopenssl
     #   yoti
 deprecated==1.2.18
-    # via yoti
+    # via yoti (installed separately)
 flask==1.1.1
     # via -r requirements.in
 future==1.0.0
@@ -33,7 +33,7 @@ future==1.0.0
 idna==2.7
     # via requests
 iso8601>=1.1.0
-    # via yoti
+    # via yoti (installed separately)
 itsdangerous==1.1.0
     # via flask
 jinja2==3.0.3
@@ -43,7 +43,7 @@ jinja2==3.0.3
 markupsafe==2.0.1
     # via jinja2
 protobuf==4.21.12
-    # via yoti
+    # via yoti (installed separately)
 pycparser==2.18
     # via cffi
 pyopenssl>=24.0.0
@@ -53,7 +53,7 @@ pyopenssl>=24.0.0
 python-dotenv>=0.7.1
     # via -r requirements.in
 pytz>=2025.2
-    # via yoti
+    # via yoti (installed separately)
 requests>=2.31.0
     # via
     #   -r requirements.in
