@@ -17,7 +17,9 @@ setup(
     url="https://github.com/getyoti/yoti-python-sdk",
     author="Yoti",
     author_email="websdk@yoti.com",
+    python_requires=">=3.9",
     install_requires=[
+
 
         "asn1==2.2.0",  # still pinned due to enum34 issue
         "cryptography>=44.0.1",
@@ -58,7 +60,6 @@ setup(
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
         "Programming Language :: Python",
-
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",

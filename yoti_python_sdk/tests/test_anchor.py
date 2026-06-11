@@ -8,7 +8,7 @@ from datetime import timedelta
 import yoti_python_sdk
 from yoti_python_sdk import config
 from yoti_python_sdk.anchor import Anchor
-from yoti_python_sdk.protobuf.attribute_public_api import Attribute_pb2
+from yoti_python_sdk.protobuf.attrpubapi_v1 import Attribute_pb2
 from yoti_python_sdk.tests import anchor_fixture_parser
 
 

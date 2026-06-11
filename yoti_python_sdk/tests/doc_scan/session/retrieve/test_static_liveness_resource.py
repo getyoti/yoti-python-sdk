@@ -12,6 +12,7 @@ class StaticLivenessResourceResponseTest(unittest.TestCase):
             "id": "bbbbbbb-5717-4562-b3fc-2c963f66afa6",
             "source": {"type": "END_USER"},
             "liveness_type": "STATIC",
+            "capture_type": "PHOTOGRAPH",
             "image": {
                 "media": {
                     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -27,6 +28,7 @@ class StaticLivenessResourceResponseTest(unittest.TestCase):
 
         assert result.id == "bbbbbbb-5717-4562-b3fc-2c963f66afa6"
         assert result.liveness_type == "STATIC"
+        assert result.capture_type == "PHOTOGRAPH"
         assert isinstance(result.image, ImageResponse)
         assert isinstance(result.image.media, MediaResponse)
         assert result.image.media.id == "3fa85f64-5717-4562-b3fc-2c963f66afa6"
@@ -43,6 +45,33 @@ class StaticLivenessResourceResponseTest(unittest.TestCase):
 
         assert result.id == "test-id"
         assert result.liveness_type == "STATIC"
+        assert result.image is None
+        assert result.capture_type is None
+
+    def test_should_handle_missing_capture_type(self):
+        data = {
+            "id": "test-id",
+            "liveness_type": "STATIC",
+            "image": {
+                "media": {
+                    "id": "media-id-123",
+                    "type": "IMAGE",
+                    "created": "2021-06-11T11:39:24Z",
+                    "last_updated": "2021-06-11T11:39:24Z",
+                }
+            },
+            "tasks": [],
+        }
+
+        result = StaticLivenessResourceResponse(data)
+
+        assert result.capture_type is None
+        assert result.image is not None
+
+    def test_should_handle_none_data(self):
+        result = StaticLivenessResourceResponse(None)
+
+        assert result.capture_type is None
         assert result.image is None
 
     def test_should_parse_media_id_for_retrieval(self):
