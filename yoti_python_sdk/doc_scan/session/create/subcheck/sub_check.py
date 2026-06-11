@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from abc import abstractmethod
 
-from yoti_python_sdk.utils import YotiSerializable
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 
 
 class SubRequestedCheck(YotiSerializable):

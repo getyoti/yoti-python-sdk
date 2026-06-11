@@ -23,6 +23,7 @@ class StaticLivenessResourceResponse(LivenessResourceResponse):
         self.__image = (
             ImageResponse(data["image"]) if "image" in data.keys() else None
         )
+        self.__capture_type = data.get("capture_type", None)
 
     @property
     def image(self):
@@ -33,3 +34,13 @@ class StaticLivenessResourceResponse(LivenessResourceResponse):
         :rtype: ImageResponse or None
         """
         return self.__image
+
+    @property
+    def capture_type(self):
+        """
+        Returns the capture type for the static liveness resource
+
+        :return: the capture type
+        :rtype: str or None
+        """
+        return self.__capture_type
