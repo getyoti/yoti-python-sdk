@@ -23,7 +23,7 @@ class PageResponse(object):
         )
         self.__media = MediaResponse(data["media"]) if "media" in data.keys() else None
         self.__frames = [FrameResponse(frame) for frame in data.get("frames", [])]
-        self.__extraction_image_ids = data.get("extraction_image_ids", [])
+        self.__extraction_image_ids = list(data.get("extraction_image_ids") or [])
 
     @property
     def capture_method(self):
@@ -58,7 +58,7 @@ class PageResponse(object):
     @property
     def extraction_image_ids(self):
         """
-        Returns the list of extraction image IDs
+        Returns the list of media IDs used for automated extraction
 
         :return: the extraction image IDs
         :rtype: list[str]

@@ -28,7 +28,8 @@
 					"type": "IMAGE",
 					"created": "2020-01-30T15:00:00Z",
 					"last_updated": "2020-01-30T15:00:00Z"
-				}
+				},
+				"extraction_image_ids": ["<uuid>"]
 			}],
 			"document_fields": {
 				"media": {

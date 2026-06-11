@@ -40,9 +40,9 @@ class BreakdownResponse(object):
     @property
     def process(self):
         """
-        The process of the sub check
+        The breakdown process type for the sub-check (e.g. AUTOMATED or EXPERT_REVIEW)
 
-        :return: the process
+        :return: the breakdown process type
         :rtype: str or None
         """
         return self.__process
