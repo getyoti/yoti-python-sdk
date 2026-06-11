@@ -17,6 +17,7 @@ class SdkConfigTest(unittest.TestCase):
     SOME_ERROR_URL = "https://mysite.com/yoti/error"
     SOME_PRIVACY_POLICY_URL = "https://mysite.com/privacy"
     SOME_ALLOW_HANDOFF = True
+    SOME_BRAND_ID = "your-brand-id"
     SOME_SUPPRESSED_SCREENS = [
         constants.ID_DOCUMENT_EDUCATION,
         constants.FLOW_COMPLETION,
@@ -35,6 +36,7 @@ class SdkConfigTest(unittest.TestCase):
             .with_error_url(self.SOME_ERROR_URL)
             .with_privacy_policy_url(self.SOME_PRIVACY_POLICY_URL)
             .with_allow_handoff(self.SOME_ALLOW_HANDOFF)
+            .with_brand_id(self.SOME_BRAND_ID)
             .with_suppressed_screens(self.SOME_SUPPRESSED_SCREENS)
             .build()
         )
@@ -50,6 +52,7 @@ class SdkConfigTest(unittest.TestCase):
         assert result.error_url == self.SOME_ERROR_URL
         assert result.privacy_policy_url == self.SOME_PRIVACY_POLICY_URL
         assert result.allow_handoff is True
+        assert result.brand_id == self.SOME_BRAND_ID
         assert result.suppressed_screens == self.SOME_SUPPRESSED_SCREENS
 
     def test_should_allows_camera(self):
@@ -84,6 +87,34 @@ class SdkConfigTest(unittest.TestCase):
 
         s = json.dumps(result, cls=YotiEncoder)
         assert s is not None and s != ""
+
+    def test_not_passing_brand_id(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        assert result.brand_id is None
+
+    def test_with_brand_id(self):
+        result = SdkConfigBuilder().with_brand_id(self.SOME_BRAND_ID).build()
+
+        assert result.brand_id == self.SOME_BRAND_ID
+
+    def test_brand_id_in_json_when_set(self):
+        result = SdkConfigBuilder().with_brand_id(self.SOME_BRAND_ID).build()
+
+        serialised = json.loads(json.dumps(result, cls=YotiEncoder))
+        assert serialised["brand_id"] == self.SOME_BRAND_ID
+
+    def test_brand_id_absent_from_json_when_not_set(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        serialised = json.loads(json.dumps(result, cls=YotiEncoder))
+        assert "brand_id" not in serialised
+
+    def test_brand_id_absent_from_json_when_none(self):
+        result = SdkConfigBuilder().with_brand_id(None).build()
+
+        serialised = json.loads(json.dumps(result, cls=YotiEncoder))
+        assert "brand_id" not in serialised
 
     def test_suppressed_screens_default_to_none(self):
         result = SdkConfigBuilder().with_allows_camera().build()

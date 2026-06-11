@@ -23,6 +23,7 @@ class SdkConfig(YotiSerializable):
         error_url,
         allow_handoff=None,
         privacy_policy_url=None,
+        brand_id=None,
         suppressed_screens=None,
     ):
         """
@@ -46,6 +47,8 @@ class SdkConfig(YotiSerializable):
         :type allow_handoff: bool
         :param privacy_policy_url: the privacy policy url
         :type privacy_policy_url: str
+        :param brand_id: the brand id used to theme the IDV iframe
+        :type brand_id: str
         :param suppressed_screens: list of screen names to be suppressed
         :type suppressed_screens: list[str]
         """
@@ -59,6 +62,7 @@ class SdkConfig(YotiSerializable):
         self.__error_url = error_url
         self.__privacy_policy_url = privacy_policy_url
         self.__allow_handoff = allow_handoff
+        self.__brand_id = brand_id
         self.__suppressed_screens = suppressed_screens
 
     @property
@@ -153,6 +157,15 @@ class SdkConfig(YotiSerializable):
         return self.__allow_handoff
 
     @property
+    def brand_id(self):
+        """
+        The brand id used to theme the IDV iframe.
+
+        :return: the brand id
+        """
+        return self.__brand_id
+
+    @property
     def suppressed_screens(self):
         """
         The list of screen names that should be omitted from the IDV flow
@@ -175,6 +188,7 @@ class SdkConfig(YotiSerializable):
                 "error_url": self.error_url,
                 "privacy_policy_url": self.privacy_policy_url,
                 "allow_handoff": self.allow_handoff,
+                "brand_id": self.brand_id,
                 "suppressed_screens": self.suppressed_screens,
             }
         )
@@ -196,6 +210,7 @@ class SdkConfigBuilder(object):
         self.__error_url = None
         self.__privacy_policy_url = None
         self.__allow_handoff = None
+        self.__brand_id = None
         self.__suppressed_screens = None
 
     def with_allowed_capture_methods(self, allowed_capture_methods):
@@ -336,6 +351,18 @@ class SdkConfigBuilder(object):
         self.__allow_handoff = flag
         return self
 
+    def with_brand_id(self, brand_id):
+        """
+        Sets the brand id used to theme the IDV iframe
+
+        :param brand_id: the brand id
+        :type brand_id: str
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        self.__brand_id = brand_id
+        return self
+
     def with_suppressed_screens(self, suppressed_screens):
         """
         Sets the list of screens to be suppressed from the IDV flow.
@@ -381,5 +408,6 @@ class SdkConfigBuilder(object):
             self.__error_url,
             self.__allow_handoff,
             self.__privacy_policy_url,
+            self.__brand_id,
             list(self.__suppressed_screens) if self.__suppressed_screens is not None else None,
         )
