@@ -20,6 +20,7 @@ setup(
     python_requires=">=3.9",
     install_requires=[
 
+
         "asn1==2.2.0",  # still pinned due to enum34 issue
         "cryptography>=42.0.0",
         "protobuf>=4.21.12",

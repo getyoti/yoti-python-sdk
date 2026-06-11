@@ -11,7 +11,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from devicepubapi_v1 import StaticCredentialAuth_pb2 as devicepubapi__v1_dot_StaticCredentialAuth__pb2
+from yoti_python_sdk.protobuf.devicepubapi_v1 import StaticCredentialAuth_pb2 as devicepubapi__v1_dot_StaticCredentialAuth__pb2
 from yoti_python_sdk.protobuf.compubapi_v1 import Metadata_pb2 as compubapi__v1_dot_Metadata__pb2
 
 

@@ -44,6 +44,9 @@ jobs:
 
       - run: pushd examples/yoti_example_django && pip install --upgrade pip && pip install -r requirements.txt && popd
 
+        # Reinstall local SDK after AML/Django, which pin yoti==2.14.0 from PyPI and override it
+      - run: pip install -e .
+
       - run: pushd examples/yoti_example_flask && pip install -r requirements.txt && popd
 
       - run: pushd examples/doc_scan && pip install -r requirements.txt && popd
