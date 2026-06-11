@@ -22,10 +22,11 @@ setup(
 
 
         "asn1==2.2.0",  # still pinned due to enum34 issue
-        "cryptography>=42.0.0",
-        "protobuf>=4.21.12",
-        "requests>=2.31.0",
-        "pyopenssl>=24.0.0",
+        "cryptography>=44.0.1",
+        "protobuf>=4.25.8,<6",
+        "requests>=2.32.4",
+        "urllib3>=2.6.3",
+        "pyopenssl>=26.0.0",
         "pytz>=2025.2",
         "iso8601>=1.1.0",
         "deprecated>=1.2.14",
@@ -33,11 +34,11 @@ setup(
     ],
     extras_require={
         "examples": [
-            "Django>=3.0.7",
-            "Flask>=1.0.4",
+            "Django>=4.2,<5.3",
+            "Flask>=3.0.6",
             "python-dotenv>=0.7.1",
             "django-sslserver>=0.22.0",
-            "Werkzeug==2.1.2",
+            "Werkzeug>=3.0.6",
         ],
         "dev": [
             "pre-commit==2.16.0",
