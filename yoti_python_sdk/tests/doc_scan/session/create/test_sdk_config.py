@@ -46,9 +46,9 @@ class SdkConfigTest(unittest.TestCase):
         assert result.font_colour is self.SOME_FONT_COLOUR
         assert result.locale is self.SOME_LOCALE
         assert result.preset_issuing_country is self.SOME_PRESET_ISSUING_COUNTRY
-        assert result.success_url is self.SOME_SUCCESS_URL
-        assert result.error_url is self.SOME_ERROR_URL
-        assert result.privacy_policy_url is self.SOME_PRIVACY_POLICY_URL
+        assert result.success_url == self.SOME_SUCCESS_URL
+        assert result.error_url == self.SOME_ERROR_URL
+        assert result.privacy_policy_url == self.SOME_PRIVACY_POLICY_URL
         assert result.allow_handoff is True
         assert result.suppressed_screens == self.SOME_SUPPRESSED_SCREENS
 
@@ -115,6 +115,15 @@ class SdkConfigTest(unittest.TestCase):
 
         assert "suppressed_screens" in parsed
         assert parsed["suppressed_screens"] == self.SOME_SUPPRESSED_SCREENS
+
+    def test_suppressed_screens_empty_list_serialized(self):
+        result = SdkConfigBuilder().with_suppressed_screens([]).build()
+
+        s = json.dumps(result, cls=YotiEncoder)
+        parsed = json.loads(s)
+
+        assert "suppressed_screens" in parsed
+        assert parsed["suppressed_screens"] == []
 
     def test_suppressed_screens_omitted_when_not_set(self):
         result = SdkConfigBuilder().with_allows_camera().build()

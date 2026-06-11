@@ -42,10 +42,10 @@ class SdkConfig(YotiSerializable):
         :type success_url: str
         :param error_url: the error url
         :type error_url: str
-        :param privacy_policy_url: the privacy policy url
-        :type privacy_policy_url: str
         :param allow_handoff: boolean flag for allow_handoff
         :type allow_handoff: bool
+        :param privacy_policy_url: the privacy policy url
+        :type privacy_policy_url: str
         :param suppressed_screens: list of screen names to be suppressed
         :type suppressed_screens: list[str]
         """
@@ -381,5 +381,5 @@ class SdkConfigBuilder(object):
             self.__error_url,
             self.__allow_handoff,
             self.__privacy_policy_url,
-            self.__suppressed_screens,
+            list(self.__suppressed_screens) if self.__suppressed_screens is not None else None,
         )
