@@ -24,9 +24,9 @@ class BreakdownResponseTest(unittest.TestCase):
 
         result = BreakdownResponse(data)
 
-        assert result.sub_check is self.SOME_SUB_CHECK
-        assert result.result is self.SOME_RESULT
-        assert result.process is self.SOME_PROCESS
+        assert result.sub_check == self.SOME_SUB_CHECK
+        assert result.result == self.SOME_RESULT
+        assert result.process == self.SOME_PROCESS
         assert len(result.details) == 2
         assert result.details[0].name == "firstDetailName"
         assert result.details[0].value == "firstDetailValue"
