@@ -14,6 +14,7 @@ class BreakdownResponse(object):
         """
         self.__sub_check = data.get("sub_check", None)
         self.__result = data.get("result", None)
+        self.__process = data.get("process", None)
         self.__details = [DetailsResponse(detail) for detail in data.get("details", [])]
 
     @property
@@ -35,6 +36,16 @@ class BreakdownResponse(object):
         :rtype: str or None
         """
         return self.__result
+
+    @property
+    def process(self):
+        """
+        The breakdown process type for the sub-check (e.g. AUTOMATED or EXPERT_REVIEW)
+
+        :return: the breakdown process type
+        :rtype: str or None
+        """
+        return self.__process
 
     @property
     def details(self):
