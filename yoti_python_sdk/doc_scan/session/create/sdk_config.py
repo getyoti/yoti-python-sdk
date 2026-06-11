@@ -23,6 +23,8 @@ class SdkConfig(YotiSerializable):
         error_url,
         allow_handoff=None,
         privacy_policy_url=None,
+        brand_id=None,
+        suppressed_screens=None,
     ):
         """
         :param allowed_capture_methods: the allowed capture methods
@@ -41,10 +43,14 @@ class SdkConfig(YotiSerializable):
         :type success_url: str
         :param error_url: the error url
         :type error_url: str
-        :param privacy_policy_url: the privacy policy url
-        :type privacy_policy_url: str
         :param allow_handoff: boolean flag for allow_handoff
         :type allow_handoff: bool
+        :param privacy_policy_url: the privacy policy url
+        :type privacy_policy_url: str
+        :param brand_id: the brand id used to theme the IDV iframe
+        :type brand_id: str
+        :param suppressed_screens: list of screen names to be suppressed
+        :type suppressed_screens: list[str]
         """
         self.__allowed_capture_methods = allowed_capture_methods
         self.__primary_colour = primary_colour
@@ -56,6 +62,8 @@ class SdkConfig(YotiSerializable):
         self.__error_url = error_url
         self.__privacy_policy_url = privacy_policy_url
         self.__allow_handoff = allow_handoff
+        self.__brand_id = brand_id
+        self.__suppressed_screens = suppressed_screens
 
     @property
     def allowed_capture_methods(self):
@@ -148,6 +156,25 @@ class SdkConfig(YotiSerializable):
         """
         return self.__allow_handoff
 
+    @property
+    def brand_id(self):
+        """
+        The brand id used to theme the IDV iframe.
+
+        :return: the brand id
+        """
+        return self.__brand_id
+
+    @property
+    def suppressed_screens(self):
+        """
+        The list of screen names that should be omitted from the IDV flow
+
+        :return: the list of suppressed screens
+        :rtype: list[str] or None
+        """
+        return self.__suppressed_screens
+
     def to_json(self):
         return remove_null_values(
             {
@@ -161,6 +188,8 @@ class SdkConfig(YotiSerializable):
                 "error_url": self.error_url,
                 "privacy_policy_url": self.privacy_policy_url,
                 "allow_handoff": self.allow_handoff,
+                "brand_id": self.brand_id,
+                "suppressed_screens": self.suppressed_screens,
             }
         )
 
@@ -181,6 +210,8 @@ class SdkConfigBuilder(object):
         self.__error_url = None
         self.__privacy_policy_url = None
         self.__allow_handoff = None
+        self.__brand_id = None
+        self.__suppressed_screens = None
 
     def with_allowed_capture_methods(self, allowed_capture_methods):
         """
@@ -320,6 +351,51 @@ class SdkConfigBuilder(object):
         self.__allow_handoff = flag
         return self
 
+    def with_brand_id(self, brand_id):
+        """
+        Sets the brand id used to theme the IDV iframe
+
+        :param brand_id: the brand id
+        :type brand_id: str
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        self.__brand_id = brand_id
+        return self
+
+    def with_suppressed_screens(self, suppressed_screens):
+        """
+        Sets the list of screens to be suppressed from the IDV flow.
+
+        Valid screen names are defined in
+        :mod:`yoti_python_sdk.doc_scan.constants`:
+        ``ID_DOCUMENT_EDUCATION``, ``ID_DOCUMENT_REQUIREMENTS``,
+        ``SUPPLEMENTARY_DOCUMENT_EDUCATION``, ``ZOOM_LIVENESS_EDUCATION``,
+        ``STATIC_LIVENESS_EDUCATION``, ``FACE_CAPTURE_EDUCATION``,
+        ``FLOW_COMPLETION``.
+
+        :param suppressed_screens: the list of screens to suppress
+        :type suppressed_screens: list[str]
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        self.__suppressed_screens = list(suppressed_screens) if suppressed_screens is not None else None
+        return self
+
+    def with_suppressed_screen(self, screen):
+        """
+        Adds a single screen name to the list of suppressed screens.
+
+        :param screen: the screen name to suppress
+        :type screen: str
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        if self.__suppressed_screens is None:
+            self.__suppressed_screens = []
+        self.__suppressed_screens.append(screen)
+        return self
+
     def build(self):
         return SdkConfig(
             self.__allowed_capture_methods,
@@ -332,4 +408,6 @@ class SdkConfigBuilder(object):
             self.__error_url,
             self.__allow_handoff,
             self.__privacy_policy_url,
+            self.__brand_id,
+            list(self.__suppressed_screens) if self.__suppressed_screens is not None else None,
         )

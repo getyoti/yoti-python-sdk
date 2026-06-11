@@ -43,7 +43,7 @@ class SessionSpec(YotiSerializable):
         :param block_biometric_consent: block the collection of biometric consent
         :type block_biometric_consent: bool
         :param session_deadline: session deadline using a Zoned timestamp
-        "type session_deadline: str
+        :type session_deadline: str
         """
         if requested_tasks is None:
             requested_tasks = []
