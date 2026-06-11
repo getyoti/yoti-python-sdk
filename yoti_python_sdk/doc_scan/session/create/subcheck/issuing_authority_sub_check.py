@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from yoti_python_sdk.doc_scan.session.create.filter.document_filter import DocumentFilter
-from yoti_python_sdk.utils import YotiSerializable
-from .sub_check import SubRequestedCheck
+from yoti_python_sdk.utils import YotiSerializable, remove_null_values
 
 
-class IssuingAuthoritySubCheck(SubRequestedCheck):
+class IssuingAuthoritySubCheck(YotiSerializable):
     """
     Requests creation of an Issuing Authority Sub Check.
     """
@@ -20,6 +19,9 @@ class IssuingAuthoritySubCheck(SubRequestedCheck):
     @property
     def filter(self):
         return self._filter
+
+    def to_json(self):
+        return remove_null_values({"requested": self.requested, "filter": self.filter})
 
 
 class IssuingAuthoritySubCheckBuilder:
