@@ -22,8 +22,10 @@ idna==3.15
     # via requests
 iso8601==2.1.0
     # via yoti
-protobuf==6.33.6
-    # via yoti
+protobuf==5.29.6
+    # via
+    #   -r examples/aml/requirements.in
+    #   yoti
 pycparser==2.23
     # via cffi
 pyopenssl==26.2.0

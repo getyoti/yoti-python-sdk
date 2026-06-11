@@ -1,2 +1,3 @@
 yoti>=2.14.0
+protobuf<6
 python-dotenv>=0.7.1
