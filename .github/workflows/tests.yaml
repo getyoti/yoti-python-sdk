@@ -17,11 +17,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: 'pip install --only-binary :all: "setuptools==75.8.2"'
+      - run: 'pip install --only-binary :all: "setuptools==75.8.2"'  # NOSONAR
 
-      - run: 'pip install --only-binary :all: -r requirements.txt'
+      - run: 'pip install --only-binary :all: -r requirements.txt'  # NOSONAR
 
-      - run: pip install -e .[dev]  # trusted local source install
+      - run: pip install -e .[dev]  # NOSONAR
 
       - run: pytest -v
 
@@ -36,17 +36,17 @@ jobs:
         with:
           python-version: 3.9
 
-      - run: 'pip install --only-binary :all: "setuptools==75.8.2"'
+      - run: 'pip install --only-binary :all: "setuptools==75.8.2"'  # NOSONAR
 
-      - run: pip install -e .  # trusted local source install
+      - run: pip install -e .  # NOSONAR
 
-      - run: 'pushd examples/aml && pip install --only-binary :all: -r requirements.txt && popd'
+      - run: 'pushd examples/aml && pip install --only-binary :all: -r requirements.txt && popd'  # NOSONAR
 
-      - run: 'pushd examples/yoti_example_django && pip install --only-binary :all: "pip==25.1.1" && pip install --only-binary :all: -r requirements.txt && popd'
+      - run: 'pushd examples/yoti_example_django && pip install --only-binary :all: "pip==25.1.1" && pip install --only-binary :all: -r requirements.txt && popd'  # NOSONAR
 
         # Reinstall local SDK after AML/Django, which pin yoti==2.14.0 from PyPI and override it
-      - run: pip install -e .  # trusted local source install
+      - run: pip install -e .  # NOSONAR
 
-      - run: 'pushd examples/yoti_example_flask && pip install --only-binary :all: -r requirements.txt && popd'
+      - run: 'pushd examples/yoti_example_flask && pip install --only-binary :all: -r requirements.txt && popd'  # NOSONAR
 
-      - run: 'pushd examples/doc_scan && pip install --only-binary :all: -r requirements.txt && popd'
+      - run: 'pushd examples/doc_scan && pip install --only-binary :all: -r requirements.txt && popd'  # NOSONAR
