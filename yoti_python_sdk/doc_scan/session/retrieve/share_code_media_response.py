@@ -8,7 +8,7 @@ class ShareCodeMediaResponse(object):
 
     def __init__(self, data=None):
         if data is None:
-            data = {}
+            data = dict()
 
         if "media" in data and data["media"] is not None:
             self.__media = MediaResponse(data["media"])

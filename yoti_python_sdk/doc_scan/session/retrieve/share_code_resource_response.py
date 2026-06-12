@@ -16,7 +16,7 @@ class ShareCodeResourceResponse(ResourceResponse):
 
     def __init__(self, data=None):
         if data is None:
-            data = {}
+            data = dict()
 
         ResourceResponse.__init__(self, data)
 
