@@ -4,6 +4,7 @@ from .task_response import (
     TextExtractionTaskResponse,
     SupplementaryDocumentTextExtractionTaskResponse,
 )
+from .verify_share_code_task_response import VerifyShareCodeTaskResponse
 
 
 class ResourceResponse(object):
@@ -35,6 +36,7 @@ class ResourceResponse(object):
         types = {
             constants.ID_DOCUMENT_TEXT_DATA_EXTRACTION: TextExtractionTaskResponse,
             constants.SUPPLEMENTARY_DOCUMENT_TEXT_DATA_EXTRACTION: SupplementaryDocumentTextExtractionTaskResponse,
+            constants.VERIFY_SHARE_CODE_TASK: VerifyShareCodeTaskResponse,
         }
         clazz = types.get(
             task.get("type", None), TaskResponse  # Default fallback for task type
