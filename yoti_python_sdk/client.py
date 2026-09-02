@@ -5,7 +5,6 @@ import json
 from os import environ
 
 import yoti_python_sdk
-from yoti_python_sdk import aml
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.endpoint import Endpoint
@@ -101,17 +100,6 @@ class Client(object):
             decrypted_extra_data=decrypted_extra_data,
         )
 
-    def perform_aml_check(self, aml_profile):
-        if aml_profile is None:
-            raise TypeError("aml_profile not set")
-
-        response = self.__make_aml_check_request(aml_profile)
-
-        if not isinstance(response, YotiResponse):
-            raise TypeError("Response must be of type YotiResponse")
-
-        return aml.AmlResult(response.text)
-
     @property
     def endpoints(self):
         return self.__endpoint
@@ -153,33 +141,6 @@ class Client(object):
         )
 
         response = signed_request.execute()
-
-        self.http_error_handler(
-            response, {"default": "Unsuccessful Yoti API call: {} {}"}
-        )
-
-        return response
-
-    def __make_aml_check_request(self, aml_profile):
-        aml_profile_json = json.dumps(aml_profile.__dict__, sort_keys=True)
-        aml_profile_bytes = aml_profile_json.encode()
-        path = self.__endpoint.get_aml_request_url(no_params=True)
-
-        signed_request = (
-            SignedRequest.builder()
-            .with_pem_file(self.__crypto)
-            .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
-            .with_endpoint(path)
-            .with_payload(aml_profile_bytes)
-            .with_param("appId", self.sdk_id)
-            .with_post()
-            .with_request_handler(self.__request_handler)
-            .build()
-        )
-
-        response = signed_request.execute()
-        if not isinstance(response, YotiResponse):
-            raise TypeError("Response must be of type YotiResponse")
 
         self.http_error_handler(
             response, {"default": "Unsuccessful Yoti API call: {} {}"}
