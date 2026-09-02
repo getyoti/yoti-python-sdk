@@ -1,5 +1,6 @@
 import unittest
 
+from yoti_python_sdk.doc_scan.session.retrieve.check_response import CheckResponse
 from yoti_python_sdk.doc_scan.session.retrieve.liveness_resource_response import (
     LivenessResourceResponse,
 )
@@ -112,6 +113,68 @@ class ResourceContainerTest(unittest.TestCase):
         result = ResourceContainer({})
 
         assert len(result.share_codes) == 0
+
+    def test_filter_for_check_should_return_only_referenced_resources(self):
+        data = {
+            "id_documents": [{"id": "id-doc-1"}, {"id": "id-doc-2"}],
+            "supplementary_documents": [
+                {"id": "supp-doc-1"},
+                {"id": "supp-doc-2"},
+            ],
+            "liveness_capture": [
+                {"id": "liveness-1", "liveness_type": "ZOOM"},
+                {"id": "liveness-2", "liveness_type": "ZOOM"},
+            ],
+            "share_codes": [
+                {"id": "share-code-1", "source": "END_USER", "tasks": []},
+                {"id": "share-code-2", "source": "END_USER", "tasks": []},
+            ],
+        }
+        container = ResourceContainer(data)
+        check = CheckResponse(
+            {
+                "resources_used": [
+                    "id-doc-1",
+                    "supp-doc-1",
+                    "liveness-1",
+                    "share-code-1",
+                ]
+            }
+        )
+
+        result = container.filter_for_check(check)
+
+        assert isinstance(result, ResourceContainer)
+        assert [d.id for d in result.id_documents] == ["id-doc-1"]
+        assert [d.id for d in result.supplementary_documents] == ["supp-doc-1"]
+        assert [d.id for d in result.liveness_capture] == ["liveness-1"]
+        assert [d.id for d in result.share_codes] == ["share-code-1"]
+
+    def test_filter_for_check_should_return_empty_lists_when_no_matches(self):
+        data = {
+            "id_documents": [{"id": "id-doc-1"}],
+            "share_codes": [{"id": "share-code-1", "source": "END_USER", "tasks": []}],
+        }
+        container = ResourceContainer(data)
+        check = CheckResponse({"resources_used": ["someOtherResourceId"]})
+
+        result = container.filter_for_check(check)
+
+        assert result.id_documents == []
+        assert result.supplementary_documents == []
+        assert result.liveness_capture == []
+        assert result.share_codes == []
+
+    def test_filter_for_check_should_return_empty_lists_when_check_has_no_resources_used(
+        self,
+    ):
+        data = {"id_documents": [{"id": "id-doc-1"}]}
+        container = ResourceContainer(data)
+        check = CheckResponse({})
+
+        result = container.filter_for_check(check)
+
+        assert result.id_documents == []
 
 
 if __name__ == "__main__":

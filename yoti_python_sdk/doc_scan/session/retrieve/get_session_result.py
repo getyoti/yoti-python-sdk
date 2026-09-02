@@ -249,3 +249,21 @@ class GetSessionResult(object):
         :rtype: datetime.datetime or None
         """
         return self.__biometric_consent_timestamp
+
+    def get_resources_for_check(self, check_id):
+        """
+        Returns the resources used by the check with the given check ID
+
+        :param check_id: the ID of the check to find resources for
+        :type check_id: str
+        :return: a ResourceContainer containing only the resources used by the check
+        :rtype: ResourceContainer
+        :raises ValueError: if no check exists with the given check_id
+        """
+        check = next(
+            (check for check in self.__checks if check.id == check_id), None
+        )
+        if check is None:
+            raise ValueError("Check not found for check_id: {0}".format(check_id))
+
+        return self.__resources.filter_for_check(check)
