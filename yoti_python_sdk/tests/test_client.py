@@ -14,7 +14,11 @@ from yoti_python_sdk import config
 from yoti_python_sdk import YOTI_API_ENDPOINT
 from yoti_python_sdk import Client
 from yoti_python_sdk import aml
-from yoti_python_sdk.client import NO_KEY_FILE_SPECIFIED_ERROR
+from yoti_python_sdk.client import (
+    ACTIVITY_DETAILS_NOT_SUPPORTED_WITH_AUTH_TOKEN_ERROR,
+    AUTH_TOKEN_WITH_PEM_FILE_ERROR,
+    NO_KEY_FILE_SPECIFIED_ERROR,
+)
 from yoti_python_sdk.activity_details import ActivityDetails
 from yoti_python_sdk.tests.conftest import YOTI_CLIENT_SDK_ID, PEM_FILE_PATH
 from yoti_python_sdk.tests.mocks import (
@@ -144,6 +148,48 @@ def test_creating_client_instance_with_valid_key_file_env_but_invalid_key_file_a
     expected_error = "Could not read private key file"
     assert expected_error in str(exc.value)
     assert str(INVALID_KEY_FILE_PATH) in str(exc.value)
+
+
+def test_creating_client_instance_with_auth_token():
+    if environ.get("YOTI_KEY_FILE_PATH"):
+        del environ["YOTI_KEY_FILE_PATH"]
+    Client(YOTI_CLIENT_SDK_ID, auth_token="someAuthToken")
+
+
+def test_creating_client_instance_with_auth_token_and_pem_file_path_raises():
+    if environ.get("YOTI_KEY_FILE_PATH"):
+        del environ["YOTI_KEY_FILE_PATH"]
+    with pytest.raises(ValueError) as exc:
+        Client(YOTI_CLIENT_SDK_ID, PEM_FILE_PATH, auth_token="someAuthToken")
+    assert str(exc.value) == AUTH_TOKEN_WITH_PEM_FILE_ERROR
+
+
+def test_creating_client_instance_with_auth_token_and_pem_file_env_raises():
+    environ["YOTI_KEY_FILE_PATH"] = PEM_FILE_PATH
+    with pytest.raises(ValueError) as exc:
+        Client(YOTI_CLIENT_SDK_ID, auth_token="someAuthToken")
+    assert str(exc.value) == AUTH_TOKEN_WITH_PEM_FILE_ERROR
+
+
+def test_get_activity_details_not_supported_with_auth_token():
+    if environ.get("YOTI_KEY_FILE_PATH"):
+        del environ["YOTI_KEY_FILE_PATH"]
+    client = Client(YOTI_CLIENT_SDK_ID, auth_token="someAuthToken")
+
+    with pytest.raises(RuntimeError) as exc:
+        client.get_activity_details("someEncryptedRequestToken")
+    assert str(exc.value) == ACTIVITY_DETAILS_NOT_SUPPORTED_WITH_AUTH_TOKEN_ERROR
+
+
+@mock.patch("yoti_python_sdk.http.SignedRequest.execute", side_effect=mocked_requests_get)
+def test_make_request_with_auth_token_sets_authorization_header(mock_execute):
+    if environ.get("YOTI_KEY_FILE_PATH"):
+        del environ["YOTI_KEY_FILE_PATH"]
+    client = Client(YOTI_CLIENT_SDK_ID, auth_token="someAuthToken")
+
+    client.make_request("GET", "/some-endpoint", None)
+
+    mock_execute.assert_called_once_with()
 
 
 @mock.patch(

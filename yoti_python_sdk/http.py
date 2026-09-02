@@ -1,13 +1,11 @@
+from yoti_python_sdk.auth_strategy import BearerTokenStrategy, SignedRequestStrategy
 from yoti_python_sdk.crypto import Crypto
-from yoti_python_sdk.utils import create_nonce, create_timestamp
 from yoti_python_sdk.config import (
-    X_YOTI_AUTH_DIGEST,
     X_YOTI_SDK,
     SDK_IDENTIFIER,
     X_YOTI_SDK_VERSION,
     JSON_CONTENT_TYPE,
 )
-from cryptography.fernet import base64
 from abc import ABCMeta, abstractmethod
 
 import yoti_python_sdk
@@ -128,7 +126,7 @@ class SignedRequest(object):
 
 class SignedRequestBuilder(object):
     def __init__(self):
-        self.__crypto = None
+        self.__auth_strategy = None
         self.__base_url = None
         self.__endpoint = None
         self.__http_method = None
@@ -143,10 +141,26 @@ class SignedRequestBuilder(object):
         or a path to a PEM file
         """
         if isinstance(pem_file, Crypto):
-            self.__crypto = pem_file
+            crypto = pem_file
         else:
-            self.__crypto = Crypto.read_pem_file(pem_file)
+            crypto = Crypto.read_pem_file(pem_file)
 
+        self.__auth_strategy = SignedRequestStrategy(crypto)
+        return self
+
+    def with_bearer_token(self, auth_token):
+        """
+        Sets the central auth token to be used for authenticating the request,
+        supplied as a Bearer Authorization header
+        """
+        self.__auth_strategy = BearerTokenStrategy(auth_token)
+        return self
+
+    def with_auth_strategy(self, auth_strategy):
+        """
+        Sets the AuthStrategy to be used for authenticating the request
+        """
+        self.__auth_strategy = auth_strategy
         return self
 
     def with_base_url(self, base_url):
@@ -235,10 +249,10 @@ class SignedRequestBuilder(object):
 
     def __append_query_params(self, query_params=None):
         """
-        Appends supplied query params in a dict to default query params.
-        Returns a url encoded query param string
+        Appends supplied query params in a dict to the query params required
+        by the auth strategy.  Returns a url encoded query param string
         """
-        required = {"nonce": create_nonce(), "timestamp": create_timestamp()}
+        required = self.__auth_strategy.create_query_params()
 
         query_params = self.__merge_dictionary(query_params, required)
         return "?{}".format(urlencode(query_params))
@@ -259,40 +273,22 @@ class SignedRequestBuilder(object):
         """
         Returns a dictionary of request headers, also using supplied headers from builder.  Default headers take precedence.
         """
-        request = self.__create_request(http_method, path, content)
         sdk_version = yoti_python_sdk.__version__
 
         default = {
-            X_YOTI_AUTH_DIGEST: self.__crypto.sign(request),
             X_YOTI_SDK: SDK_IDENTIFIER,
             X_YOTI_SDK_VERSION: "{0}-{1}".format(SDK_IDENTIFIER, sdk_version),
             "Content-Type": JSON_CONTENT_TYPE,
             "Accept": JSON_CONTENT_TYPE,
         }
+        default.update(
+            self.__auth_strategy.create_auth_headers(http_method, path, content)
+        )
 
         if self.__headers is not None:
             return self.__merge_dictionary(self.__headers, default)
 
         return default
-
-    @staticmethod
-    def __create_request(http_method, path, content):
-        """
-        Creates a concatenated string that is used in the X-YOTI-AUTH-DIGEST header
-        :param http_method:
-        :param path:
-        :param content:
-        :return:
-        """
-
-        request = "{}&{}".format(http_method, path)
-
-        if content is not None:
-            b64encoded = base64.b64encode(content)
-            b64ascii = b64encoded.decode("ascii")
-            request += "&" + b64ascii
-
-        return request
 
     def __validate_request(self):
         """
@@ -303,8 +299,11 @@ class SignedRequestBuilder(object):
             raise ValueError("Base URL must not be None")
         if self.__endpoint is None:
             raise ValueError("Endpoint must not be None")
-        if self.__crypto is None:
-            raise ValueError("PEM file must not be None")
+        if self.__auth_strategy is None:
+            raise ValueError(
+                "An auth strategy must be provided, e.g. via with_pem_file() "
+                "or with_bearer_token()"
+            )
         if self.__http_method is None:
             raise ValueError("HTTP method must be specified")
 
