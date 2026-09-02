@@ -3,6 +3,7 @@ try:
 except ImportError:
     import mock
 
+from yoti_python_sdk.auth_strategy import BearerTokenStrategy, NoAuthStrategy
 from yoti_python_sdk.http import SignedRequest, DefaultRequestHandler
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.tests import conftest
@@ -57,7 +58,7 @@ def test_create_signed_request_get_required_properties(
         assert header in header_keys
 
 
-def test_create_signed_request_missing_pem_file(valid_base_url, valid_endpoint):
+def test_create_signed_request_missing_auth_strategy(valid_base_url, valid_endpoint):
     http_method = "GET"
 
     with pytest.raises(ValueError) as ex:
@@ -69,7 +70,7 @@ def test_create_signed_request_missing_pem_file(valid_base_url, valid_endpoint):
             .build()
         )
 
-    assert "PEM file" in str(ex.value)
+    assert "auth strategy" in str(ex.value)
 
 
 def test_create_signed_request_missing_base_url(valid_endpoint):
@@ -296,3 +297,40 @@ def test_default_request_handler_should_raise_exception_when_passed_non_signed_r
         DefaultRequestHandler.execute("someBadValue")
 
     assert "RequestHandler expects instance of SignedRequest" == str(ex.value)
+
+
+def test_create_signed_request_with_bearer_token(valid_base_url, valid_endpoint):
+    signed_request = (
+        SignedRequest.builder()
+        .with_bearer_token("someAuthToken")
+        .with_base_url(valid_base_url)
+        .with_endpoint(valid_endpoint)
+        .with_get()
+        .build()
+    )
+
+    assert signed_request.headers["Authorization"] == "Bearer someAuthToken"
+    assert "X-Yoti-Auth-Digest" not in signed_request.headers
+    assert "nonce" not in signed_request.url
+    assert "timestamp" not in signed_request.url
+
+
+def test_create_signed_request_with_auth_strategy(valid_base_url, valid_endpoint):
+    signed_request = (
+        SignedRequest.builder()
+        .with_auth_strategy(NoAuthStrategy())
+        .with_base_url(valid_base_url)
+        .with_endpoint(valid_endpoint)
+        .with_get()
+        .build()
+    )
+
+    assert "Authorization" not in signed_request.headers
+    assert "X-Yoti-Auth-Digest" not in signed_request.headers
+
+
+def test_bearer_token_strategy_raises_for_empty_token():
+    with pytest.raises(ValueError) as ex:
+        BearerTokenStrategy("")
+
+    assert "auth_token must not be empty" in str(ex.value)
