@@ -4,7 +4,6 @@ from datetime import datetime, date
 import logging
 import re
 
-
 ERROR_PARSING_DATE = "Error parsing date"
 
 

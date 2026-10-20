@@ -3,6 +3,10 @@ import pytest
 from yoti_python_sdk.doc_scan.client import DocScanClient  # noqa: F401
 from yoti_python_sdk.doc_scan.exception import DocScanException
 from yoti_python_sdk.doc_scan.session.create.session_spec import SessionSpec
+from yoti_python_sdk.doc_scan.session.create.session_overview_pdf_request import (
+    SessionOverviewPdfRequest,
+    SessionOverviewPdfRequestBuilder,
+)
 from yoti_python_sdk.doc_scan.session.retrieve.create_session_result import (
     CreateSessionResult,
 )
@@ -12,12 +16,14 @@ from yoti_python_sdk.doc_scan.session.retrieve.get_session_result import (
 from yoti_python_sdk.tests.doc_scan.mocks import (
     mocked_request_failed_session_creation,
     mocked_request_failed_session_retrieval,
+    mocked_request_failed_pdf_creation,
     mocked_request_media_content,
     mocked_request_no_content,
     mocked_request_not_found,
     mocked_request_server_error,
     mocked_request_successful_session_creation,
     mocked_request_successful_session_retrieval,
+    mocked_request_successful_pdf_creation,
     mocked_supported_documents_content,
 )
 
@@ -203,3 +209,57 @@ def test_should_use_correct_default_api_url(doc_scan_client):
         doc_scan_client._DocScanClient__api_url
         == "https://api.yoti.com:443/idverify/v1"
     )  # noqa
+
+
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_request_successful_pdf_creation,
+)
+def test_should_return_pdf_bytes_on_successful_pdf_creation(_, doc_scan_client):
+    """
+    A 201 response from the PDF endpoint returns raw binary bytes unchanged.
+
+    :type doc_scan_client: DocScanClient
+    """
+    pdf_request = SessionOverviewPdfRequestBuilder().with_include_images(True).build()
+
+    result = doc_scan_client.create_session_overview_pdf(SOME_SESSION_ID, pdf_request)
+
+    assert isinstance(result, bytes)
+    assert result == b"%PDF-1.4 some pdf content"
+
+
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_request_successful_pdf_creation,
+)
+def test_should_return_pdf_bytes_when_no_request_body_provided(_, doc_scan_client):
+    """
+    The request body model is optional; omitting it should not raise an error.
+
+    :type doc_scan_client: DocScanClient
+    """
+    result = doc_scan_client.create_session_overview_pdf(SOME_SESSION_ID)
+
+    assert isinstance(result, bytes)
+    assert result == b"%PDF-1.4 some pdf content"
+
+
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_request_failed_pdf_creation,
+)
+def test_should_raise_doc_scan_exception_for_failed_pdf_creation(_, doc_scan_client):
+    """
+    A non-201 response raises DocScanException with the expected message.
+
+    :type doc_scan_client: DocScanClient
+    """
+    pdf_request = SessionOverviewPdfRequestBuilder().build()
+
+    with pytest.raises(DocScanException) as ex:
+        doc_scan_client.create_session_overview_pdf(SOME_SESSION_ID, pdf_request)
+
+    doc_scan_exception = ex.value  # type: DocScanException
+    assert "Failed to create session overview PDF" in str(doc_scan_exception)
+    assert doc_scan_exception.status_code == 400

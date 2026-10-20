@@ -87,7 +87,7 @@ class RequestedLivenessCheckTest(unittest.TestCase):
 
         json_str = json.dumps(result, cls=YotiEncoder)
         assert json_str is not None
-        
+
         # Verify the JSON contains the expected fields
         json_data = json.loads(json_str)
         assert json_data["type"] == "LIVENESS"
@@ -105,7 +105,7 @@ class RequestedLivenessCheckTest(unittest.TestCase):
 
         json_str = json.dumps(result, cls=YotiEncoder)
         assert json_str is not None
-        
+
         # Verify the JSON does not contain the manual_check field
         json_data = json.loads(json_str)
         assert json_data["type"] == "LIVENESS"
