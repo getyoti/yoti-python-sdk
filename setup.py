@@ -19,8 +19,6 @@ setup(
     author_email="websdk@yoti.com",
     python_requires=">=3.9",
     install_requires=[
-
-
         "asn1==2.2.0",  # still pinned due to enum34 issue
         "cryptography>=44.0.1",
         "protobuf>=4.25.8,<6",
@@ -30,7 +28,6 @@ setup(
         "pytz>=2025.2",
         "iso8601>=1.1.0",
         "deprecated>=1.2.14",
-
     ],
     extras_require={
         "examples": [
@@ -64,7 +61,6 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
-
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     keywords="yoti sdk 2FA multifactor authentication verification identity login register verify 2Factor",

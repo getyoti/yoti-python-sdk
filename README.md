@@ -102,10 +102,12 @@ One way to configure these environment variables is to use an .env file. There a
 
 ```python
 from yoti_python_sdk import Client
-@app.route('/profile')
+
+
+@app.route("/profile")
 def auth():
     client = Client(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
-    activity_details = client.get_activity_details(request.args['token'])
+    activity_details = client.get_activity_details(request.args["token"])
 ```
 
 ## Handling Users

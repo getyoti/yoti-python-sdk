@@ -20,9 +20,7 @@ class StaticLivenessResourceResponse(LivenessResourceResponse):
 
         LivenessResourceResponse.__init__(self, data)
 
-        self.__image = (
-            ImageResponse(data["image"]) if "image" in data.keys() else None
-        )
+        self.__image = ImageResponse(data["image"]) if "image" in data.keys() else None
         self.__capture_type = data.get("capture_type", None)
 
     @property

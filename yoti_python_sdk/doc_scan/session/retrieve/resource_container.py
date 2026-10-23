@@ -65,7 +65,10 @@ class ResourceContainer(object):
         :return: the parsed liveness capture
         :rtype: LivenessResourceResponse
         """
-        types = {"ZOOM": ZoomLivenessResourceResponse, "STATIC": StaticLivenessResourceResponse}
+        types = {
+            "ZOOM": ZoomLivenessResourceResponse,
+            "STATIC": StaticLivenessResourceResponse,
+        }
 
         clazz = types.get(
             liveness_capture.get("liveness_type", None),

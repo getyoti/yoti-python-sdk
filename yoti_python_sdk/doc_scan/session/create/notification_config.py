@@ -195,4 +195,6 @@ class NotificationConfigBuilder(object):
         :return: the build notification config
         :rtype: NotificationConfig
         """
-        return NotificationConfig(self.__auth_token, self.__endpoint, self.__topics, self.__auth_type)
+        return NotificationConfig(
+            self.__auth_token, self.__endpoint, self.__topics, self.__auth_type
+        )

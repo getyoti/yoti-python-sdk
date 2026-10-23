@@ -68,7 +68,9 @@ class TypeRestriction(YotiSerializable):
 
 
 class OrthogonalRestrictionsFilter(DocumentFilter):
-    def __init__(self, country_restriction, type_restriction, allow_non_latin_documents=None):
+    def __init__(
+        self, country_restriction, type_restriction, allow_non_latin_documents=None
+    ):
         DocumentFilter.__init__(self, filter_type=ORTHOGONAL_RESTRICTIONS)
 
         self.__country_restriction = country_restriction
@@ -213,5 +215,7 @@ class OrthogonalRestrictionsFilterBuilder(object):
         :rtype: OrthogonalRestrictionsFilter
         """
         return OrthogonalRestrictionsFilter(
-            self.__country_restriction, self.__type_restriction, self.__allow_non_latin_documents
+            self.__country_restriction,
+            self.__type_restriction,
+            self.__allow_non_latin_documents,
         )
