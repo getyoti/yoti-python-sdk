@@ -202,11 +202,13 @@ class DocScanClient(object):
         Generates a session overview PDF for the specified session.
 
         Issues a POST to /idverify/v1/sessions/{sessionId}/pdf and returns
-        the raw PDF bytes from the 201 response.  All flag fields in
-        ``pdf_request`` are optional; any flag that was not explicitly set
-        is omitted from the request body entirely — it is not sent as
-        ``false`` or ``null``.  Validation of the flags is deferred to the
-        backend.
+        the raw PDF bytes from the 201 response.  The flags in
+        ``pdf_request`` are sent nested under an ``"options"`` key, as the
+        endpoint expects (``{"options": {"include_images": true, ...}}``).
+        All flag fields are optional; any flag that was not explicitly set
+        is omitted from ``options`` entirely — it is not sent as ``false`` or
+        ``null``.  When ``pdf_request`` is omitted, ``{"options": {}}`` is
+        sent.  Validation of the flags is deferred to the backend.
 
         :param session_id: the session ID
         :type session_id: str
@@ -216,7 +218,8 @@ class DocScanClient(object):
         :rtype: bytes
         :raises DocScanException: if the server returns a non-201 status code
         """
-        payload = json.dumps(pdf_request, cls=YotiEncoder).encode("utf-8")
+        options = pdf_request if pdf_request is not None else {}
+        payload = json.dumps({"options": options}, cls=YotiEncoder).encode("utf-8")
 
         request = (
             SignedRequest.builder()
