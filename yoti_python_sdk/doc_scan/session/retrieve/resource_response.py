@@ -39,7 +39,8 @@ class ResourceResponse(object):
             constants.VERIFY_SHARE_CODE_TASK: VerifyShareCodeTaskResponse,
         }
         clazz = types.get(
-            task.get("type", None), TaskResponse  # Default fallback for task type
+            task.get("type", None),
+            TaskResponse,  # Default fallback for task type
         )
         return clazz(task)
 

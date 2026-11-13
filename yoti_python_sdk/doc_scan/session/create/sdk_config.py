@@ -379,7 +379,9 @@ class SdkConfigBuilder(object):
         :return: the builder
         :rtype: SdkConfigBuilder
         """
-        self.__suppressed_screens = list(suppressed_screens) if suppressed_screens is not None else None
+        self.__suppressed_screens = (
+            list(suppressed_screens) if suppressed_screens is not None else None
+        )
         return self
 
     def with_suppressed_screen(self, screen):
@@ -409,5 +411,9 @@ class SdkConfigBuilder(object):
             self.__allow_handoff,
             self.__privacy_policy_url,
             self.__brand_id,
-            list(self.__suppressed_screens) if self.__suppressed_screens is not None else None,
+            (
+                list(self.__suppressed_screens)
+                if self.__suppressed_screens is not None
+                else None
+            ),
         )

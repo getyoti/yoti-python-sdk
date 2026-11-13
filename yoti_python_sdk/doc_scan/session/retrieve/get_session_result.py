@@ -8,6 +8,7 @@ from iso8601 import (
 )
 
 from yoti_python_sdk.doc_scan import constants
+from yoti_python_sdk.doc_scan.session.create.company_profile import CompanyProfile
 from .check_response import (
     AuthenticityCheckResponse,
     CheckResponse,
@@ -45,6 +46,16 @@ class GetSessionResult(object):
 
         resources = data.get("resources", None)
         self.__resources = ResourceContainer(resources) or None
+
+        self.__organisation_name = data.get("organisation_name", None)
+
+        raw_company_profile = data.get("company_profile", None)
+        if raw_company_profile is not None:
+            self.__company_profile = CompanyProfile(
+                raw_company_profile.get("company_name", None)
+            )
+        else:
+            self.__company_profile = None
 
     @staticmethod
     def __parse_date(date):
@@ -249,3 +260,23 @@ class GetSessionResult(object):
         :rtype: datetime.datetime or None
         """
         return self.__biometric_consent_timestamp
+
+    @property
+    def organisation_name(self):
+        """
+        The name of the organisation associated with this session
+
+        :return: the organisation name
+        :rtype: str or None
+        """
+        return self.__organisation_name
+
+    @property
+    def company_profile(self):
+        """
+        The company profile associated with this session
+
+        :return: the company profile
+        :rtype: CompanyProfile or None
+        """
+        return self.__company_profile

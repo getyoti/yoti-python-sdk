@@ -20,10 +20,13 @@ class Protobuf(object):
 
     @staticmethod
     def current_user(receipt):
-        if receipt.get('other_party_profile_content') is None or receipt.get('other_party_profile_content') == '':
+        if (
+            receipt.get("other_party_profile_content") is None
+            or receipt.get("other_party_profile_content") == ""
+        ):
             return None
 
-        profile_content = receipt['other_party_profile_content']
+        profile_content = receipt["other_party_profile_content"]
         decoded_profile_content = base64.b64decode(profile_content)
 
         merged_user = EncryptedData_pb2.EncryptedData()
@@ -32,7 +35,10 @@ class Protobuf(object):
 
     @staticmethod
     def current_application(receipt):
-        if receipt.get("profile_content") is None or receipt.get("profile_content") == '':
+        if (
+            receipt.get("profile_content") is None
+            or receipt.get("profile_content") == ""
+        ):
             return None
 
         application_content = receipt["profile_content"]
@@ -69,7 +75,10 @@ class Protobuf(object):
 
     @staticmethod
     def extra_data(receipt):
-        if receipt.get("extra_data_content") is None or receipt.get("extra_data_content") == '':
+        if (
+            receipt.get("extra_data_content") is None
+            or receipt.get("extra_data_content") == ""
+        ):
             return None
 
         extra_data_content = receipt["extra_data_content"]

@@ -204,10 +204,10 @@ def test_try_parse_structured_postal_address_uk(successful_receipt):
         activity_details, structured_postal_address_json
     )
 
-    activity_details.user_profile[
-        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS
-    ] = ActivityDetails.try_convert_structured_postal_address_to_dict(
-        activity_details.field
+    activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = (
+        ActivityDetails.try_convert_structured_postal_address_to_dict(
+            activity_details.field
+        )
     )
 
     actual_structured_postal_address_user_profile = activity_details.user_profile[
@@ -271,10 +271,10 @@ def test_try_parse_structured_postal_address_india(successful_receipt):
         activity_details, structured_postal_address_json
     )
 
-    activity_details.user_profile[
-        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS
-    ] = ActivityDetails.try_convert_structured_postal_address_to_dict(
-        activity_details.field
+    activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = (
+        ActivityDetails.try_convert_structured_postal_address_to_dict(
+            activity_details.field
+        )
     )
 
     actual_structured_postal_address_user_profile = activity_details.user_profile[
@@ -341,10 +341,10 @@ def test_try_parse_structured_postal_address_usa(successful_receipt):
         activity_details, structured_postal_address_json
     )
 
-    activity_details.user_profile[
-        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS
-    ] = ActivityDetails.try_convert_structured_postal_address_to_dict(
-        activity_details.field
+    activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = (
+        ActivityDetails.try_convert_structured_postal_address_to_dict(
+            activity_details.field
+        )
     )
 
     actual_structured_postal_address_user_profile = activity_details.user_profile[
@@ -407,10 +407,10 @@ def test_try_parse_structured_postal_address_nested_json(successful_receipt):
         activity_details, structured_postal_address_json
     )
 
-    activity_details.user_profile[
-        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS
-    ] = ActivityDetails.try_convert_structured_postal_address_to_dict(
-        activity_details.field
+    activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = (
+        ActivityDetails.try_convert_structured_postal_address_to_dict(
+            activity_details.field
+        )
     )
 
     actual_structured_postal_address_user_profile = activity_details.user_profile[
@@ -460,10 +460,10 @@ def test_set_address_to_be_formatted_address(successful_receipt):
     create_structured_postal_address_field(
         activity_details, structured_postal_address_json
     )
-    activity_details.user_profile[
-        config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS
-    ] = ActivityDetails.try_convert_structured_postal_address_to_dict(
-        activity_details.field
+    activity_details.user_profile[config.ATTRIBUTE_STRUCTURED_POSTAL_ADDRESS] = (
+        ActivityDetails.try_convert_structured_postal_address_to_dict(
+            activity_details.field
+        )
     )
 
     assert config.ATTRIBUTE_POSTAL_ADDRESS not in activity_details.user_profile
