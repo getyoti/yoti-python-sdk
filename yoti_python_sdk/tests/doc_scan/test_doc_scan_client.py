@@ -10,7 +10,6 @@ from yoti_python_sdk.doc_scan.client import (  # noqa: F401
 from yoti_python_sdk.doc_scan.exception import DocScanException
 from yoti_python_sdk.doc_scan.session.create.session_spec import SessionSpec
 from yoti_python_sdk.doc_scan.session.create.session_overview_pdf_request import (
-    SessionOverviewPdfRequest,
     SessionOverviewPdfRequestBuilder,
 )
 from yoti_python_sdk.doc_scan.session.retrieve.create_session_result import (
@@ -229,9 +228,7 @@ def test_creating_doc_scan_client_with_signed_request_uses_signed_request_strate
 def test_creating_doc_scan_client_with_auth_token():
     client = DocScanClient(auth_token="someAuthToken")
 
-    assert isinstance(
-        client._DocScanClient__auth_strategy, BearerTokenStrategy
-    )  # noqa
+    assert isinstance(client._DocScanClient__auth_strategy, BearerTokenStrategy)  # noqa
     assert client._DocScanClient__sdk_id is None  # noqa
 
 
@@ -273,6 +270,7 @@ def test_get_supported_documents_with_auth_token(_):
     supported_docs = client.get_supported_documents()
 
     assert len(supported_docs.supported_countries) == 2
+
 
 @mock.patch(
     "yoti_python_sdk.http.SignedRequest.execute",
@@ -328,15 +326,15 @@ def test_should_raise_doc_scan_exception_for_failed_pdf_creation(_, doc_scan_cli
     assert doc_scan_exception.status_code == 400
 
 
-def _capture_pdf_request_body(doc_scan_client, pdf_request=None):
+def _capture_pdf_signed_request(doc_scan_client, pdf_request=None):
     """
-    Calls create_session_overview_pdf and returns the JSON body that was
+    Calls create_session_overview_pdf and returns the SignedRequest that was
     actually handed to the HTTP layer.
     """
     captured = {}
 
     def fake_execute(signed_request):
-        captured["data"] = signed_request.data
+        captured["request"] = signed_request
         return mocked_request_successful_pdf_creation()
 
     with mock.patch(
@@ -349,7 +347,15 @@ def _capture_pdf_request_body(doc_scan_client, pdf_request=None):
         else:
             doc_scan_client.create_session_overview_pdf(SOME_SESSION_ID, pdf_request)
 
-    return json.loads(captured["data"].decode("utf-8"))
+    return captured["request"]
+
+
+def _capture_pdf_request_body(doc_scan_client, pdf_request=None):
+    """
+    Returns the JSON body that was actually handed to the HTTP layer.
+    """
+    request = _capture_pdf_signed_request(doc_scan_client, pdf_request)
+    return json.loads(request.data.decode("utf-8"))
 
 
 def test_pdf_request_body_should_nest_flags_under_options(doc_scan_client):
@@ -386,3 +392,48 @@ def test_pdf_request_body_should_be_empty_options_when_no_request_given(
     body = _capture_pdf_request_body(doc_scan_client)
 
     assert body == {"options": {}}
+
+
+def test_pdf_request_should_send_exact_wire_body(doc_scan_client):
+    pdf_request = (
+        SessionOverviewPdfRequestBuilder()
+        .with_include_images(True)
+        .with_include_extracted_text(False)
+        .build()
+    )
+
+    request = _capture_pdf_signed_request(doc_scan_client, pdf_request)
+
+    assert request.data == (
+        b'{"options": {"include_images": true, "include_extracted_text": false}}'
+    )
+    assert request.method == "POST"
+
+
+def test_pdf_request_should_accept_pdf_and_json(doc_scan_client):
+    request = _capture_pdf_signed_request(doc_scan_client)
+
+    assert request.headers["Accept"] == "application/pdf, application/json"
+    assert request.headers["Content-Type"] == "application/json"
+
+
+def test_pdf_request_should_be_signed_with_sdk_id_when_using_key(doc_scan_client):
+    request = _capture_pdf_signed_request(doc_scan_client)
+
+    assert "/sessions/" + SOME_SESSION_ID + "/pdf?" in request.url
+    assert "sdkId=" + YOTI_CLIENT_SDK_ID in request.url
+    assert "X-Yoti-Auth-Digest" in request.headers
+    assert "Authorization" not in request.headers
+
+
+def test_pdf_request_should_use_bearer_token_when_using_auth_token():
+    client = DocScanClient(auth_token="someAuthToken")
+
+    request = _capture_pdf_signed_request(client)
+
+    assert request.headers["Authorization"] == "Bearer someAuthToken"
+    assert request.headers["Accept"] == "application/pdf, application/json"
+    assert "X-Yoti-Auth-Digest" not in request.headers
+    assert "sdkId" not in request.url
+    assert "nonce" not in request.url
+    assert request.url.endswith("/sessions/" + SOME_SESSION_ID + "/pdf")

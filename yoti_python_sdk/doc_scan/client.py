@@ -22,6 +22,7 @@ from .support import SupportedDocumentsResponse
 AUTH_TOKEN_WITH_SDK_ID_OR_KEY_ERROR = (
     "Must not supply sdk_id or key when using an auth_token"
 )
+PDF_ACCEPT_HEADER = "application/pdf, application/json"
 SDK_ID_AND_KEY_REQUIRED_ERROR = (
     "An sdk_id and key must be provided when not using an auth_token"
 )
@@ -245,17 +246,20 @@ class DocScanClient(object):
         options = pdf_request if pdf_request is not None else {}
         payload = json.dumps({"options": options}, cls=YotiEncoder).encode("utf-8")
 
-        request = (
+        builder = (
             SignedRequest.builder()
             .with_post()
-            .with_pem_file(self.__key)
+            .with_auth_strategy(self.__auth_strategy)
             .with_base_url(self.__api_url)
             .with_endpoint(Endpoint.create_session_overview_pdf_path(session_id))
-            .with_param("sdkId", self.__sdk_id)
             .with_payload(payload)
             .with_header("Content-Type", "application/json")
-            .build()
         )
+        request = self.__with_sdk_id_param(builder).build()
+        # The builder's default Accept header (application/json) takes
+        # precedence over with_header(), so override it on the built request.
+        # The success response is a PDF; errors are returned as JSON.
+        request.headers["Accept"] = PDF_ACCEPT_HEADER
         response = request.execute()
 
         if response.status_code != 201:
