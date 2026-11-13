@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import base64
 import json
 import time
+import uuid
 from os import environ
 
 import requests
@@ -15,6 +16,11 @@ from .exception import AuthException
 DEFAULT_AUTH_API_URL = "https://auth.api.yoti.com/v1/oauth/token"
 CLIENT_ASSERTION_TYPE = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
 JWT_EXPIRY_SECONDS = 300
+DEFAULT_REQUEST_TIMEOUT_SECONDS = 30
+
+
+def _default_jwt_id_supplier():
+    return str(uuid.uuid4())
 
 
 class AuthenticationTokenGenerator(object):
@@ -28,10 +34,19 @@ class AuthenticationTokenGenerator(object):
     (see CreateAuthenticationTokenResponse.expires_in).
     """
 
-    def __init__(self, sdk_id, crypto, auth_api_url):
+    def __init__(
+        self,
+        sdk_id,
+        crypto,
+        auth_api_url,
+        jwt_id_supplier=None,
+        timeout=DEFAULT_REQUEST_TIMEOUT_SECONDS,
+    ):
         self.__sdk_id = sdk_id
         self.__crypto = crypto
         self.__auth_api_url = auth_api_url
+        self.__jwt_id_supplier = jwt_id_supplier or _default_jwt_id_supplier
+        self.__timeout = timeout
 
     @staticmethod
     def builder():
@@ -62,7 +77,9 @@ class AuthenticationTokenGenerator(object):
             "scope": " ".join(scopes),
         }
 
-        response = requests.post(self.__auth_api_url, data=form_data)
+        response = requests.post(
+            self.__auth_api_url, data=form_data, timeout=self.__timeout
+        )
 
         if response.status_code != 200:
             raise AuthException("Failed to generate authentication token", response)
@@ -81,6 +98,7 @@ class AuthenticationTokenGenerator(object):
         payload = {
             "iss": issuer,
             "sub": issuer,
+            "jti": self.__jwt_id_supplier(),
             "aud": self.__auth_api_url,
             "iat": now,
             "exp": now + JWT_EXPIRY_SECONDS,
@@ -112,6 +130,8 @@ class AuthenticationTokenGeneratorBuilder(object):
         self.__sdk_id = None
         self.__crypto = None
         self.__auth_api_url = None
+        self.__jwt_id_supplier = None
+        self.__timeout = DEFAULT_REQUEST_TIMEOUT_SECONDS
 
     def with_sdk_id(self, sdk_id):
         """
@@ -153,6 +173,31 @@ class AuthenticationTokenGeneratorBuilder(object):
         self.__auth_api_url = auth_api_url
         return self
 
+    def with_jwt_id_supplier(self, jwt_id_supplier):
+        """
+        Overrides the callable used to generate the JWT ID (jti claim).
+        Defaults to generating a random UUID v4 for each token request
+
+        :param jwt_id_supplier: a callable returning a unique string
+        :type jwt_id_supplier: callable
+        :return: the builder
+        :rtype: AuthenticationTokenGeneratorBuilder
+        """
+        self.__jwt_id_supplier = jwt_id_supplier
+        return self
+
+    def with_timeout(self, timeout):
+        """
+        Overrides the timeout (in seconds) used for the auth token request
+
+        :param timeout: the timeout in seconds
+        :type timeout: float
+        :return: the builder
+        :rtype: AuthenticationTokenGeneratorBuilder
+        """
+        self.__timeout = timeout
+        return self
+
     def build(self):
         """
         Builds an AuthenticationTokenGenerator with the supplied values
@@ -169,4 +214,10 @@ class AuthenticationTokenGeneratorBuilder(object):
             "YOTI_AUTH_URL", DEFAULT_AUTH_API_URL
         )
 
-        return AuthenticationTokenGenerator(self.__sdk_id, self.__crypto, auth_api_url)
+        return AuthenticationTokenGenerator(
+            self.__sdk_id,
+            self.__crypto,
+            auth_api_url,
+            jwt_id_supplier=self.__jwt_id_supplier,
+            timeout=self.__timeout,
+        )

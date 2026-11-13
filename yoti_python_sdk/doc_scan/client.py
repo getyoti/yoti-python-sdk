@@ -29,8 +29,9 @@ SDK_ID_AND_KEY_REQUIRED_ERROR = (
 
 class DocScanClient(object):
     """
-    Client used for communication with the Yoti Doc Scan service where any
-    signed request is required
+    Client used for communication with the Yoti Doc Scan service.  Requests
+    are authenticated either with a signed request (sdk_id + key) or with a
+    central auth token (auth_token)
     """
 
     def __init__(self, sdk_id=None, key=None, api_url=None, auth_token=None):

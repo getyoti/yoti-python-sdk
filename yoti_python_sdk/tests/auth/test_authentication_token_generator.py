@@ -5,11 +5,15 @@ except ImportError:
 
 import base64
 import json
+import uuid
 
 import pytest
 
 from yoti_python_sdk.auth import AuthenticationTokenGenerator, AuthException
-from yoti_python_sdk.auth.authentication_token_generator import DEFAULT_AUTH_API_URL
+from yoti_python_sdk.auth.authentication_token_generator import (
+    DEFAULT_AUTH_API_URL,
+    DEFAULT_REQUEST_TIMEOUT_SECONDS,
+)
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.tests import conftest
 from yoti_python_sdk.tests.mocks import MockResponse
@@ -20,6 +24,10 @@ YOTI_CLIENT_SDK_ID = "737204aa-d54e-49a4-8bde-26ddbe6d880c"
 def _base64url_decode(data):
     padding = "=" * (-len(data) % 4)
     return base64.urlsafe_b64decode(data + padding)
+
+
+def _decode_jwt_payload(jwt):
+    return json.loads(_base64url_decode(jwt.split(".")[1]))
 
 
 def mocked_requests_post_auth_token(*args, **kwargs):
@@ -156,6 +164,60 @@ class TestAuthenticationTokenGenerator(object):
         assert payload["sub"] == "sdk:" + YOTI_CLIENT_SDK_ID
         assert payload["aud"] == DEFAULT_AUTH_API_URL
         assert payload["exp"] - payload["iat"] == 300
+        assert set(payload.keys()) == {"iss", "sub", "jti", "aud", "iat", "exp"}
+        assert str(uuid.UUID(payload["jti"], version=4)) == payload["jti"]
+
+    @mock.patch("requests.post", side_effect=mocked_requests_post_auth_token)
+    def test_generate_uses_unique_jti_per_request(self, mock_post, generator):
+        generator.generate(["docscan.session.create"])
+        generator.generate(["docscan.session.create"])
+
+        jtis = [
+            _decode_jwt_payload(call[1]["data"]["client_assertion"])["jti"]
+            for call in mock_post.call_args_list
+        ]
+
+        assert len(jtis) == 2
+        assert jtis[0] != jtis[1]
+
+    @mock.patch("requests.post", side_effect=mocked_requests_post_auth_token)
+    def test_generate_uses_custom_jwt_id_supplier(self, mock_post, crypto):
+        generator = (
+            AuthenticationTokenGenerator.builder()
+            .with_sdk_id(YOTI_CLIENT_SDK_ID)
+            .with_pem_file(crypto)
+            .with_jwt_id_supplier(lambda: "someJwtId")
+            .build()
+        )
+
+        generator.generate(["docscan.session.create"])
+
+        _, kwargs = mock_post.call_args
+        assert _decode_jwt_payload(kwargs["data"]["client_assertion"])["jti"] == (
+            "someJwtId"
+        )
+
+    @mock.patch("requests.post", side_effect=mocked_requests_post_auth_token)
+    def test_generate_sends_request_with_default_timeout(self, mock_post, generator):
+        generator.generate(["docscan.session.create"])
+
+        _, kwargs = mock_post.call_args
+        assert kwargs["timeout"] == DEFAULT_REQUEST_TIMEOUT_SECONDS
+
+    @mock.patch("requests.post", side_effect=mocked_requests_post_auth_token)
+    def test_generate_sends_request_with_custom_timeout(self, mock_post, crypto):
+        generator = (
+            AuthenticationTokenGenerator.builder()
+            .with_sdk_id(YOTI_CLIENT_SDK_ID)
+            .with_pem_file(crypto)
+            .with_timeout(5)
+            .build()
+        )
+
+        generator.generate(["docscan.session.create"])
+
+        _, kwargs = mock_post.call_args
+        assert kwargs["timeout"] == 5
 
     @mock.patch("requests.post", side_effect=mocked_requests_post_auth_token_error)
     def test_generate_raises_auth_exception_on_error(self, mock_post, generator):

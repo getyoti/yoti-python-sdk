@@ -255,6 +255,8 @@ class SignedRequestBuilder(object):
         required = self.__auth_strategy.create_query_params()
 
         query_params = self.__merge_dictionary(query_params, required)
+        if not query_params:
+            return ""
         return "?{}".format(urlencode(query_params))
 
     @staticmethod

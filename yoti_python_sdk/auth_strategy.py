@@ -18,21 +18,21 @@ class AuthStrategy(object):
     Determines how outgoing SDK requests are authenticated against the Yoti API
     """
 
-    __metaclass__ = ABCMeta  # Python 2 compatability
+    __metaclass__ = ABCMeta  # Python 2 compatibility
 
     @abstractmethod
     def create_auth_headers(self, http_method, endpoint, payload):
         """
         Returns a dict of HTTP headers required to authenticate the request
         """
-        return NotImplemented
+        raise NotImplementedError
 
     @abstractmethod
     def create_query_params(self):
         """
         Returns a dict of query params required to authenticate the request
         """
-        return NotImplemented
+        raise NotImplementedError
 
 
 class SignedRequestStrategy(AuthStrategy):

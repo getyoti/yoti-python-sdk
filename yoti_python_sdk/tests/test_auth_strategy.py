@@ -89,3 +89,24 @@ class TestNoAuthStrategy(object):
         strategy = NoAuthStrategy()
 
         assert strategy.create_query_params() == {}
+
+
+class TestAuthStrategyAbstractMethods(object):
+    def test_abstract_methods_raise_not_implemented_error(self):
+        from yoti_python_sdk.auth_strategy import AuthStrategy
+
+        class IncompleteStrategy(AuthStrategy):
+            def create_auth_headers(self, http_method, endpoint, payload):
+                return super(IncompleteStrategy, self).create_auth_headers(
+                    http_method, endpoint, payload
+                )
+
+            def create_query_params(self):
+                return super(IncompleteStrategy, self).create_query_params()
+
+        strategy = IncompleteStrategy()
+
+        with pytest.raises(NotImplementedError):
+            strategy.create_auth_headers("GET", "/profile", None)
+        with pytest.raises(NotImplementedError):
+            strategy.create_query_params()

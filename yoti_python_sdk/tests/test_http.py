@@ -313,6 +313,7 @@ def test_create_signed_request_with_bearer_token(valid_base_url, valid_endpoint)
     assert "X-Yoti-Auth-Digest" not in signed_request.headers
     assert "nonce" not in signed_request.url
     assert "timestamp" not in signed_request.url
+    assert signed_request.url == valid_base_url + valid_endpoint
 
 
 def test_create_signed_request_with_auth_strategy(valid_base_url, valid_endpoint):
@@ -334,3 +335,34 @@ def test_bearer_token_strategy_raises_for_empty_token():
         BearerTokenStrategy("")
 
     assert "auth_token must not be empty" in str(ex.value)
+
+
+def test_create_signed_request_with_bearer_token_keeps_explicit_query_params(
+    valid_base_url, valid_endpoint
+):
+    signed_request = (
+        SignedRequest.builder()
+        .with_bearer_token("someAuthToken")
+        .with_base_url(valid_base_url)
+        .with_endpoint(valid_endpoint)
+        .with_param("foo", "bar")
+        .with_get()
+        .build()
+    )
+
+    assert signed_request.url == valid_base_url + valid_endpoint + "?foo=bar"
+
+
+def test_create_signed_request_with_no_auth_has_no_trailing_question_mark(
+    valid_base_url, valid_endpoint
+):
+    signed_request = (
+        SignedRequest.builder()
+        .with_auth_strategy(NoAuthStrategy())
+        .with_base_url(valid_base_url)
+        .with_endpoint(valid_endpoint)
+        .with_get()
+        .build()
+    )
+
+    assert signed_request.url == valid_base_url + valid_endpoint
