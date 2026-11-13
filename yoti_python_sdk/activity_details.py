@@ -147,7 +147,10 @@ class ActivityDetails:
                 ][config.KEY_FORMATTED_ADDRESS]
 
     def __iter__(self):
-        yield "user_id", self.__remember_me_id  # Using the private member directly to avoid a deprecation warning
+        yield (
+            "user_id",
+            self.__remember_me_id,
+        )  # Using the private member directly to avoid a deprecation warning
         yield "parent_remember_me_id", self.parent_remember_me_id
         yield "outcome", self.outcome
         yield "receipt_id", self.receipt_id

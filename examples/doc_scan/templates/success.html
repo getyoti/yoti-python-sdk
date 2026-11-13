@@ -41,6 +41,18 @@
                         <td>{{ session_result.biometric_consent_timestamp }}</td>
                     </tr>
                     {% endif %}
+                    {% if session_result.organisation_name is not none %}
+                    <tr>
+                        <td>Organisation Name</td>
+                        <td>{{ session_result.organisation_name }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if session_result.company_profile is not none %}
+                    <tr>
+                        <td>Company Name</td>
+                        <td>{{ session_result.company_profile.company_name }}</td>
+                    </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>

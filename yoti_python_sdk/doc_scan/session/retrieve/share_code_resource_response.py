@@ -131,7 +131,5 @@ class ShareCodeResourceResponse(ResourceResponse):
         :rtype: list[VerifyShareCodeTaskResponse]
         """
         return [
-            task
-            for task in self.tasks
-            if isinstance(task, VerifyShareCodeTaskResponse)
+            task for task in self.tasks if isinstance(task, VerifyShareCodeTaskResponse)
         ]

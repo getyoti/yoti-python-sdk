@@ -5,6 +5,7 @@ from mock import Mock
 
 from yoti_python_sdk.doc_scan.session.create import SessionSpecBuilder
 from yoti_python_sdk.doc_scan.session.create.check.requested_check import RequestedCheck
+from yoti_python_sdk.doc_scan.session.create.company_profile import CompanyProfile
 from yoti_python_sdk.doc_scan.session.create.filter.required_id_document import (
     RequiredIdDocument,
 )
@@ -122,6 +123,37 @@ class SessionSpecTest(unittest.TestCase):
         result = SessionSpecBuilder().build()
 
         assert result.block_biometric_consent is None
+
+    def test_should_build_with_company_profile(self):
+        company_profile = CompanyProfile("Some Company Ltd")
+
+        result = SessionSpecBuilder().with_company_profile(company_profile).build()
+
+        assert result.company_profile is company_profile
+        assert result.company_profile.company_name == "Some Company Ltd"
+
+    def test_should_serialize_company_profile_to_json(self):
+        company_profile = CompanyProfile("Some Company Ltd")
+        company_profile_mock = Mock(spec=CompanyProfile)
+        company_profile_mock.to_json.return_value = {"company_name": "Some Company Ltd"}
+
+        result = SessionSpecBuilder().with_company_profile(company_profile_mock).build()
+
+        serialized = json.dumps(result, cls=YotiEncoder)
+        parsed = json.loads(serialized)
+
+        assert "company_profile" in parsed
+        assert parsed["company_profile"]["company_name"] == "Some Company Ltd"
+
+    def test_should_omit_company_profile_from_json_when_not_set(self):
+        result = SessionSpecBuilder().build()
+
+        assert result.company_profile is None
+
+        serialized = json.dumps(result, cls=YotiEncoder)
+        parsed = json.loads(serialized)
+
+        assert "company_profile" not in parsed
 
 
 if __name__ == "__main__":
