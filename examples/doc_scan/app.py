@@ -10,6 +10,7 @@ from yoti_python_sdk.doc_scan import (
     RequestedSupplementaryDocTextExtractionTaskBuilder,
     SdkConfigBuilder,
     SessionSpecBuilder,
+    SessionOverviewPdfRequestBuilder,
 )
 from yoti_python_sdk.doc_scan.exception import DocScanException
 from yoti_python_sdk.doc_scan.session.create.filter import (
@@ -171,6 +172,53 @@ def media():
 
     return Response(
         retrieved_media.content, content_type=retrieved_media.mime_type, status=200
+    )
+
+
+@app.route("/session-pdf")
+def session_pdf():
+    """
+    Generates and returns the session overview PDF for the current session.
+    The PDF is streamed back to the browser as a downloadable file.
+    """
+    doc_scan_client = DocScanClient(YOTI_CLIENT_SDK_ID, YOTI_KEY_FILE_PATH)
+
+    session_id = session.get("doc_scan_session_id", None)
+    if session_id is None:
+        return Response("No session ID available", status=404)
+
+    include_images = request.args.get("include_images", None)
+    include_extracted_text = request.args.get("include_extracted_text", None)
+    include_device_tracking = request.args.get("include_device_tracking", None)
+
+    pdf_request_builder = SessionOverviewPdfRequestBuilder()
+    if include_images is not None:
+        pdf_request_builder.with_include_images(include_images.lower() == "true")
+    if include_extracted_text is not None:
+        pdf_request_builder.with_include_extracted_text(
+            include_extracted_text.lower() == "true"
+        )
+    if include_device_tracking is not None:
+        pdf_request_builder.with_include_device_tracking(
+            include_device_tracking.lower() == "true"
+        )
+
+    pdf_request = pdf_request_builder.build()
+
+    try:
+        pdf_bytes = doc_scan_client.create_session_overview_pdf(session_id, pdf_request)
+    except DocScanException as e:
+        return render_template("error.html", error=e.message)
+
+    return Response(
+        pdf_bytes,
+        content_type="application/pdf",
+        status=200,
+        headers={
+            "Content-Disposition": "attachment; filename=session-overview-{}.pdf".format(
+                session_id
+            )
+        },
     )
 
 

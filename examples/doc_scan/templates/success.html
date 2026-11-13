@@ -41,6 +41,18 @@
                         <td>{{ session_result.biometric_consent_timestamp }}</td>
                     </tr>
                     {% endif %}
+                    <tr>
+                        <td>Session Overview PDF</td>
+                        <td>
+                            <a href="/session-pdf" class="btn btn-sm btn-primary">
+                                Download PDF
+                            </a>
+                            &nbsp;
+                            <a href="/session-pdf?include_images=true&include_extracted_text=true&include_device_tracking=true" class="btn btn-sm btn-secondary">
+                                Download PDF (all flags)
+                            </a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
