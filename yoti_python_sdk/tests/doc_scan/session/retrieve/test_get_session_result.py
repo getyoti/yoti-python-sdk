@@ -5,6 +5,7 @@ from datetime import datetime
 import pytest
 import pytz
 
+from yoti_python_sdk.doc_scan.session.create.company_profile import CompanyProfile
 from yoti_python_sdk.doc_scan.session.retrieve.check_response import (
     AuthenticityCheckResponse,
     FaceMatchCheckResponse,
@@ -163,3 +164,52 @@ class GetSessionResultTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_should_parse_organisation_name(self):
+        data = {"organisation_name": "Acme Corp"}
+
+        result = GetSessionResult(data)
+
+        assert result.organisation_name == "Acme Corp"
+
+    def test_should_return_none_for_absent_organisation_name(self):
+        data = {}
+
+        result = GetSessionResult(data)
+
+        assert result.organisation_name is None
+
+    def test_should_parse_company_profile_with_company_name(self):
+        data = {"company_profile": {"company_name": "Acme Corp"}}
+
+        result = GetSessionResult(data)
+
+        assert result.company_profile is not None
+        assert isinstance(result.company_profile, CompanyProfile)
+        assert result.company_profile.company_name == "Acme Corp"
+
+    def test_should_return_none_for_absent_company_profile(self):
+        data = {}
+
+        result = GetSessionResult(data)
+
+        assert result.company_profile is None
+
+    def test_should_return_none_for_null_company_profile(self):
+        data = {"company_profile": None}
+
+        result = GetSessionResult(data)
+
+        assert result.company_profile is None
+
+    def test_should_parse_organisation_name_and_company_profile_together(self):
+        data = {
+            "organisation_name": "Acme Corp",
+            "company_profile": {"company_name": "Acme Corp"},
+        }
+
+        result = GetSessionResult(data)
+
+        assert result.organisation_name == "Acme Corp"
+        assert result.company_profile is not None
+        assert result.company_profile.company_name == "Acme Corp"
