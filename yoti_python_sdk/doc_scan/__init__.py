@@ -13,6 +13,10 @@ from .session.create.task.supplementary_doc_text_extraction import (
 from .session.create.notification_config import NotificationConfigBuilder
 from .session.create.sdk_config import SdkConfigBuilder
 from .session.create.session_spec import SessionSpecBuilder
+from .session.create.session_overview_pdf_request import (
+    SessionOverviewPdfRequest,
+    SessionOverviewPdfRequestBuilder,
+)
 from .client import DocScanClient
 
 __all__ = [
@@ -25,5 +29,7 @@ __all__ = [
     "SessionSpecBuilder",
     "NotificationConfigBuilder",
     "SdkConfigBuilder",
+    "SessionOverviewPdfRequest",
+    "SessionOverviewPdfRequestBuilder",
     "DocScanClient",
 ]

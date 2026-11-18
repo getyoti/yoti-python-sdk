@@ -54,3 +54,16 @@ def mocked_supported_documents_content():
 
 def mocked_request_server_error():
     return MockResponse(status_code=500, text="")
+
+
+def mocked_request_successful_pdf_creation():
+    return MockResponse(
+        status_code=201,
+        text="",
+        content=b"%PDF-1.4 some pdf content",
+        headers={"Content-Type": "application/pdf"},
+    )
+
+
+def mocked_request_failed_pdf_creation():
+    return MockResponse(status_code=400, text="Bad Request")
