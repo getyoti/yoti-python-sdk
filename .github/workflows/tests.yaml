@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
   test:
     name: Test (Python ${{ matrix.python-version }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -27,7 +27,7 @@ jobs:
 
   examples:
     name: Check Examples
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v2
@@ -40,11 +40,9 @@ jobs:
 
       - run: pip install -e .  # NOSONAR
 
-      - run: pushd examples/aml && pip install -r requirements.txt && popd  # NOSONAR
-
       - run: pushd examples/yoti_example_django && pip install --upgrade pip && pip install -r requirements.txt && popd  # NOSONAR
 
-        # Reinstall local SDK after AML/Django, which pin yoti==2.14.0 from PyPI and override it
+        # Reinstall local SDK after Django, which pins yoti==2.14.0 from PyPI and overrides it
       - run: pip install -e .  # NOSONAR
 
       - run: pushd examples/yoti_example_flask && pip install -r requirements.txt && popd  # NOSONAR

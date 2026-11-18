@@ -1,23 +1,35 @@
+import json
 import pytest
 
-from yoti_python_sdk.doc_scan.client import DocScanClient  # noqa: F401
+from yoti_python_sdk.auth_strategy import BearerTokenStrategy, SignedRequestStrategy
+from yoti_python_sdk.doc_scan.client import (  # noqa: F401
+    AUTH_TOKEN_WITH_SDK_ID_OR_KEY_ERROR,
+    SDK_ID_AND_KEY_REQUIRED_ERROR,
+    DocScanClient,
+)
 from yoti_python_sdk.doc_scan.exception import DocScanException
 from yoti_python_sdk.doc_scan.session.create.session_spec import SessionSpec
+from yoti_python_sdk.doc_scan.session.create.session_overview_pdf_request import (
+    SessionOverviewPdfRequestBuilder,
+)
 from yoti_python_sdk.doc_scan.session.retrieve.create_session_result import (
     CreateSessionResult,
 )
 from yoti_python_sdk.doc_scan.session.retrieve.get_session_result import (
     GetSessionResult,
 )
+from yoti_python_sdk.tests.doc_scan.conftest import PEM_FILE_PATH, YOTI_CLIENT_SDK_ID
 from yoti_python_sdk.tests.doc_scan.mocks import (
     mocked_request_failed_session_creation,
     mocked_request_failed_session_retrieval,
+    mocked_request_failed_pdf_creation,
     mocked_request_media_content,
     mocked_request_no_content,
     mocked_request_not_found,
     mocked_request_server_error,
     mocked_request_successful_session_creation,
     mocked_request_successful_session_retrieval,
+    mocked_request_successful_pdf_creation,
     mocked_supported_documents_content,
 )
 
@@ -203,3 +215,225 @@ def test_should_use_correct_default_api_url(doc_scan_client):
         doc_scan_client._DocScanClient__api_url
         == "https://api.yoti.com:443/idverify/v1"
     )  # noqa
+
+
+def test_creating_doc_scan_client_with_signed_request_uses_signed_request_strategy(
+    doc_scan_client,
+):
+    assert isinstance(
+        doc_scan_client._DocScanClient__auth_strategy, SignedRequestStrategy
+    )  # noqa
+
+
+def test_creating_doc_scan_client_with_auth_token():
+    client = DocScanClient(auth_token="someAuthToken")
+
+    assert isinstance(client._DocScanClient__auth_strategy, BearerTokenStrategy)  # noqa
+    assert client._DocScanClient__sdk_id is None  # noqa
+
+
+def test_creating_doc_scan_client_with_auth_token_and_sdk_id_raises():
+    with pytest.raises(ValueError) as ex:
+        DocScanClient(sdk_id=YOTI_CLIENT_SDK_ID, auth_token="someAuthToken")
+
+    assert str(ex.value) == AUTH_TOKEN_WITH_SDK_ID_OR_KEY_ERROR
+
+
+def test_creating_doc_scan_client_with_auth_token_and_key_raises():
+    with pytest.raises(ValueError) as ex:
+        DocScanClient(key=PEM_FILE_PATH, auth_token="someAuthToken")
+
+    assert str(ex.value) == AUTH_TOKEN_WITH_SDK_ID_OR_KEY_ERROR
+
+
+def test_creating_doc_scan_client_without_sdk_id_or_key_raises():
+    with pytest.raises(ValueError) as ex:
+        DocScanClient()
+
+    assert str(ex.value) == SDK_ID_AND_KEY_REQUIRED_ERROR
+
+
+def test_creating_doc_scan_client_without_key_raises():
+    with pytest.raises(ValueError) as ex:
+        DocScanClient(sdk_id=YOTI_CLIENT_SDK_ID)
+
+    assert str(ex.value) == SDK_ID_AND_KEY_REQUIRED_ERROR
+
+
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_supported_documents_content,
+)
+def test_get_supported_documents_with_auth_token(_):
+    client = DocScanClient(auth_token="someAuthToken")
+
+    supported_docs = client.get_supported_documents()
+
+    assert len(supported_docs.supported_countries) == 2
+
+
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_request_successful_pdf_creation,
+)
+def test_should_return_pdf_bytes_on_successful_pdf_creation(_, doc_scan_client):
+    """
+    A 201 response from the PDF endpoint returns raw binary bytes unchanged.
+
+    :type doc_scan_client: DocScanClient
+    """
+    pdf_request = SessionOverviewPdfRequestBuilder().with_include_images(True).build()
+
+    result = doc_scan_client.create_session_overview_pdf(SOME_SESSION_ID, pdf_request)
+
+    assert isinstance(result, bytes)
+    assert result == b"%PDF-1.4 some pdf content"
+
+
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_request_successful_pdf_creation,
+)
+def test_should_return_pdf_bytes_when_no_request_body_provided(_, doc_scan_client):
+    """
+    The request body model is optional; omitting it should not raise an error.
+
+    :type doc_scan_client: DocScanClient
+    """
+    result = doc_scan_client.create_session_overview_pdf(SOME_SESSION_ID)
+
+    assert isinstance(result, bytes)
+    assert result == b"%PDF-1.4 some pdf content"
+
+
+@mock.patch(
+    "yoti_python_sdk.http.SignedRequest.execute",
+    side_effect=mocked_request_failed_pdf_creation,
+)
+def test_should_raise_doc_scan_exception_for_failed_pdf_creation(_, doc_scan_client):
+    """
+    A non-201 response raises DocScanException with the expected message.
+
+    :type doc_scan_client: DocScanClient
+    """
+    pdf_request = SessionOverviewPdfRequestBuilder().build()
+
+    with pytest.raises(DocScanException) as ex:
+        doc_scan_client.create_session_overview_pdf(SOME_SESSION_ID, pdf_request)
+
+    doc_scan_exception = ex.value  # type: DocScanException
+    assert "Failed to create session overview PDF" in str(doc_scan_exception)
+    assert doc_scan_exception.status_code == 400
+
+
+def _capture_pdf_signed_request(doc_scan_client, pdf_request=None):
+    """
+    Calls create_session_overview_pdf and returns the SignedRequest that was
+    actually handed to the HTTP layer.
+    """
+    captured = {}
+
+    def fake_execute(signed_request):
+        captured["request"] = signed_request
+        return mocked_request_successful_pdf_creation()
+
+    with mock.patch(
+        "yoti_python_sdk.http.SignedRequest.execute",
+        autospec=True,
+        side_effect=fake_execute,
+    ):
+        if pdf_request is None:
+            doc_scan_client.create_session_overview_pdf(SOME_SESSION_ID)
+        else:
+            doc_scan_client.create_session_overview_pdf(SOME_SESSION_ID, pdf_request)
+
+    return captured["request"]
+
+
+def _capture_pdf_request_body(doc_scan_client, pdf_request=None):
+    """
+    Returns the JSON body that was actually handed to the HTTP layer.
+    """
+    request = _capture_pdf_signed_request(doc_scan_client, pdf_request)
+    return json.loads(request.data.decode("utf-8"))
+
+
+def test_pdf_request_body_should_nest_flags_under_options(doc_scan_client):
+    pdf_request = (
+        SessionOverviewPdfRequestBuilder()
+        .with_include_images(True)
+        .with_include_extracted_text(False)
+        .with_include_device_tracking(True)
+        .build()
+    )
+
+    body = _capture_pdf_request_body(doc_scan_client, pdf_request)
+
+    assert body == {
+        "options": {
+            "include_images": True,
+            "include_extracted_text": False,
+            "include_device_tracking": True,
+        }
+    }
+
+
+def test_pdf_request_body_should_omit_unset_flags_inside_options(doc_scan_client):
+    pdf_request = SessionOverviewPdfRequestBuilder().with_include_images(True).build()
+
+    body = _capture_pdf_request_body(doc_scan_client, pdf_request)
+
+    assert body == {"options": {"include_images": True}}
+
+
+def test_pdf_request_body_should_be_empty_options_when_no_request_given(
+    doc_scan_client,
+):
+    body = _capture_pdf_request_body(doc_scan_client)
+
+    assert body == {"options": {}}
+
+
+def test_pdf_request_should_send_exact_wire_body(doc_scan_client):
+    pdf_request = (
+        SessionOverviewPdfRequestBuilder()
+        .with_include_images(True)
+        .with_include_extracted_text(False)
+        .build()
+    )
+
+    request = _capture_pdf_signed_request(doc_scan_client, pdf_request)
+
+    assert request.data == (
+        b'{"options": {"include_images": true, "include_extracted_text": false}}'
+    )
+    assert request.method == "POST"
+
+
+def test_pdf_request_should_accept_pdf_and_json(doc_scan_client):
+    request = _capture_pdf_signed_request(doc_scan_client)
+
+    assert request.headers["Accept"] == "application/pdf, application/json"
+    assert request.headers["Content-Type"] == "application/json"
+
+
+def test_pdf_request_should_be_signed_with_sdk_id_when_using_key(doc_scan_client):
+    request = _capture_pdf_signed_request(doc_scan_client)
+
+    assert "/sessions/" + SOME_SESSION_ID + "/pdf?" in request.url
+    assert "sdkId=" + YOTI_CLIENT_SDK_ID in request.url
+    assert "X-Yoti-Auth-Digest" in request.headers
+    assert "Authorization" not in request.headers
+
+
+def test_pdf_request_should_use_bearer_token_when_using_auth_token():
+    client = DocScanClient(auth_token="someAuthToken")
+
+    request = _capture_pdf_signed_request(client)
+
+    assert request.headers["Authorization"] == "Bearer someAuthToken"
+    assert request.headers["Accept"] == "application/pdf, application/json"
+    assert "X-Yoti-Auth-Digest" not in request.headers
+    assert "sdkId" not in request.url
+    assert "nonce" not in request.url
+    assert request.url.endswith("/sessions/" + SOME_SESSION_ID + "/pdf")

@@ -140,3 +140,34 @@ class ResourceContainer(object):
         :rtype: list[ShareCodeResourceResponse]
         """
         return self.__share_codes
+
+    def filter_for_check(self, check_response):
+        """
+        Returns a new ResourceContainer containing only the resources
+        referenced by the given check's resources_used
+
+        :param check_response: the check to filter resources for
+        :type check_response: yoti_python_sdk.doc_scan.session.retrieve.check_response.CheckResponse
+        :return: a ResourceContainer containing only the resources used by the check
+        :rtype: ResourceContainer
+        """
+        resource_ids = set(check_response.resources_used)
+
+        filtered = ResourceContainer()
+        filtered.__id_documents = self.__filter_resources(
+            self.__id_documents, resource_ids
+        )
+        filtered.__supplementary_documents = self.__filter_resources(
+            self.__supplementary_documents, resource_ids
+        )
+        filtered.__liveness_capture = self.__filter_resources(
+            self.__liveness_capture, resource_ids
+        )
+        filtered.__share_codes = self.__filter_resources(
+            self.__share_codes, resource_ids
+        )
+        return filtered
+
+    @staticmethod
+    def __filter_resources(resources, resource_ids):
+        return [resource for resource in resources if resource.id in resource_ids]
