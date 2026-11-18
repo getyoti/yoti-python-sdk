@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
   test:
     name: Test (Python ${{ matrix.python-version }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -27,7 +27,7 @@ jobs:
 
   examples:
     name: Check Examples
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v2
