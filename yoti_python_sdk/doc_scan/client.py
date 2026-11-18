@@ -22,6 +22,7 @@ from .support import SupportedDocumentsResponse
 AUTH_TOKEN_WITH_SDK_ID_OR_KEY_ERROR = (
     "Must not supply sdk_id or key when using an auth_token"
 )
+PDF_ACCEPT_HEADER = "application/pdf, application/json"
 SDK_ID_AND_KEY_REQUIRED_ERROR = (
     "An sdk_id and key must be provided when not using an auth_token"
 )
@@ -220,3 +221,48 @@ class DocScanClient(object):
 
         parsed = json.loads(response.text)
         return SupportedDocumentsResponse(parsed)
+
+    def create_session_overview_pdf(self, session_id, pdf_request=None):
+        """
+        Generates a session overview PDF for the specified session.
+
+        Issues a POST to /idverify/v1/sessions/{sessionId}/pdf and returns
+        the raw PDF bytes from the 201 response.  The flags in
+        ``pdf_request`` are sent nested under an ``"options"`` key, as the
+        endpoint expects (``{"options": {"include_images": true, ...}}``).
+        All flag fields are optional; any flag that was not explicitly set
+        is omitted from ``options`` entirely — it is not sent as ``false`` or
+        ``null``.  When ``pdf_request`` is omitted, ``{"options": {}}`` is
+        sent.  Validation of the flags is deferred to the backend.
+
+        :param session_id: the session ID
+        :type session_id: str
+        :param pdf_request: optional request body containing boolean flags
+        :type pdf_request: SessionOverviewPdfRequest or None
+        :return: raw binary PDF bytes
+        :rtype: bytes
+        :raises DocScanException: if the server returns a non-201 status code
+        """
+        options = pdf_request if pdf_request is not None else {}
+        payload = json.dumps({"options": options}, cls=YotiEncoder).encode("utf-8")
+
+        builder = (
+            SignedRequest.builder()
+            .with_post()
+            .with_auth_strategy(self.__auth_strategy)
+            .with_base_url(self.__api_url)
+            .with_endpoint(Endpoint.create_session_overview_pdf_path(session_id))
+            .with_payload(payload)
+            .with_header("Content-Type", "application/json")
+        )
+        request = self.__with_sdk_id_param(builder).build()
+        # The builder's default Accept header (application/json) takes
+        # precedence over with_header(), so override it on the built request.
+        # The success response is a PDF; errors are returned as JSON.
+        request.headers["Accept"] = PDF_ACCEPT_HEADER
+        response = request.execute()
+
+        if response.status_code != 201:
+            raise DocScanException("Failed to create session overview PDF", response)
+
+        return response.content
