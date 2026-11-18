@@ -25,6 +25,8 @@ class SdkConfig(YotiSerializable):
         privacy_policy_url=None,
         brand_id=None,
         suppressed_screens=None,
+        dark_mode=None,
+        primary_colour_dark_mode=None,
     ):
         """
         :param allowed_capture_methods: the allowed capture methods
@@ -51,6 +53,10 @@ class SdkConfig(YotiSerializable):
         :type brand_id: str
         :param suppressed_screens: list of screen names to be suppressed
         :type suppressed_screens: list[str]
+        :param dark_mode: the dark mode setting ("ON", "OFF", or "AUTO")
+        :type dark_mode: str or None
+        :param primary_colour_dark_mode: the primary colour used in dark mode
+        :type primary_colour_dark_mode: str or None
         """
         self.__allowed_capture_methods = allowed_capture_methods
         self.__primary_colour = primary_colour
@@ -64,6 +70,8 @@ class SdkConfig(YotiSerializable):
         self.__allow_handoff = allow_handoff
         self.__brand_id = brand_id
         self.__suppressed_screens = suppressed_screens
+        self.__dark_mode = dark_mode
+        self.__primary_colour_dark_mode = primary_colour_dark_mode
 
     @property
     def allowed_capture_methods(self):
@@ -175,6 +183,26 @@ class SdkConfig(YotiSerializable):
         """
         return self.__suppressed_screens
 
+    @property
+    def dark_mode(self):
+        """
+        The dark mode setting for the IDV web/native client.
+
+        :return: the dark mode setting ("ON", "OFF", or "AUTO"), or None if not set
+        :rtype: str or None
+        """
+        return self.__dark_mode
+
+    @property
+    def primary_colour_dark_mode(self):
+        """
+        The primary colour used when dark mode is active.
+
+        :return: the primary colour for dark mode
+        :rtype: str or None
+        """
+        return self.__primary_colour_dark_mode
+
     def to_json(self):
         return remove_null_values(
             {
@@ -190,6 +218,8 @@ class SdkConfig(YotiSerializable):
                 "allow_handoff": self.allow_handoff,
                 "brand_id": self.brand_id,
                 "suppressed_screens": self.suppressed_screens,
+                "dark_mode": self.dark_mode,
+                "primary_colour_dark_mode": self.primary_colour_dark_mode,
             }
         )
 
@@ -212,6 +242,8 @@ class SdkConfigBuilder(object):
         self.__allow_handoff = None
         self.__brand_id = None
         self.__suppressed_screens = None
+        self.__dark_mode = None
+        self.__primary_colour_dark_mode = None
 
     def with_allowed_capture_methods(self, allowed_capture_methods):
         """
@@ -396,6 +428,60 @@ class SdkConfigBuilder(object):
         self.__suppressed_screens.append(screen)
         return self
 
+    def with_dark_mode(self, dark_mode):
+        """
+        Sets the dark mode setting for the web/native client.
+
+        Accepted values are ``"ON"``, ``"OFF"``, and ``"AUTO"``. No SDK-level
+        validation is performed; the backend will validate the value.
+
+        :param dark_mode: the dark mode setting
+        :type dark_mode: str
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        self.__dark_mode = dark_mode
+        return self
+
+    def with_dark_mode_on(self):
+        """
+        Sets the dark mode to "ON".
+
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        return self.with_dark_mode("ON")
+
+    def with_dark_mode_off(self):
+        """
+        Sets the dark mode to "OFF".
+
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        return self.with_dark_mode("OFF")
+
+    def with_dark_mode_auto(self):
+        """
+        Sets the dark mode to "AUTO".
+
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        return self.with_dark_mode("AUTO")
+
+    def with_primary_colour_dark_mode(self, colour):
+        """
+        Sets the primary colour to be used when dark mode is active.
+
+        :param colour: the primary colour for dark mode, hexadecimal value e.g. #ff0000
+        :type colour: str
+        :return: the builder
+        :rtype: SdkConfigBuilder
+        """
+        self.__primary_colour_dark_mode = colour
+        return self
+
     def build(self):
         return SdkConfig(
             self.__allowed_capture_methods,
@@ -410,4 +496,6 @@ class SdkConfigBuilder(object):
             self.__privacy_policy_url,
             self.__brand_id,
             list(self.__suppressed_screens) if self.__suppressed_screens is not None else None,
+            self.__dark_mode,
+            self.__primary_colour_dark_mode,
         )
