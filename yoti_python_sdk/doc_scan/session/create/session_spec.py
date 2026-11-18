@@ -22,6 +22,7 @@ class SessionSpec(YotiSerializable):
         required_documents=None,
         block_biometric_consent=None,
         session_deadline=None,
+        company_profile=None,
     ):
         """
         :param client_session_token_ttl: the client session token TTL
@@ -44,6 +45,8 @@ class SessionSpec(YotiSerializable):
         :type block_biometric_consent: bool
         :param session_deadline: session deadline using a Zoned timestamp
         :type session_deadline: str
+        :param company_profile: the company profile associated with this session
+        :type company_profile: CompanyProfile or None
         """
         if requested_tasks is None:
             requested_tasks = []
@@ -62,6 +65,7 @@ class SessionSpec(YotiSerializable):
         self.__required_documents = required_documents
         self.__block_biometric_consent = block_biometric_consent
         self.__session_deadline = session_deadline
+        self.__company_profile = company_profile
 
     @property
     def client_session_token_ttl(self):
@@ -166,6 +170,16 @@ class SessionSpec(YotiSerializable):
         """
         return self.__session_deadline
 
+    @property
+    def company_profile(self):
+        """
+        The company profile associated with this session
+
+        :return: the company profile
+        :rtype: CompanyProfile or None
+        """
+        return self.__company_profile
+
     def to_json(self):
         return remove_null_values(
             {
@@ -179,6 +193,7 @@ class SessionSpec(YotiSerializable):
                 "required_documents": self.required_documents,
                 "block_biometric_consent": self.block_biometric_consent,
                 "session_deadline": self.session_deadline,
+                "company_profile": self.company_profile,
             }
         )
 
@@ -199,6 +214,7 @@ class SessionSpecBuilder(object):
         self.__required_documents = []
         self.__block_biometric_consent = None
         self.__session_deadline = None
+        self.__company_profile = None
 
     def with_client_session_token_ttl(self, value):
         """
@@ -321,6 +337,18 @@ class SessionSpecBuilder(object):
         self.__block_biometric_consent = block_biometric_consent
         return self
 
+    def with_company_profile(self, company_profile):
+        """
+        Sets the company profile for the session
+
+        :param company_profile: the company profile
+        :type company_profile: CompanyProfile
+        :return: the builder
+        :rtype: SessionSpecBuilder
+        """
+        self.__company_profile = company_profile
+        return self
+
     def build(self):
         """
         Builds a :class:`SessionSpec` using the supplied values
@@ -339,4 +367,5 @@ class SessionSpecBuilder(object):
             self.__required_documents,
             self.__block_biometric_consent,
             self.__session_deadline,
+            self.__company_profile,
         )
