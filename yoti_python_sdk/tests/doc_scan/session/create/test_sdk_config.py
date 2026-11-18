@@ -17,6 +17,7 @@ class SdkConfigTest(unittest.TestCase):
     SOME_ERROR_URL = "https://mysite.com/yoti/error"
     SOME_PRIVACY_POLICY_URL = "https://mysite.com/privacy"
     SOME_ALLOW_HANDOFF = True
+    SOME_ENFORCE_HANDOFF = True
     SOME_BRAND_ID = "your-brand-id"
     SOME_SUPPRESSED_SCREENS = [
         constants.ID_DOCUMENT_EDUCATION,
@@ -36,6 +37,7 @@ class SdkConfigTest(unittest.TestCase):
             .with_error_url(self.SOME_ERROR_URL)
             .with_privacy_policy_url(self.SOME_PRIVACY_POLICY_URL)
             .with_allow_handoff(self.SOME_ALLOW_HANDOFF)
+            .with_enforce_handoff(self.SOME_ENFORCE_HANDOFF)
             .with_brand_id(self.SOME_BRAND_ID)
             .with_suppressed_screens(self.SOME_SUPPRESSED_SCREENS)
             .build()
@@ -52,6 +54,7 @@ class SdkConfigTest(unittest.TestCase):
         assert result.error_url == self.SOME_ERROR_URL
         assert result.privacy_policy_url == self.SOME_PRIVACY_POLICY_URL
         assert result.allow_handoff is True
+        assert result.enforce_handoff is True
         assert result.brand_id == self.SOME_BRAND_ID
         assert result.suppressed_screens == self.SOME_SUPPRESSED_SCREENS
 
@@ -69,6 +72,34 @@ class SdkConfigTest(unittest.TestCase):
         result = SdkConfigBuilder().with_allow_handoff(False).build()
 
         assert result.allow_handoff is False
+
+    def test_not_passing_enforce_handoff(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        assert result.enforce_handoff is None
+
+    def test_passing_enforce_handoff_false_value(self):
+        result = SdkConfigBuilder().with_enforce_handoff(False).build()
+
+        assert result.enforce_handoff is False
+
+    def test_enforce_handoff_in_json_when_set(self):
+        result = SdkConfigBuilder().with_enforce_handoff(True).build()
+
+        serialised = json.loads(json.dumps(result, cls=YotiEncoder))
+        assert serialised["enforce_handoff"] is True
+
+    def test_enforce_handoff_false_in_json_when_explicitly_set(self):
+        result = SdkConfigBuilder().with_enforce_handoff(False).build()
+
+        serialised = json.loads(json.dumps(result, cls=YotiEncoder))
+        assert serialised["enforce_handoff"] is False
+
+    def test_enforce_handoff_absent_from_json_when_not_set(self):
+        result = SdkConfigBuilder().with_allows_camera().build()
+
+        serialised = json.loads(json.dumps(result, cls=YotiEncoder))
+        assert "enforce_handoff" not in serialised
 
     def test_should_serialize_to_json_without_error(self):
         result = (
