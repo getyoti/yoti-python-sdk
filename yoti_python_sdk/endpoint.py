@@ -15,14 +15,6 @@ class Endpoint(object):
             decrypted_request_token, create_nonce(), create_timestamp(), self.sdk_id
         )
 
-    def get_aml_request_url(self, no_params=False):
-        if no_params:
-            return "/aml-check"
-
-        return "/aml-check?appId={0}&timestamp={1}&nonce={2}".format(
-            self.sdk_id, create_timestamp(), create_nonce()
-        )
-
     def get_dynamic_share_request_url(self, no_params=False):
         if no_params:
             return "/qrcodes/apps/{appid}".format(appid=self.sdk_id)
