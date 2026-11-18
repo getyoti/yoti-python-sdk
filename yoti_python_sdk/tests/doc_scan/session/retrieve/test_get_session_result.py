@@ -2,6 +2,7 @@ import unittest
 
 from datetime import datetime
 
+import pytest
 import pytz
 
 from yoti_python_sdk.doc_scan.session.create.company_profile import CompanyProfile
@@ -117,6 +118,53 @@ class GetSessionResultTest(unittest.TestCase):
             SupplementaryDocumentTextDataCheckResponse,
         )
 
+    def test_get_resources_for_check_should_return_only_resources_used_by_check(self):
+        data = {
+            "checks": [
+                {
+                    "id": "check-1",
+                    "type": "ID_DOCUMENT_AUTHENTICITY",
+                    "resources_used": ["id-doc-1"],
+                },
+                {
+                    "id": "check-2",
+                    "type": "LIVENESS",
+                    "resources_used": ["liveness-1"],
+                },
+            ],
+            "resources": {
+                "id_documents": [{"id": "id-doc-1"}, {"id": "id-doc-2"}],
+                "liveness_capture": [
+                    {"id": "liveness-1", "liveness_type": "ZOOM"},
+                    {"id": "liveness-2", "liveness_type": "ZOOM"},
+                ],
+            },
+        }
+
+        result = GetSessionResult(data)
+
+        resources_for_check = result.get_resources_for_check("check-1")
+
+        assert isinstance(resources_for_check, ResourceContainer)
+        assert [d.id for d in resources_for_check.id_documents] == ["id-doc-1"]
+        assert resources_for_check.liveness_capture == []
+
+    def test_get_resources_for_check_should_raise_for_unknown_check_id(self):
+        data = {
+            "checks": [{"id": "check-1", "type": "ID_DOCUMENT_AUTHENTICITY"}],
+            "resources": {},
+        }
+        result = GetSessionResult(data)
+
+        with pytest.raises(ValueError) as ex:
+            result.get_resources_for_check("someUnknownCheckId")
+
+        assert "someUnknownCheckId" in str(ex.value)
+
+
+if __name__ == "__main__":
+    unittest.main()
+
     def test_should_parse_organisation_name(self):
         data = {"organisation_name": "Acme Corp"}
 
@@ -165,7 +213,3 @@ class GetSessionResultTest(unittest.TestCase):
         assert result.organisation_name == "Acme Corp"
         assert result.company_profile is not None
         assert result.company_profile.company_name == "Acme Corp"
-
-
-if __name__ == "__main__":
-    unittest.main()

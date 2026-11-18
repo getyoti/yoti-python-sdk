@@ -133,7 +133,6 @@ class SessionSpecTest(unittest.TestCase):
         assert result.company_profile.company_name == "Some Company Ltd"
 
     def test_should_serialize_company_profile_to_json(self):
-        company_profile = CompanyProfile("Some Company Ltd")
         company_profile_mock = Mock(spec=CompanyProfile)
         company_profile_mock.to_json.return_value = {"company_name": "Some Company Ltd"}
 

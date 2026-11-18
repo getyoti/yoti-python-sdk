@@ -48,6 +48,25 @@ class Crypto:
         )
         return base64.b64encode(signature).decode("utf-8")
 
+    def sign_ps384(self, message):
+        """
+        Signs the supplied message using RSASSA-PSS with SHA-384, as required
+        for the PS384-signed JWT client assertion used to obtain a central
+        auth token.
+
+        :param message: the message to sign
+        :type message: bytes
+        :return: the raw signature bytes
+        """
+        return self.private_key.sign(
+            data=message,
+            padding=padding.PSS(
+                mgf=padding.MGF1(hashes.SHA384()),
+                salt_length=hashes.SHA384().digest_size,
+            ),
+            algorithm=hashes.SHA384(),
+        )
+
     @staticmethod
     def decipher(key, iv, cipher_text):
         decryptor = Cipher(

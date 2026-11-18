@@ -100,7 +100,5 @@ class WatchlistScreeningCheckBuilder(object):
         return self
 
     def build(self):
-        config = WatchlistScreeningCheckConfig(
-            self.__manual_check, self.__categories or []
-        )
+        config = WatchlistScreeningCheckConfig(self.__manual_check, self.__categories or [])
         return WatchlistScreeningCheck(config)

@@ -17,7 +17,9 @@ class ImageResponse(object):
         if data is None:
             data = dict()
 
-        self.__media = MediaResponse(data["media"]) if "media" in data.keys() else None
+        self.__media = (
+            MediaResponse(data["media"]) if "media" in data.keys() else None
+        )
 
     @property
     def media(self):

@@ -5,8 +5,8 @@ import json
 from os import environ
 
 import yoti_python_sdk
-from yoti_python_sdk import aml
 from yoti_python_sdk.activity_details import ActivityDetails
+from yoti_python_sdk.auth_strategy import BearerTokenStrategy, SignedRequestStrategy
 from yoti_python_sdk.crypto import Crypto
 from yoti_python_sdk.endpoint import Endpoint
 from yoti_python_sdk.http import SignedRequest, YotiResponse
@@ -18,6 +18,13 @@ NO_KEY_FILE_SPECIFIED_ERROR = (
     "in Client(pem_file_path=...)\nor by setting "
     'the "YOTI_KEY_FILE_PATH" environment variable'
 )
+AUTH_TOKEN_WITH_PEM_FILE_ERROR = (
+    "Must not supply a pem_file_path (or YOTI_KEY_FILE_PATH) when using an auth_token"
+)
+ACTIVITY_DETAILS_NOT_SUPPORTED_WITH_AUTH_TOKEN_ERROR = (
+    "get_activity_details is not supported when the client is configured with "
+    "an auth_token; a PEM file is required for receipt decryption"
+)
 HTTP_SUPPORTED_METHODS = ["POST", "PUT", "PATCH", "GET", "DELETE"]
 
 UNKNOWN_HTTP_ERROR = "Unknown HTTP error occured: {0} {1}"
@@ -25,16 +32,25 @@ DEFAULT_HTTP_CLIENT_ERRORS = {"default": UNKNOWN_HTTP_ERROR}
 
 
 class Client(object):
-    def __init__(self, sdk_id=None, pem_file_path=None, request_handler=None):
+    def __init__(
+        self, sdk_id=None, pem_file_path=None, request_handler=None, auth_token=None
+    ):
         self.sdk_id = sdk_id or environ.get("YOTI_CLIENT_SDK_ID")
         pem_file_path_env = environ.get("YOTI_KEY_FILE_PATH", pem_file_path)
 
-        if pem_file_path is not None:
+        if auth_token is not None:
+            if pem_file_path_env is not None:
+                raise ValueError(AUTH_TOKEN_WITH_PEM_FILE_ERROR)
+            self.__crypto = None
+            self.__auth_strategy = BearerTokenStrategy(auth_token)
+        elif pem_file_path is not None:
             error_source = "argument specified in Client()"
             self.__crypto = Crypto.read_pem_file(pem_file_path, error_source)
+            self.__auth_strategy = SignedRequestStrategy(self.__crypto)
         elif pem_file_path_env is not None:
             error_source = "specified by the YOTI_KEY_FILE_PATH env variable"
             self.__crypto = Crypto.read_pem_file(pem_file_path_env, error_source)
+            self.__auth_strategy = SignedRequestStrategy(self.__crypto)
         else:
             raise RuntimeError(NO_KEY_FILE_SPECIFIED_ERROR)
 
@@ -44,7 +60,7 @@ class Client(object):
     def make_request(self, http_method, endpoint, body):
         signed_request = (
             SignedRequest.builder()
-            .with_pem_file(self.__crypto)
+            .with_auth_strategy(self.__auth_strategy)
             .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
             .with_endpoint(endpoint)
             .with_http_method(http_method)
@@ -61,6 +77,9 @@ class Client(object):
         return response
 
     def get_activity_details(self, encrypted_request_token):
+        if self.__crypto is None:
+            raise RuntimeError(ACTIVITY_DETAILS_NOT_SUPPORTED_WITH_AUTH_TOKEN_ERROR)
+
         response = self.__make_activity_details_request(encrypted_request_token)
         receipt = json.loads(response.text).get("receipt")
 
@@ -101,17 +120,6 @@ class Client(object):
             decrypted_extra_data=decrypted_extra_data,
         )
 
-    def perform_aml_check(self, aml_profile):
-        if aml_profile is None:
-            raise TypeError("aml_profile not set")
-
-        response = self.__make_aml_check_request(aml_profile)
-
-        if not isinstance(response, YotiResponse):
-            raise TypeError("Response must be of type YotiResponse")
-
-        return aml.AmlResult(response.text)
-
     @property
     def endpoints(self):
         return self.__endpoint
@@ -143,7 +151,7 @@ class Client(object):
         signed_request = (
             SignedRequest.builder()
             .with_get()
-            .with_pem_file(self.__crypto)
+            .with_auth_strategy(self.__auth_strategy)
             .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
             .with_endpoint(path)
             .with_param("appId", self.sdk_id)
@@ -153,33 +161,6 @@ class Client(object):
         )
 
         response = signed_request.execute()
-
-        self.http_error_handler(
-            response, {"default": "Unsuccessful Yoti API call: {} {}"}
-        )
-
-        return response
-
-    def __make_aml_check_request(self, aml_profile):
-        aml_profile_json = json.dumps(aml_profile.__dict__, sort_keys=True)
-        aml_profile_bytes = aml_profile_json.encode()
-        path = self.__endpoint.get_aml_request_url(no_params=True)
-
-        signed_request = (
-            SignedRequest.builder()
-            .with_pem_file(self.__crypto)
-            .with_base_url(yoti_python_sdk.YOTI_API_ENDPOINT)
-            .with_endpoint(path)
-            .with_payload(aml_profile_bytes)
-            .with_param("appId", self.sdk_id)
-            .with_post()
-            .with_request_handler(self.__request_handler)
-            .build()
-        )
-
-        response = signed_request.execute()
-        if not isinstance(response, YotiResponse):
-            raise TypeError("Response must be of type YotiResponse")
 
         self.http_error_handler(
             response, {"default": "Unsuccessful Yoti API call: {} {}"}
