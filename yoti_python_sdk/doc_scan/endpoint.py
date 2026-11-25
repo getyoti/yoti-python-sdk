@@ -24,3 +24,7 @@ class Endpoint(object):
     @staticmethod
     def get_supported_documents_path():
         return "/supported-documents"
+
+    @staticmethod
+    def create_session_overview_pdf_path(session_id):
+        return "/sessions/{sessionId}/pdf".format(sessionId=session_id)
